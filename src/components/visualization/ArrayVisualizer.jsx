@@ -1,40 +1,29 @@
 /* eslint-disable no-unused-vars */
-// src/components/visualization/ArrayVisualizer.jsx
+// src/components/Visualization/ArrayVisualizer.jsx
 import { motion } from 'framer-motion';
-import { useAlgorithm } from '../../hooks/useAlgorithm';
 
-const ArrayVisualizer = ({ algorithm, inputArray }) => {
-  const { currentStep, isPlaying, speed, play, pause, reset } = useAlgorithm(algorithm, inputArray);
+const ArrayVisualizer = ({ data, highlights = [], algorithmType = 'sorting' }) => {
+  const getBarColor = (index, highlights) => {
+    const highlight = highlights.find(h => h.index === index);
+    if (!highlight) return 'bg-blue-500';
+    
+    switch (highlight.color) {
+      case 'compare': return 'bg-yellow-500';
+      case 'swap': return 'bg-red-500';
+      case 'sorted': return 'bg-green-500';
+      case 'checking': return 'bg-orange-500';
+      case 'found': return 'bg-green-500';
+      case 'pivot': return 'bg-purple-500';
+      default: return 'bg-blue-500';
+    }
+  };
+
+  const maxValue = Math.max(...data, 10);
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-lg p-6">
-      {/* Controls */}
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={play}
-          disabled={isPlaying}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg disabled:bg-gray-400"
-        >
-          Play
-        </button>
-        <button
-          onClick={pause}
-          disabled={!isPlaying}
-          className="px-4 py-2 bg-yellow-500 text-white rounded-lg disabled:bg-gray-400"
-        >
-          Pause
-        </button>
-        <button
-          onClick={reset}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg"
-        >
-          Reset
-        </button>
-      </div>
-
-      {/* Visualization */}
-      <div className="flex items-end justify-center h-64 gap-1">
-        {currentStep?.array.map((value, index) => (
+    <div className="w-full bg-gray-100 rounded-lg p-4">
+      <div className="flex items-end justify-center gap-1 h-64">
+        {data.map((value, index) => (
           <motion.div
             key={index}
             layout
@@ -42,31 +31,20 @@ const ArrayVisualizer = ({ algorithm, inputArray }) => {
             animate={{ 
               opacity: 1, 
               scale: 1,
-              height: `${value * 10}px`,
-              backgroundColor: currentStep.compared.includes(index) 
-                ? '#ff4d4f' 
-                : currentStep.swapped && currentStep.compared.includes(index)
-                ? '#52c41a'
-                : '#1890ff'
+              height: `${(value / maxValue) * 100}%`,
             }}
-            transition={{ type: 'spring', damping: 15 }}
-            className="w-8 rounded-t-lg flex items-center justify-center text-white text-xs font-medium"
+            transition={{ type: 'spring', damping: 15, stiffness: 100 }}
+            className={`
+              w-8 rounded-t-lg flex items-center justify-center 
+              text-white text-xs font-bold transition-all duration-300
+              ${getBarColor(index, highlights)}
+            `}
+            style={{ minWidth: '2rem' }}
           >
             {value}
           </motion.div>
         ))}
       </div>
-
-      {/* Status */}
-      {currentStep?.description && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-4 p-3 bg-gray-100 rounded-lg text-center"
-        >
-          {currentStep.description}
-        </motion.div>
-      )}
     </div>
   );
 };

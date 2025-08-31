@@ -1,72 +1,120 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // src/hooks/useAlgorithm.js
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const useAlgorithm = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [steps, setSteps] = useState([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(500);
   const animationRef = useRef(null);
 
-  const executeAlgorithm = useCallback(async (algorithmFn, inputData) => {
-    // Reset state
-    setCurrentStep(0);
-    setIsPlaying(false);
-    if (animationRef.current) {
-      clearTimeout(animationRef.current);
-    }
+  // Clear animation on unmount
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        clearTimeout(animationRef.current);
+      }
+    };
+  }, []);
 
-    // Generate steps
-    const generator = algorithmFn([...inputData]);
-    const newSteps = [];
+  const executeAlgorithm = useCallback(async (algorithmGenerator) => {
+    console.log('Executing algorithm');
+    reset();
     
-    let result = generator.next();
-    while (!result.done) {
-      newSteps.push(result.value);
-      result = generator.next();
+    try {
+      const newSteps = [];
+      let result = algorithmGenerator.next();
+      
+      while (!result.done) {
+        newSteps.push({
+          ...result.value,
+          stepIndex: newSteps.length
+        });
+        result = algorithmGenerator.next();
+      }
+      
+      setSteps(newSteps);
+      console.log('Generated', newSteps.length, 'steps');
+      return newSteps;
+    } catch (error) {
+      console.error('Algorithm execution error:', error);
+      return [];
     }
-    
-    setSteps(newSteps);
-    return newSteps;
   }, []);
 
   const play = useCallback(() => {
-    if (currentStep >= steps.length - 1) return;
+    console.log('Play called - current:', currentStepIndex, 'total:', steps.length);
+    
+    if (currentStepIndex >= steps.length - 1) {
+      console.log('Resetting to start because we reached the end');
+      setCurrentStepIndex(0);
+    }
     
     setIsPlaying(true);
-    const playNextStep = () => {
-      if (currentStep < steps.length - 1 && isPlaying) {
-        setCurrentStep(prev => prev + 1);
-        animationRef.current = setTimeout(playNextStep, speed);
-      } else {
-        setIsPlaying(false);
+  }, [currentStepIndex, steps.length]);
+
+  // This useEffect handles the actual animation when isPlaying changes
+  useEffect(() => {
+    if (isPlaying && steps.length > 0) {
+      console.log('Starting animation with speed:', speed);
+      
+      const playNextStep = () => {
+        if (currentStepIndex < steps.length - 1 && isPlaying) {
+          setCurrentStepIndex(prev => {
+            const nextStep = prev + 1;
+            console.log('Animating to step:', nextStep);
+            return nextStep;
+          });
+        } else {
+          console.log('Animation completed or paused');
+          setIsPlaying(false);
+        }
+      };
+      
+      // Clear any existing timeout
+      if (animationRef.current) {
+        clearTimeout(animationRef.current);
+      }
+      
+      // Start the animation loop
+      animationRef.current = setTimeout(playNextStep, speed);
+    } else {
+      // Clear timeout when not playing
+      if (animationRef.current) {
+        clearTimeout(animationRef.current);
+        animationRef.current = null;
+      }
+    }
+    
+    // Cleanup on unmount or when dependencies change
+    return () => {
+      if (animationRef.current) {
+        clearTimeout(animationRef.current);
       }
     };
-    
-    playNextStep();
-  }, [currentStep, steps.length, isPlaying, speed]);
+  }, [isPlaying, currentStepIndex, steps.length, speed]);
 
   const pause = useCallback(() => {
+    console.log('Pause called');
     setIsPlaying(false);
-    if (animationRef.current) {
-      clearTimeout(animationRef.current);
-    }
   }, []);
 
   const reset = useCallback(() => {
+    console.log('Reset called');
     setIsPlaying(false);
-    setCurrentStep(0);
-    if (animationRef.current) {
-      clearTimeout(animationRef.current);
-    }
+    setCurrentStepIndex(0);
+    setSteps([]);
   }, []);
 
   const goToStep = useCallback((stepIndex) => {
-    setCurrentStep(stepIndex);
+    console.log('Going to step:', stepIndex);
+    setCurrentStepIndex(stepIndex);
   }, []);
 
   return {
-    currentStep: steps[currentStep],
+    currentStep: steps[currentStepIndex],
+    currentStepIndex,
     totalSteps: steps.length,
     isPlaying,
     speed,
