@@ -9,7 +9,7 @@ export const ALGORITHM_CATEGORIES = {
 
 export const ALGORITHMS = {
   // Sorting Algorithms
-  BUBBLE_SORT: {
+  BUBBLESORT: {
     id: 'bubbleSort',
     name: 'Bubble Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
@@ -24,7 +24,7 @@ export const ALGORITHMS = {
     description: 'Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.'
   },
 
-  QUICK_SORT: {
+  QUICKSORT: {
     id: 'quickSort',
     name: 'Quick Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
@@ -39,8 +39,23 @@ export const ALGORITHMS = {
     description: 'Picks an element as pivot and partitions the array around the pivot.'
   },
 
+  MERGESORT: {
+    id: 'mergeSort',
+    name: 'Merge Sort',
+    category: ALGORITHM_CATEGORIES.SORTING,
+    complexity: {
+      time: {
+        best: 'O(n log n)',
+        average: 'O(n log n)',
+        worst: 'O(n log n)'
+      },
+      space: 'O(n)'
+    },
+    description: 'Divides the array into halves, sorts them and then merges them back together.'
+  },
+
   // Searching Algorithms
-  LINEAR_SEARCH: {
+  LINEARSEARCH: {
     id: 'linearSearch',
     name: 'Linear Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
@@ -55,7 +70,7 @@ export const ALGORITHMS = {
     description: 'Sequentially checks each element of the list until a match is found.'
   },
 
-  BINARY_SEARCH: {
+  BINARYSEARCH: {
     id: 'binarySearch',
     name: 'Binary Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
