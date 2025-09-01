@@ -2,10 +2,12 @@
 import { useState, useEffect } from 'react';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
 import { bubbleSort } from '../../algorithms/Sorting/bubbleSort';
+import { mergeSort } from '../../algorithms/Sorting/mergeSort';
 import { linearSearch } from '../../algorithms/Searching/linearSearch';
 import ArrayVisualizer from './ArrayVisualizer';
 import AlgorithmController from './AlgorithmController';
 import { ALGORITHMS } from '../../utils/algorithmConstants';
+import { motion as Motion } from 'framer-motion';
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
@@ -41,12 +43,20 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       switch (selectedAlgorithm) {
         case 'bubbleSort':
           // FIX: Pass the array directly, not a function that returns array
-          algorithmFn = bubbleSort(inputArray);
+          algorithmFn = bubbleSort([...inputArray]);
           break;
         case 'linearSearch':
           // FIX: For search algorithms, we need to handle differently
-          algorithmFn = linearSearch(inputArray, searchTarget);
+          algorithmFn = linearSearch([...inputArray], searchTarget);
           break;
+        case 'quickSort':
+          // Placeholder for quickSort
+          console.warn('quickSort not implemented yet');
+          return;
+        case 'mergeSort':
+          // Placeholder for mergeSort
+          algorithmFn = mergeSort([...inputArray]);
+          return;
         default:
           console.warn('Unknown algorithm:', selectedAlgorithm);
           return;
