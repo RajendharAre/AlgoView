@@ -13,6 +13,7 @@ export const ALGORITHMS = {
     id: 'bubbleSort',
     name: 'Bubble Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
+    importFn: () => import('../algorithms/Sorting/bubbleSort').then((m) => m.bubbleSort),
     complexity: {
       time: {
         best: 'O(n)',
@@ -28,6 +29,7 @@ export const ALGORITHMS = {
     id: 'quickSort',
     name: 'Quick Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
+    importFn: () => import('../algorithms/Sorting/quickSort').then((m) => m.quickSort),
     complexity: {
       time: {
         best: 'O(n log n)',
@@ -43,6 +45,7 @@ export const ALGORITHMS = {
     id: 'mergeSort',
     name: 'Merge Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
+    importFn: () => import('../algorithms/Sorting/mergeSort').then((m) => m.mergeSort),
     complexity: {
       time: {
         best: 'O(n log n)',
@@ -59,6 +62,7 @@ export const ALGORITHMS = {
     id: 'linearSearch',
     name: 'Linear Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
+    importFn: () => import('../algorithms/Searching/linearSearch').then((m) => m.linearSearch),
     complexity: {
       time: {
         best: 'O(1)',
@@ -74,6 +78,7 @@ export const ALGORITHMS = {
     id: 'binarySearch',
     name: 'Binary Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
+    importFn: () => import('../algorithms/Searching/binarySearch').then((m) => m.binarySearch),
     complexity: {
       time: {
         best: 'O(1)',
