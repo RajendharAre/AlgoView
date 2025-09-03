@@ -2,12 +2,12 @@
 // src/components/Visualization/ArrayVisualizer.jsx
 import { motion } from "framer-motion";
 
-const ArrayVisualizer = ({ data, highlights = [], algorithmType = "Sorting" }) => {
+const ArrayVisualizer = ({ data, highlights = [], algorithmType = "sorting" }) => {
   // Get highlight info for an index
   const getHighlight = (index) => highlights.find((h) => h.index === index);
 
   // --------- Sorting (bars or bubbles) ---------
-  if (algorithmType === "Sorting") {
+  if (algorithmType === "sorting") {
     const maxValue = Math.max(...data, 10);
 
     return (
@@ -60,7 +60,7 @@ const ArrayVisualizer = ({ data, highlights = [], algorithmType = "Sorting" }) =
   }
 
   // --------- Linear Search ---------
-  if (algorithmType === "Searching") {
+  if (algorithmType === "searching") {
     return (
       <div className="flex justify-center gap-2 p-6">
         {data.map((value, index) => {
@@ -97,7 +97,7 @@ const ArrayVisualizer = ({ data, highlights = [], algorithmType = "Sorting" }) =
   }
 
   // --------- Binary Search ---------
-  if (algorithmType === "BinarySearch") {
+  if (algorithmType === "binarySearch") {
     return (
       <div className="flex justify-center gap-4 p-6">
         {data.map((value, index) => {

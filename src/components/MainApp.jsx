@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
 import Sidebar from './Layout/Sidebar';
-import VisualizationPage from './Visualization/VisualizationPage';
+import VisualizationPage from './visualization/VisualizationPage';
 
 const MainApp = () => {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('bubbleSort');
