@@ -1,68 +1,40 @@
+// src/algorithms/Sorting/quickSort.js
 export function* quickSort(arr) {
-    function* partition(arr, low, high) {
-        let pivot = arr[high];
-        let i = low - 1;
-        for (let j = low; j < high; j++) {
-            yield {
-                array: [...arr],
-                compared: [j, high],
-                swapped: false,
-                description: `Comparing ${arr[j]} with pivot ${pivot}`
-            };
-            if (arr[j] < pivot) {
-                i++;
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-                yield {
-                    array: [...arr],
-                    compared: [i, j],
-                    swapped: true,
-                    description: `Swapped ${arr[i]} and ${arr[j]}`
-                };
-            }
-        }
-        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-        yield {
-            array: [...arr],
-            compared: [i + 1, high],
-            swapped: true,
-            description: `Swapped pivot ${arr[i + 1]} with ${arr[high]}`
-        };
-        return i + 1;
+  const a = [...arr];
+
+  function* partition(low, high) {
+    const pivot = a[high];
+    let i = low - 1;
+
+    yield { array: [...a], pivotIndex: high, low, high, phase: 'pivot', description: `Pivot = ${pivot} at ${high}` };
+
+    for (let j = low; j < high; j++) {
+      yield { array: [...a], pivotIndex: high, i, j, phase: 'scan', description: `Compare ${a[j]} with pivot ${pivot}` };
+
+      if (a[j] <= pivot) {
+        i++;
+        [a[i], a[j]] = [a[j], a[i]];
+        yield { array: [...a], pivotIndex: high, i, j, phase: 'swap', description: `Swap indices ${i} and ${j}` };
+      }
     }
 
-    function* quickSortHelper(arr, low, high) {
-        if (low < high) {
-            const partitionGen = partition(arr, low, high);
-            let partitionResult;
-            let lastYield;
-            while (!(partitionResult = partitionGen.next()).done) {
-                lastYield = partitionResult.value;
-                yield lastYield;
-            }
-            const pi = lastYield ? lastYield.array.findIndex((v, idx) => idx >= low && idx <= high && v === arr[high]) : low;
-            yield* quickSortHelper(arr, low, pi - 1);
-            yield* quickSortHelper(arr, pi + 1, high);
-        }
+    [a[i + 1], a[high]] = [a[high], a[i + 1]];
+    yield { array: [...a], pivotIndex: i + 1, phase: 'pivot-place', description: `Place pivot at ${i + 1}` };
+
+    return i + 1;
+  }
+
+  function* _quickSort(low, high) {
+    if (low < high) {
+      const pi = yield* partition(low, high);
+      yield { array: [...a], phase: 'partitioned', pivotIndex: pi, left: [low, pi - 1], right: [pi + 1, high], description: `Partitioned around ${pi}` };
+      yield* _quickSort(low, pi - 1);
+      yield* _quickSort(pi + 1, high);
+    } else {
+      yield { array: [...a], phase: 'base', description: `Base at [${low}, ${high}]` };
     }
+  }
 
-    yield* quickSortHelper(arr, 0, arr.length - 1);
-
-    yield {
-        array: [...arr],
-        compared: [],
-        swapped: false,
-        description: "Sorting complete!"
-    };
+  yield* _quickSort(0, a.length - 1);
+  yield { array: [...a], phase: 'done', description: 'Sorting complete!' };
 }
-
-// Complexity analysis
-export const quickSortInfo = {
-    timeComplexity: {
-        best: "O(n log n)",
-        average: "O(n log n)",
-        worst: "O(n²)"
-    },
-    spaceComplexity: "O(log n)",
-    stable: false,
-    inPlace: true
-};
