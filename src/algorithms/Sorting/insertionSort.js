@@ -1,50 +1,46 @@
+// src/algorithms/Sorting/insertionSort.js
 export function* insertionSort(arr) {
-    for (let i = 1; i < arr.length; i++) {
-        let key = arr[i];
-        let j = i - 1;
+  const a = [...arr];
 
-        yield {
-            array: [...arr],
-            compared: [j, i],
-            inserted: false,
-            description: `Comparing ${arr[j]} and ${key}`
-        };
+  for (let i = 1; i < a.length; i++) {
+    let key = a[i];
+    let j = i - 1;
 
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            yield {
-                array: [...arr],
-                compared: [j, i],
-                inserted: false,
-                description: `Moving ${arr[j]} to position ${j + 1}`
-            };
-            j--;
-        }
-        arr[j + 1] = key;
-        yield {
-            array: [...arr],
-            compared: [],
-            inserted: true,
-            description: `Inserted ${key} at position ${j + 1}`
-        };
+    // Show "picking up card"
+    yield {
+      array: [...a],
+      keyIndex: i,
+      currentIndex: i,
+      comparingIndex: j,
+      description: `Pick card ${key} at index ${i}`,
+    };
+
+    while (j >= 0 && a[j] > key) {
+      a[j + 1] = a[j];
+
+      yield {
+        array: [...a],
+        keyValue: key,
+        keyIndex: j, // target position moving left
+        shiftingIndex: j,
+        comparingIndex: j,
+        description: `Shift ${a[j]} right`,
+      };
+
+      j--;
     }
 
-    yield {
-        array: [...arr],
-        compared: [],
-        inserted: false,
-        description: "Sorting complete!"
-    };
-}
+    a[j + 1] = key;
 
-// Complexity analysis
-export const insertionSortInfo = {
-    timeComplexity: {
-        best: "O(n)",
-        average: "O(n^2)",
-        worst: "O(n^2)"
-    },
-    spaceComplexity: "O(1)",
-    stable: true,
-    inPlace: true
-};
+    yield {
+      array: [...a],
+      keyPlacedIndex: j + 1,
+      description: `Place card ${key} at position ${j + 1}`,
+    };
+  }
+
+  yield {
+    array: [...a],
+    description: 'Sorting complete!',
+  };
+}
