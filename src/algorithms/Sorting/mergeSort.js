@@ -1,70 +1,86 @@
+// src/algorithms/Sorting/mergeSort.js
 export function* mergeSort(arr) {
-    // Helper function for merge operation
-    function* merge(left, right, startIdx) {
-        let result = [];
-        let i = 0, j = 0;
-        while (i < left.length && j < right.length) {
-            yield {
-                array: [...arr],
-                compared: [startIdx + i, startIdx + left.length + j],
-                merged: false,
-                description: `Comparing ${left[i]} and ${right[j]}`
-            };
-            if (left[i] <= right[j]) {
-                result.push(left[i]);
-                i++;
-            } else {
-                result.push(right[j]);
-                j++;
-            }
-        }
-        while (i < left.length) {
-            result.push(left[i]);
-            i++;
-        }
-        while (j < right.length) {
-            result.push(right[j]);
-            j++;
-        }
-        // Place merged result back into arr
-        for (let k = 0; k < result.length; k++) {
-            arr[startIdx + k] = result[k];
-            yield {
-                array: [...arr],
-                compared: [],
-                merged: true,
-                description: `Merged ${result[k]} at position ${startIdx + k}`
-            };
-        }
+  const a = [...arr];
+
+  function* _mergeSort(l, r) {
+    if (l >= r) {
+      yield {
+        array: [...a],
+        range: [l, r],
+        phase: 'base',
+        description: `Base case at [${l}, ${r}]`,
+      };
+      return;
     }
 
-    // Recursive generator for merge sort
-    function* mergeSortRecursive(start, end) {
-        if (end - start <= 1) return;
-        const mid = Math.floor((start + end) / 2);
-        yield* mergeSortRecursive(start, mid);
-        yield* mergeSortRecursive(mid, end);
-        yield* merge(arr.slice(start, mid), arr.slice(mid, end), start);
+    const m = Math.floor((l + r) / 2);
+
+    yield { array: [...a], range: [l, r], mid: m, phase: 'split', description: `Split [${l}, ${r}] at ${m}` };
+    yield* _mergeSort(l, m);
+    yield* _mergeSort(m + 1, r);
+
+    // Merge
+    const left = a.slice(l, m + 1);
+    const right = a.slice(m + 1, r + 1);
+    let i = 0, j = 0, k = l;
+
+    while (i < left.length && j < right.length) {
+      yield {
+        array: [...a],
+        range: [l, r],
+        leftWindow: [l, m],
+        rightWindow: [m + 1, r],
+        comparing: [k, left[i], right[j]],
+        phase: 'merge-compare',
+        description: `Compare ${left[i]} and ${right[j]}`,
+      };
+
+      if (left[i] <= right[j]) {
+        a[k++] = left[i++];
+      } else {
+        a[k++] = right[j++];
+      }
+
+      yield {
+        array: [...a],
+        range: [l, r],
+        mergedIndex: k - 1,
+        phase: 'merge-place',
+        description: `Place at index ${k - 1}`,
+      };
     }
 
-    yield* mergeSortRecursive(0, arr.length);
+    while (i < left.length) {
+      a[k++] = left[i++];
+      yield {
+        array: [...a],
+        range: [l, r],
+        mergedIndex: k - 1,
+        phase: 'merge-place',
+        description: `Drain left into index ${k - 1}`,
+      };
+    }
+
+    while (j < right.length) {
+      a[k++] = right[j++];
+      yield {
+        array: [...a],
+        range: [l, r],
+        mergedIndex: k - 1,
+        phase: 'merge-place',
+        description: `Drain right into index ${k - 1}`,
+      };
+    }
 
     yield {
-        array: [...arr],
-        compared: [],
-        merged: false,
-        description: "Sorting complete!"
+      array: [...a],
+      range: [l, r],
+      phase: 'merged',
+      description: `Merged segment [${l}, ${r}]`,
     };
-}
+  }
 
-// Complexity analysis
-export const mergeSortInfo = {
-    timeComplexity: {
-        best: "O(n log n)",
-        average: "O(n log n)",
-        worst: "O(n log n)"
-    },
-    spaceComplexity: "O(n)",
-    stable: true,
-    inPlace: false
-};
+  yield* _mergeSort(0, a.length - 1);
+
+  yield { array: [...a], phase: 'done', description: 'Sorting complete!' };
+}
