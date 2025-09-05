@@ -1,17 +1,17 @@
 // src/components/Visualization/VisualizationPage.jsx
 import { useState, useEffect } from 'react';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
-import { bubbleSort } from '../../algorithms/Sorting/bubbleSort';
-import { mergeSort } from '../../algorithms/Sorting/mergeSort';
-import { linearSearch } from '../../algorithms/Searching/linearSearch';
 import ArrayVisualizer from './ArrayVisualizer';
 import AlgorithmController from './AlgorithmController';
-import { ALGORITHMS } from '../../utils/algorithmConstants';
+import {
+  getAlgorithmInfoById,
+} from '../../utils/algorithmConstants';
 import { motion as Motion } from 'framer-motion';
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
   const [searchTarget, setSearchTarget] = useState(25);
+
   const {
     currentStep,
     totalSteps,
@@ -23,46 +23,33 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     pause,
     reset,
     goToStep,
-    hasSteps
+    hasSteps,
   } = useAlgorithm();
 
-  // Fix: Add proper dependency array
+  const algoInfo = getAlgorithmInfoById(selectedAlgorithm);
+
   useEffect(() => {
-    if (selectedAlgorithm) {
-      // Don't auto-initialize, let user click reset
-      reset();
-    }
+    reset();
   }, [selectedAlgorithm, reset]);
 
   const initializeAlgorithm = async () => {
-    console.log('Initializing algorithm:', selectedAlgorithm, 'with array:', inputArray);
+    if (!algoInfo) {
+      console.warn('Unknown algorithm:', selectedAlgorithm);
+      return;
+    }
+
     reset();
-    
+
     try {
-      let algorithmFn;
-      switch (selectedAlgorithm) {
-        case 'bubbleSort':
-          // FIX: Pass the array directly, not a function that returns array
-          algorithmFn = bubbleSort([...inputArray]);
-          break;
-        case 'linearSearch':
-          // FIX: For search algorithms, we need to handle differently
-          algorithmFn = linearSearch([...inputArray], searchTarget);
-          break;
-        case 'quickSort':
-          // Placeholder for quickSort
-          console.warn('quickSort not implemented yet');
-          return;
-        case 'mergeSort':
-          // Placeholder for mergeSort
-          algorithmFn = mergeSort([...inputArray]);
-          return;
-        default:
-          console.warn('Unknown algorithm:', selectedAlgorithm);
-          return;
-      }
-      
-      await executeAlgorithm(algorithmFn, inputArray);
+      const algorithmFn = await algoInfo.importFn();
+      // Sorting algorithms just take array
+      // Searching algorithms also need target
+      const steps =
+        algoInfo.category === 'searching'
+          ? algorithmFn([...inputArray], searchTarget)
+          : algorithmFn([...inputArray]);
+
+      await executeAlgorithm(steps, inputArray);
       console.log('Algorithm initialized successfully');
     } catch (error) {
       console.error('Algorithm initialization failed:', error);
@@ -70,44 +57,45 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
   };
 
   const generateRandomArray = () => {
-    const newArray = Array.from({ length: 10 }, () => 
+    const newArray = Array.from({ length: 10 }, () =>
       Math.floor(Math.random() * 100) + 1
     );
     setInputArray(newArray);
-    reset(); // Reset when array changes
+    reset();
   };
 
-  const handleArrayInputChange = (e) => {
+  const handleArrayInputChange = e => {
     const inputText = e.target.value;
-    const newArray = inputText.split(',')
+    const newArray = inputText
+      .split(',')
       .map(num => parseInt(num.trim()))
       .filter(num => !isNaN(num));
-    
+
     if (newArray.length > 0) {
       setInputArray(newArray);
-      reset(); // Reset when array changes
+      reset();
     }
   };
-
-  const currentAlgoInfo = ALGORITHMS[selectedAlgorithm?.toUpperCase()];
 
   return (
     <div className="p-6">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          {currentAlgoInfo?.name || 'Algorithm Visualizer'}
+          {algoInfo?.name || 'Algorithm Visualizer'}
         </h1>
-        <p className="text-gray-600">{currentAlgoInfo?.description}</p>
+        <p className="text-gray-600">{algoInfo?.description}</p>
       </div>
 
       {/* Input Controls */}
       <div className="bg-white rounded-lg shadow-md p-4 mb-6">
         <h3 className="font-semibold mb-3">Input Configuration</h3>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
           <div>
-            <label className="block text-sm font-medium mb-1">Array Elements</label>
+            <label className="block text-sm font-medium mb-1">
+              Array Elements
+            </label>
             <input
               type="text"
               value={inputArray.join(', ')}
@@ -116,14 +104,16 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               placeholder="Enter numbers separated by commas"
             />
           </div>
-          
-          {selectedAlgorithm === 'linearSearch' && (
+
+          {algoInfo?.id === 'linearSearch' && (
             <div>
-              <label className="block text-sm font-medium mb-1">Search Target</label>
+              <label className="block text-sm font-medium mb-1">
+                Search Target
+              </label>
               <input
                 type="number"
                 value={searchTarget}
-                onChange={(e) => setSearchTarget(parseInt(e.target.value))}
+                onChange={e => setSearchTarget(parseInt(e.target.value))}
                 className="w-full p-2 border rounded"
               />
             </div>
@@ -153,7 +143,8 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
         <div className="mt-3 text-sm text-gray-600">
           Current array: [{inputArray.join(', ')}]
-          {selectedAlgorithm === 'linearSearch' && ` | Searching for: ${searchTarget}`}
+          {algoInfo?.id === 'linearSearch' &&
+            ` | Searching for: ${searchTarget}`}
         </div>
       </div>
 
@@ -163,7 +154,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
           <ArrayVisualizer
             data={currentStep?.array || inputArray}
             highlights={currentStep?.highlights || []}
-            algorithmType={currentAlgoInfo?.category}
+            algorithmType={algoInfo?.category}
           />
         ) : (
           <div className="text-center py-12 text-gray-500">
@@ -172,7 +163,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
         )}
       </div>
 
-      {/* Controller - Only show if we have steps */}
+      {/* Controller */}
       {hasSteps && (
         <AlgorithmController
           isPlaying={isPlaying}
@@ -200,8 +191,9 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
       {/* Debug Info */}
       <div className="mt-4 p-3 bg-gray-100 rounded-lg text-xs">
-        <strong>Debug Info:</strong> Steps: {totalSteps} | Playing: {isPlaying ? 'Yes' : 'No'} | 
-        Current Step: {currentStep?.stepIndex ?? 'None'}
+        <strong>Debug Info:</strong> Steps: {totalSteps} | Playing:{' '}
+        {isPlaying ? 'Yes' : 'No'} | Current Step:{' '}
+        {currentStep?.stepIndex ?? 'None'}
       </div>
     </div>
   );
