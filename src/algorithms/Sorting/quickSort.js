@@ -1,40 +1,72 @@
 // src/algorithms/Sorting/quickSort.js
+
 export function* quickSort(arr) {
   const a = [...arr];
 
   function* partition(low, high) {
-    const pivot = a[high];
-    let i = low - 1;
-
-    yield { array: [...a], pivotIndex: high, low, high, phase: 'pivot', description: `Pivot = ${pivot} at ${high}` };
-
+    const pivotValue = a[high];
+    let i = low;
     for (let j = low; j < high; j++) {
-      yield { array: [...a], pivotIndex: high, i, j, phase: 'scan', description: `Compare ${a[j]} with pivot ${pivot}` };
+      yield {
+        array: [...a],
+        pivot: high,
+        left: low,
+        right: high,
+        comparing: [j],
+        description: `Comparing ${a[j]} with pivot ${pivotValue}`,
+      };
 
-      if (a[j] <= pivot) {
-        i++;
+      if (a[j] < pivotValue) {
         [a[i], a[j]] = [a[j], a[i]];
-        yield { array: [...a], pivotIndex: high, i, j, phase: 'swap', description: `Swap indices ${i} and ${j}` };
+        yield {
+          array: [...a],
+          pivot: high,
+          left: low,
+          right: high,
+          swapped: [i, j],
+          description: `Swapped ${a[i]} and ${a[j]}`,
+        };
+        i++;
       }
     }
 
-    [a[i + 1], a[high]] = [a[high], a[i + 1]];
-    yield { array: [...a], pivotIndex: i + 1, phase: 'pivot-place', description: `Place pivot at ${i + 1}` };
+    [a[i], a[high]] = [a[high], a[i]]; // place pivot correctly
+    yield {
+      array: [...a],
+      pivot: i,
+      left: low,
+      right: high,
+      swapped: [i, high],
+      description: `Pivot ${a[i]} placed at index ${i}`,
+    };
 
-    return i + 1;
+    return i;
   }
 
-  function* _quickSort(low, high) {
+  function* quickSortRecursive(low, high) {
     if (low < high) {
       const pi = yield* partition(low, high);
-      yield { array: [...a], phase: 'partitioned', pivotIndex: pi, left: [low, pi - 1], right: [pi + 1, high], description: `Partitioned around ${pi}` };
-      yield* _quickSort(low, pi - 1);
-      yield* _quickSort(pi + 1, high);
-    } else {
-      yield { array: [...a], phase: 'base', description: `Base at [${low}, ${high}]` };
+      yield* quickSortRecursive(low, pi - 1);
+      yield* quickSortRecursive(pi + 1, high);
+    } else if (low === high) {
+      // single element is sorted
+      yield {
+        array: [...a],
+        pivot: low,
+        left: low,
+        right: high,
+        description: `Single element ${a[low]} is sorted`,
+      };
     }
   }
 
-  yield* _quickSort(0, a.length - 1);
-  yield { array: [...a], phase: 'done', description: 'Sorting complete!' };
+  yield* quickSortRecursive(0, a.length - 1);
+
+  yield {
+    array: [...a],
+    pivot: null,
+    left: 0,
+    right: a.length - 1,
+    description: 'Sorting complete!',
+  };
 }
