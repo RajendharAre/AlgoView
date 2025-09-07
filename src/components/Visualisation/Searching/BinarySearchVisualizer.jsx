@@ -1,46 +1,33 @@
 /* eslint-disable no-unused-vars */
-// src/components/Visualization/Searching/BinarySearchVisualizer.jsx
 import { motion as Motion } from 'framer-motion';
 
 const BinarySearchVisualizer = ({ data = [], step = {}, target }) => {
-  const { low = 0, mid = 0, high = data.length - 1 } = step;
+  const { low, mid, high, found } = step;
+
+  const getCircleColor = (index) => {
+    if (index === mid) return 'bg-pink-500'; // mid = neon pink
+    if (index === low || index === high) return 'bg-blue-400'; // bounds = blue
+    if (found && index === mid) return 'bg-green-500'; // found = green
+    return 'bg-gray-300'; // default
+  };
 
   return (
-    <div className="flex justify-center gap-3 p-6 bg-gradient-to-b from-gray-50 to-gray-100 rounded-xl shadow-inner flex-wrap">
-      {data.map((value, idx) => {
-        let bgColor = 'bg-blue-300';
-        let scale = 1;
-
-        if (idx === mid) {
-          bgColor = 'bg-pink-500';
-          scale = 1.2;
-        } else if (idx === low || idx === high) {
-          bgColor = 'bg-yellow-400';
-          scale = 1.1;
-        } else if (step.foundIndex === idx) {
-          bgColor = 'bg-green-500';
-          scale = 1.2;
-        }
-
-        return (
-          <div key={idx} className="relative flex flex-col items-center">
-            <Motion.div
-              className={`w-14 h-14 rounded-full shadow-md flex items-center justify-center font-bold text-white ${bgColor}`}
-              initial={{ scale: 0.8 }}
-              animate={{ scale }}
-              transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-            >
-              {value}
-            </Motion.div>
-            {idx === mid && <span className="text-xs mt-1 text-pink-700">Mid</span>}
-            {idx === low && <span className="text-xs mt-1 text-yellow-800">Low</span>}
-            {idx === high && <span className="text-xs mt-1 text-yellow-800">High</span>}
-            {step.foundIndex === idx && (
-              <span className="text-xs mt-1 text-green-800 font-semibold">Found</span>
-            )}
-          </div>
-        );
-      })}
+    <div className="flex justify-center gap-4 p-6 flex-wrap bg-gray-100 rounded-xl shadow-inner">
+      {data.map((value, idx) => (
+        <div key={idx} className="flex flex-col items-center">
+          <Motion.div
+            initial={{ scale: 0.8 }}
+            animate={{ scale: idx === mid ? 1.1 : 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white shadow-md ${getCircleColor(idx)}`}
+          >
+            {value}
+          </Motion.div>
+          <span className="mt-2 text-xs text-gray-700">
+            {idx === low ? 'L' : idx === mid ? 'M' : idx === high ? 'H' : ''}
+          </span>
+        </div>
+      ))}
     </div>
   );
 };
