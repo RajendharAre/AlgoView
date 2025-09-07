@@ -3,10 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
 import ArrayVisualizer from './ArrayVisualizer';
 import AlgorithmController from './AlgorithmController';
-import {
-  getAlgorithmInfoById,
-} from '../../utils/algorithmConstants';
-import { motion as Motion } from 'framer-motion';
+import { getAlgorithmInfoById } from '../../utils/algorithmConstants';
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
@@ -42,14 +39,23 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
     try {
       const algorithmFn = await algoInfo.importFn();
+
+      let arr = [...inputArray];
+
+      // Auto-sort for binary search
+      if (algoInfo.id === 'binarySearch') {
+        arr = arr.sort((a, b) => a - b);
+        setInputArray(arr); // update state so user sees sorted array
+      }
+
       // Sorting algorithms just take array
       // Searching algorithms also need target
       const steps =
         algoInfo.category === 'searching'
-          ? algorithmFn([...inputArray], searchTarget)
-          : algorithmFn([...inputArray]);
+          ? algorithmFn(arr, searchTarget)
+          : algorithmFn(arr);
 
-      await executeAlgorithm(steps, inputArray);
+      await executeAlgorithm(steps, arr);
       console.log('Algorithm initialized successfully');
     } catch (error) {
       console.error('Algorithm initialization failed:', error);
@@ -64,12 +70,12 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     reset();
   };
 
-  const handleArrayInputChange = e => {
+  const handleArrayInputChange = (e) => {
     const inputText = e.target.value;
     const newArray = inputText
       .split(',')
-      .map(num => parseInt(num.trim()))
-      .filter(num => !isNaN(num));
+      .map((num) => parseInt(num.trim(), 10))
+      .filter((num) => !isNaN(num));
 
     if (newArray.length > 0) {
       setInputArray(newArray);
@@ -105,7 +111,8 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             />
           </div>
 
-          {algoInfo?.id === 'linearSearch' && (
+          {(algoInfo?.id === 'linearSearch' ||
+            algoInfo?.id === 'binarySearch') && (
             <div>
               <label className="block text-sm font-medium mb-1">
                 Search Target
@@ -113,7 +120,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               <input
                 type="number"
                 value={searchTarget}
-                onChange={e => setSearchTarget(parseInt(e.target.value))}
+                onChange={(e) => setSearchTarget(parseInt(e.target.value))}
                 className="w-full p-2 border rounded"
               />
             </div>
@@ -143,7 +150,8 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
         <div className="mt-3 text-sm text-gray-600">
           Current array: [{inputArray.join(', ')}]
-          {algoInfo?.id === 'linearSearch' &&
+          {(algoInfo?.id === 'linearSearch' ||
+            algoInfo?.id === 'binarySearch') &&
             ` | Searching for: ${searchTarget}`}
         </div>
       </div>
@@ -152,9 +160,11 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         {hasSteps ? (
           <ArrayVisualizer
+            algorithmId={algoInfo?.id}
             data={currentStep?.array || inputArray}
+            step={currentStep || {}}
             highlights={currentStep?.highlights || []}
-            algorithmType={algoInfo?.category}
+            target={searchTarget}
           />
         ) : (
           <div className="text-center py-12 text-gray-500">
