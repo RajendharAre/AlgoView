@@ -1,26 +1,44 @@
 // src/algorithms/Searching/binarySearch.js
 export function* binarySearch(arr, target) {
+  let a = [...arr].sort((x, y) => x - y); // Ensure array is sorted
   let low = 0;
-  let high = arr.length - 1;
-  let foundIndex = -1;
+  let high = a.length - 1;
 
   while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
-    if (arr[mid] === target) {
-      foundIndex = mid;
+    let mid = Math.floor((low + high) / 2);
+
+    yield {
+      array: [...a],
+      low,
+      mid,
+      high,
+      description: `Checking middle element ${a[mid]}`,
+    };
+
+    if (a[mid] === target) {
+      yield {
+        array: [...a],
+        low,
+        mid,
+        high,
+        found: true,
+        description: `Element ${target} found at index ${mid}`,
+      };
+      return;
+    } else if (a[mid] < target) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
     }
-
-    yield { low, mid, high, foundIndex };
-
-    if (arr[mid] === target) break;
-    else if (arr[mid] < target) low = mid + 1;
-    else high = mid - 1;
   }
 
-  // Continue yielding to animate remaining low/high checks
-  while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
-    yield { low, mid, high, foundIndex };
-    if (low === high) break;
-  }
+  // Target not found
+  yield {
+    array: [...a],
+    low: -1,
+    mid: -1,
+    high: -1,
+    found: false,
+    description: `Element ${target} not found`,
+  };
 }
