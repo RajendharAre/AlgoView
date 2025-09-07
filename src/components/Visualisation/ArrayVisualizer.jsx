@@ -4,6 +4,7 @@ import InsertionSortVisualizer from './Sorting/InsertionSortVisualizer';
 import MergeSortVisualizer from './Sorting/MergeSortVisualizer';
 import LinearSearchVisualizer from './Searching/LinearSearchVisualizer';
 import BinarySearchVisualizer from './Searching/BinarySearchVisualizer';
+import QuickSortVisualizer from './Sorting/QuickSortVisualizer';
 
 /**
  * Dispatcher that picks the right visualizer.
@@ -39,6 +40,9 @@ const ArrayVisualizer = ({ algorithmId, data = [], step = {}, highlights = [], t
 
     case 'binarySearch':
       return <BinarySearchVisualizer data={data} step={step} highlights={highlights} target={target} />;
+    
+    case 'quickSort':
+      return <QuickSortVisualizer data={data} step={step} highlights={highlights} />;
 
     default:
       return (
