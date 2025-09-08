@@ -1,48 +1,74 @@
 // src/components/Visualization/Sorting/InsertionSortVisualizer.jsx
-import { motion as Motion } from 'framer-motion';
+import React from "react";
+import { motion as Motion } from "framer-motion";
+import "../../../styles/visualizers.css";
 
-/**
- * InsertionSortVisualizer (Card-style)
- * - expects step to contain: keyIndex, shiftingIndex, keyPlacedIndex, comparingIndex, keyValue (optional).
- *
- * Visual: cards (like playing cards) that slide into place.
- */
-const InsertionSortVisualizer = ({ data = [], step = {} }) => {
-  const keyIndex = typeof step?.keyIndex === 'number' ? step.keyIndex : null;
-  const shiftingIndex = typeof step?.shiftingIndex === 'number' ? step.shiftingIndex : null;
-  const keyPlacedIndex = typeof step?.keyPlacedIndex === 'number' ? step.keyPlacedIndex : null;
-  const comparingIndex = typeof step?.comparingIndex === 'number' ? step.comparingIndex : null;
+const InsertionSortVisualizer = ({
+  data = [],
+  step = {},
+  stepIndex = null,
+  totalSteps = null,
+}) => {
+  const arr = Array.isArray(step?.array) ? step.array : data;
+
+  const keyIndex = typeof step?.keyIndex === "number" ? step.keyIndex : null;
+  const comparingIndex =
+    typeof step?.comparingIndex === "number" ? step.comparingIndex : null;
+  const shiftingIndex =
+    typeof step?.shiftingIndex === "number" ? step.shiftingIndex : null;
+  const placedIndex =
+    typeof step?.placedIndex === "number" ? step.placedIndex : null;
+  const doneIndices = Array.isArray(step?.doneIndices) ? step.doneIndices : [];
 
   return (
-    <div className="p-6 bg-[#ffffff] rounded-xl shadow-lg">
-      <div className="flex items-end gap-4 justify-center h-56">
-        {data.map((value, idx) => {
-          const isKey = idx === keyIndex;
-          const isPlaced = idx === keyPlacedIndex;
-          const isShifting = idx === shiftingIndex;
-          const isComparing = idx === comparingIndex;
-
-          let bgClass = 'bg-[#4eb3c1] text-[#ffffff]'; // azure cards by default
-          if (isKey) bgClass = 'bg-[#480360] text-[#ffffff]'; // key card: dark neon
-          if (isPlaced) bgClass = 'bg-[#a14097] text-[#ffffff]'; // placed: neon pink
-          if (isShifting) bgClass = 'bg-[#ffffff] text-[#480360] border-2 border-[#4eb3c1]'; // shifting (white card with azure border)
-          if (isComparing) bgClass = 'bg-[#4eb3c1] text-[#ffffff] ring-2 ring-[#a14097]';
+    <div className="insertion-visualizer-root">
+      {/* Cards */}
+      <div className="cards-row">
+        {arr.map((value, idx) => {
+          let stateClass = "card-neutral";
+          if (idx === keyIndex) stateClass = "card-key";
+          else if (idx === placedIndex) stateClass = "card-placed";
+          else if (idx === shiftingIndex) stateClass = "card-shifting";
+          else if (idx === comparingIndex) stateClass = "card-comparing";
+          else if (doneIndices.includes(idx)) stateClass = "card-done";
 
           return (
             <Motion.div
               key={idx}
               layout
-              initial={{ rotateX: 20, opacity: 0 }}
-              animate={{ rotateX: 0, opacity: 1, y: isShifting ? -18 : 0 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-              className={`w-16 h-24 rounded-xl shadow-lg flex items-center justify-center font-bold ${bgClass}`}
-              style={{ perspective: 800 }}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              className={`card ${stateClass}`}
             >
-              {value}
+              <div className="card-value">{value}</div>
             </Motion.div>
           );
         })}
       </div>
+
+      {/* Legend only */}
+      <div className="legend">
+        <span className="legend-item">
+          <span className="legend-swatch sw-key" /> Key
+        </span>
+        <span className="legend-item">
+          <span className="legend-swatch sw-compare" /> Comparing
+        </span>
+        <span className="legend-item">
+          <span className="legend-swatch sw-shift" /> Shifting
+        </span>
+        <span className="legend-item">
+          <span className="legend-swatch sw-done" /> Sorted
+        </span>
+      </div>
+
+      {/* Optional step counter (kept minimal) */}
+      {typeof stepIndex === "number" && typeof totalSteps === "number" && (
+        <div className="step-counter">
+          Step {stepIndex + 1} / {totalSteps}
+        </div>
+      )}
     </div>
   );
 };

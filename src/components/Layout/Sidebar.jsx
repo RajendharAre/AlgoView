@@ -3,7 +3,7 @@ import { ALGORITHMS } from '../../utils/algorithmConstants';
 
 const Sidebar = ({ selectedAlgorithm, onAlgorithmSelect }) => {
   const algorithmGroups = {
-    'Sorting Algorithms': ['bubbleSort', 'quickSort', 'mergeSort'],
+    'Sorting Algorithms': ['bubbleSort', 'quickSort', 'mergeSort', 'insertionSort'],
     'Searching Algorithms': ['linearSearch', 'binarySearch'],
   };
 
