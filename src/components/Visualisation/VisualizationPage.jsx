@@ -162,9 +162,11 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
           <ArrayVisualizer
             algorithmId={algoInfo?.id}
             data={currentStep?.array || inputArray}
+            stepIndex={currentStep?.stepIndex ?? null}
             step={currentStep || {}}
             highlights={currentStep?.highlights || []}
             target={searchTarget}
+            totalSteps={totalSteps}
           />
         ) : (
           <div className="text-center py-12 text-gray-500">

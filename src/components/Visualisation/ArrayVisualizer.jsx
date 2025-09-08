@@ -1,3 +1,4 @@
+ 
 // src/components/Visualization/ArrayVisualizer.jsx
 import BubbleSortVisualizer from './Sorting/BubbleSortVisualizer';
 import InsertionSortVisualizer from './Sorting/InsertionSortVisualizer';
@@ -5,18 +6,9 @@ import MergeSortVisualizer from './Sorting/MergeSortVisualizer';
 import LinearSearchVisualizer from './Searching/LinearSearchVisualizer';
 import BinarySearchVisualizer from './Searching/BinarySearchVisualizer';
 import QuickSortVisualizer from './Sorting/QuickSortVisualizer';
+import SelectionSortVisualizer from './Sorting/SelectionSortVisualizer';
 
-/**
- * Dispatcher that picks the right visualizer.
- *
- * Props:
- *  - algorithmId: string (e.g. 'bubbleSort', 'insertionSort', 'linearSearch', ...)
- *  - data: number[]
- *  - step: object (current step from generator)
- *  - highlights: array (legacy highlight indices)
- *  - target: optional (search target)
- */
-const ArrayVisualizer = ({ algorithmId, data = [], step = {}, highlights = [], target = null }) => {
+const ArrayVisualizer = ({ algorithmId, data = [], step = {}, highlights = [], target = null}) => {
   if (!Array.isArray(data) || data.length === 0) {
     return (
       <div className="p-6 bg-[#ffffff] rounded-lg shadow-md text-[#480360]">
@@ -45,7 +37,7 @@ const ArrayVisualizer = ({ algorithmId, data = [], step = {}, highlights = [], t
       return <QuickSortVisualizer data={data} step={step} highlights={highlights} />;
 
     case 'selectionSort':
-      return <SelectionSortVisualizer data={data} step={step} highlights={highlights} />;
+      return <SelectionSortVisualizer data={data} step={step} highlights={highlights}/>;
 
     default:
       return (
