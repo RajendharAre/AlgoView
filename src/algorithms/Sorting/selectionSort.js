@@ -1,27 +1,92 @@
-// src/algorithms/Sorting/selectionSort.js
-export function* selectionSort(arr) {
-  const a = [...arr];
-  const n = a.length;
+export function* selectionSortGenerator(inputArray) {
+  const arr = inputArray.slice();
+  const n = arr.length;
+  const done = new Set();
+
+  // initial yield (neutral)
+  yield {
+    array: arr.slice(),
+    currentIndex: 0,
+    minIndex: 0,
+    comparingIndex: null,
+    swapIndices: null,
+    doneIndices: new Set(done),
+  };
 
   for (let i = 0; i < n - 1; i++) {
-    let minIdx = i;
-    yield { array: [...a], i, minIdx, scanningFrom: i + 1, phase: 'select', description: `Start selection at index ${i}` };
+    let minIndex = i;
+
+    // mark the 'current' position and candidate
+    yield {
+      array: arr.slice(),
+      currentIndex: i,
+      minIndex,
+      comparingIndex: null,
+      swapIndices: null,
+      doneIndices: new Set(done),
+    };
 
     for (let j = i + 1; j < n; j++) {
-      yield { array: [...a], i, minIdx, j, phase: 'compare', description: `Compare a[${j}] with current min a[${minIdx}]` };
-      if (a[j] < a[minIdx]) {
-        minIdx = j;
-        yield { array: [...a], i, minIdx, j, phase: 'new-min', description: `New min at ${minIdx}` };
+      // comparing j with current minIndex
+      yield {
+        array: arr.slice(),
+        currentIndex: i,
+        minIndex,
+        comparingIndex: j,
+        swapIndices: null,
+        doneIndices: new Set(done),
+      };
+
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j;
+        // new candidate selected
+        yield {
+          array: arr.slice(),
+          currentIndex: i,
+          minIndex,
+          comparingIndex: j,
+          swapIndices: null,
+          doneIndices: new Set(done),
+        };
       }
     }
 
-    if (minIdx !== i) {
-      [a[i], a[minIdx]] = [a[minIdx], a[i]];
-      yield { array: [...a], i, minIdx, phase: 'swap', description: `Swap ${i} and ${minIdx}` };
+    if (minIndex !== i) {
+      // swap and yield the swap event (so UI can animate)
+      const temp = arr[i];
+      arr[i] = arr[minIndex];
+      arr[minIndex] = temp;
+
+      yield {
+        array: arr.slice(),
+        currentIndex: i,
+        minIndex,
+        comparingIndex: null,
+        swapIndices: [i, minIndex],
+        doneIndices: new Set(done),
+      };
     }
 
-    yield { array: [...a], sortedUpto: i, phase: 'fixed', description: `Fixed position ${i}` };
+    // mark i as done
+    done.add(i);
+    yield {
+      array: arr.slice(),
+      currentIndex: i + 1,
+      minIndex: i + 1 < n ? i + 1 : i,
+      comparingIndex: null,
+      swapIndices: null,
+      doneIndices: new Set(done),
+    };
   }
 
-  yield { array: [...a], sortedUpto: n - 1, phase: 'done', description: 'Sorting complete!' };
+  // final: all done
+  for (let k = 0; k < n; k++) done.add(k);
+  yield {
+    array: arr.slice(),
+    currentIndex: null,
+    minIndex: null,
+    comparingIndex: null,
+    swapIndices: null,
+    doneIndices: new Set(done),
+  };
 }

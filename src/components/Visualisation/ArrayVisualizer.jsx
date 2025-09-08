@@ -44,6 +44,9 @@ const ArrayVisualizer = ({ algorithmId, data = [], step = {}, highlights = [], t
     case 'quickSort':
       return <QuickSortVisualizer data={data} step={step} highlights={highlights} />;
 
+    case 'selectionSort':
+      return <SelectionSortVisualizer data={data} step={step} highlights={highlights} />;
+
     default:
       return (
         <div className="p-6 bg-[#ffffff] rounded-lg shadow-md text-[#480360]">
