@@ -133,3 +133,20 @@
 .sw-done { background: linear-gradient(180deg, #eaf2ff, #dfe9ff); }
 
 .step-counter { font-weight:700; color:var(--tekhelet); }
+
+.control-btn {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(18, 25, 50, 0.04);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--tekhelet);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.control-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(18,25,50,0.06); }
+
+.card-value { line-height: 1; display: block; }
+
+
