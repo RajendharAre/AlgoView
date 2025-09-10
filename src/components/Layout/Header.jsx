@@ -10,6 +10,25 @@ const COLORS = {
   persimmon: "#f35b04",
 };
 
+
+function getDisplayName(email) {
+  if (!email) return "User";
+
+  // take only the part before @
+  let namePart = email.split("@")[0];
+
+  // replace special characters/underscores/dots with spaces
+  namePart = namePart.replace(/[^a-zA-Z]+/g, " ");
+
+  // split into words, capitalize each, and join back
+  return namePart
+    .split(" ")
+    .filter(Boolean) // remove empty
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+
 const Header = () => {
   const { user, logout } = useAuth();
 
@@ -33,7 +52,7 @@ const Header = () => {
           {/* Right side (User + Logout) */}
           <div className="flex items-center space-x-6">
             <span className="text-sm font-medium opacity-90">
-              Welcome, <span className="font-semibold">{user?.email}</span>
+              Welcome, <span className="font-semibold">{getDisplayName(user?.email)}</span>
             </span>
             <button
               onClick={logout}
