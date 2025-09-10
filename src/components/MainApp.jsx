@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
 import Sidebar from './Layout/Sidebar';
+import Header from './Layout/Header';
 import VisualizationPage from './Visualisation/VisualizationPage';
 
 const MainApp = () => {
@@ -27,7 +28,7 @@ const MainApp = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="bg-white shadow-sm border-b p-4">
+        {/* <header className="bg-white shadow-sm border-b p-4">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10">
@@ -55,7 +56,11 @@ const MainApp = () => {
               </button>
             </div>
           </div>
-        </header>
+        </header> */}
+        <Header 
+          onLogout={handleLogout}
+          user={auth.currentUser}
+        />
 
 
         {/* Visualization Area */}
