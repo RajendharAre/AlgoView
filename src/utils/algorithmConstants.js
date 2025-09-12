@@ -106,6 +106,43 @@ export const ALGORITHMS = {
     description:
       'Finds a target in a sorted array by repeatedly halving the search space.',
   },
+
+  // Graph Algorithms
+  BFS: {
+    id: 'bfs',
+    name: 'Breadth-First Search',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../algorithms/Graph/bfs').then(m => m.bfs),
+    complexity: {
+      time: { best: 'O(V+E)', average: 'O(V+E)', worst: 'O(V+E)' },
+      space: 'O(V)'
+    },
+    description: 'Level-order traversal used to find shortest unweighted paths.'
+  },
+
+  DFS: {
+    id: 'dfs',
+    name: 'Depth-First Search',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../algorithms/Graph/dfs').then(m => m.dfs),
+    complexity: {
+      time: { best: 'O(V+E)', average: 'O(V+E)', worst: 'O(V+E)' },
+      space: 'O(V)'
+    },
+    description: 'Depth-first traversal useful for connectivity, ordering, cycles.'
+  },
+
+  DIJKSTRA: {
+    id: 'dijkstra',
+    name: 'Dijkstra (shortest paths)',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../algorithms/Graph/dijkstra').then(m => m.dijkstra),
+    complexity: {
+      time: { best: 'O((V+E) log V)', average: 'O((V+E) log V)', worst: 'O((V+E) log V)' },
+      space: 'O(V)'
+    },
+    description: 'Shortest path algorithm for weighted graphs with non-negative edges.'
+  },
 };
 
 // Helper: find by lowercase id (e.g., "bubbleSort")
