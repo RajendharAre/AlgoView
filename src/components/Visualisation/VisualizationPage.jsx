@@ -1,3 +1,4 @@
+// /* eslint-disable no-unused-vars */
 // src/components/Visualization/VisualizationPage.jsx
 import { useState, useEffect } from 'react';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
@@ -5,6 +6,8 @@ import ArrayVisualizer from './ArrayVisualizer';
 import AlgorithmController from './AlgorithmController';
 import { getAlgorithmInfoById } from '../../utils/algorithmConstants';
 import { RefreshCcw, Play, Dice5, Settings } from "lucide-react";
+import { layoutNodesCircle } from '../../utils/graphUtils';
+import GraphVisualizer from './Graph/GraphVisualizer';
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
@@ -47,13 +50,35 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
         arr = arr.sort((a, b) => a - b);
         setInputArray(arr);
       }
+      let steps;
+      
+      if (algoInfo.category === 'searching') {
+        steps = algorithmFn(arr, searchTarget);
+        await executeAlgorithm(steps, arr);
+      } else if (algoInfo.category === 'sorting') {
+        steps = algorithmFn(arr);
+        await executeAlgorithm(steps, arr);
+      } else if (algoInfo.category === 'graph') {
+        // Build example graph (you can later replace with UI input)
+        const nodes = [
+          { id: 'A', label: 'A' },
+          { id: 'B', label: 'B' },
+          { id: 'C', label: 'C' },
+          { id: 'D', label: 'D' }
+        ];
+        const positionedNodes = layoutNodesCircle(nodes, 700, 380);
+        const edges = [
+          { from: 'A', to: 'B', weight: 1 },
+          { from: 'A', to: 'C', weight: 1 },
+          { from: 'B', to: 'D', weight: 1 },
+          { from: 'C', to: 'D', weight: 1 }
+        ];
+        const graph = { nodes: positionedNodes, edges };
 
-      const steps =
-        algoInfo.category === 'searching'
-          ? algorithmFn(arr, searchTarget)
-          : algorithmFn(arr);
-
-      await executeAlgorithm(steps, arr);
+        // Pass start node ID (first node for now)
+        steps = algorithmFn(graph, nodes[0].id);
+        await executeAlgorithm(steps, graph); // second param is optional metadata
+}
     } catch (error) {
       console.error('Algorithm initialization failed:', error);
     }
@@ -174,7 +199,15 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             target={searchTarget}
             totalSteps={totalSteps}
           />
-        ) : (
+        ) : (algoInfo.category === 'graph') ? (
+            <GraphVisualizer
+              nodes={currentStep?.nodes || []}
+              edges={currentStep?.edges || []}
+              step={currentStep || {}}
+              width={700}
+              height={380}
+            />
+          ) : (
           <div className="text-center text-gray-500">
             Click <span className="text-[--tekhelet] font-semibold">"Initialize"</span> to begin the visualization
             <Settings size={18} className="inline ml-1 text-[--tekhelet]" />

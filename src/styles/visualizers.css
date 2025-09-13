@@ -150,3 +150,29 @@
 .card-value { line-height: 1; display: block; }
 
 
+/* Graph visual styles (append to src/styles/visualizers.css) */
+.graph-visualizer-root { display:flex; flex-direction:column; gap:12px; align-items:center; }
+.graph-svg-wrap { border-radius:12px; background: linear-gradient(180deg,#fff,#fbfbff); padding:8px; box-shadow: 0 8px 18px rgba(15,15,40,0.04); }
+
+.graph-edge line { stroke: rgba(80,80,90,0.12); stroke-width: 3; }
+.graph-node { stroke: rgba(0,0,0,0.06); stroke-width: 1.5; }
+
+/* palette: tekhelet / medium-slate-blue / selective-yellow / tangerine / persimmon */
+.graph-node-neutral { fill: #ffffff; stroke: var(--tekhelet); fill-opacity:1; color:#3d348b; }
+.graph-node-current { fill: linear-gradient(180deg,var(--medium-slate-blue),var(--tekhelet)); fill: #3d348b; }
+.graph-node-visiting { fill: var(--medium-slate-blue); }
+.graph-node-frontier { fill: var(--selective-yellow); fill-opacity:1; stroke: #f7b801; }
+.graph-node-done { fill: var(--medium-slate-blue); opacity:0.95; }
+
+/* legend swatches */
+.sw-graph-current { background: var(--tekhelet); width:12px; height:12px; border-radius:3px; display:inline-block; }
+.sw-graph-visiting { background: var(--medium-slate-blue); width:12px; height:12px; border-radius:3px; display:inline-block; }
+.sw-graph-frontier { background: var(--selective-yellow); width:12px; height:12px; border-radius:3px; display:inline-block; }
+.sw-graph-done { background: linear-gradient(180deg,var(--medium-slate-blue),var(--tekhelet)); width:12px; height:12px; border-radius:3px; display:inline-block; }
+
+.graph-info-bar { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:720px; gap:12px; }
+.graph-desc { color:#333; font-size:0.95rem; }
+.graph-legend { display:flex; gap:12px; align-items:center; }
+
+
+
