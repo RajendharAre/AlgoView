@@ -22,6 +22,7 @@ const Sidebar = ({ selectedAlgorithm, onAlgorithmSelect }) => {
       "selectionSort",
     ],
     "Searching Algorithms": ["linearSearch", "binarySearch"],
+    "Graph Algorithms": ["dijkstra", "bfs", "dfs"],
   };
 
   // Track which group is open (accordion style)

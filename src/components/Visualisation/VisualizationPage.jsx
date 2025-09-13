@@ -7,7 +7,7 @@ import AlgorithmController from './AlgorithmController';
 import { getAlgorithmInfoById } from '../../utils/algorithmConstants';
 import { RefreshCcw, Play, Dice5, Settings } from "lucide-react";
 import { layoutNodesCircle } from '../../utils/graphUtils';
-import GraphVisualizer from './Graph/GraphVisualizer';
+import GraphVisualizer from './GraphVisualizer';
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
@@ -52,13 +52,13 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       }
       let steps;
       
-      if (algoInfo.category === 'searching') {
+      if (algoInfo?.category === 'searching') {
         steps = algorithmFn(arr, searchTarget);
         await executeAlgorithm(steps, arr);
-      } else if (algoInfo.category === 'sorting') {
+      } else if (algoInfo?.category === 'sorting') {
         steps = algorithmFn(arr);
         await executeAlgorithm(steps, arr);
-      } else if (algoInfo.category === 'graph') {
+      } else if (algoInfo?.category === 'graph') {
         // Build example graph (you can later replace with UI input)
         const nodes = [
           { id: 'A', label: 'A' },
@@ -104,6 +104,14 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       reset();
     }
   };
+
+    if (!algoInfo) {
+      return (
+        <div className="p-6 text-center text-gray-600">
+          Please select an algorithm from the sidebar.
+        </div>
+      );
+    }
 
   return (
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
@@ -199,7 +207,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             target={searchTarget}
             totalSteps={totalSteps}
           />
-        ) : (algoInfo.category === 'graph') ? (
+        ) : (algoInfo?.category === 'graph') ? (
             <GraphVisualizer
               nodes={currentStep?.nodes || []}
               edges={currentStep?.edges || []}
