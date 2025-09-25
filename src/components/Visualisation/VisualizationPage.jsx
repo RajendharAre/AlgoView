@@ -54,10 +54,10 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       
       if (algoInfo?.category === 'searching') {
         steps = algorithmFn(arr, searchTarget);
-        await executeAlgorithm(steps, arr);
+        await executeAlgorithm(steps);
       } else if (algoInfo?.category === 'sorting') {
         steps = algorithmFn(arr);
-        await executeAlgorithm(steps, arr);
+        await executeAlgorithm(steps);
       } else if (algoInfo?.category === 'graph') {
         // Build example graph (you can later replace with UI input)
         const nodes = [
@@ -77,7 +77,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
         // Pass start node ID (first node for now)
         steps = algorithmFn(graph, nodes[0].id);
-        await executeAlgorithm(steps, graph); // second param is optional metadata
+        await executeAlgorithm(steps); // second param is optional metadata
 }
     } catch (error) {
       console.error('Algorithm initialization failed:', error);
@@ -197,17 +197,8 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
       {/* Visualization Area */}
       <div className="bg-white rounded-2xl shadow-lg p-8 min-h-[250px] flex items-center justify-center">
-        {hasSteps ? (
-          <ArrayVisualizer
-            algorithmId={algoInfo?.id}
-            data={currentStep?.array || inputArray}
-            stepIndex={currentStep?.stepIndex ?? null}
-            step={currentStep || {}}
-            highlights={currentStep?.highlights || []}
-            target={searchTarget}
-            totalSteps={totalSteps}
-          />
-        ) : (algoInfo?.category === 'graph') ? (
+        {algoInfo?.category === 'graph' ? (
+          hasSteps ? (
             <GraphVisualizer
               nodes={currentStep?.nodes || []}
               edges={currentStep?.edges || []}
@@ -216,12 +207,31 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               height={380}
             />
           ) : (
-          <div className="text-center text-gray-500">
-            Click <span className="text-[--tekhelet] font-semibold">"Initialize"</span> to begin the visualization
-            <Settings size={18} className="inline ml-1 text-[--tekhelet]" />
-          </div>
+            <div className="text-center text-gray-500">
+              Click <span className="text-[--tekhelet] font-semibold">"Initialize"</span> to begin the visualization
+              <Settings size={18} className="inline ml-1 text-[--tekhelet]" />
+            </div>
+          )
+        ) : (
+          hasSteps ? (
+            <ArrayVisualizer
+              algorithmId={algoInfo?.id}
+              data={currentStep?.array || inputArray}
+              stepIndex={currentStep?.stepIndex ?? null}
+              step={currentStep || {}}
+              highlights={currentStep?.highlights || []}
+              target={searchTarget}
+              totalSteps={totalSteps}
+            />
+          ) : (
+            <div className="text-center text-gray-500">
+              Click <span className="text-[--tekhelet] font-semibold">"Initialize"</span> to begin the visualization
+              <Settings size={18} className="inline ml-1 text-[--tekhelet]" />
+            </div>
+          )
         )}
       </div>
+
 
       {/* Controller */}
       {hasSteps && (

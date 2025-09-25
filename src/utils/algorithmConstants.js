@@ -1,5 +1,6 @@
 // src/utils/algorithmConstants.js
 
+
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
   SEARCHING: 'searching',
@@ -108,7 +109,7 @@ export const ALGORITHMS = {
   },
 
   // Graph Algorithms
-  BFS: {
+  bfs: {
     id: 'bfs',
     name: 'Breadth-First Search',
     category: ALGORITHM_CATEGORIES.GRAPH,
@@ -120,7 +121,7 @@ export const ALGORITHMS = {
     description: 'Level-order traversal used to find shortest unweighted paths.'
   },
 
-  DFS: {
+  dfs: {
     id: 'dfs',
     name: 'Depth-First Search',
     category: ALGORITHM_CATEGORIES.GRAPH,
@@ -132,7 +133,7 @@ export const ALGORITHMS = {
     description: 'Depth-first traversal useful for connectivity, ordering, cycles.'
   },
 
-  DIJKSTRA: {
+  dijkstra: {
     id: 'dijkstra',
     name: 'Dijkstra (shortest paths)',
     category: ALGORITHM_CATEGORIES.GRAPH,
