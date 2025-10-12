@@ -1,17 +1,16 @@
-// /* eslint-disable no-unused-vars */
-// src/components/Visualization/VisualizationPage.jsx
 import { useState, useEffect } from 'react';
 import { useAlgorithm } from '../../hooks/useAlgorithm';
 import ArrayVisualizer from './ArrayVisualizer';
 import AlgorithmController from './AlgorithmController';
 import { getAlgorithmInfoById } from '../../utils/algorithmConstants';
-import { RefreshCcw, Play, Dice5, Settings } from "lucide-react";
+import { RefreshCcw, Play, Dice5, Settings, Info } from "lucide-react";
 import { layoutNodesCircle } from '../../utils/graphUtils';
 import GraphVisualizer from './GraphVisualizer';
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
   const [searchTarget, setSearchTarget] = useState(25);
+  const [showInfo, setShowInfo] = useState(false);
 
   const {
     currentStep,
@@ -114,24 +113,61 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     }
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-6 space-y-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-[--tekhelet] mb-2">
-          {algoInfo?.name || 'Algorithm Visualizer'}
-        </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          {algoInfo?.description}
-        </p>
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+            {algoInfo?.name || 'Algorithm Visualizer'}
+          </h1>
+          <button 
+            onClick={() => setShowInfo(!showInfo)}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <Info size={20} />
+          </button>
+        </div>
+        
+        {showInfo && (
+          <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm p-4 mb-4 text-left">
+            <p className="text-gray-600 text-sm">
+              {algoInfo?.description}
+            </p>
+          </div>
+        )}
+        
+        {!showInfo && (
+          <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+            {algoInfo?.description.substring(0, 100)}...
+          </p>
+        )}
       </div>
 
       {/* Input Controls */}
-      <div className="bg-white rounded-2xl shadow-md p-6">
-        <h3 className="font-semibold text-[--tekhelet] mb-4 text-lg">
-          Input Configuration
-        </h3>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-gray-800 text-lg">
+            Configuration
+          </h3>
+          <div className="flex gap-2">
+            <button
+              onClick={generateRandomArray}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+            >
+              <Dice5 size={16} />
+              Random
+            </button>
+            <button
+              onClick={reset}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+            >
+              <RefreshCcw size={16} />
+              Reset
+            </button>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Array Elements
@@ -140,7 +176,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               type="text"
               value={inputArray.join(', ')}
               onChange={handleArrayInputChange}
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[--medium-slate-blue]"
+              className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Enter numbers separated by commas"
             />
           </div>
@@ -155,48 +191,32 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
                 type="number"
                 value={searchTarget}
                 onChange={(e) => setSearchTarget(parseInt(e.target.value))}
-                className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[--medium-slate-blue]"
+                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           )}
         </div>
 
-        <div className="flex flex-wrap gap-3">
-            <button
-              onClick={generateRandomArray}
-              className="flex items-center gap-2 px-5 py-2 rounded-full bg-[--medium-slate-blue] text-white hover:bg-[--tekhelet] transition"
-            >
-              <Dice5 size={18} />
-              Random Array
-            </button>
-
-            <button
-              onClick={initializeAlgorithm}
-              className="flex items-center gap-2 px-5 py-2 rounded-full bg-[--selective-yellow] text-black hover:bg-yellow-500 transition"
-            >
-              <Play size={18} />
-              Initialize
-            </button>
-
-            <button
-              onClick={reset}
-              className="flex items-center gap-2 px-5 py-2 rounded-full bg-gray-400 text-white hover:bg-gray-500 transition"
-            >
-              <RefreshCcw size={18} />
-              Reset
-            </button>
-        </div>
-
-        <div className="mt-4 text-sm text-gray-700 italic">
-          Current array: [{inputArray.join(', ')}]
-          {(algoInfo?.id === 'linearSearch' ||
-            algoInfo?.id === 'binarySearch') &&
-            ` | Searching for: ${searchTarget}`}
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <button
+            onClick={initializeAlgorithm}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm"
+          >
+            <Play size={18} />
+            Initialize
+          </button>
+          
+          <div className="text-sm text-gray-600">
+            Current array: [{inputArray.join(', ')}]
+            {(algoInfo?.id === 'linearSearch' ||
+              algoInfo?.id === 'binarySearch') &&
+              ` | Searching for: ${searchTarget}`}
+          </div>
         </div>
       </div>
 
       {/* Visualization Area */}
-      <div className="bg-white rounded-2xl shadow-lg p-8 min-h-[250px] flex items-center justify-center">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 min-h-[300px] flex items-center justify-center">
         {algoInfo?.category === 'graph' ? (
           hasSteps ? (
             <GraphVisualizer
@@ -207,9 +227,10 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               height={380}
             />
           ) : (
-            <div className="text-center text-gray-500">
-              Click <span className="text-[--tekhelet] font-semibold">"Initialize"</span> to begin the visualization
-              <Settings size={18} className="inline ml-1 text-[--tekhelet]" />
+            <div className="text-center text-gray-500 p-8">
+              <Settings size={48} className="mx-auto text-gray-300 mb-3" />
+              <p className="font-medium text-gray-700">Ready to Visualize</p>
+              <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
             </div>
           )
         ) : (
@@ -224,14 +245,14 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               totalSteps={totalSteps}
             />
           ) : (
-            <div className="text-center text-gray-500">
-              Click <span className="text-[--tekhelet] font-semibold">"Initialize"</span> to begin the visualization
-              <Settings size={18} className="inline ml-1 text-[--tekhelet]" />
+            <div className="text-center text-gray-500 p-8">
+              <Settings size={48} className="mx-auto text-gray-300 mb-3" />
+              <p className="font-medium text-gray-700">Ready to Visualize</p>
+              <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
             </div>
           )
         )}
       </div>
-
 
       {/* Controller */}
       {hasSteps && (
@@ -250,22 +271,14 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
       {/* Status Information */}
       {currentStep && (
-        <div className="bg-[--medium-slate-blue]/10 border border-[--medium-slate-blue]/30 rounded-xl p-5">
-          <h4 className="font-semibold text-[--tekhelet] mb-2">
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+          <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+            <Info size={18} />
             Current Step
           </h4>
-          <p className="text-gray-800">{currentStep.description}</p>
+          <p className="text-gray-700">{currentStep.description}</p>
         </div>
       )}
-
-      {/* Debug Info (Collapsible for devs) */}
-      <details className="mt-4 bg-gray-100 rounded-lg p-3 text-xs text-gray-700">
-        <summary className="cursor-pointer font-medium">
-          Debug Info
-        </summary>
-        Steps: {totalSteps} | Playing: {isPlaying ? 'Yes' : 'No'} | Current Step:{' '}
-        {currentStep?.stepIndex ?? 'None'}
-      </details>
     </div>
   );
 };
