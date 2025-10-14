@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, getRedirectResult } from 'firebase/auth';
 import { auth, db } from '../../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
@@ -151,17 +151,29 @@ const Register = ({ onSwitchToLogin }) => {
       
       setSuccess('Signed up successfully! Redirecting...');
     } catch (error) {
-      console.error('Social registration error:', error);
+      // Only log unexpected errors, not user actions
+      if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+        console.error('Social registration error:', error);
+      }
+      
       switch (error.code) {
         case 'auth/account-exists-with-different-credential':
           setError('An account already exists with this email. Please sign in using your original method.');
           break;
         case 'auth/popup-closed-by-user':
-          setError('Sign up popup was closed. Please try again.');
-          break;
+          // User closed the popup - this is not an error, just reset the state
+          setSuccess('Sign up cancelled. You can try again or create an account with email/password.'); // Inform user
+          setError(''); // Clear any error message
+          // Immediately reset loading state for better UX
+          setLoading(false);
+          return;
         case 'auth/cancelled-popup-request':
-          setError('Sign up was cancelled. Please try again.');
-          break;
+          // User cancelled the request - not an error
+          setSuccess('Sign up cancelled. You can try again or create an account with email/password.');
+          setError('');
+          // Immediately reset loading state for better UX
+          setLoading(false);
+          return;
         case 'auth/network-request-failed':
           setError('Network error. Please check your connection and try again.');
           break;
@@ -189,11 +201,13 @@ const Register = ({ onSwitchToLogin }) => {
           } else {
             setError('Failed to sign up with social account. Please try again.');
           }
+      }
+    } finally {
+      // Only set loading to false if we haven't already done so
+      // This prevents conflicts with the immediate reset in error cases
+      setLoading(false);
     }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();

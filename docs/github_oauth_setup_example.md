@@ -52,6 +52,20 @@ In addition to the GitHub OAuth app, you must also configure Firebase properly:
 - localhost:5175
 - algorithm-visualizer-b963c.firebaseapp.com
 
+## User Experience Improvements
+
+We've also enhanced the user experience for OAuth flows:
+
+### Handling Popup Closures:
+- When users close the OAuth popup window, the application gracefully resets
+- No more "Signing in..." or "Creating account..." messages that persist after closing
+- Users can seamlessly switch between OAuth and traditional authentication methods
+
+### Error Handling:
+- Clear, user-friendly error messages for common issues
+- Proper handling of network errors, popup blockers, and other edge cases
+- Automatic state reset for non-error conditions (popup closed, request cancelled)
+
 ## Common Misconceptions
 
 ❌ **Wrong**: Trying to add multiple callback URLs to GitHub OAuth app

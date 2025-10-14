@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, getRedirectResult } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, Eye, EyeOff, Key } from 'lucide-react';
@@ -39,17 +39,29 @@ const Login = ({ onSwitchToRegister }) => {
       const result = await signInWithPopup(auth, provider);
       console.log('Social login successful:', result.user);
     } catch (error) {
-      console.error('Social login error:', error);
+      // Only log unexpected errors, not user actions
+      if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+        console.error('Social login error:', error);
+      }
+      
       switch (error.code) {
         case 'auth/popup-blocked':
           setError('Popup blocked by browser. Please allow popups for this site and try again.');
           break;
         case 'auth/popup-closed-by-user':
-          setError('Sign in popup was closed. Please try again.');
-          break;
+          // User closed the popup - this is not an error, just reset the state
+          setSuccess('Sign in cancelled. You can try again or use email/password.'); // Inform user
+          setError(''); // Clear any error message
+          // Immediately reset loading state for better UX
+          setLoading(false);
+          return;
         case 'auth/cancelled-popup-request':
-          setError('Sign in was cancelled. Please try again.');
-          break;
+          // User cancelled the request - not an error
+          setSuccess('Sign in cancelled. You can try again or use email/password.');
+          setError('');
+          // Immediately reset loading state for better UX
+          setLoading(false);
+          return;
         case 'auth/network-request-failed':
           setError('Network error. Please check your connection and try again.');
           break;
@@ -79,6 +91,8 @@ const Login = ({ onSwitchToRegister }) => {
           }
       }
     } finally {
+      // Only set loading to false if we haven't already done so
+      // This prevents conflicts with the immediate reset in error cases
       setLoading(false);
     }
   };
@@ -91,22 +105,6 @@ const Login = ({ onSwitchToRegister }) => {
   const handleGithubLogin = () => {
     const provider = new GithubAuthProvider();
     handleSocialLogin(provider);
-  };
-
-  const handleForgotPassword = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess('');
-
-    try {
-      await sendPasswordResetEmail(auth, resetEmail);
-      setSuccess('Password reset email sent! Check your inbox.');
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleError = (error) => {
@@ -125,7 +123,8 @@ const Login = ({ onSwitchToRegister }) => {
         setError('This account has been disabled. Please contact support.');
         break;
       case 'auth/popup-closed-by-user':
-        setError('Sign in popup was closed. Please try again.');
+        // This should not happen for regular login, but if it does, clear state
+        setError('');
         break;
       case 'auth/account-exists-with-different-credential':
         setError('An account already exists with this email. Please sign in using your original method.');
