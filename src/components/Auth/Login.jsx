@@ -107,6 +107,49 @@ const Login = ({ onSwitchToRegister }) => {
     handleSocialLogin(provider);
   };
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    // Validate email format
+    if (!resetEmail || !/\S+@\S+\.\S+/.test(resetEmail)) {
+      setError('Please enter a valid email address.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      setSuccess('Password reset email sent! Check your inbox.');
+    } catch (error) {
+      console.error('Password reset error:', error);
+      switch (error.code) {
+        case 'auth/user-not-found':
+          setError('No account found with this email address. Please check the email or sign up.');
+          break;
+        case 'auth/invalid-email':
+          setError('Please enter a valid email address.');
+          break;
+        case 'auth/too-many-requests':
+          setError('Too many requests. Please try again later.');
+          break;
+        case 'auth/missing-android-pkg-name':
+        case 'auth/missing-continue-uri':
+        case 'auth/missing-ios-bundle-id':
+        case 'auth/invalid-continue-uri':
+        case 'auth/unauthorized-continue-uri':
+          setError('Password reset is not properly configured. Please contact support.');
+          break;
+        default:
+          setError('Failed to send password reset email. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleError = (error) => {
     console.error('Authentication error:', error);
     switch (error.code) {
@@ -137,6 +180,21 @@ const Login = ({ onSwitchToRegister }) => {
         break;
       case 'auth/network-request-failed':
         setError('Network error. Please check your connection and try again.');
+        break;
+      case 'auth/missing-android-pkg-name':
+        setError('Password reset emails are not properly configured. Please contact support.');
+        break;
+      case 'auth/missing-continue-uri':
+        setError('Password reset emails are not properly configured. Please contact support.');
+        break;
+      case 'auth/missing-ios-bundle-id':
+        setError('Password reset emails are not properly configured. Please contact support.');
+        break;
+      case 'auth/invalid-continue-uri':
+        setError('Password reset emails are not properly configured. Please contact support.');
+        break;
+      case 'auth/unauthorized-continue-uri':
+        setError('Password reset emails are not properly configured. Please contact support.');
         break;
       default:
         // More user-friendly default messages
