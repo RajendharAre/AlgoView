@@ -11,7 +11,8 @@ To enable Google and GitHub authentication, you need to configure OAuth provider
 5. Add the following authorized domains:
    - localhost (for development)
    - 127.0.0.1 (for development)
-   - Your production domain (e.g., your-app.firebaseapp.com)
+   - localhost:5175 (for development)
+   - Your production domain (e.g., algorithm-visualizer-b963c.firebaseapp.com)
 
 ## GitHub Authentication Setup
 
@@ -31,36 +32,35 @@ To enable Google and GitHub authentication, you need to configure OAuth provider
 
 If you're getting "The redirect_uri is not associated with this application" error:
 
-1. **Check Firebase Configuration:**
+1. **Important Note About GitHub OAuth:**
+   - GitHub OAuth apps only accept a **single** callback URL
+   - Unlike other OAuth providers, you cannot specify multiple callback URLs
+   - For Firebase authentication to work in both development and production, you must use the Firebase redirect URL
+
+2. **Check Firebase Configuration:**
    - In Firebase Console, go to Authentication > Sign-in method
    - Click on GitHub provider
    - Verify the Client ID and Client Secret match what's in GitHub
    - Ensure the authorized domains include:
      - localhost
      - 127.0.0.1
-     - localhost:5173
+     - localhost:5175
      - Your production domain (algorithm-visualizer-b963c.firebaseapp.com)
 
-2. **Check GitHub Configuration:**
-   - In GitHub Developer Settings > OAuth Apps
-   - Ensure the Authorization callback URL exactly matches one of these:
-     - For development: `http://localhost:5173/__/auth/handler`
-     - For development alternative: `http://127.0.0.1:5173/__/auth/handler`
-     - For production: `https://algorithm-visualizer-b963c.firebaseapp.com/__/auth/handler`
-
-3. **Common Issues:**
-   - Port mismatch: Ensure the port in the callback URL matches your development server port (usually 5173 for Vite)
-   - Protocol mismatch: Use `http://` for localhost development, `https://` for production
-   - Trailing slashes: Ensure the callback URL ends with `/__/auth/handler`
-   - Exact match required: GitHub requires an exact match of the callback URL, including protocol and port
+3. **Understanding the Flow:**
+   - Firebase handles the OAuth flow for both development and production
+   - When you sign in with GitHub, Firebase redirects to its own handler
+   - Firebase then redirects back to your application
+   - This is why you only need to specify the Firebase callback URL in GitHub
 
 4. **Development Server Port:**
-   - Make sure your development server is running on port 5173 (default for Vite)
-   - If using a different port, update the callback URL in GitHub accordingly
+   - Your development server is now configured to run on port 5175
+   - Firebase authentication works regardless of the local port because Firebase handles the redirect
 
-5. **Multiple Callback URLs:**
-   - GitHub allows multiple callback URLs - add both localhost and 127.0.0.1 versions
-   - Separate multiple URLs with commas or add them one per line depending on GitHub's interface
+5. **Common Issues:**
+   - Make sure your Firebase authorized domains include your development domains
+   - Ensure the Client ID and Secret in Firebase match those in GitHub
+   - The callback URL in GitHub must be exactly: `https://algorithm-visualizer-b963c.firebaseapp.com/__/auth/handler`
 
 ## Common Issues and Solutions
 
@@ -81,7 +81,7 @@ If you're getting "The redirect_uri is not associated with this application" err
 For local development, ensure these domains are added to authorized domains:
 - localhost
 - 127.0.0.1
-- localhost:5173 (or your development server port)
+- localhost:5175
 
 ## Production Deployment
 
