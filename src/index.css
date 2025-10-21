@@ -1,18 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './styles/globals.css';
 
 :root {
   --tekhelet: #3d348b;
-  --slate-blue: #7678ed;
+  --medium-slate-blue: #7678ed;
   --selective-yellow: #f7b801;
   --tangerine: #f18701;
   --persimmon: #f35b04;
+  --success: #52c41a;
+  --error: #ff4d4f;
+  --warning: #faad14;
+  --info: #1890ff;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -47,9 +49,24 @@ body {
   transition-duration: 150ms;
 }
 
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tekhelet: #3d348b;
+    --medium-slate-blue: #7678ed;
+    --selective-yellow: #f7b801;
+    --tangerine: #f18701;
+    --persimmon: #f35b04;
+    --success: #52c41a;
+    --error: #ff4d4f;
+    --warning: #faad14;
+    --info: #1890ff;
+  }
+}
+
 /* Focus styles */
 .focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  @apply focus:outline-none focus:ring-2 focus:ring-tekhelet focus:ring-offset-2;
 }
 
 /* Fix for typography issues with 'g' characters */
