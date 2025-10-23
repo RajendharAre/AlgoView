@@ -27,7 +27,7 @@ const ForgotPassword = ({ onBackToLogin }) => {
 
     try {
       await sendPasswordResetEmail(auth, email);
-      setSuccess('Password reset email sent! Check your inbox.');
+      setSuccess('If your email is registered with us, you will receive a password reset link. Please check your inbox (including spam folder).');
     } catch (error) {
       console.error('Password reset error:', error);
       switch (error.code) {
@@ -56,6 +56,7 @@ const ForgotPassword = ({ onBackToLogin }) => {
         </div>
         <h2 className="text-2xl font-bold text-gray-800">Reset Password</h2>
         <p className="text-gray-600 mt-2">Enter your email to receive a password reset link</p>
+        <p className="text-gray-500 text-xs mt-2">For security reasons, you'll receive a confirmation message regardless of whether the email exists in our system.</p>
       </div>
 
       <form onSubmit={handleResetPassword} className="space-y-4">
