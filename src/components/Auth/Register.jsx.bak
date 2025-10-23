@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, getRedirectResult } from 'firebase/auth';
 import { auth, db } from '../../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from 'lucide-react';
-import { validateRegister } from '../../utils/validation';
 
 const Register = ({ onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
@@ -28,11 +27,31 @@ const Register = ({ onSwitchToLogin }) => {
   };
 
   const validateForm = () => {
-    const validation = validateRegister(formData);
-    if (!validation.success) {
-      setError(Object.values(validation.errors)[0]);
+    if (!formData.name.trim()) {
+      setError('Please enter your name');
       return false;
     }
+
+    if (!formData.email.trim()) {
+      setError('Please enter your email');
+      return false;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+
     return true;
   };
 
@@ -272,7 +291,6 @@ const Register = ({ onSwitchToLogin }) => {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              disabled={loading}
             >
               {showPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
             </button>
@@ -301,7 +319,6 @@ const Register = ({ onSwitchToLogin }) => {
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              disabled={loading}
             >
               {showConfirmPassword ? <EyeOff className="h-5 w-5 text-gray-400" /> : <Eye className="h-5 w-5 text-gray-400" />}
             </button>
