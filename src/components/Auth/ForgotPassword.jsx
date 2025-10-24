@@ -1,52 +1,54 @@
-import { useState } from 'react';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '../../lib/firebase';
-import { motion } from 'framer-motion';
-import { Mail, ArrowLeft, Key } from 'lucide-react';
-import { validateResetPassword } from '../../utils/validation';
+import { useState } from 'react'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from '../../lib/firebase'
+import { motion } from 'framer-motion'
+import { Mail, ArrowLeft, Key } from 'lucide-react'
+import { validateResetPassword } from '../../utils/validation'
 
 const ForgotPassword = ({ onBackToLogin }) => {
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess('');
+  const handleResetPassword = async e => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setSuccess('')
 
     // Validate email using Zod
-    const validation = validateResetPassword({ email });
+    const validation = validateResetPassword({ email })
     if (!validation.success) {
-      setError(Object.values(validation.errors)[0]);
-      setLoading(false);
-      return;
+      setError(Object.values(validation.errors)[0])
+      setLoading(false)
+      return
     }
 
     try {
-      await sendPasswordResetEmail(auth, email);
-      setSuccess('If your email is registered with us, you will receive a password reset link. Please check your inbox (including spam folder).');
+      await sendPasswordResetEmail(auth, email)
+      setSuccess(
+        'If your email is registered with us, you will receive a password reset link. Please check your inbox (including spam folder).'
+      )
     } catch (error) {
-      console.error('Password reset error:', error);
+      console.error('Password reset error:', error)
       switch (error.code) {
         case 'auth/user-not-found':
-          setError('No account found with this email address');
-          break;
+          setError('No account found with this email address')
+          break
         case 'auth/invalid-email':
-          setError('Please enter a valid email address');
-          break;
+          setError('Please enter a valid email address')
+          break
         case 'auth/too-many-requests':
-          setError('Too many requests. Please try again later');
-          break;
+          setError('Too many requests. Please try again later')
+          break
         default:
-          setError('Failed to send password reset email. Please try again');
+          setError('Failed to send password reset email. Please try again')
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="w-full">
@@ -56,7 +58,10 @@ const ForgotPassword = ({ onBackToLogin }) => {
         </div>
         <h2 className="text-2xl font-bold text-gray-800">Reset Password</h2>
         <p className="text-gray-600 mt-2">Enter your email to receive a password reset link</p>
-        <p className="text-gray-500 text-xs mt-2">For security reasons, you'll receive a confirmation message regardless of whether the email exists in our system.</p>
+        <p className="text-gray-500 text-xs mt-2">
+          For security reasons, you'll receive a confirmation message regardless of whether the
+          email exists in our system.
+        </p>
       </div>
 
       <form onSubmit={handleResetPassword} className="space-y-4">
@@ -69,7 +74,7 @@ const ForgotPassword = ({ onBackToLogin }) => {
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               placeholder="your@email.com"
               required
@@ -128,7 +133,7 @@ const ForgotPassword = ({ onBackToLogin }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ForgotPassword;
+export default ForgotPassword

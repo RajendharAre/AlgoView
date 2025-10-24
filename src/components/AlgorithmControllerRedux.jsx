@@ -1,139 +1,151 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { 
-  play, 
-  pause, 
-  reset, 
-  setSpeed, 
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  play,
+  pause,
+  reset,
+  setSpeed,
   updateStep,
   setInputData,
-  setSearchTarget
-} from '../store/slices/algorithmSlice';
-import { addNotification } from '../store/slices/uiSlice';
-import { Play, Pause, RotateCcw, SkipBack, SkipForward, FastForward, Rewind, Settings } from 'lucide-react';
+  setSearchTarget,
+} from '../store/slices/algorithmSlice'
+import { addNotification } from '../store/slices/uiSlice'
+import {
+  Play,
+  Pause,
+  RotateCcw,
+  SkipBack,
+  SkipForward,
+  FastForward,
+  Rewind,
+  Settings,
+} from 'lucide-react'
 
 const AlgorithmControllerRedux = () => {
-  const dispatch = useDispatch();
-  
+  const dispatch = useDispatch()
+
   // Algorithm state from Redux
-  const { 
-    isRunning, 
-    currentStep, 
-    totalSteps, 
-    speed, 
-    inputData,
-    searchTarget,
-    selectedAlgorithm 
-  } = useSelector(state => ({
-    isRunning: state.algorithm.isRunning,
-    currentStep: state.algorithm.currentStep,
-    totalSteps: state.algorithm.steps.length,
-    speed: state.algorithm.speed,
-    inputData: state.algorithm.inputData,
-    searchTarget: state.algorithm.searchTarget,
-    selectedAlgorithm: state.algorithm.selectedAlgorithm
-  }));
+  const { isRunning, currentStep, totalSteps, speed, inputData, searchTarget, selectedAlgorithm } =
+    useSelector(state => ({
+      isRunning: state.algorithm.isRunning,
+      currentStep: state.algorithm.currentStep,
+      totalSteps: state.algorithm.steps.length,
+      speed: state.algorithm.speed,
+      inputData: state.algorithm.inputData,
+      searchTarget: state.algorithm.searchTarget,
+      selectedAlgorithm: state.algorithm.selectedAlgorithm,
+    }))
 
   // Add proper event handlers
   const handlePlay = () => {
-    dispatch(play());
-    dispatch(addNotification({
-      title: 'Algorithm Started',
-      message: 'The algorithm visualization has started',
-      type: 'info'
-    }));
-  };
+    dispatch(play())
+    dispatch(
+      addNotification({
+        title: 'Algorithm Started',
+        message: 'The algorithm visualization has started',
+        type: 'info',
+      })
+    )
+  }
 
   const handlePause = () => {
-    dispatch(pause());
-    dispatch(addNotification({
-      title: 'Algorithm Paused',
-      message: 'The algorithm visualization has been paused',
-      type: 'info'
-    }));
-  };
+    dispatch(pause())
+    dispatch(
+      addNotification({
+        title: 'Algorithm Paused',
+        message: 'The algorithm visualization has been paused',
+        type: 'info',
+      })
+    )
+  }
 
   const handleReset = () => {
-    dispatch(reset());
-    dispatch(addNotification({
-      title: 'Algorithm Reset',
-      message: 'The algorithm visualization has been reset',
-      type: 'info'
-    }));
-  };
+    dispatch(reset())
+    dispatch(
+      addNotification({
+        title: 'Algorithm Reset',
+        message: 'The algorithm visualization has been reset',
+        type: 'info',
+      })
+    )
+  }
 
-  const handleSpeedChange = (e) => {
-    const newSpeed = Number(e.target.value);
-    dispatch(setSpeed(newSpeed));
-    dispatch(addNotification({
-      title: 'Speed Updated',
-      message: `Visualization speed set to ${newSpeed}ms`,
-      type: 'info'
-    }));
-  };
+  const handleSpeedChange = e => {
+    const newSpeed = Number(e.target.value)
+    dispatch(setSpeed(newSpeed))
+    dispatch(
+      addNotification({
+        title: 'Speed Updated',
+        message: `Visualization speed set to ${newSpeed}ms`,
+        type: 'info',
+      })
+    )
+  }
 
-  const handleStepChange = (e) => {
-    const newStep = Number(e.target.value);
-    dispatch(updateStep(newStep));
-  };
+  const handleStepChange = e => {
+    const newStep = Number(e.target.value)
+    dispatch(updateStep(newStep))
+  }
 
   const handleStepBack = () => {
     if (currentStep > 0) {
-      dispatch(updateStep(currentStep - 1));
+      dispatch(updateStep(currentStep - 1))
     }
-  };
+  }
 
   const handleStepForward = () => {
     if (currentStep < totalSteps - 1) {
-      dispatch(updateStep(currentStep + 1));
+      dispatch(updateStep(currentStep + 1))
     }
-  };
+  }
 
   const handleFirstStep = () => {
-    dispatch(updateStep(0));
-  };
+    dispatch(updateStep(0))
+  }
 
   const handleLastStep = () => {
-    dispatch(updateStep(Math.max(totalSteps - 1, 0)));
-  };
+    dispatch(updateStep(Math.max(totalSteps - 1, 0)))
+  }
 
-  const handleArrayInputChange = (e) => {
-    const inputText = e.target.value;
+  const handleArrayInputChange = e => {
+    const inputText = e.target.value
     const newArray = inputText
       .split(',')
-      .map((num) => parseInt(num.trim(), 10))
-      .filter((num) => !isNaN(num));
+      .map(num => parseInt(num.trim(), 10))
+      .filter(num => !isNaN(num))
 
     if (newArray.length > 0) {
-      dispatch(setInputData(newArray));
-      dispatch(reset());
-      dispatch(addNotification({
-        title: 'Input Data Updated',
-        message: 'Array input has been updated',
-        type: 'success'
-      }));
+      dispatch(setInputData(newArray))
+      dispatch(reset())
+      dispatch(
+        addNotification({
+          title: 'Input Data Updated',
+          message: 'Array input has been updated',
+          type: 'success',
+        })
+      )
     }
-  };
+  }
 
-  const handleSearchTargetChange = (e) => {
-    const target = parseInt(e.target.value);
+  const handleSearchTargetChange = e => {
+    const target = parseInt(e.target.value)
     if (!isNaN(target)) {
-      dispatch(setSearchTarget(target));
-      dispatch(addNotification({
-        title: 'Search Target Updated',
-        message: `Search target set to ${target}`,
-        type: 'success'
-      }));
+      dispatch(setSearchTarget(target))
+      dispatch(
+        addNotification({
+          title: 'Search Target Updated',
+          message: `Search target set to ${target}`,
+          type: 'success',
+        })
+      )
     }
-  };
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
       {/* Input Controls */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Array Elements
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Array Elements</label>
           <input
             type="text"
             value={inputData.join(', ')}
@@ -145,9 +157,7 @@ const AlgorithmControllerRedux = () => {
 
         {(selectedAlgorithm === 'linearSearch' || selectedAlgorithm === 'binarySearch') && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Search Target
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Search Target</label>
             <input
               type="number"
               value={searchTarget}
@@ -161,7 +171,9 @@ const AlgorithmControllerRedux = () => {
       {/* Progress Bar */}
       <div className="mb-5">
         <div className="flex justify-between text-sm text-gray-600 mb-2">
-          <span>Step: {currentStep + 1} / {totalSteps || 1}</span>
+          <span>
+            Step: {currentStep + 1} / {totalSteps || 1}
+          </span>
           <span>{totalSteps > 0 ? Math.round(((currentStep + 1) / totalSteps) * 100) : 0}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -182,7 +194,7 @@ const AlgorithmControllerRedux = () => {
           >
             <SkipBack size={20} />
           </button>
-          
+
           <button
             onClick={handleStepBack}
             disabled={currentStep === 0 || totalSteps === 0}
@@ -190,7 +202,7 @@ const AlgorithmControllerRedux = () => {
           >
             <Rewind size={20} />
           </button>
-          
+
           {isRunning ? (
             <button
               onClick={handlePause}
@@ -207,7 +219,7 @@ const AlgorithmControllerRedux = () => {
               <Play size={24} />
             </button>
           )}
-          
+
           <button
             onClick={handleStepForward}
             disabled={currentStep >= totalSteps - 1 || totalSteps === 0}
@@ -215,7 +227,7 @@ const AlgorithmControllerRedux = () => {
           >
             <FastForward size={20} />
           </button>
-          
+
           <button
             onClick={handleLastStep}
             disabled={currentStep >= totalSteps - 1 || totalSteps === 0}
@@ -234,7 +246,7 @@ const AlgorithmControllerRedux = () => {
             <RotateCcw size={18} />
             Reset
           </button>
-          
+
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Speed:</span>
             <select
@@ -264,7 +276,7 @@ const AlgorithmControllerRedux = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AlgorithmControllerRedux;
+export default AlgorithmControllerRedux

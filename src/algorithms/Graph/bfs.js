@@ -1,16 +1,16 @@
 // src/algorithms/Graph/bfs.js
 export function* bfs(graph, startId) {
   // graph: { nodes: [{id,label,x,y}], edges: [{from,to}] }
-  const nodes = graph.nodes.map(n => ({ ...n }));
-  const edges = graph.edges.map(e => ({ ...e }));
-  const visited = new Set();
-  const q = [];
-  const done = [];
+  const nodes = graph.nodes.map(n => ({ ...n }))
+  const edges = graph.edges.map(e => ({ ...e }))
+  const visited = new Set()
+  const q = []
+  const done = []
 
-  q.push(startId);
-  visited.add(startId);
+  q.push(startId)
+  visited.add(startId)
 
-  let stepIndex = 0;
+  let stepIndex = 0
 
   // initial state
   yield {
@@ -22,10 +22,10 @@ export function* bfs(graph, startId) {
     doneNodes: [...done],
     description: `Start BFS at ${startId}`,
     stepIndex: stepIndex++,
-  };
+  }
 
   while (q.length > 0) {
-    const u = q.shift();
+    const u = q.shift()
     yield {
       nodes,
       edges,
@@ -35,15 +35,15 @@ export function* bfs(graph, startId) {
       doneNodes: [...done],
       description: `Visiting ${u}`,
       stepIndex: stepIndex++,
-    };
+    }
 
     // neighbors
     for (const e of edges) {
       if (e.from === u) {
-        const v = e.to;
+        const v = e.to
         if (!visited.has(v)) {
-          visited.add(v);
-          q.push(v);
+          visited.add(v)
+          q.push(v)
           yield {
             nodes,
             edges,
@@ -53,7 +53,7 @@ export function* bfs(graph, startId) {
             doneNodes: [...done],
             description: `Discovered ${v} from ${u}`,
             stepIndex: stepIndex++,
-          };
+          }
         } else {
           // neighbor already seen - optional step
           yield {
@@ -65,12 +65,12 @@ export function* bfs(graph, startId) {
             doneNodes: [...done],
             description: `${v} already visited`,
             stepIndex: stepIndex++,
-          };
+          }
         }
       }
     }
 
-    done.push(u);
+    done.push(u)
     yield {
       nodes,
       edges,
@@ -80,7 +80,7 @@ export function* bfs(graph, startId) {
       doneNodes: [...done],
       description: `${u} processed`,
       stepIndex: stepIndex++,
-    };
+    }
   }
 
   yield {
@@ -92,5 +92,5 @@ export function* bfs(graph, startId) {
     doneNodes: [...done],
     description: 'BFS complete',
     stepIndex: stepIndex++,
-  };
+  }
 }

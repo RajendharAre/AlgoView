@@ -1,110 +1,110 @@
 /* eslint-disable no-unused-vars */
 // src/components/TestFirebase.jsx
-import { useState, useEffect } from 'react';
-import { auth, db } from '../lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, setDoc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { useState, useEffect } from 'react'
+import { auth, db } from '../lib/firebase'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth'
+import { doc, setDoc, getDoc, addDoc, collection } from 'firebase/firestore'
 
 const TestFirebase = () => {
-  const [status, setStatus] = useState({});
-  const [email, setEmail] = useState('test@example.com');
-  const [password, setPassword] = useState('test1234');
-  const [testData, setTestData] = useState('');
+  const [status, setStatus] = useState({})
+  const [email, setEmail] = useState('test@example.com')
+  const [password, setPassword] = useState('test1234')
+  const [testData, setTestData] = useState('')
 
   // Test Firebase Connection on component mount
   useEffect(() => {
-    testFirebaseConnection();
-  }, []);
+    testFirebaseConnection()
+  }, [])
 
   const testFirebaseConnection = async () => {
-    const results = {};
-    
+    const results = {}
+
     try {
       // Test 1: Check if environment variables are loaded
       results.envVariables = {
         apiKey: !!import.meta.env.VITE_FIREBASE_API_KEY,
         authDomain: !!import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
         projectId: !!import.meta.env.VITE_FIREBASE_PROJECT_ID,
-        status: import.meta.env.VITE_FIREBASE_API_KEY ? '✅ Loaded' : '❌ Missing'
-      };
+        status: import.meta.env.VITE_FIREBASE_API_KEY ? '✅ Loaded' : '❌ Missing',
+      }
 
       // Test 2: Check Firebase app initialization
-      results.firebaseInit = '✅ Successful';
-      
-      setStatus(results);
+      results.firebaseInit = '✅ Successful'
+
+      setStatus(results)
     } catch (error) {
-      results.firebaseInit = `❌ Error: ${error.message}`;
-      setStatus(results);
+      results.firebaseInit = `❌ Error: ${error.message}`
+      setStatus(results)
     }
-  };
+  }
 
   const testAuthentication = async () => {
-    const results = {};
+    const results = {}
     try {
       // Create test user
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      results.authCreate = `✅ User created: ${userCredential.user.email}`;
-      
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      results.authCreate = `✅ User created: ${userCredential.user.email}`
+
       // Sign out
-      await signOut(auth);
-      results.authSignOut = '✅ Signed out successfully';
-      
+      await signOut(auth)
+      results.authSignOut = '✅ Signed out successfully'
+
       // Sign in
-      const signInCredential = await signInWithEmailAndPassword(auth, email, password);
-      results.authSignIn = `✅ Signed in: ${signInCredential.user.email}`;
-      
-      setStatus(prev => ({ ...prev, ...results }));
+      const signInCredential = await signInWithEmailAndPassword(auth, email, password)
+      results.authSignIn = `✅ Signed in: ${signInCredential.user.email}`
+
+      setStatus(prev => ({ ...prev, ...results }))
     } catch (error) {
-      setStatus(prev => ({ ...prev, authError: `❌ Auth Error: ${error.message}` }));
+      setStatus(prev => ({ ...prev, authError: `❌ Auth Error: ${error.message}` }))
     }
-  };
+  }
 
   const testFirestore = async () => {
-    const results = {};
+    const results = {}
     try {
-      const testDocRef = doc(db, 'test', 'testDocument');
-      
+      const testDocRef = doc(db, 'test', 'testDocument')
+
       // Write data
       await setDoc(testDocRef, {
         message: 'Hello Firebase!',
         timestamp: new Date(),
-        testData: testData || 'Default test data'
-      });
-      results.firestoreWrite = '✅ Data written successfully';
-      
+        testData: testData || 'Default test data',
+      })
+      results.firestoreWrite = '✅ Data written successfully'
+
       // Read data
-      const docSnapshot = await getDoc(testDocRef);
+      const docSnapshot = await getDoc(testDocRef)
       if (docSnapshot.exists()) {
-        results.firestoreRead = `✅ Data read: ${JSON.stringify(docSnapshot.data())}`;
+        results.firestoreRead = `✅ Data read: ${JSON.stringify(docSnapshot.data())}`
       } else {
-        results.firestoreRead = '❌ Document not found';
+        results.firestoreRead = '❌ Document not found'
       }
-      
-      setStatus(prev => ({ ...prev, ...results }));
+
+      setStatus(prev => ({ ...prev, ...results }))
     } catch (error) {
-      setStatus(prev => ({ ...prev, firestoreError: `❌ Firestore Error: ${error.message}` }));
+      setStatus(prev => ({ ...prev, firestoreError: `❌ Firestore Error: ${error.message}` }))
     }
-  };
+  }
 
   const runAllTests = async () => {
-    const results = {};
-    setStatus({ running: '🚀 Running tests...' });
-    
-    await testFirebaseConnection();
-    await testAuthentication();
-    await testFirestore();
-  };
+    const results = {}
+    setStatus({ running: '🚀 Running tests...' })
+
+    await testFirebaseConnection()
+    await testAuthentication()
+    await testFirestore()
+  }
 
   return (
     <div className="p-6 bg-gray-100 rounded-lg shadow-md max-w-2xl mx-auto my-8">
       <h2 className="text-2xl font-bold mb-4 text-blue-800">Firebase Connection Test</h2>
-      
+
       <div className="mb-4">
         <label className="block text-sm font-medium mb-2">Test Email:</label>
         <input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           className="w-full p-2 border rounded"
           placeholder="test@example.com"
         />
@@ -115,7 +115,7 @@ const TestFirebase = () => {
         <input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           className="w-full p-2 border rounded"
           placeholder="test1234"
         />
@@ -126,7 +126,7 @@ const TestFirebase = () => {
         <input
           type="text"
           value={testData}
-          onChange={(e) => setTestData(e.target.value)}
+          onChange={e => setTestData(e.target.value)}
           className="w-full p-2 border rounded"
           placeholder="Data to save in Firestore"
         />
@@ -167,7 +167,7 @@ const TestFirebase = () => {
         <p>Current User: {auth.currentUser ? auth.currentUser.email : 'Not signed in'}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TestFirebase;
+export default TestFirebase

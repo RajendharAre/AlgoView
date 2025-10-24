@@ -1,4 +1,4 @@
-import { motion as Motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion'
 
 /**
  * BinarySearchVisualizer
@@ -13,41 +13,41 @@ import { motion as Motion } from 'framer-motion';
  *  - target: number
  */
 const BinarySearchVisualizer = ({ data = [], step = {}, target = null }) => {
-  const left = typeof step?.left === 'number' ? step.left : 0;
-  const right = typeof step?.right === 'number' ? step.right : data.length - 1;
-  const mid = typeof step?.mid === 'number' ? step.mid : Math.floor((left + right) / 2);
-  const found = !!step?.found;
-  const compared = typeof step?.compared === 'number' ? step.compared : null;
+  const left = typeof step?.left === 'number' ? step.left : 0
+  const right = typeof step?.right === 'number' ? step.right : data.length - 1
+  const mid = typeof step?.mid === 'number' ? step.mid : Math.floor((left + right) / 2)
+  const found = !!step?.found
+  const compared = typeof step?.compared === 'number' ? step.compared : null
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-200">
       <div className="flex justify-center items-center gap-2 md:gap-3 flex-wrap min-h-32">
         {data.map((value, idx) => {
-          let bgClass = 'bg-gradient-to-br from-blue-500 to-blue-600 text-white';
-          let borderClass = 'border-transparent';
-          let label = '';
-          
+          let bgClass = 'bg-gradient-to-br from-blue-500 to-blue-600 text-white'
+          let borderClass = 'border-transparent'
+          let label = ''
+
           if (idx < left || idx > right) {
-            bgClass = 'bg-gray-200 text-gray-500'; // eliminated
-            borderClass = 'border-gray-300';
+            bgClass = 'bg-gray-200 text-gray-500' // eliminated
+            borderClass = 'border-gray-300'
           } else if (idx === mid) {
             if (found) {
-              bgClass = 'bg-gradient-to-br from-green-500 to-green-600 text-white'; // found
-              borderClass = 'border-green-400';
-              label = 'Found!';
+              bgClass = 'bg-gradient-to-br from-green-500 to-green-600 text-white' // found
+              borderClass = 'border-green-400'
+              label = 'Found!'
             } else {
-              bgClass = 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white'; // current mid
-              borderClass = 'border-yellow-400';
-              label = 'Mid';
+              bgClass = 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' // current mid
+              borderClass = 'border-yellow-400'
+              label = 'Mid'
             }
           } else if (idx === left) {
-            bgClass = 'bg-gradient-to-br from-purple-500 to-purple-600 text-white'; // left pointer
-            borderClass = 'border-purple-400';
-            label = 'Left';
+            bgClass = 'bg-gradient-to-br from-purple-500 to-purple-600 text-white' // left pointer
+            borderClass = 'border-purple-400'
+            label = 'Left'
           } else if (idx === right) {
-            bgClass = 'bg-gradient-to-br from-pink-500 to-pink-600 text-white'; // right pointer
-            borderClass = 'border-pink-400';
-            label = 'Right';
+            bgClass = 'bg-gradient-to-br from-pink-500 to-pink-600 text-white' // right pointer
+            borderClass = 'border-pink-400'
+            label = 'Right'
           }
 
           return (
@@ -61,15 +61,13 @@ const BinarySearchVisualizer = ({ data = [], step = {}, target = null }) => {
             >
               <div className="text-sm md:text-base font-bold">{value}</div>
               {label && (
-                <div className="text-xs mt-0.5 font-medium bg-black/20 px-1 rounded">
-                  {label}
-                </div>
+                <div className="text-xs mt-0.5 font-medium bg-black/20 px-1 rounded">{label}</div>
               )}
             </Motion.div>
-          );
+          )
         })}
       </div>
-      
+
       {/* Legend */}
       <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
         <div className="flex items-center gap-2">
@@ -97,7 +95,7 @@ const BinarySearchVisualizer = ({ data = [], step = {}, target = null }) => {
           <span className="text-gray-600">Eliminated</span>
         </div>
       </div>
-      
+
       {/* Info Panel */}
       <div className="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-100">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
@@ -130,7 +128,7 @@ const BinarySearchVisualizer = ({ data = [], step = {}, target = null }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BinarySearchVisualizer;
+export default BinarySearchVisualizer

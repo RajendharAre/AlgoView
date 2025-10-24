@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 // Define initial state
 const initialState = {
@@ -6,47 +6,47 @@ const initialState = {
   sidebarOpen: true,
   modalOpen: false,
   notifications: [],
-};
+}
 
 // Create slice
 const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    toggleTheme: (state) => {
-      state.theme = state.theme === 'light' ? 'dark' : 'light';
+    toggleTheme: state => {
+      state.theme = state.theme === 'light' ? 'dark' : 'light'
     },
     setTheme: (state, action) => {
-      state.theme = action.payload;
+      state.theme = action.payload
     },
-    toggleSidebar: (state) => {
-      state.sidebarOpen = !state.sidebarOpen;
+    toggleSidebar: state => {
+      state.sidebarOpen = !state.sidebarOpen
     },
     setSidebarOpen: (state, action) => {
-      state.sidebarOpen = action.payload;
+      state.sidebarOpen = action.payload
     },
-    openModal: (state) => {
-      state.modalOpen = true;
+    openModal: state => {
+      state.modalOpen = true
     },
-    closeModal: (state) => {
-      state.modalOpen = false;
+    closeModal: state => {
+      state.modalOpen = false
     },
     addNotification: (state, action) => {
       state.notifications.push({
         id: Date.now(),
         ...action.payload,
-      });
+      })
     },
     removeNotification: (state, action) => {
       state.notifications = state.notifications.filter(
-        (notification) => notification.id !== action.payload
-      );
+        notification => notification.id !== action.payload
+      )
     },
-    clearNotifications: (state) => {
-      state.notifications = [];
+    clearNotifications: state => {
+      state.notifications = []
     },
   },
-});
+})
 
 // Export actions
 export const {
@@ -59,16 +59,16 @@ export const {
   addNotification,
   removeNotification,
   clearNotifications,
-} = uiSlice.actions;
+} = uiSlice.actions
 
 // Export selectors
-export const selectTheme = (state) => state.ui.theme;
-export const selectSidebarOpen = (state) => state.ui.sidebarOpen;
-export const selectModalOpen = (state) => state.ui.modalOpen;
-export const selectNotifications = (state) => state.ui.notifications;
+export const selectTheme = state => state.ui.theme
+export const selectSidebarOpen = state => state.ui.sidebarOpen
+export const selectModalOpen = state => state.ui.modalOpen
+export const selectNotifications = state => state.ui.notifications
 
 // Export reducer
-export default uiSlice.reducer;
+export default uiSlice.reducer
 
 // Export state type for documentation
 /**

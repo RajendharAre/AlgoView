@@ -1,4 +1,4 @@
-import { Play, Pause, RotateCcw, SkipBack, SkipForward, FastForward, Rewind } from 'lucide-react';
+import { Play, Pause, RotateCcw, SkipBack, SkipForward, FastForward, Rewind } from 'lucide-react'
 
 const AlgorithmController = ({
   isPlaying,
@@ -9,61 +9,62 @@ const AlgorithmController = ({
   onPause,
   onReset,
   onSpeedChange,
-  onStepChange
+  onStepChange,
 }) => {
-  
   // Add proper event handlers
   const handlePlay = () => {
-    console.log('Play button clicked');
-    onPlay?.();
-  };
+    console.log('Play button clicked')
+    onPlay?.()
+  }
 
   const handlePause = () => {
-    console.log('Pause button clicked');
-    onPause?.();
-  };
+    console.log('Pause button clicked')
+    onPause?.()
+  }
 
   const handleReset = () => {
-    console.log('Reset button clicked');
-    onReset?.();
-  };
+    console.log('Reset button clicked')
+    onReset?.()
+  }
 
-  const handleSpeedChange = (e) => {
-    console.log('Speed changed to:', e.target.value);
-    onSpeedChange?.(Number(e.target.value));
-  };
+  const handleSpeedChange = e => {
+    console.log('Speed changed to:', e.target.value)
+    onSpeedChange?.(Number(e.target.value))
+  }
 
-  const handleStepChange = (e) => {
-    console.log('Step changed to:', e.target.value);
-    onStepChange?.(Number(e.target.value));
-  };
+  const handleStepChange = e => {
+    console.log('Step changed to:', e.target.value)
+    onStepChange?.(Number(e.target.value))
+  }
 
   const handleStepBack = () => {
     if (currentStep > 0) {
-      onStepChange?.(currentStep - 1);
+      onStepChange?.(currentStep - 1)
     }
-  };
+  }
 
   const handleStepForward = () => {
     if (currentStep < totalSteps - 1) {
-      onStepChange?.(currentStep + 1);
+      onStepChange?.(currentStep + 1)
     }
-  };
+  }
 
   const handleFirstStep = () => {
-    onStepChange?.(0);
-  };
+    onStepChange?.(0)
+  }
 
   const handleLastStep = () => {
-    onStepChange?.(totalSteps - 1);
-  };
+    onStepChange?.(totalSteps - 1)
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
       {/* Progress Bar */}
       <div className="mb-5">
         <div className="flex justify-between text-sm text-gray-600 mb-2">
-          <span>Step: {currentStep + 1} / {totalSteps}</span>
+          <span>
+            Step: {currentStep + 1} / {totalSteps}
+          </span>
           <span>{totalSteps > 0 ? Math.round(((currentStep + 1) / totalSteps) * 100) : 0}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -84,7 +85,7 @@ const AlgorithmController = ({
           >
             <SkipBack size={20} />
           </button>
-          
+
           <button
             onClick={handleStepBack}
             disabled={currentStep === 0 || totalSteps === 0}
@@ -92,7 +93,7 @@ const AlgorithmController = ({
           >
             <Rewind size={20} />
           </button>
-          
+
           {isPlaying ? (
             <button
               onClick={handlePause}
@@ -109,7 +110,7 @@ const AlgorithmController = ({
               <Play size={24} />
             </button>
           )}
-          
+
           <button
             onClick={handleStepForward}
             disabled={currentStep >= totalSteps - 1 || totalSteps === 0}
@@ -117,7 +118,7 @@ const AlgorithmController = ({
           >
             <FastForward size={20} />
           </button>
-          
+
           <button
             onClick={handleLastStep}
             disabled={currentStep >= totalSteps - 1 || totalSteps === 0}
@@ -136,7 +137,7 @@ const AlgorithmController = ({
             <RotateCcw size={18} />
             Reset
           </button>
-          
+
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Speed:</span>
             <select
@@ -166,7 +167,7 @@ const AlgorithmController = ({
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AlgorithmController;
+export default AlgorithmController

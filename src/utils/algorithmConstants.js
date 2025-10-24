@@ -1,13 +1,12 @@
 // src/utils/algorithmConstants.js
 
-
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
   SEARCHING: 'searching',
   GRAPH: 'graph',
   PATHFINDING: 'pathfinding',
   DYNAMIC_PROGRAMMING: 'dp',
-};
+}
 
 // Registry: camelCase keys, each with consistent metadata
 export const ALGORITHMS = {
@@ -15,78 +14,67 @@ export const ALGORITHMS = {
     id: 'bubbleSort',
     name: 'Bubble Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
-    importFn: () =>
-      import('../algorithms/Sorting/bubbleSort').then(m => m.bubbleSort),
+    importFn: () => import('../algorithms/Sorting/bubbleSort').then(m => m.bubbleSort),
     complexity: {
       time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
       space: 'O(1)',
     },
-    description:
-      'Repeatedly compares adjacent elements and swaps them if out of order.',
+    description: 'Repeatedly compares adjacent elements and swaps them if out of order.',
   },
 
   insertionSort: {
     id: 'insertionSort',
     name: 'Insertion Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
-    importFn: () =>
-      import('../algorithms/Sorting/insertionSort').then(m => m.insertionSort),
+    importFn: () => import('../algorithms/Sorting/insertionSort').then(m => m.insertionSort),
     complexity: {
       time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
       space: 'O(1)',
     },
-    description:
-      'Builds the final sorted array one item at a time by inserting into place.',
+    description: 'Builds the final sorted array one item at a time by inserting into place.',
   },
 
   mergeSort: {
     id: 'mergeSort',
     name: 'Merge Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
-    importFn: () =>
-      import('../algorithms/Sorting/mergeSort').then(m => m.mergeSort),
+    importFn: () => import('../algorithms/Sorting/mergeSort').then(m => m.mergeSort),
     complexity: {
       time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n log n)' },
       space: 'O(n)',
     },
-    description:
-      'Divides the array into halves, sorts them and merges back together.',
+    description: 'Divides the array into halves, sorts them and merges back together.',
   },
 
   quickSort: {
     id: 'quickSort',
     name: 'Quick Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
-    importFn: () =>
-      import('../algorithms/Sorting/quickSort').then(m => m.quickSort),
+    importFn: () => import('../algorithms/Sorting/quickSort').then(m => m.quickSort),
     complexity: {
       time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n²)' },
       space: 'O(log n)',
     },
-    description:
-      'Picks a pivot and partitions the array around it, then sorts subarrays.',
+    description: 'Picks a pivot and partitions the array around it, then sorts subarrays.',
   },
 
   selectionSort: {
     id: 'selectionSort',
     name: 'Selection Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
-    importFn: () =>
-      import('../algorithms/Sorting/selectionSort').then(m => m.selectionSort),
+    importFn: () => import('../algorithms/Sorting/selectionSort').then(m => m.selectionSort),
     complexity: {
       time: { best: 'O(n²)', average: 'O(n²)', worst: 'O(n²)' },
       space: 'O(1)',
     },
-    description:
-      'Repeatedly selects the smallest element and moves it to the sorted sublist.',
+    description: 'Repeatedly selects the smallest element and moves it to the sorted sublist.',
   },
 
   linearSearch: {
     id: 'linearSearch',
     name: 'Linear Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
-    importFn: () =>
-      import('../algorithms/Searching/linearSearch').then(m => m.linearSearch),
+    importFn: () => import('../algorithms/Searching/linearSearch').then(m => m.linearSearch),
     complexity: {
       time: { best: 'O(1)', average: 'O(n)', worst: 'O(n)' },
       space: 'O(1)',
@@ -98,14 +86,12 @@ export const ALGORITHMS = {
     id: 'binarySearch',
     name: 'Binary Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
-    importFn: () =>
-      import('../algorithms/Searching/binarySearch').then(m => m.binarySearch),
+    importFn: () => import('../algorithms/Searching/binarySearch').then(m => m.binarySearch),
     complexity: {
       time: { best: 'O(1)', average: 'O(log n)', worst: 'O(log n)' },
       space: 'O(1)',
     },
-    description:
-      'Finds a target in a sorted array by repeatedly halving the search space.',
+    description: 'Finds a target in a sorted array by repeatedly halving the search space.',
   },
 
   // Graph Algorithms
@@ -116,9 +102,9 @@ export const ALGORITHMS = {
     importFn: () => import('../algorithms/Graph/bfs').then(m => m.bfs),
     complexity: {
       time: { best: 'O(V+E)', average: 'O(V+E)', worst: 'O(V+E)' },
-      space: 'O(V)'
+      space: 'O(V)',
     },
-    description: 'Level-order traversal used to find shortest unweighted paths.'
+    description: 'Level-order traversal used to find shortest unweighted paths.',
   },
 
   dfs: {
@@ -128,9 +114,9 @@ export const ALGORITHMS = {
     importFn: () => import('../algorithms/Graph/dfs').then(m => m.dfs),
     complexity: {
       time: { best: 'O(V+E)', average: 'O(V+E)', worst: 'O(V+E)' },
-      space: 'O(V)'
+      space: 'O(V)',
     },
-    description: 'Depth-first traversal useful for connectivity, ordering, cycles.'
+    description: 'Depth-first traversal useful for connectivity, ordering, cycles.',
   },
 
   dijkstra: {
@@ -140,15 +126,15 @@ export const ALGORITHMS = {
     importFn: () => import('../algorithms/Graph/dijkstra').then(m => m.dijkstra),
     complexity: {
       time: { best: 'O((V+E) log V)', average: 'O((V+E) log V)', worst: 'O((V+E) log V)' },
-      space: 'O(V)'
+      space: 'O(V)',
     },
-    description: 'Shortest path algorithm for weighted graphs with non-negative edges.'
+    description: 'Shortest path algorithm for weighted graphs with non-negative edges.',
   },
-};
+}
 
 // Helper: find by lowercase id (e.g., "bubbleSort")
-export const getAlgorithmInfoById = id => ALGORITHMS[id] || null;
+export const getAlgorithmInfoById = id => ALGORITHMS[id] || null
 
 // Extra helper: get all algorithms by category
 export const getAlgorithmsByCategory = category =>
-  Object.values(ALGORITHMS).filter(a => a.category === category);
+  Object.values(ALGORITHMS).filter(a => a.category === category)

@@ -1,32 +1,30 @@
 // src/components/Visualization/AlgorithmVisualizer.jsx
-import { useState } from 'react';
-import ArrayVisualizer from './ArrayVisualizer';
-import { getAlgorithmInfoById } from '../../utils/algorithmConstants';
+import { useState } from 'react'
+import ArrayVisualizer from './ArrayVisualizer'
+import { getAlgorithmInfoById } from '../../utils/algorithmConstants'
 
 const AlgorithmVisualizer = ({ algorithm }) => {
-  const algoInfo = getAlgorithmInfoById(algorithm);
-  const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
-  const [customInput, setCustomInput] = useState('64,34,25,12,22,11,90');
+  const algoInfo = getAlgorithmInfoById(algorithm)
+  const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90])
+  const [customInput, setCustomInput] = useState('64,34,25,12,22,11,90')
 
-  const handleInputChange = (e) => setCustomInput(e.target.value);
+  const handleInputChange = e => setCustomInput(e.target.value)
 
   const applyCustomInput = () => {
     const newArray = customInput
       .split(',')
-      .map((num) => parseInt(num.trim()))
-      .filter((num) => !isNaN(num));
-    if (newArray.length > 0) setInputArray(newArray);
-  };
+      .map(num => parseInt(num.trim()))
+      .filter(num => !isNaN(num))
+    if (newArray.length > 0) setInputArray(newArray)
+  }
 
   const generateRandomArray = () => {
-    const randomArray = Array.from({ length: 10 }, () =>
-      Math.floor(Math.random() * 100) + 1
-    );
-    setInputArray(randomArray);
-    setCustomInput(randomArray.join(','));
-  };
+    const randomArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100) + 1)
+    setInputArray(randomArray)
+    setCustomInput(randomArray.join(','))
+  }
 
-  if (!algoInfo) return <div className="text-red-500">Algorithm not found!</div>;
+  if (!algoInfo) return <div className="text-red-500">Algorithm not found!</div>
 
   return (
     <div className="bg-white/40 backdrop-blur-md rounded-2xl shadow-xl p-8 transition-all">
@@ -37,8 +35,9 @@ const AlgorithmVisualizer = ({ algorithm }) => {
         </h2>
         <p className="text-gray-700 mt-2">{algoInfo.description}</p>
         <p className="mt-2 text-sm text-gray-500">
-          <span className="font-semibold">Time:</span> Best {algoInfo.complexity.time.best}, Worst {algoInfo.complexity.time.worst} | 
-          <span className="font-semibold"> Space:</span> {algoInfo.complexity.space}
+          <span className="font-semibold">Time:</span> Best {algoInfo.complexity.time.best}, Worst{' '}
+          {algoInfo.complexity.time.worst} |<span className="font-semibold"> Space:</span>{' '}
+          {algoInfo.complexity.space}
         </p>
       </div>
 
@@ -66,9 +65,7 @@ const AlgorithmVisualizer = ({ algorithm }) => {
             Random
           </button>
         </div>
-        <p className="text-sm text-gray-600">
-          Current array: [{inputArray.join(', ')}]
-        </p>
+        <p className="text-sm text-gray-600">Current array: [{inputArray.join(', ')}]</p>
       </div>
 
       {/* Visualization */}
@@ -80,7 +77,7 @@ const AlgorithmVisualizer = ({ algorithm }) => {
         <p className="text-sm text-gray-700">{algoInfo.description}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AlgorithmVisualizer;
+export default AlgorithmVisualizer

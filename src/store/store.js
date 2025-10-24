@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './slices/userSlice';
-import algorithmReducer from './slices/algorithmSlice';
-import uiReducer from './slices/uiSlice';
-import ideasReducer from './slices/ideasSlice';
-import resourcesReducer from './slices/resourcesSlice';
+import { configureStore } from '@reduxjs/toolkit'
+import userReducer from './slices/userSlice'
+import algorithmReducer from './slices/algorithmSlice'
+import uiReducer from './slices/uiSlice'
+import ideasReducer from './slices/ideasSlice'
+import resourcesReducer from './slices/resourcesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
     ideas: ideasReducer,
     resources: resourcesReducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these Firebase and DOM specific actions
@@ -25,7 +25,7 @@ export const store = configureStore({
       },
     }),
   devTools: true,
-});
+})
 
 // Export types for use in components
 // In a JS project, we can't use TypeScript types but can document them

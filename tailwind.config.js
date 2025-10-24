@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class', // Enable dark mode with class strategy
   theme: {
     extend: {
@@ -129,52 +126,73 @@ export default {
       },
       // Custom spacing scale
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '92': '23rem',
-        '128': '32rem',
-        '144': '36rem',
-        '160': '40rem',
+        18: '4.5rem',
+        88: '22rem',
+        92: '23rem',
+        128: '32rem',
+        144: '36rem',
+        160: '40rem',
       },
       // Custom font family
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
-        'serif': ['ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-        'mono': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+        sans: [
+          'Inter',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif',
+        ],
+        serif: ['ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+        mono: [
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace',
+        ],
       },
       // Custom border radius
       borderRadius: {
-        'none': '0',
-        'sm': '0.125rem',
-        'DEFAULT': '0.25rem',
-        'md': '0.375rem',
-        'lg': '0.5rem',
-        'xl': '0.75rem',
+        none: '0',
+        sm: '0.125rem',
+        DEFAULT: '0.25rem',
+        md: '0.375rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
         '2xl': '1rem',
         '3xl': '1.5rem',
         '4xl': '2rem',
         '5xl': '2.5rem',
-        'full': '9999px',
+        full: '9999px',
       },
       // Custom shadows
       boxShadow: {
-        'xs': '0 0 0 1px rgba(0, 0, 0, 0.05)',
-        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'DEFAULT': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        xs: '0 0 0 1px rgba(0, 0, 0, 0.05)',
+        sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        DEFAULT: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        lg: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        xl: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
         '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
-        'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
-        'none': 'none',
+        inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+        none: 'none',
         // Custom shadows
-        'card': '0 6px 18px rgba(18, 25, 50, 0.08)',
+        card: '0 6px 18px rgba(18, 25, 50, 0.08)',
         'card-hover': '0 12px 30px rgba(18, 25, 50, 0.12)',
-        'tekhelet': '0 10px 24px rgba(61, 52, 139, 0.18)',
-        'yellow': '0 8px 20px rgba(247, 184, 1, 0.14)',
-        'tangerine': '0 8px 20px rgba(241, 135, 1, 0.14)',
-        'persimmon': '0 10px 24px rgba(243, 91, 4, 0.18)',
+        tekhelet: '0 10px 24px rgba(61, 52, 139, 0.18)',
+        yellow: '0 8px 20px rgba(247, 184, 1, 0.14)',
+        tangerine: '0 8px 20px rgba(241, 135, 1, 0.14)',
+        persimmon: '0 10px 24px rgba(243, 91, 4, 0.18)',
       },
       // Custom animations
       animation: {
@@ -204,4 +222,3 @@ export default {
   },
   plugins: [],
 }
-

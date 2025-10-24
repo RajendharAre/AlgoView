@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useAlgorithm } from '../../hooks/useAlgorithm';
-import ArrayVisualizer from './ArrayVisualizer';
-import AlgorithmController from './AlgorithmController';
-import { getAlgorithmInfoById } from '../../utils/algorithmConstants';
-import { RefreshCcw, Play, Dice5, Settings, Info } from "lucide-react";
-import { layoutNodesCircle } from '../../utils/graphUtils';
-import GraphVisualizer from './GraphVisualizer';
+import { useState, useEffect } from 'react'
+import { useAlgorithm } from '../../hooks/useAlgorithm'
+import ArrayVisualizer from './ArrayVisualizer'
+import AlgorithmController from './AlgorithmController'
+import { getAlgorithmInfoById } from '../../utils/algorithmConstants'
+import { RefreshCcw, Play, Dice5, Settings, Info } from 'lucide-react'
+import { layoutNodesCircle } from '../../utils/graphUtils'
+import GraphVisualizer from './GraphVisualizer'
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
-  const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90]);
-  const [searchTarget, setSearchTarget] = useState(25);
-  const [showInfo, setShowInfo] = useState(false);
+  const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90])
+  const [searchTarget, setSearchTarget] = useState(25)
+  const [showInfo, setShowInfo] = useState(false)
 
   const {
     currentStep,
@@ -24,93 +24,91 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     reset,
     goToStep,
     hasSteps,
-  } = useAlgorithm();
+  } = useAlgorithm()
 
-  const algoInfo = getAlgorithmInfoById(selectedAlgorithm);
+  const algoInfo = getAlgorithmInfoById(selectedAlgorithm)
 
   useEffect(() => {
-    reset();
-  }, [selectedAlgorithm, reset]);
+    reset()
+  }, [selectedAlgorithm, reset])
 
   const initializeAlgorithm = async () => {
     if (!algoInfo) {
-      console.warn('Unknown algorithm:', selectedAlgorithm);
-      return;
+      console.warn('Unknown algorithm:', selectedAlgorithm)
+      return
     }
 
-    reset();
+    reset()
 
     try {
-      const algorithmFn = await algoInfo.importFn();
+      const algorithmFn = await algoInfo.importFn()
 
-      let arr = [...inputArray];
+      let arr = [...inputArray]
 
       if (algoInfo.id === 'binarySearch') {
-        arr = arr.sort((a, b) => a - b);
-        setInputArray(arr);
+        arr = arr.sort((a, b) => a - b)
+        setInputArray(arr)
       }
-      let steps;
-      
+      let steps
+
       if (algoInfo?.category === 'searching') {
-        steps = algorithmFn(arr, searchTarget);
-        await executeAlgorithm(steps);
+        steps = algorithmFn(arr, searchTarget)
+        await executeAlgorithm(steps)
       } else if (algoInfo?.category === 'sorting') {
-        steps = algorithmFn(arr);
-        await executeAlgorithm(steps);
+        steps = algorithmFn(arr)
+        await executeAlgorithm(steps)
       } else if (algoInfo?.category === 'graph') {
         // Build example graph (you can later replace with UI input)
         const nodes = [
           { id: 'A', label: 'A' },
           { id: 'B', label: 'B' },
           { id: 'C', label: 'C' },
-          { id: 'D', label: 'D' }
-        ];
-        const positionedNodes = layoutNodesCircle(nodes, 700, 380);
+          { id: 'D', label: 'D' },
+        ]
+        const positionedNodes = layoutNodesCircle(nodes, 700, 380)
         const edges = [
           { from: 'A', to: 'B', weight: 1 },
           { from: 'A', to: 'C', weight: 1 },
           { from: 'B', to: 'D', weight: 1 },
-          { from: 'C', to: 'D', weight: 1 }
-        ];
-        const graph = { nodes: positionedNodes, edges };
+          { from: 'C', to: 'D', weight: 1 },
+        ]
+        const graph = { nodes: positionedNodes, edges }
 
         // Pass start node ID (first node for now)
-        steps = algorithmFn(graph, nodes[0].id);
-        await executeAlgorithm(steps); // second param is optional metadata
-}
+        steps = algorithmFn(graph, nodes[0].id)
+        await executeAlgorithm(steps) // second param is optional metadata
+      }
     } catch (error) {
-      console.error('Algorithm initialization failed:', error);
+      console.error('Algorithm initialization failed:', error)
     }
-  };
+  }
 
   const generateRandomArray = () => {
-    const newArray = Array.from({ length: 10 }, () =>
-      Math.floor(Math.random() * 100) + 1
-    );
-    setInputArray(newArray);
-    reset();
-  };
+    const newArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100) + 1)
+    setInputArray(newArray)
+    reset()
+  }
 
-  const handleArrayInputChange = (e) => {
-    const inputText = e.target.value;
+  const handleArrayInputChange = e => {
+    const inputText = e.target.value
     const newArray = inputText
       .split(',')
-      .map((num) => parseInt(num.trim(), 10))
-      .filter((num) => !isNaN(num));
+      .map(num => parseInt(num.trim(), 10))
+      .filter(num => !isNaN(num))
 
     if (newArray.length > 0) {
-      setInputArray(newArray);
-      reset();
+      setInputArray(newArray)
+      reset()
     }
-  };
+  }
 
-    if (!algoInfo) {
-      return (
-        <div className="p-6 text-center text-gray-600">
-          Please select an algorithm from the sidebar.
-        </div>
-      );
-    }
+  if (!algoInfo) {
+    return (
+      <div className="p-6 text-center text-gray-600">
+        Please select an algorithm from the sidebar.
+      </div>
+    )
+  }
 
   return (
     <div className="p-4 md:p-6 space-y-6 bg-gray-50 min-h-screen">
@@ -120,22 +118,20 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             {algoInfo?.name || 'Algorithm Visualizer'}
           </h1>
-          <button 
+          <button
             onClick={() => setShowInfo(!showInfo)}
             className="text-gray-500 hover:text-gray-700"
           >
             <Info size={20} />
           </button>
         </div>
-        
+
         {showInfo && (
           <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm p-4 mb-4 text-left">
-            <p className="text-gray-600 text-sm">
-              {algoInfo?.description}
-            </p>
+            <p className="text-gray-600 text-sm">{algoInfo?.description}</p>
           </div>
         )}
-        
+
         {!showInfo && (
           <p className="text-gray-600 max-w-2xl mx-auto text-sm">
             {algoInfo?.description.substring(0, 100)}...
@@ -146,9 +142,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       {/* Input Controls */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-800 text-lg">
-            Configuration
-          </h3>
+          <h3 className="font-semibold text-gray-800 text-lg">Configuration</h3>
           <div className="flex gap-2">
             <button
               onClick={generateRandomArray}
@@ -169,9 +163,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Array Elements
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Array Elements</label>
             <input
               type="text"
               value={inputArray.join(', ')}
@@ -181,16 +173,13 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             />
           </div>
 
-          {(algoInfo?.id === 'linearSearch' ||
-            algoInfo?.id === 'binarySearch') && (
+          {(algoInfo?.id === 'linearSearch' || algoInfo?.id === 'binarySearch') && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Search Target
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Search Target</label>
               <input
                 type="number"
                 value={searchTarget}
-                onChange={(e) => setSearchTarget(parseInt(e.target.value))}
+                onChange={e => setSearchTarget(parseInt(e.target.value))}
                 className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -205,11 +194,10 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             <Play size={18} />
             Initialize
           </button>
-          
+
           <div className="text-sm text-gray-600">
             Current array: [{inputArray.join(', ')}]
-            {(algoInfo?.id === 'linearSearch' ||
-              algoInfo?.id === 'binarySearch') &&
+            {(algoInfo?.id === 'linearSearch' || algoInfo?.id === 'binarySearch') &&
               ` | Searching for: ${searchTarget}`}
           </div>
         </div>
@@ -233,24 +221,22 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
             </div>
           )
+        ) : hasSteps ? (
+          <ArrayVisualizer
+            algorithmId={algoInfo?.id}
+            data={currentStep?.array || inputArray}
+            stepIndex={currentStep?.stepIndex ?? null}
+            step={currentStep || {}}
+            highlights={currentStep?.highlights || []}
+            target={searchTarget}
+            totalSteps={totalSteps}
+          />
         ) : (
-          hasSteps ? (
-            <ArrayVisualizer
-              algorithmId={algoInfo?.id}
-              data={currentStep?.array || inputArray}
-              stepIndex={currentStep?.stepIndex ?? null}
-              step={currentStep || {}}
-              highlights={currentStep?.highlights || []}
-              target={searchTarget}
-              totalSteps={totalSteps}
-            />
-          ) : (
-            <div className="text-center text-gray-500 p-8">
-              <Settings size={48} className="mx-auto text-gray-300 mb-3" />
-              <p className="font-medium text-gray-700">Ready to Visualize</p>
-              <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
-            </div>
-          )
+          <div className="text-center text-gray-500 p-8">
+            <Settings size={48} className="mx-auto text-gray-300 mb-3" />
+            <p className="font-medium text-gray-700">Ready to Visualize</p>
+            <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
+          </div>
         )}
       </div>
 
@@ -280,7 +266,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default VisualizationPage;
+export default VisualizationPage

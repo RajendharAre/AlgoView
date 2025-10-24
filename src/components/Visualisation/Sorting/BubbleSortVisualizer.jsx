@@ -1,4 +1,4 @@
-import { motion as Motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion'
 
 /**
  * BubbleSortVisualizer
@@ -11,30 +11,30 @@ import { motion as Motion } from 'framer-motion';
  *  - step: { compared: [i,j], swapped: boolean, doneIndex: number, description?: string }
  */
 const BubbleSortVisualizer = ({ data = [], step = {} }) => {
-  const compared = Array.isArray(step?.compared) ? step.compared : [];
-  const swapped = !!step?.swapped;
-  const doneIndex = typeof step?.doneIndex === 'number' ? step.doneIndex : data.length;
+  const compared = Array.isArray(step?.compared) ? step.compared : []
+  const swapped = !!step?.swapped
+  const doneIndex = typeof step?.doneIndex === 'number' ? step.doneIndex : data.length
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-200">
       <div className="flex justify-center items-end gap-3 md:gap-4 h-56">
         {data.map((value, idx) => {
-          const isCompared = compared.includes(idx);
-          const isSorted = idx >= doneIndex;
+          const isCompared = compared.includes(idx)
+          const isSorted = idx >= doneIndex
 
           // color logic
-          let bgClass = 'bg-gradient-to-br from-blue-500 to-blue-600 text-white'; // default: blue
-          let borderClass = 'border-transparent';
-          
+          let bgClass = 'bg-gradient-to-br from-blue-500 to-blue-600 text-white' // default: blue
+          let borderClass = 'border-transparent'
+
           if (isSorted) {
-            bgClass = 'bg-gradient-to-br from-green-400 to-green-500 text-white'; // green for sorted
-            borderClass = 'border-green-300';
+            bgClass = 'bg-gradient-to-br from-green-400 to-green-500 text-white' // green for sorted
+            borderClass = 'border-green-300'
           } else if (isCompared && swapped) {
-            bgClass = 'bg-gradient-to-br from-red-500 to-red-600 text-white'; // red for swapped
-            borderClass = 'border-red-400';
+            bgClass = 'bg-gradient-to-br from-red-500 to-red-600 text-white' // red for swapped
+            borderClass = 'border-red-400'
           } else if (isCompared) {
-            bgClass = 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white'; // yellow for comparing
-            borderClass = 'border-yellow-400';
+            bgClass = 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' // yellow for comparing
+            borderClass = 'border-yellow-400'
           }
 
           return (
@@ -56,10 +56,10 @@ const BubbleSortVisualizer = ({ data = [], step = {} }) => {
                 {isCompared ? (compared[0] === idx ? 'i' : compared[1] === idx ? 'j' : '') : ''}
               </div>
             </Motion.div>
-          );
+          )
         })}
       </div>
-      
+
       {/* Legend */}
       <div className="mt-6 flex flex-wrap justify-center gap-4 text-sm">
         <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ const BubbleSortVisualizer = ({ data = [], step = {} }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BubbleSortVisualizer;
+export default BubbleSortVisualizer

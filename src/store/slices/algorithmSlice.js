@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { collection, addDoc } from 'firebase/firestore'
+import { db } from '../../lib/firebase'
 
 // Define initial state
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   inputData: [64, 34, 25, 12, 22, 11, 90],
   steps: [],
   searchTarget: 25,
-};
+}
 
 // Async thunk to save user state to Firestore
 export const saveUserState = createAsyncThunk(
@@ -20,21 +20,21 @@ export const saveUserState = createAsyncThunk(
     try {
       // Assuming userState contains userId and algorithm data
       if (!userState.userId) {
-        throw new Error('User ID is required to save state');
+        throw new Error('User ID is required to save state')
       }
-      
+
       // Save to Firestore
       const docRef = await addDoc(collection(db, 'userStates'), {
         ...userState,
         createdAt: new Date(),
-      });
-      
-      return { id: docRef.id, ...userState };
+      })
+
+      return { id: docRef.id, ...userState }
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.message)
     }
   }
-);
+)
 
 // Create slice
 const algorithmSlice = createSlice({
@@ -42,53 +42,53 @@ const algorithmSlice = createSlice({
   initialState,
   reducers: {
     setAlgorithm: (state, action) => {
-      state.selectedAlgorithm = action.payload;
+      state.selectedAlgorithm = action.payload
     },
-    play: (state) => {
-      state.isRunning = true;
+    play: state => {
+      state.isRunning = true
     },
-    pause: (state) => {
-      state.isRunning = false;
+    pause: state => {
+      state.isRunning = false
     },
-    reset: (state) => {
-      state.isRunning = false;
-      state.currentStep = 0;
-      state.steps = [];
+    reset: state => {
+      state.isRunning = false
+      state.currentStep = 0
+      state.steps = []
     },
     setSpeed: (state, action) => {
-      state.speed = action.payload;
+      state.speed = action.payload
     },
     updateStep: (state, action) => {
-      state.currentStep = action.payload;
+      state.currentStep = action.payload
     },
     setInputData: (state, action) => {
-      state.inputData = action.payload;
+      state.inputData = action.payload
     },
     setSteps: (state, action) => {
-      state.steps = action.payload;
+      state.steps = action.payload
     },
     setSearchTarget: (state, action) => {
-      state.searchTarget = action.payload;
+      state.searchTarget = action.payload
     },
     updateAlgorithmState: (state, action) => {
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload }
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(saveUserState.pending, () => {
         // Could add a saving state if needed
       })
       .addCase(saveUserState.fulfilled, (state, action) => {
         // State saved successfully
-        console.log('User state saved with ID:', action.payload.id);
+        console.log('User state saved with ID:', action.payload.id)
       })
       .addCase(saveUserState.rejected, (state, action) => {
         // Handle error
-        console.error('Failed to save user state:', action.payload);
-      });
+        console.error('Failed to save user state:', action.payload)
+      })
   },
-});
+})
 
 // Export actions
 export const {
@@ -102,19 +102,19 @@ export const {
   setSteps,
   setSearchTarget,
   updateAlgorithmState,
-} = algorithmSlice.actions;
+} = algorithmSlice.actions
 
 // Export selectors
-export const selectAlgorithm = (state) => state.algorithm.selectedAlgorithm;
-export const selectIsRunning = (state) => state.algorithm.isRunning;
-export const selectSpeed = (state) => state.algorithm.speed;
-export const selectCurrentStep = (state) => state.algorithm.currentStep;
-export const selectInputData = (state) => state.algorithm.inputData;
-export const selectSteps = (state) => state.algorithm.steps;
-export const selectSearchTarget = (state) => state.algorithm.searchTarget;
+export const selectAlgorithm = state => state.algorithm.selectedAlgorithm
+export const selectIsRunning = state => state.algorithm.isRunning
+export const selectSpeed = state => state.algorithm.speed
+export const selectCurrentStep = state => state.algorithm.currentStep
+export const selectInputData = state => state.algorithm.inputData
+export const selectSteps = state => state.algorithm.steps
+export const selectSearchTarget = state => state.algorithm.searchTarget
 
 // Export reducer
-export default algorithmSlice.reducer;
+export default algorithmSlice.reducer
 
 // Export state type for documentation
 /**

@@ -1,36 +1,28 @@
 // src/components/Visualization/Sorting/SelectionSortVisualizer.jsx
-import React from "react";
-import { motion as Motion } from "framer-motion";
-import "../../../styles/visualizers.css";
+import React from 'react'
+import { motion as Motion } from 'framer-motion'
+import '../../../styles/visualizers.css'
 
-const SelectionSortVisualizer = ({
-  data = [],
-  step = {},
-  stepIndex = null,
-  totalSteps = null,
-}) => {
-  const arr = Array.isArray(step?.array) ? step.array : data;
+const SelectionSortVisualizer = ({ data = [], step = {}, stepIndex = null, totalSteps = null }) => {
+  const arr = Array.isArray(step?.array) ? step.array : data
 
-  const currentIndex =
-    typeof step?.currentIndex === "number" ? step.currentIndex : null;
-  const minIndex =
-    typeof step?.minIndex === "number" ? step.minIndex : null;
-  const comparingIndex =
-    typeof step?.comparingIndex === "number" ? step.comparingIndex : null;
-  const swapIndices = Array.isArray(step?.swapIndices) ? step.swapIndices : [];
-  const doneIndices = Array.isArray(step?.doneIndices) ? step.doneIndices : [];
+  const currentIndex = typeof step?.currentIndex === 'number' ? step.currentIndex : null
+  const minIndex = typeof step?.minIndex === 'number' ? step.minIndex : null
+  const comparingIndex = typeof step?.comparingIndex === 'number' ? step.comparingIndex : null
+  const swapIndices = Array.isArray(step?.swapIndices) ? step.swapIndices : []
+  const doneIndices = Array.isArray(step?.doneIndices) ? step.doneIndices : []
 
   return (
     <div className="insertion-visualizer-root">
       {/* Cards */}
       <div className="cards-row">
         {arr.map((value, idx) => {
-          let stateClass = "card-neutral";
-          if (doneIndices.includes(idx)) stateClass = "card-done";
-          else if (swapIndices.includes(idx)) stateClass = "card-shifting";
-          else if (idx === minIndex) stateClass = "card-key";
-          else if (idx === comparingIndex) stateClass = "card-comparing";
-          else if (idx === currentIndex) stateClass = "card-neutral"; // keep current neutral unless min/swap
+          let stateClass = 'card-neutral'
+          if (doneIndices.includes(idx)) stateClass = 'card-done'
+          else if (swapIndices.includes(idx)) stateClass = 'card-shifting'
+          else if (idx === minIndex) stateClass = 'card-key'
+          else if (idx === comparingIndex) stateClass = 'card-comparing'
+          else if (idx === currentIndex) stateClass = 'card-neutral' // keep current neutral unless min/swap
 
           return (
             <Motion.div
@@ -38,12 +30,12 @@ const SelectionSortVisualizer = ({
               layout
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
               className={`card ${stateClass}`}
             >
               <div className="card-value">{value}</div>
             </Motion.div>
-          );
+          )
         })}
       </div>
 
@@ -64,13 +56,13 @@ const SelectionSortVisualizer = ({
       </div>
 
       {/* Step counter (optional) */}
-      {typeof stepIndex === "number" && typeof totalSteps === "number" && (
+      {typeof stepIndex === 'number' && typeof totalSteps === 'number' && (
         <div className="step-counter">
           Step {stepIndex + 1} / {totalSteps}
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SelectionSortVisualizer;
+export default SelectionSortVisualizer

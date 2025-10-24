@@ -1,6 +1,6 @@
 // src/algorithms/Searching/linearSearch.js
 export function* linearSearch(arr, target) {
-  const a = [...arr];
+  const a = [...arr]
 
   for (let i = 0; i < a.length; i++) {
     // Yield the step where current element is being checked
@@ -9,7 +9,7 @@ export function* linearSearch(arr, target) {
       currentIndex: i,
       foundIndex: null,
       description: `Checking element ${a[i]} at index ${i}`,
-    };
+    }
 
     if (a[i] === target) {
       // Yield the "found" step
@@ -18,8 +18,8 @@ export function* linearSearch(arr, target) {
         currentIndex: i,
         foundIndex: i,
         description: `Element ${target} found at index ${i}`,
-      };
-      return; // ✅ Stop here, don’t keep searching
+      }
+      return // ✅ Stop here, don’t keep searching
     }
   }
 
@@ -29,5 +29,5 @@ export function* linearSearch(arr, target) {
     currentIndex: -1,
     foundIndex: -1,
     description: `Element ${target} not found in array`,
-  };
+  }
 }

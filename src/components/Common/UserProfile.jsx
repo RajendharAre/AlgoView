@@ -1,55 +1,60 @@
-import { useState, useRef, useEffect } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { motion, AnimatePresence } from 'framer-motion';
-import { LogOut, User, Info } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react'
+import { useAuth } from '../../hooks/useAuth'
+import { motion, AnimatePresence } from 'framer-motion'
+import { LogOut, User, Info } from 'lucide-react'
 
 const UserProfile = () => {
-  const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const { user, logout } = useAuth()
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef(null)
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   // Get user initials for avatar
   const getUserInitials = (name, email) => {
     if (name) {
-      return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      return name
+        .split(' ')
+        .map(n => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
     }
     if (email) {
-      return email.charAt(0).toUpperCase();
+      return email.charAt(0).toUpperCase()
     }
-    return 'U';
-  };
+    return 'U'
+  }
 
   // Get display name
   const getDisplayName = (name, email) => {
-    if (name) return name;
-    if (email) return email.split('@')[0];
-    return 'User';
-  };
+    if (name) return name
+    if (email) return email.split('@')[0]
+    return 'User'
+  }
 
-  const displayName = getDisplayName(user?.displayName, user?.email);
-  const initials = getUserInitials(user?.displayName, user?.email);
+  const displayName = getDisplayName(user?.displayName, user?.email)
+  const initials = getUserInitials(user?.displayName, user?.email)
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await logout()
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('Logout error:', error)
     }
-  };
+  }
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -91,20 +96,20 @@ const UserProfile = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="py-1">
                 <button
                   className="flex items-center gap-3 w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                   onClick={() => {
-                    alert('About section would open here');
-                    setIsOpen(false);
+                    alert('About section would open here')
+                    setIsOpen(false)
                   }}
                 >
                   <Info className="h-4 w-4 text-gray-500" />
                   <span>About Algorithm Visualizer</span>
                 </button>
               </div>
-              
+
               <div className="border-t border-gray-100 py-1">
                 <button
                   onClick={handleLogout}
@@ -119,7 +124,7 @@ const UserProfile = () => {
         )}
       </AnimatePresence>
     </div>
-  );
-};
+  )
+}
 
-export default UserProfile;
+export default UserProfile

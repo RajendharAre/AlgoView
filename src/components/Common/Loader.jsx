@@ -1,4 +1,4 @@
-import { Brain } from 'lucide-react';
+import { Brain } from 'lucide-react'
 
 const Loader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -11,6 +11,6 @@ const Loader = () => (
       <p className="mt-2 text-sm text-gray-500">Preparing your visualization experience...</p>
     </div>
   </div>
-);
+)
 
-export default Loader;
+export default Loader
