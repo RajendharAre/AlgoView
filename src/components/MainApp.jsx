@@ -1,25 +1,19 @@
 import { useState } from 'react'
-import Sidebar from './Layout/Sidebar'
-import Header from './Layout/Header'
-import VisualizationPage from './Visualisation/VisualizationPage'
+import { Outlet } from 'react-router-dom'
+import Navbar from './Layout/Navbar'
 
 const MainApp = () => {
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState('bubbleSort')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <Sidebar selectedAlgorithm={selectedAlgorithm} onAlgorithmSelect={setSelectedAlgorithm} />
-
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      {/* Navbar */}
+      <Navbar />
+      
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-
-        {/* Visualization Area */}
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          <VisualizationPage selectedAlgorithm={selectedAlgorithm} />
-        </main>
-      </div>
+      <main className="flex-1">
+        <Outlet />
+      </main>
     </div>
   )
 }

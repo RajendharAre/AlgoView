@@ -133,7 +133,26 @@ export const ALGORITHMS = {
 }
 
 // Helper: find by lowercase id (e.g., "bubbleSort")
-export const getAlgorithmInfoById = id => ALGORITHMS[id] || null
+// Also supports kebab-case (e.g., "bubble-sort") by converting to camelCase
+export const getAlgorithmInfoById = id => {
+  if (!id) return null
+  
+  // If already in camelCase, try direct lookup
+  if (ALGORITHMS[id]) return ALGORITHMS[id]
+  
+  // Convert kebab-case to camelCase
+  const camelCaseId = id.replace(/-([a-z])/g, (g) => g[1].toUpperCase())
+  
+  // Try direct lookup with camelCase
+  if (ALGORITHMS[camelCaseId]) return ALGORITHMS[camelCaseId]
+  
+  // Try lowercase lookup as fallback
+  const lowerId = id.toLowerCase()
+  if (ALGORITHMS[lowerId]) return ALGORITHMS[lowerId]
+  
+  // No match found
+  return null
+}
 
 // Extra helper: get all algorithms by category
 export const getAlgorithmsByCategory = category =>

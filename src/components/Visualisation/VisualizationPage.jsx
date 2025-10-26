@@ -24,6 +24,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     reset,
     goToStep,
     hasSteps,
+    currentStepIndex,
   } = useAlgorithm()
 
   const algoInfo = getAlgorithmInfoById(selectedAlgorithm)
@@ -111,9 +112,9 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
   }
 
   return (
-    <div className="p-4 md:p-6 space-y-6 bg-gray-50 min-h-screen">
+    <div className="flex flex-col h-full bg-gray-50">
       {/* Header */}
-      <div className="text-center">
+      <div className="text-center p-4 md:p-6">
         <div className="flex items-center justify-center gap-3 mb-2">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             {algoInfo?.name || 'Algorithm Visualizer'}
@@ -140,7 +141,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       </div>
 
       {/* Input Controls */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mx-4 md:mx-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-gray-800 text-lg">Configuration</h3>
           <div className="flex gap-2">
@@ -204,7 +205,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       </div>
 
       {/* Visualization Area */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 min-h-[300px] flex items-center justify-center">
+      <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 m-4 md:mx-6">
         {algoInfo?.category === 'graph' ? (
           hasSteps ? (
             <GraphVisualizer
@@ -215,49 +216,67 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               height={380}
             />
           ) : (
-            <div className="text-center text-gray-500 p-8">
+            <div className="flex items-center justify-center h-full text-center text-gray-500">
+              <div>
+                <Settings size={48} className="mx-auto text-gray-300 mb-3" />
+                <p className="font-medium text-gray-700">Ready to Visualize</p>
+                <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
+              </div>
+            </div>
+          )
+        ) : hasSteps ? (
+          <div className="h-full flex flex-col">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-gray-800">Visualization</h3>
+              {currentStepIndex !== null && totalSteps > 0 && (
+                <span className="text-sm text-gray-500">
+                  Step {currentStepIndex + 1} of {totalSteps}
+                </span>
+              )}
+            </div>
+            <div className="flex-1 flex items-center justify-center">
+              <ArrayVisualizer
+                algorithmId={algoInfo?.id}
+                data={currentStep?.array || inputArray}
+                stepIndex={currentStep?.stepIndex ?? null}
+                step={currentStep || {}}
+                highlights={currentStep?.highlights || []}
+                target={searchTarget}
+                totalSteps={totalSteps}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full text-center text-gray-500">
+            <div>
               <Settings size={48} className="mx-auto text-gray-300 mb-3" />
               <p className="font-medium text-gray-700">Ready to Visualize</p>
               <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
             </div>
-          )
-        ) : hasSteps ? (
-          <ArrayVisualizer
-            algorithmId={algoInfo?.id}
-            data={currentStep?.array || inputArray}
-            stepIndex={currentStep?.stepIndex ?? null}
-            step={currentStep || {}}
-            highlights={currentStep?.highlights || []}
-            target={searchTarget}
-            totalSteps={totalSteps}
-          />
-        ) : (
-          <div className="text-center text-gray-500 p-8">
-            <Settings size={48} className="mx-auto text-gray-300 mb-3" />
-            <p className="font-medium text-gray-700">Ready to Visualize</p>
-            <p className="text-sm mt-1">Click "Initialize" to begin the visualization</p>
           </div>
         )}
       </div>
 
       {/* Controller */}
       {hasSteps && (
-        <AlgorithmController
-          isPlaying={isPlaying}
-          currentStep={currentStep?.stepIndex || 0}
-          totalSteps={totalSteps}
-          speed={speed}
-          onPlay={play}
-          onPause={pause}
-          onReset={initializeAlgorithm}
-          onSpeedChange={setSpeed}
-          onStepChange={goToStep}
-        />
+        <div className="px-4 md:px-6 pb-4 md:pb-6">
+          <AlgorithmController
+            isPlaying={isPlaying}
+            currentStep={currentStep?.stepIndex || 0}
+            totalSteps={totalSteps}
+            speed={speed}
+            onPlay={play}
+            onPause={pause}
+            onReset={initializeAlgorithm}
+            onSpeedChange={setSpeed}
+            onStepChange={goToStep}
+          />
+        </div>
       )}
 
       {/* Status Information */}
       {currentStep && (
-        <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 mx-4 md:mx-6 mb-4">
           <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
             <Info size={18} />
             Current Step
