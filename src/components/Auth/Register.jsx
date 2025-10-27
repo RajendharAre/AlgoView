@@ -433,7 +433,10 @@ const Register = ({ onSwitchToLogin }) => {
           Already have an account?{' '}
           <button
             type="button"
-            onClick={onSwitchToLogin}
+            onClick={() => {
+              // console.log('Sign in here button clicked in Register component')
+              onSwitchToLogin()
+            }}
             className="text-blue-600 font-medium hover:text-blue-700 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-200 rounded transition-colors"
             disabled={loading}
           >

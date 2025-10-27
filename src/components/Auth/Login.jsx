@@ -8,6 +8,7 @@ import { validateLogin } from '../../utils/validation'
 import { loginUser, loginWithGoogle, loginWithGitHub } from '../../store/slices/userSlice'
 
 const Login = ({ onSwitchToRegister }) => {
+  // console.log('Login component rendered, onSwitchToRegister function:', typeof onSwitchToRegister)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
@@ -215,7 +216,10 @@ const Login = ({ onSwitchToRegister }) => {
       <p className="text-center mt-6 text-sm text-gray-600">
         Don't have an account?{' '}
         <button
-          onClick={onSwitchToRegister}
+          onClick={() => {
+            // console.log('Sign up button clicked in Login component')
+            onSwitchToRegister()
+          }}
           className="font-medium text-blue-500 hover:text-blue-600 transition-colors"
           disabled={loading}
         >

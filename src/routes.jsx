@@ -148,11 +148,9 @@ export const router = createBrowserRouter([
           {
             path: 'visualization/:algorithmId',
             element: (
-              <ProtectedRoute>
-                <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<LoadingSpinner />}>
                   <DSAVisualization />
                 </Suspense>
-              </ProtectedRoute>
             )
           },
           {

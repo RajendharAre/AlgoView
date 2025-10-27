@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Login from './Login'
 import Register from './Register'
 import { motion } from 'framer-motion'
@@ -6,6 +7,28 @@ import { Brain, Zap, BarChart3 } from 'lucide-react'
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true)
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (location.pathname === '/register') {
+      setIsLogin(false)
+    } else {
+      setIsLogin(true)
+    }
+  }, [location.pathname])
+  
+  // console.log('Auth component rendered, isLogin:', isLogin)
+  
+  const handleSwitchToRegister = () => {
+    console.log('Switching to register form')
+    setIsLogin(false)
+  }
+  
+  const handleSwitchToLogin = () => {
+    console.log('Switching to login form')
+    setIsLogin(true)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
@@ -82,7 +105,10 @@ const Auth = () => {
             {/* Tabs */}
             <div className="flex border-b border-gray-200">
               <button
-                onClick={() => setIsLogin(true)}
+                onClick={() => {
+                  console.log('Sign In tab clicked, setting isLogin to true')
+                  setIsLogin(true)
+                }}
                 className={`flex-1 py-4 px-6 text-center font-semibold transition-all duration-200 relative ${
                   isLogin ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
                 }`}
@@ -96,7 +122,10 @@ const Auth = () => {
                 )}
               </button>
               <button
-                onClick={() => setIsLogin(false)}
+                onClick={() => {
+                  console.log('Sign Up tab clicked, setting isLogin to false')
+                  setIsLogin(false)
+                }}
                 className={`flex-1 py-4 px-6 text-center font-semibold transition-all duration-200 relative ${
                   !isLogin ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
                 }`}
@@ -125,7 +154,7 @@ const Auth = () => {
                   transition={{ duration: 0.3 }}
                   className={`w-full ${isLogin ? 'block' : 'hidden'}`}
                 >
-                  <Login onSwitchToRegister={() => setIsLogin(false)} />
+                  <Login onSwitchToRegister={handleSwitchToRegister} />
                 </motion.div>
 
                 {/* Register Form */}
@@ -139,7 +168,7 @@ const Auth = () => {
                   transition={{ duration: 0.3 }}
                   className={`w-full ${!isLogin ? 'block' : 'hidden'}`}
                 >
-                  <Register onSwitchToLogin={() => setIsLogin(true)} />
+                  <Register onSwitchToLogin={handleSwitchToLogin} />
                 </motion.div>
               </div>
             </div>
