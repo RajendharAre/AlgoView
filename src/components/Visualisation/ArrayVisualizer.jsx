@@ -12,6 +12,8 @@ const ArrayVisualizer = ({
   step = {},
   highlights = [],
   target = null,
+  stepIndex = null,
+  totalSteps = 0,
 }) => {
   if (!Array.isArray(data) || data.length === 0) {
     return (
@@ -61,7 +63,15 @@ const ArrayVisualizer = ({
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-gray-800">Visualization</h3>
+        {stepIndex !== null && totalSteps > 0 && (
+          <span className="text-sm text-gray-500">
+            Step {stepIndex + 1} of {totalSteps}
+          </span>
+        )}
+      </div>
       {renderVisualizer()}
     </div>
   )

@@ -10,9 +10,17 @@ import {
 } from 'firebase/auth'
 import { auth } from '../../lib/firebase'
 
-// Function to serialize Firebase user object
-const serializeUser = (user) => {
+// Define initial state
+const initialState = {
+  currentUser: null,
+  loading: true, // Start with loading true to check auth state
+  error: null,
+}
+
+// Helper function to extract serializable user data
+const extractUserData = (user) => {
   if (!user) return null
+  
   return {
     uid: user.uid,
     email: user.email,
@@ -20,21 +28,20 @@ const serializeUser = (user) => {
     photoURL: user.photoURL,
     emailVerified: user.emailVerified,
     isAnonymous: user.isAnonymous,
+    tenantId: user.tenantId,
     providerData: user.providerData?.map(provider => ({
       providerId: provider.providerId,
       uid: provider.uid,
       displayName: provider.displayName,
       email: provider.email,
+      phoneNumber: provider.phoneNumber,
       photoURL: provider.photoURL
-    })) || []
+    })) || [],
+    metadata: {
+      creationTime: user.metadata?.creationTime,
+      lastSignInTime: user.metadata?.lastSignInTime
+    }
   }
-}
-
-// Define initial state
-const initialState = {
-  currentUser: null,
-  loading: true, // Start with loading true to check auth state
-  error: null,
 }
 
 // Initialize auth state listener
@@ -44,7 +51,7 @@ export const initializeAuthListener = createAsyncThunk(
     return new Promise((resolve) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          dispatch(setUser(serializeUser(user)))
+          dispatch(setUser(extractUserData(user)))
         } else {
           dispatch(setUser(null))
         }
@@ -64,7 +71,7 @@ export const registerUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      return serializeUser(userCredential.user)
+      return extractUserData(userCredential.user)
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -76,7 +83,7 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      return serializeUser(userCredential.user)
+      return extractUserData(userCredential.user)
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -89,7 +96,7 @@ export const loginWithGoogle = createAsyncThunk(
     try {
       const provider = new GoogleAuthProvider()
       const userCredential = await signInWithPopup(auth, provider)
-      return serializeUser(userCredential.user)
+      return extractUserData(userCredential.user)
     } catch (error) {
       return rejectWithValue(error.message)
     }
@@ -102,7 +109,7 @@ export const loginWithGitHub = createAsyncThunk(
     try {
       const provider = new GithubAuthProvider()
       const userCredential = await signInWithPopup(auth, provider)
-      return serializeUser(userCredential.user)
+      return extractUserData(userCredential.user)
     } catch (error) {
       return rejectWithValue(error.message)
     }

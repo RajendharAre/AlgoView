@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Menu, X, User, LogOut, Home, Cpu, Code, Lightbulb, BookOpen, Info } from 'lucide-react'
 import { auth } from '../../lib/firebase'
@@ -9,6 +9,7 @@ import { signOut } from 'firebase/auth'
 const Navbar = () => {
   const { currentUser, loading } = useSelector((state) => state.user)
   const location = useLocation()
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleSignOut = async () => {
@@ -32,8 +33,23 @@ const Navbar = () => {
     return location.pathname === path
   }
 
+  // Handle logo click to navigate to home
+  const handleLogoClick = () => {
+    navigate('/')
+  }
+
+  // Handle navigation link click with reload functionality for same page
+  const handleNavClick = (path) => {
+    // If clicking on the same page, reload the page
+    if (location.pathname === path) {
+      window.location.reload()
+    } else {
+      navigate(path)
+    }
+  }
+
   return (
-    <nav className="bg-white shadow-md border-b border-gray-200">
+    <nav className="bg-white shadow-md border-b border-gray-200 fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo */}
@@ -41,7 +57,8 @@ const Navbar = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 cursor-pointer"
+              onClick={handleLogoClick}
             >
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-1">
                 <svg className="h-8 w-8 text-white" viewBox="0 0 24 24" fill="none">
@@ -59,10 +76,10 @@ const Navbar = () => {
             {navLinks.map((link) => {
               const Icon = link.icon
               return (
-                <Link
+                <div
                   key={link.name}
-                  to={link.path}
-                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-1 transition-colors duration-200 ${
+                  onClick={() => handleNavClick(link.path)}
+                  className={`px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-1 transition-colors duration-200 cursor-pointer ${
                     isActive(link.path)
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
@@ -70,7 +87,7 @@ const Navbar = () => {
                 >
                   <Icon size={16} />
                   <span>{link.name}</span>
-                </Link>
+                </div>
               )
             })}
           </div>
@@ -148,11 +165,13 @@ const Navbar = () => {
             {navLinks.map((link) => {
               const Icon = link.icon
               return (
-                <Link
+                <div
                   key={link.name}
-                  to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-2 ${
+                  onClick={() => {
+                    handleNavClick(link.path)
+                    setIsMenuOpen(false)
+                  }}
+                  className={`block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-2 cursor-pointer ${
                     isActive(link.path)
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
@@ -160,7 +179,7 @@ const Navbar = () => {
                 >
                   <Icon size={18} />
                   <span>{link.name}</span>
-                </Link>
+                </div>
               )
             })}
             
@@ -237,4 +256,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar;
+export default Navbar

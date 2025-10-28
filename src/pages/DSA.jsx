@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import Sidebar from '../components/Layout/Sidebar'
+import Sidebar from '../components/Layout/Sidebar' // eslint-disable-next-line import/no-unresolved
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Cpu, 

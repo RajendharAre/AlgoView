@@ -13,7 +13,7 @@ const MainApp = () => {
       <Navbar />
       
       {/* Main Content with Page Transitions */}
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}

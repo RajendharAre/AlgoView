@@ -1,45 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useLocation, Navigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
 
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useSelector((state) => state.user)
-  const location = useLocation()
-  const [authChecked, setAuthChecked] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    // Set authChecked to true once loading is complete
-    if (!loading) {
-      setAuthChecked(true)
+    // If not loading and no user, redirect to login
+    if (!loading && !currentUser) {
+      navigate('/login')
     }
-  }, [loading])
+  }, [currentUser, loading, navigate])
 
-  // If still checking auth status, show loading
-  if (loading || !authChecked) {
+  // Show loading state while checking auth
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex flex-col items-center"
-        >
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-gray-600">Checking authentication...</p>
-        </motion.div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     )
   }
 
-  // If user is not authenticated, redirect to login
-  if (!currentUser) {
-    // Save the intended destination in localStorage
-    localStorage.setItem('redirectAfterLogin', location.pathname + location.search)
-    return <Navigate to="/login" state={{ from: location }} replace />
-  }
-
-  // User is authenticated, render children
-  return children
+  // If user exists, render children
+  return currentUser ? children : null
 }
 
-export default ProtectedRoute;
+export default ProtectedRoute
