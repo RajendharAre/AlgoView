@@ -24,7 +24,7 @@ const Sidebar = () => {
   }, [searchTerm])
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-white" data-testid="sidebar">
       {/* Search Bar */}
       <div className="p-4 border-b border-gray-200">
         <div className="relative">

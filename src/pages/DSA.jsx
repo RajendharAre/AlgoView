@@ -90,6 +90,7 @@ const DSA = () => {
           <>
             {/* Desktop sidebar */}
             <motion.div 
+              data-testid="sidebar" 
               initial={{ width: 0 }}
               animate={{ width: 320 }}
               exit={{ width: 0 }}
