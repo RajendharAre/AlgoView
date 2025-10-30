@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useAlgorithm } from '../../hooks/useAlgorithm'
 import ArrayVisualizer from './ArrayVisualizer'
 import AlgorithmController from './AlgorithmController'
@@ -8,6 +9,10 @@ import { layoutNodesCircle } from '../../utils/graphUtils'
 import GraphVisualizer from './GraphVisualizer'
 
 const VisualizationPage = ({ selectedAlgorithm }) => {
+  console.log('=== VisualizationPage CONSTRUCTOR ===');
+  console.log('selectedAlgorithm prop:', selectedAlgorithm);
+  console.log('typeof selectedAlgorithm:', typeof selectedAlgorithm);
+  
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90])
   const [searchTarget, setSearchTarget] = useState(25)
   const [showInfo, setShowInfo] = useState(false)
@@ -27,13 +32,23 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     currentStepIndex,
   } = useAlgorithm()
 
+  console.log('VisualizationPage rendered with selectedAlgorithm:', selectedAlgorithm);
   const algoInfo = getAlgorithmInfoById(selectedAlgorithm)
+  console.log('Algorithm info retrieved:', algoInfo);
+  
+  // Add debug logging to help with troubleshooting
+  useEffect(() => {
+    console.log('Selected algorithm ID:', selectedAlgorithm)
+    console.log('Algorithm info found:', algoInfo)
+  }, [selectedAlgorithm, algoInfo])
 
   useEffect(() => {
     reset()
   }, [selectedAlgorithm, reset])
 
   const initializeAlgorithm = async () => {
+    console.log('Initializing algorithm:', selectedAlgorithm);
+    console.log('Algorithm info:', algoInfo);
     if (!algoInfo) {
       console.warn('Unknown algorithm:', selectedAlgorithm)
       return
@@ -42,9 +57,13 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     reset()
 
     try {
+      console.log('Loading algorithm function...');
       const algorithmFn = await algoInfo.importFn()
+      console.log('Algorithm function loaded:', typeof algorithmFn);
+      console.log('Algorithm function:', algorithmFn);
 
       let arr = [...inputArray]
+      console.log('Input array:', arr);
 
       if (algoInfo.id === 'binarySearch') {
         arr = arr.sort((a, b) => a - b)
@@ -53,10 +72,14 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       let steps
 
       if (algoInfo?.category === 'searching') {
+        console.log('Executing searching algorithm with target:', searchTarget);
         steps = algorithmFn(arr, searchTarget)
+        console.log('Steps generated:', steps);
         await executeAlgorithm(steps)
       } else if (algoInfo?.category === 'sorting') {
+        console.log('Executing sorting algorithm');
         steps = algorithmFn(arr)
+        console.log('Steps generated:', steps);
         await executeAlgorithm(steps)
       } else if (algoInfo?.category === 'graph') {
         // Build example graph (you can later replace with UI input)
@@ -81,6 +104,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       }
     } catch (error) {
       console.error('Algorithm initialization failed:', error)
+      console.error('Error stack:', error.stack)
     }
   }
 
@@ -104,12 +128,20 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
   }
 
   if (!algoInfo) {
+    console.log('No algorithm info found, rendering not found message');
     return (
       <div className="p-6 text-center text-gray-600">
-        Please select an algorithm from the sidebar.
+        <h2 className="text-xl font-bold text-red-600 mb-2">Algorithm Not Found</h2>
+        <p className="mb-2">The algorithm with ID "{selectedAlgorithm}" could not be found.</p>
+        <p className="text-sm">Please check that the algorithm ID matches one of the available algorithms.</p>
+        <Link to="/dsa/algorithms" className="text-blue-600 hover:text-blue-800 mt-4 inline-block">
+          Browse Algorithms
+        </Link>
       </div>
     )
   }
+
+  console.log('Rendering visualization page for algorithm:', algoInfo.name);
 
   return (
     <div className="flex flex-col h-full bg-gray-50">

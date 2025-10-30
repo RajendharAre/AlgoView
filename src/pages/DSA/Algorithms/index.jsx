@@ -19,10 +19,10 @@ const DSAAlgorithms = () => {
   ]
 
   const algorithms = [
-    { id: 'bubble-sort', name: 'Bubble Sort', category: 'sorting', difficulty: 'Easy', description: 'Simple sorting algorithm that repeatedly steps through the list' },
-    { id: 'merge-sort', name: 'Merge Sort', category: 'sorting', difficulty: 'Medium', description: 'Efficient, stable sorting algorithm using divide-and-conquer' },
-    { id: 'quick-sort', name: 'Quick Sort', category: 'sorting', difficulty: 'Medium', description: 'Highly efficient sorting algorithm using partitioning' },
-    { id: 'binary-search', name: 'Binary Search', category: 'searching', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' },
+    { id: 'bubbleSort', name: 'Bubble Sort', category: 'sorting', difficulty: 'Easy', description: 'Simple sorting algorithm that repeatedly steps through the list' },
+    { id: 'mergeSort', name: 'Merge Sort', category: 'sorting', difficulty: 'Medium', description: 'Efficient, stable sorting algorithm using divide-and-conquer' },
+    { id: 'quickSort', name: 'Quick Sort', category: 'sorting', difficulty: 'Medium', description: 'Highly efficient sorting algorithm using partitioning' },
+    { id: 'binarySearch', name: 'Binary Search', category: 'searching', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' },
     { id: 'dfs', name: 'Depth First Search', category: 'graph', difficulty: 'Medium', description: 'Graph traversal algorithm exploring as far as possible' },
     { id: 'bfs', name: 'Breadth First Search', category: 'graph', difficulty: 'Medium', description: 'Graph traversal algorithm exploring neighbor nodes first' },
     { id: 'dijkstra', name: 'Dijkstra Algorithm', category: 'graph', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' }

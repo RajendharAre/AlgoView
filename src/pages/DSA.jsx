@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import Sidebar from '../components/Layout/Sidebar' // eslint-disable-next-line import/no-unresolved
+import Sidebar from '../components/layout/Sidebar'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Cpu, 
@@ -25,13 +25,13 @@ const DSA = () => {
   const isVisualizationPage = location.pathname.includes('/dsa/visualization/')
 
   // When we navigate to a visualization page, collapse the sidebar
-  useEffect(() => {
-    if (isVisualizationPage) {
-      setSidebarCollapsed(true)
-    } else {
-      setSidebarCollapsed(false)
-    }
-  }, [isVisualizationPage])
+  // useEffect(() => {
+  //   if (isVisualizationPage) {
+  //     setSidebarCollapsed(true)
+  //   } else {
+  //     setSidebarCollapsed(false)
+  //   }
+  // }, [isVisualizationPage, location.pathname])
 
   // Toggle sidebar collapse
   const toggleSidebarCollapse = () => {
@@ -119,7 +119,7 @@ const DSA = () => {
           initial={{ x: -320 }}
           animate={{ x: 0 }}
           exit={{ x: -320 }}
-          className="md:hidden fixed inset-y-0 left-0 z-50 w-80"
+          className="md:hidden fixed inset-y-0 left-0 z-50 w-80 pt-16"
         >
           <div className="absolute inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)}></div>
           <div className="relative flex-1 flex flex-col w-80 bg-white">
@@ -178,7 +178,9 @@ const DSA = () => {
               </div>
             </div>
           ) : (
-            <Outlet />
+            <div className="h-full">
+              <Outlet />
+            </div>
           )}
         </div>
       </div>

@@ -16,7 +16,7 @@ const BubbleSortVisualizer = ({ data = [], step = {} }) => {
   const doneIndex = typeof step?.doneIndex === 'number' ? step.doneIndex : data.length
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-200">
+    <div className="w-full h-full flex flex-col">
       <div className="flex justify-center items-end gap-3 md:gap-4 h-56">
         {data.map((value, idx) => {
           const isCompared = compared.includes(idx)

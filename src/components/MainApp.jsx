@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import Navbar from './Layout/Navbar'
+import Navbar from './Common/Navbar'
 
 const MainApp = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
   return (

@@ -58,7 +58,7 @@ const AlgorithmController = ({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+    <div className="w-full bg-white rounded-xl shadow-sm border border-gray-200 p-5">
       {/* Progress Bar */}
       <div className="mb-5">
         <div className="flex justify-between text-sm text-gray-600 mb-2">

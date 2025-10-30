@@ -8,7 +8,10 @@ import { store } from './store/store'
 import { router } from './routes'
 import { initAuth } from './store/slices/userSlice'
 
+console.log('App starting up...');
+
 // Initialize auth when the app starts
+console.log('Initializing auth...');
 store.dispatch(initAuth())
 
 createRoot(document.getElementById('root')).render(

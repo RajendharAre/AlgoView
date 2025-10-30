@@ -20,11 +20,13 @@ export const useAlgorithm = () => {
 
   const executeAlgorithm = useCallback(async algorithmGenerator => {
     console.log('Executing algorithm')
+    console.log('Algorithm generator:', algorithmGenerator)
     reset()
 
     try {
       const newSteps = []
       let result = algorithmGenerator.next()
+      console.log('First result:', result)
 
       while (!result.done) {
         newSteps.push({
@@ -36,6 +38,7 @@ export const useAlgorithm = () => {
 
       setSteps(newSteps)
       console.log('Generated', newSteps.length, 'steps')
+      console.log('Steps:', newSteps)
       return newSteps
     } catch (error) {
       console.error('Algorithm execution error:', error)

@@ -62,7 +62,7 @@ const GraphVisualizer = ({ nodes = [], edges = [], step = {}, width = 700, heigh
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="w-full h-full flex flex-col">
       <div className="flex justify-center mb-4">
         <div
           className="rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200"

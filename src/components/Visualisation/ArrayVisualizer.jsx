@@ -63,7 +63,7 @@ const ArrayVisualizer = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="w-full h-full flex flex-col">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-800">Visualization</h3>
         {stepIndex !== null && totalSteps > 0 && (
@@ -72,7 +72,9 @@ const ArrayVisualizer = ({
           </span>
         )}
       </div>
-      {renderVisualizer()}
+      <div className="flex-1 flex items-center justify-center">
+        {renderVisualizer()}
+      </div>
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import DSA from '../../../src/pages/DSA'
 
 // 🧩 Mock Sidebar
-vi.mock('../../../src/components/Layout/Sidebar', () => ({
+vi.mock('../../../src/components/layout/Sidebar', () => ({
   __esModule: true,
   default: () => <div data-testid="sidebar">Sidebar Component</div>
 }))
@@ -90,7 +90,7 @@ describe('DSA Page', () => {
 
   it('shows collapsed sidebar icons when on visualization page', () => {
     mockUseLocation.mockReturnValue({
-      pathname: '/dsa/visualization/sorting/bubble'
+      pathname: '/dsa/visualization/bubbleSort'
     })
 
     render(

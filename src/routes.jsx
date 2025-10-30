@@ -23,9 +23,6 @@ const DSAContributeNew = lazy(() => import('./pages/DSA/Contribute/New'))
 const DSADiscussions = lazy(() => import('./pages/DSA/Discussions'))
 const DSADiscussionDetail = lazy(() => import('./pages/DSA/Discussions/Discussion'))
 const DSADiscussionNew = lazy(() => import('./pages/DSA/Discussions/New'))
-const DSARewards = lazy(() => import('./pages/DSA/Rewards'))
-const DSARewardsLeaderboard = lazy(() => import('./pages/DSA/Rewards/Leaderboard'))
-const DSARewardsRedeem = lazy(() => import('./pages/DSA/Rewards/Redeem'))
 const Development = lazy(() => import('./pages/Development'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
@@ -149,8 +146,8 @@ export const router = createBrowserRouter([
             path: 'visualization/:algorithmId',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
-                  <DSAVisualization />
-                </Suspense>
+                <DSAVisualization />
+              </Suspense>
             )
           },
           {
@@ -240,31 +237,8 @@ export const router = createBrowserRouter([
                 <DSADiscussionNew />
               </Suspense>
             )
-          },
-          {
-            path: 'rewards',
-            element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <DSARewards />
-              </Suspense>
-            )
-          },
-          {
-            path: 'rewards/leaderboard',
-            element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <DSARewardsLeaderboard />
-              </Suspense>
-            )
-          },
-          {
-            path: 'rewards/redeem',
-            element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <DSARewardsRedeem />
-              </Suspense>
-            )
           }
+          // Removed Rewards routes as requested
         ]
       },
       {

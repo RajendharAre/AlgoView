@@ -5,6 +5,8 @@ import { ArrowLeft, BarChart, GitBranch, Shuffle, Database, Lock, BookOpen, Sear
 
 const DSAAlgorithmCategory = () => {
   const { category } = useParams()
+  
+  console.log('DSAAlgorithmCategory rendered with category:', category);
 
   const categoryInfo = {
     sorting: { name: 'Sorting Algorithms', icon: Shuffle, description: 'Algorithms for arranging elements in a specific order' },
@@ -27,29 +29,30 @@ const DSAAlgorithmCategory = () => {
   // Sample algorithms for each category
   const algorithmsByCategory = {
     sorting: [
-      { id: 'bubble-sort', name: 'Bubble Sort', difficulty: 'Easy', description: 'Simple sorting algorithm that repeatedly steps through the list' },
-      { id: 'selection-sort', name: 'Selection Sort', difficulty: 'Easy', description: 'In-place comparison sorting algorithm' },
-      { id: 'insertion-sort', name: 'Insertion Sort', difficulty: 'Easy', description: 'Simple sorting algorithm that builds final sorted array' },
-      { id: 'merge-sort', name: 'Merge Sort', difficulty: 'Medium', description: 'Efficient, stable sorting algorithm using divide-and-conquer' },
-      { id: 'quick-sort', name: 'Quick Sort', difficulty: 'Medium', description: 'Highly efficient sorting algorithm using partitioning' },
-      { id: 'heap-sort', name: 'Heap Sort', difficulty: 'Medium', description: 'Comparison based sorting algorithm using binary heap' }
+      { id: 'bubbleSort', name: 'Bubble Sort', difficulty: 'Easy', description: 'Simple sorting algorithm that repeatedly steps through the list' },
+      { id: 'selectionSort', name: 'Selection Sort', difficulty: 'Easy', description: 'In-place comparison sorting algorithm' },
+      { id: 'insertionSort', name: 'Insertion Sort', difficulty: 'Easy', description: 'Simple sorting algorithm that builds final sorted array' },
+      { id: 'mergeSort', name: 'Merge Sort', difficulty: 'Medium', description: 'Efficient, stable sorting algorithm using divide-and-conquer' },
+      { id: 'quickSort', name: 'Quick Sort', difficulty: 'Medium', description: 'Highly efficient sorting algorithm using partitioning' }
     ],
     searching: [
-      { id: 'linear-search', name: 'Linear Search', difficulty: 'Easy', description: 'Simple search algorithm that checks each element' },
-      { id: 'binary-search', name: 'Binary Search', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' }
+      { id: 'linearSearch', name: 'Linear Search', difficulty: 'Easy', description: 'Simple search algorithm that checks each element' },
+      { id: 'binarySearch', name: 'Binary Search', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' }
     ],
     graph: [
       { id: 'dfs', name: 'Depth First Search', difficulty: 'Medium', description: 'Graph traversal algorithm exploring as far as possible' },
       { id: 'bfs', name: 'Breadth First Search', difficulty: 'Medium', description: 'Graph traversal algorithm exploring neighbor nodes first' },
       { id: 'dijkstra', name: 'Dijkstra Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
-      { id: 'bellman-ford', name: 'Bellman Ford Algorithm', difficulty: 'Hard', description: 'Algorithm for computing shortest paths in weighted graph' },
-      { id: 'floyd-warshall', name: 'Floyd Warshall Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
+      { id: 'bellmanFord', name: 'Bellman Ford Algorithm', difficulty: 'Hard', description: 'Algorithm for computing shortest paths in weighted graph' },
+      { id: 'floydWarshall', name: 'Floyd Warshall Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
       { id: 'kruskal', name: 'Kruskal Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
       { id: 'prims', name: 'Prim\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' }
     ]
   }
 
   const algorithms = algorithmsByCategory[category] || []
+  
+  console.log('Algorithms for category:', algorithms);
 
   return (
     <div className="p-6">
@@ -99,6 +102,7 @@ const DSAAlgorithmCategory = () => {
               <Link
                 to={`/dsa/visualization/${algorithm.id}`}
                 className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                onClick={() => console.log('Clicked on algorithm:', algorithm.id)}
               >
                 Visualize
               </Link>
