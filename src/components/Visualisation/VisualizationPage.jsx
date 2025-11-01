@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useAlgorithm } from '../../hooks/useAlgorithm'
 import ArrayVisualizer from './ArrayVisualizer'
@@ -16,6 +16,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
   const [inputArray, setInputArray] = useState([64, 34, 25, 12, 22, 11, 90])
   const [searchTarget, setSearchTarget] = useState(25)
   const [showInfo, setShowInfo] = useState(false)
+  const [stats, setStats] = useState({ comparisons: 0, swaps: 0 })
 
   const {
     currentStep,
@@ -43,6 +44,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
   }, [selectedAlgorithm, algoInfo])
 
   useEffect(() => {
+    setStats({ comparisons: 0, swaps: 0 });
     reset()
   }, [selectedAlgorithm, reset])
 
@@ -54,6 +56,8 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
       return
     }
 
+    // Reset stats when initializing
+    setStats({ comparisons: 0, swaps: 0 });
     reset()
 
     try {
@@ -108,6 +112,171 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
     }
   }
 
+  // Keyboard shortcuts
+  const handleKeyDown = useCallback((event) => {
+    // Prevent default behavior for arrow keys to avoid page scrolling
+    if ([32, 37, 39, 82].includes(event.keyCode)) {
+      event.preventDefault();
+    }
+
+    // Space - Play/Pause
+    if (event.keyCode === 32) {
+      if (isPlaying) {
+        pause();
+      } else {
+        play();
+      }
+    }
+    
+    // R - Reset (with Ctrl key)
+    if (event.keyCode === 82 && event.ctrlKey) {
+      initializeAlgorithm();
+    }
+    
+    // Arrow Right - Step Forward
+    if (event.keyCode === 39 && !isPlaying) {
+      if (currentStepIndex < totalSteps - 1) {
+        goToStep(currentStepIndex + 1);
+      }
+    }
+    
+    // Arrow Left - Step Backward
+    if (event.keyCode === 37 && !isPlaying) {
+      if (currentStepIndex > 0) {
+        goToStep(currentStepIndex - 1);
+      }
+    }
+  }, [isPlaying, play, pause, currentStepIndex, totalSteps, goToStep]);
+
+  // Add keyboard event listeners
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  // Update stats when step changes
+  useEffect(() => {
+    if (currentStep && algoInfo) {
+      setStats(prevStats => {
+        const newStats = { ...prevStats };
+        
+        // Count comparisons and swaps based on the specific algorithm category
+        switch (algoInfo.category) {
+          case 'sorting':
+            // Handle different sorting algorithms
+            switch (algoInfo.id) {
+              case 'bubbleSort':
+                // Bubble Sort uses 'compared' array for comparisons and 'swapped' for swaps
+                if (currentStep.compared && currentStep.compared.length > 0) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                if (currentStep.swapped) {
+                  newStats.swaps = (newStats.swaps || 0) + 1;
+                }
+                break;
+                
+              case 'selectionSort':
+                // Selection Sort uses 'comparingIndex' for comparisons and 'swapIndices' for swaps
+                if (currentStep.comparingIndex !== undefined && currentStep.comparingIndex !== null) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                if (currentStep.swapIndices && currentStep.swapIndices.length > 0) {
+                  newStats.swaps = (newStats.swaps || 0) + 1;
+                }
+                break;
+                
+              case 'insertionSort':
+                // Insertion Sort uses 'comparingIndex' for comparisons
+                if (currentStep.comparingIndex !== undefined && currentStep.comparingIndex !== null) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                // Insertion Sort doesn't have explicit swaps in the same way, but we can count shifts
+                if (currentStep.shiftingIndex !== undefined && currentStep.shiftingIndex !== null) {
+                  newStats.swaps = (newStats.swaps || 0) + 1;
+                }
+                break;
+                
+              case 'mergeSort':
+                // Merge Sort doesn't have simple comparisons/swaps, but we can count merge operations
+                if (currentStep.phase === 'merge-compare') {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                if (currentStep.phase === 'merge-place') {
+                  newStats.swaps = (newStats.swaps || 0) + 1;
+                }
+                break;
+                
+              case 'quickSort':
+                // Quick Sort uses 'comparing' array for comparisons and 'swapped' array for swaps
+                if (currentStep.comparing && currentStep.comparing.length > 0) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                if (currentStep.swapped && currentStep.swapped.length > 0) {
+                  newStats.swaps = (newStats.swaps || 0) + 1;
+                }
+                break;
+                
+              default:
+                // Fallback for any other sorting algorithms
+                if (currentStep.compared && currentStep.compared.length > 0) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                if (currentStep.swapped) {
+                  newStats.swaps = (newStats.swaps || 0) + 1;
+                }
+            }
+            break;
+            
+          case 'searching':
+            // Handle searching algorithms
+            switch (algoInfo.id) {
+              case 'linearSearch':
+                // Linear Search checks each element
+                if (currentStep.currentIndex !== undefined && currentStep.currentIndex !== null && currentStep.currentIndex >= 0) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                break;
+                
+              case 'binarySearch':
+                // Binary Search compares mid element with target
+                if (currentStep.mid !== undefined && currentStep.mid !== null && currentStep.mid >= 0) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+                break;
+                
+              default:
+                // Fallback for any other searching algorithms
+                if (currentStep.currentIndex !== undefined && currentStep.currentIndex !== null && currentStep.currentIndex >= 0) {
+                  newStats.comparisons = (newStats.comparisons || 0) + 1;
+                }
+            }
+            break;
+            
+          case 'graph':
+            // Handle graph algorithms
+            // For graph algorithms, we can count node visits or edge traversals
+            if (currentStep.visiting !== undefined && currentStep.visiting !== null) {
+              newStats.comparisons = (newStats.comparisons || 0) + 1;
+            }
+            break;
+            
+          default:
+            // Fallback for any other algorithm categories
+            if (currentStep.compared && currentStep.compared.length > 0) {
+              newStats.comparisons = (newStats.comparisons || 0) + 1;
+            }
+            if (currentStep.swapped) {
+              newStats.swaps = (newStats.swaps || 0) + 1;
+            }
+        }
+        
+        return newStats;
+      });
+    }
+  }, [currentStep, algoInfo]);
+
   const generateRandomArray = () => {
     const newArray = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100) + 1)
     setInputArray(newArray)
@@ -154,6 +323,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
           <button
             onClick={() => setShowInfo(!showInfo)}
             className="text-gray-500 hover:text-gray-700"
+            aria-label={showInfo ? "Hide algorithm information" : "Show algorithm information"}
           >
             <Info size={20} />
           </button>
@@ -180,6 +350,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             <button
               onClick={generateRandomArray}
               className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+              aria-label="Generate random array"
             >
               <Dice5 size={16} />
               Random
@@ -187,6 +358,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             <button
               onClick={reset}
               className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+              aria-label="Reset visualization"
             >
               <RefreshCcw size={16} />
               Reset
@@ -203,6 +375,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
               onChange={handleArrayInputChange}
               className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Enter numbers separated by commas"
+              aria-label="Array elements input"
             />
           </div>
 
@@ -214,6 +387,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
                 value={searchTarget}
                 onChange={e => setSearchTarget(parseInt(e.target.value))}
                 className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-label="Search target input"
               />
             </div>
           )}
@@ -223,6 +397,7 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
           <button
             onClick={initializeAlgorithm}
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm"
+            aria-label="Initialize algorithm"
           >
             <Play size={18} />
             Initialize
@@ -313,7 +488,40 @@ const VisualizationPage = ({ selectedAlgorithm }) => {
             <Info size={18} />
             Current Step
           </h4>
-          <p className="text-gray-700">{currentStep.description}</p>
+          <p className="text-gray-700 mb-3">{currentStep.description}</p>
+          
+          {/* Enhanced Status Panel */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-4 pt-3 border-t border-blue-100">
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Comparisons</div>
+              <div className="text-lg font-bold text-blue-600">{stats.comparisons}</div>
+            </div>
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Swaps</div>
+              <div className="text-lg font-bold text-blue-600">{stats.swaps}</div>
+            </div>
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Time Complexity</div>
+              <div className="text-sm font-medium text-gray-700">
+                {algoInfo?.complexity?.time?.average || 'N/A'}
+              </div>
+            </div>
+            <div className="bg-white rounded-lg p-3 shadow-sm">
+              <div className="text-xs text-gray-500 uppercase tracking-wide">Space Complexity</div>
+              <div className="text-sm font-medium text-gray-700">
+                {algoInfo?.complexity?.space || 'N/A'}
+              </div>
+            </div>
+          </div>
+          
+          {/* Keyboard Shortcuts Help */}
+          <div className="mt-3 pt-3 border-t border-blue-100 text-xs text-gray-600">
+            <div className="flex flex-wrap gap-3">
+              <span>Keyboard: <kbd className="px-1.5 py-0.5 bg-gray-200 rounded">Space</kbd> Play/Pause</span>
+              <span><kbd className="px-1.5 py-0.5 bg-gray-200 rounded">←</kbd> <kbd className="px-1.5 py-0.5 bg-gray-200 rounded">→</kbd> Step</span>
+              <span><kbd className="px-1.5 py-0.5 bg-gray-200 rounded">Ctrl+R</kbd> Reset</span>
+            </div>
+          </div>
         </div>
       )}
     </div>
