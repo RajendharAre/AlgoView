@@ -1,4 +1,16 @@
 // src/algorithms/Sorting/insertionSort.js
+
+/**
+ * Insertion Sort Algorithm
+ * 
+ * A simple sorting algorithm that builds the final sorted array one item at a time.
+ * It is much less efficient on large lists than more advanced algorithms such as quicksort,
+ * heapsort, or merge sort.
+ * 
+ * @param {number[]} arr - Array of numbers to sort
+ * @yields {Object} - Step information for visualization
+ * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
+ */
 export function* insertionSort(arr) {
   const a = [...arr]
   const n = a.length
@@ -87,4 +99,79 @@ export function* insertionSort(arr) {
     doneIndices: Array.from({ length: n }, (_, k) => k),
     description: 'Insertion sort complete',
   }
+}
+
+/**
+ * Algorithm information for Insertion Sort
+ * 
+ * @type {Object}
+ * @property {string} name - Name of the algorithm
+ * @property {string} category - Category of the algorithm
+ * @property {Object} complexity - Time and space complexity
+ * @property {Object} complexity.time - Time complexity for different cases
+ * @property {string} complexity.time.best - Best case time complexity
+ * @property {string} complexity.time.average - Average case time complexity
+ * @property {string} complexity.time.worst - Worst case time complexity
+ * @property {string} complexity.space - Space complexity
+ * @property {boolean} stable - Whether the algorithm is stable
+ * @property {boolean} inPlace - Whether the algorithm sorts in-place
+ * @property {string} description - Brief description of the algorithm
+ */
+export const insertionSortInfo = {
+  name: 'Insertion Sort',
+  category: 'sorting',
+  complexity: {
+    time: {
+      best: 'O(n)',
+      average: 'O(n²)',
+      worst: 'O(n²)'
+    },
+    space: 'O(1)'
+  },
+  stable: true,
+  inPlace: true,
+  description: 'A simple sorting algorithm that builds the final sorted array one item at a time by inserting each element into its correct position.',
+  code: {
+    javascript: `
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    const key = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > key) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
+  return arr;
+}`,
+    python: `
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr`,
+    java: `
+public static void insertionSort(int[] arr) {
+    for (int i = 1; i < arr.length; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+}`
+  },
+  useCases: [
+    'Small datasets where simplicity is preferred',
+    'When the data is already mostly sorted',
+    'Online algorithms where data arrives continuously',
+    'Hybrid algorithms like Timsort and Introsort use insertion sort for small subarrays'
+  ]
 }
