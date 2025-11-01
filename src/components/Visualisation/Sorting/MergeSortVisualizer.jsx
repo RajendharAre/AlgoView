@@ -17,8 +17,8 @@ const MergeSortVisualizer = ({ data = [], step = {} }) => {
   const inRange = (idx, r) => (r ? idx >= r[0] && idx <= r[1] : false)
 
   return (
-    <div className="p-6 bg-[#ffffff] rounded-xl shadow-lg">
-      <div className="flex items-end gap-3 justify-center h-64">
+    <div className="w-full h-full flex flex-col">
+      <div className="flex items-end gap-3 justify-center flex-1 min-h-0">
         {data.map((value, idx) => {
           const isLeft = inRange(idx, leftWindow)
           const isRight = inRange(idx, rightWindow)
@@ -32,7 +32,7 @@ const MergeSortVisualizer = ({ data = [], step = {} }) => {
           if (isMerged) bgClass = 'bg-[#4eb3c1] text-[#ffffff] ring-2 ring-[#a14097]'
 
           return (
-            <div key={idx} className="flex flex-col items-center justify-end">
+            <div key={idx} className="flex flex-col items-center justify-end flex-1">
               <Motion.div
                 layout
                 initial={{ height: 0, opacity: 0.6 }}

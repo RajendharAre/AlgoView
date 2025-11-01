@@ -13,9 +13,9 @@ const SelectionSortVisualizer = ({ data = [], step = {}, stepIndex = null, total
   const doneIndices = Array.isArray(step?.doneIndices) ? step.doneIndices : []
 
   return (
-    <div className="insertion-visualizer-root">
+    <div className="w-full h-full flex flex-col">
       {/* Cards */}
-      <div className="cards-row">
+      <div className="cards-row flex-1 min-h-0">
         {arr.map((value, idx) => {
           let stateClass = 'card-neutral'
           if (doneIndices.includes(idx)) stateClass = 'card-done'

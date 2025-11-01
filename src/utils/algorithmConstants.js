@@ -1,5 +1,17 @@
 // src/utils/algorithmConstants.js
 
+// Import algorithm info objects
+import { bubbleSortInfo } from '../algorithms/Sorting/bubbleSort'
+import { insertionSortInfo } from '../algorithms/Sorting/insertionSort'
+import { mergeSortInfo } from '../algorithms/Sorting/mergeSort'
+import { quickSortInfo } from '../algorithms/Sorting/quickSort'
+import { selectionSortInfo } from '../algorithms/Sorting/selectionSort'
+import { linearSearchInfo } from '../algorithms/Searching/linearSearch'
+import { binarySearchInfo } from '../algorithms/Searching/binarySearch'
+import { bfsInfo } from '../algorithms/Graph/bfs'
+import { dfsInfo } from '../algorithms/Graph/dfs'
+import { dijkstraInfo } from '../algorithms/Graph/dijkstra'
+
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
   SEARCHING: 'searching',
@@ -15,11 +27,7 @@ export const ALGORITHMS = {
     name: 'Bubble Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/bubbleSort').then(m => m.bubbleSort),
-    complexity: {
-      time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
-      space: 'O(1)',
-    },
-    description: 'Repeatedly compares adjacent elements and swaps them if out of order.',
+    ...bubbleSortInfo
   },
 
   insertionSort: {
@@ -27,11 +35,7 @@ export const ALGORITHMS = {
     name: 'Insertion Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/insertionSort').then(m => m.insertionSort),
-    complexity: {
-      time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
-      space: 'O(1)',
-    },
-    description: 'Builds the final sorted array one item at a time by inserting into place.',
+    ...insertionSortInfo
   },
 
   mergeSort: {
@@ -39,11 +43,7 @@ export const ALGORITHMS = {
     name: 'Merge Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/mergeSort').then(m => m.mergeSort),
-    complexity: {
-      time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n log n)' },
-      space: 'O(n)',
-    },
-    description: 'Divides the array into halves, sorts them and merges back together.',
+    ...mergeSortInfo
   },
 
   quickSort: {
@@ -51,11 +51,7 @@ export const ALGORITHMS = {
     name: 'Quick Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/quickSort').then(m => m.quickSort),
-    complexity: {
-      time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n²)' },
-      space: 'O(log n)',
-    },
-    description: 'Picks a pivot and partitions the array around it, then sorts subarrays.',
+    ...quickSortInfo
   },
 
   selectionSort: {
@@ -63,11 +59,7 @@ export const ALGORITHMS = {
     name: 'Selection Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/selectionSort').then(m => m.selectionSort),
-    complexity: {
-      time: { best: 'O(n²)', average: 'O(n²)', worst: 'O(n²)' },
-      space: 'O(1)',
-    },
-    description: 'Repeatedly selects the smallest element and moves it to the sorted sublist.',
+    ...selectionSortInfo
   },
 
   linearSearch: {
@@ -75,11 +67,7 @@ export const ALGORITHMS = {
     name: 'Linear Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
     importFn: () => import('../algorithms/Searching/linearSearch').then(m => m.linearSearch),
-    complexity: {
-      time: { best: 'O(1)', average: 'O(n)', worst: 'O(n)' },
-      space: 'O(1)',
-    },
-    description: 'Checks each element sequentially until a match is found.',
+    ...linearSearchInfo
   },
 
   binarySearch: {
@@ -87,11 +75,7 @@ export const ALGORITHMS = {
     name: 'Binary Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
     importFn: () => import('../algorithms/Searching/binarySearch').then(m => m.binarySearch),
-    complexity: {
-      time: { best: 'O(1)', average: 'O(log n)', worst: 'O(log n)' },
-      space: 'O(1)',
-    },
-    description: 'Finds a target in a sorted array by repeatedly halving the search space.',
+    ...binarySearchInfo
   },
 
   // Graph Algorithms
@@ -100,11 +84,7 @@ export const ALGORITHMS = {
     name: 'Breadth-First Search',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/bfs').then(m => m.bfs),
-    complexity: {
-      time: { best: 'O(V+E)', average: 'O(V+E)', worst: 'O(V+E)' },
-      space: 'O(V)',
-    },
-    description: 'Level-order traversal used to find shortest unweighted paths.',
+    ...bfsInfo
   },
 
   dfs: {
@@ -112,23 +92,15 @@ export const ALGORITHMS = {
     name: 'Depth-First Search',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/dfs').then(m => m.dfs),
-    complexity: {
-      time: { best: 'O(V+E)', average: 'O(V+E)', worst: 'O(V+E)' },
-      space: 'O(V)',
-    },
-    description: 'Depth-first traversal useful for connectivity, ordering, cycles.',
+    ...dfsInfo
   },
 
   dijkstra: {
     id: 'dijkstra',
-    name: 'Dijkstra (shortest paths)',
+    name: 'Dijkstra\'s Algorithm',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/dijkstra').then(m => m.dijkstra),
-    complexity: {
-      time: { best: 'O((V+E) log V)', average: 'O((V+E) log V)', worst: 'O((V+E) log V)' },
-      space: 'O(V)',
-    },
-    description: 'Shortest path algorithm for weighted graphs with non-negative edges.',
+    ...dijkstraInfo
   },
 }
 

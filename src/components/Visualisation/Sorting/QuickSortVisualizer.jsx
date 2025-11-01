@@ -13,22 +13,24 @@ const QuickSortVisualizer = ({ data, step = {} }) => {
   }
 
   return (
-    <div className="flex justify-center gap-4 p-6 bg-gray-100 rounded-xl shadow-inner flex-wrap">
-      {data.map((value, idx) => (
-        <div key={idx} className="flex flex-col items-center">
-          <Motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 180, damping: 15 }}
-            className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white shadow-md ${getCircleColor(idx)}`}
-          >
-            {value}
-          </Motion.div>
-          <span className="mt-2 text-xs text-gray-700">
-            {idx === pivot ? 'P' : idx >= left && idx <= right ? '' : ''}
-          </span>
-        </div>
-      ))}
+    <div className="w-full h-full flex flex-col">
+      <div className="flex justify-center gap-4 p-6 bg-gray-100 rounded-xl shadow-inner flex-wrap flex-1 min-h-0 items-center">
+        {data.map((value, idx) => (
+          <div key={idx} className="flex flex-col items-center">
+            <Motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 180, damping: 15 }}
+              className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-white shadow-md ${getCircleColor(idx)}`}
+            >
+              {value}
+            </Motion.div>
+            <span className="mt-2 text-xs text-gray-700">
+              {idx === pivot ? 'P' : idx >= left && idx <= right ? '' : ''}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

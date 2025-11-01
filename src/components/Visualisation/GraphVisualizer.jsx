@@ -63,12 +63,12 @@ const GraphVisualizer = ({ nodes = [], edges = [], step = {}, width = 700, heigh
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center mb-4 flex-1 min-h-0">
         <div
-          className="rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200"
-          style={{ width, height }}
+          className="rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 w-full h-full"
+          style={{ maxWidth: width, maxHeight: height }}
         >
-          <svg width={width} height={height}>
+          <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
             {/* edges behind */}
             {edges.map((e, idx) => {
               const from = nodes.find(n => n.id === e.from)

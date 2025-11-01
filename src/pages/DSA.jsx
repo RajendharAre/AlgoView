@@ -24,15 +24,6 @@ const DSA = () => {
   // Check if we're on a visualization page
   const isVisualizationPage = location.pathname.includes('/dsa/visualization/')
 
-  // When we navigate to a visualization page, collapse the sidebar
-  // useEffect(() => {
-  //   if (isVisualizationPage) {
-  //     setSidebarCollapsed(true)
-  //   } else {
-  //     setSidebarCollapsed(false)
-  //   }
-  // }, [isVisualizationPage, location.pathname])
-
   // Toggle sidebar collapse
   const toggleSidebarCollapse = () => {
     setSidebarCollapsed(!sidebarCollapsed)
