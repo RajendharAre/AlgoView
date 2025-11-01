@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { 
   Search, 
   Shuffle, 
   GitBranch, 
   Search as SearchIcon, 
-  Binary, 
-  BarChart, 
-  Database, 
-  Lock,
   ChevronRight,
   ChevronDown
 } from 'lucide-react'
@@ -21,18 +17,31 @@ const Sidebar = () => {
     graph: false
   })
 
-  // Initially expand the first category (sorting) as requested
-  useEffect(() => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      sorting: true
-    }))
-  }, [])
+  const location = useLocation()
 
+  // Auto-expand the category that matches the current route
+  useEffect(() => {
+    if (location.pathname.includes('bubbleSort') || 
+        location.pathname.includes('selectionSort') ||
+        location.pathname.includes('insertionSort') ||
+        location.pathname.includes('mergeSort') ||
+        location.pathname.includes('quickSort')) {
+      setExpandedCategories({ sorting: true, searching: false, graph: false })
+    } else if (location.pathname.includes('linearSearch') || 
+               location.pathname.includes('binarySearch')) {
+      setExpandedCategories({ sorting: false, searching: true, graph: false })
+    } else if (location.pathname.includes('dfs') || 
+               location.pathname.includes('bfs') || 
+               location.pathname.includes('dijkstra')) {
+      setExpandedCategories({ sorting: false, searching: false, graph: true })
+    }
+  }, [location.pathname])
+
+  // Toggle only the clicked category
   const toggleCategory = (category) => {
     setExpandedCategories(prev => ({
       ...prev,
-      [category]: !prev[category]
+      [category]: !prev[category],
     }))
   }
 
@@ -125,7 +134,11 @@ const Sidebar = () => {
                     <Link
                       key={algorithm.id}
                       to={`/dsa/visualization/${algorithm.id}`}
-                      className="block px-4 py-2 ml-8 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+                      className={`block px-4 py-2 ml-8 text-sm rounded-md transition-colors ${
+                        location.pathname.includes(algorithm.id)
+                          ? 'bg-blue-100 text-blue-600 font-medium'
+                          : 'text-gray-700 hover:bg-gray-100'
+                      }`}
                     >
                       {algorithm.name}
                     </Link>
