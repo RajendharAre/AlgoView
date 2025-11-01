@@ -1,6 +1,8 @@
 import { bubbleSort, bubbleSortInfo } from './bubbleSort'
 import { quickSort, quickSortInfo } from './quickSort'
 import { mergeSort, mergeSortInfo } from './mergeSort'
+import { selectionSort, selectionSortInfo } from './selectionSort'
+import { insertionSort, insertionSortInfo } from './insertionSort'
 
 export const sortingAlgorithms = {
   bubbleSort: {
@@ -20,5 +22,17 @@ export const sortingAlgorithms = {
     info: mergeSortInfo,
     category: 'sorting',
     name: 'Merge Sort',
+  },
+  selectionSort: {
+    function: selectionSort,
+    info: selectionSortInfo,
+    category: 'sorting',
+    name: 'Selection Sort',
+  },
+  insertionSort: {
+    function: insertionSort,
+    info: insertionSortInfo,
+    category: 'sorting',
+    name: 'Insertion Sort',
   },
 }
