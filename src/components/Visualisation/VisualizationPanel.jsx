@@ -1,6 +1,6 @@
 import { Settings, Dice5, RefreshCcw, Play } from 'lucide-react'
 import ArrayVisualizer from './ArrayVisualizer'
-import GraphVisualizer from './GraphVisualizer'
+import EnhancedGraphVisualizer from './EnhancedGraphVisualizer'
 
 const VisualizationPanel = ({ 
   algoInfo, 
@@ -22,7 +22,8 @@ const VisualizationPanel = ({
 }) => {
   return (
     <div className="flex flex-col h-full">
-      {/* Configuration Controls - Always visible in visualize mode */}
+      {/* Configuration Controls - For non-graph algorithms AND graph algorithm initialization */}
+      {(algoInfo?.category !== 'graph') ? (
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mx-4 md:mx-6 mb-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold text-gray-800 text-lg">Configuration</h3>
@@ -90,29 +91,57 @@ const VisualizationPanel = ({
           </div>
         </div>
       </div>
+      ) : (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 mx-4 md:mx-6 mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-gray-800 text-lg">Graph Visualization</h3>
+          <button
+            onClick={reset}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+            aria-label="Reset visualization"
+          >
+            <RefreshCcw size={16} />
+            Reset
+          </button>
+        </div>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Interactive graph visualization. Click nodes to select, drag to pan, scroll to zoom.
+        </p>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={initializeAlgorithm}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all shadow-sm"
+            aria-label="Initialize algorithm"
+          >
+            <Play size={18} />
+            Start Visualization
+          </button>
+
+          <div className="text-sm text-gray-600">
+            Ready to visualize {algoInfo?.name || 'algorithm'}
+          </div>
+        </div>
+      </div>
+      )}
 
       {/* Visualization Area */}
       <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 mx-4 md:mx-6 mb-4">
         {algoInfo?.category === 'graph' ? (
           hasSteps ? (
             <div className="h-full flex flex-col">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">Graph Visualization</h3>
-                {currentStepIndex !== null && totalSteps > 0 && (
-                  <span className="text-sm text-gray-500">
-                    Step {currentStepIndex + 1} of {totalSteps}
-                  </span>
-                )}
-              </div>
-              <div className="flex-1 flex items-center justify-center">
-                <GraphVisualizer
-                  nodes={currentStep?.nodes || []}
-                  edges={currentStep?.edges || []}
-                  step={currentStep || {}}
-                  width={700}
-                  height={380}
-                />
-              </div>
+              <EnhancedGraphVisualizer
+                nodes={currentStep?.nodes || []}
+                edges={currentStep?.edges || []}
+                step={currentStep || {}}
+                width={600}
+                height={400}
+                isPlaying={isPlaying}
+                onPlay={play}
+                onPause={pause}
+                onReset={initializeAlgorithm}
+              />
             </div>
           ) : (
             <div className="flex items-center justify-center h-full text-center text-gray-500">

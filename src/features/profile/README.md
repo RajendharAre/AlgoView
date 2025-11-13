@@ -1,10 +1,1 @@
-# Profile Feature
-
-This directory contains all user profile related components and logic.
-
-## Structure
-
-- Profile View Component
-- Profile Edit Component
-- Profile Service
-- Profile Hooks
+This file was removed during repository cleanup. Keep only the root README.md as documentation.

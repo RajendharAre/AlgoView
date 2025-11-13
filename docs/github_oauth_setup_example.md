@@ -15,9 +15,6 @@ Firebase Authentication handles the OAuth flow differently than you might expect
 4. Firebase processes the authentication and redirects back to your app
 
 ### Why Only One Callback URL:
-- The callback URL in GitHub should point to Firebase's auth handler
-- Firebase then handles redirecting back to your actual application
-- This works for both development and production environments
 
 ## Correct GitHub OAuth Configuration
 
@@ -47,24 +44,14 @@ Firebase Authentication is designed to handle OAuth redirects for multiple envir
 In addition to the GitHub OAuth app, you must also configure Firebase properly:
 
 ### Authorized Domains in Firebase:
-- localhost
-- 127.0.0.1
-- localhost:5175
-- algorithm-visualizer-b963c.firebaseapp.com
 
 ## User Experience Improvements
 
 We've also enhanced the user experience for OAuth flows:
 
 ### Handling Popup Closures:
-- When users close the OAuth popup window, the application gracefully resets
-- No more "Signing in..." or "Creating account..." messages that persist after closing
-- Users can seamlessly switch between OAuth and traditional authentication methods
 
 ### Error Handling:
-- Clear, user-friendly error messages for common issues
-- Proper handling of network errors, popup blockers, and other edge cases
-- Automatic state reset for non-error conditions (popup closed, request cancelled)
 
 ## Common Misconceptions
 
@@ -74,3 +61,4 @@ We've also enhanced the user experience for OAuth flows:
 ✅ **Right**: Configuring authorized domains in Firebase for all environments
 
 This approach ensures your OAuth flow works correctly in all environments without needing multiple callback URLs.
+This file was removed during repository cleanup. Keep only the root README.md as documentation.

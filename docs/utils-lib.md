@@ -27,18 +27,7 @@ const info = getAlgorithmInfoById('quickSort');
 const load = await info.importFn();
 ```
 
-### Firebase Lib
+This file was removed during repository cleanup. Keep only the root README.md as documentation.
+
 
 #### `src/lib/firebase.js`
-- Exports initialized services:
-  - `auth` (Firebase Auth)
-  - `db` (Firestore)
-  - `storage` (Cloud Storage)
-  - default export `app`
-- Requires Vite env vars:
-  - `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`
-- **Example**:
-```js
-import { auth, db } from 'src/lib/firebase';
-```
-

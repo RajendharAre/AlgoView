@@ -14,7 +14,7 @@ import {
   Minimize2
 } from 'lucide-react'
 import { layoutNodesCircle } from '../../utils/graphUtils'
-import GraphVisualizer from './GraphVisualizer'
+import EnhancedGraphVisualizer from './EnhancedGraphVisualizer'
 import AlgorithmInfo from './AlgorithmInfo'
 import VisualizationPanel from './VisualizationPanel'
 import FullscreenContainer from './FullscreenContainer'
@@ -457,8 +457,8 @@ const AlgorithmVisualizer = ({ selectedAlgorithm }) => {
             setSearchTarget={setSearchTarget}
           />
 
-          {/* Controller - Show in fullscreen mode */}
-          {hasSteps && (
+          {/* Controller - Show in fullscreen mode for non-graph algorithms */}
+          {hasSteps && algoInfo?.category !== 'graph' && (
             <div className="px-4 md:px-6 pb-4 md:pb-6">
               <AlgorithmController
                 isPlaying={isPlaying}
@@ -474,8 +474,8 @@ const AlgorithmVisualizer = ({ selectedAlgorithm }) => {
             </div>
           )}
 
-          {/* Status Information - Show in fullscreen mode */}
-          {currentStep && (
+          {/* Status Information - Show in fullscreen mode for non-graph algorithms */}
+          {currentStep && algoInfo?.category !== 'graph' && (
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 mx-4 md:mx-6 mb-4">
               <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
                 <Info size={18} />
@@ -628,8 +628,8 @@ const AlgorithmVisualizer = ({ selectedAlgorithm }) => {
         />
       )}
 
-      {/* Controller - Show in visualize mode */}
-      {viewMode === 'visualize' && hasSteps && (
+      {/* Controller - Show in visualize mode for non-graph algorithms */}
+      {viewMode === 'visualize' && hasSteps && algoInfo?.category !== 'graph' && (
         <div className="px-4 md:px-6 pb-4 md:pb-6">
           <AlgorithmController
             isPlaying={isPlaying}
@@ -645,8 +645,8 @@ const AlgorithmVisualizer = ({ selectedAlgorithm }) => {
         </div>
       )}
 
-      {/* Status Information - Show in visualize mode */}
-      {viewMode === 'visualize' && currentStep && (
+      {/* Status Information - Show in visualize mode for non-graph algorithms */}
+      {viewMode === 'visualize' && currentStep && algoInfo?.category !== 'graph' && (
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 mx-4 md:mx-6 mb-4">
           <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
             <Info size={18} />

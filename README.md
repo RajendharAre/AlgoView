@@ -1,30 +1,16 @@
 # Algorithm Visualizer
 
-<<<<<<< Updated upstream
-Run locally:
-
-```bash
-npm install
-npm run dev
-```
-
-Documentation:
-
-- Components: `docs/components.md`
-- Hooks: `docs/hooks.md`
-- Algorithms: `docs/algorithms.md`
-- Utilities and Libraries: `docs/utils-lib.md`
-
-=======
 An interactive web application for visualizing algorithms with step-by-step animations.
 
 ## Features
 
-- Visualize sorting, searching, and graph algorithms
-- Interactive controls to step through algorithms
-- Firebase authentication (Email/Password, Google, GitHub)
-- Responsive design for all devices
-- Modern UI with smooth animations
+- 🎨 **Beautiful Algorithm Visualizations** - Sorting, searching, and graph algorithms with smooth animations
+- 🎮 **Interactive Controls** - Step through algorithms at your own pace
+- 🔐 **Secure Authentication** - Firebase auth with Email/Password, Google, and GitHub OAuth
+- 📱 **Fully Responsive** - Works seamlessly on desktop, tablet, and mobile devices
+- 🌙 **Dark/Light Mode** - Theme switcher for comfortable viewing
+- 📊 **Comprehensive DSA Learning** - Problems, practice, discussions, and contributions
+- ⚡ **Modern & Fast** - Built with React 19, Vite, and optimized for performance
 
 ## Prerequisites
 
@@ -32,7 +18,9 @@ An interactive web application for visualizing algorithms with step-by-step anim
 - npm or yarn
 - Firebase account
 
-## Installation
+## Quick Start
+
+### Installation
 
 1. Clone the repository:
    ```bash
@@ -60,51 +48,97 @@ An interactive web application for visualizing algorithms with step-by-step anim
    npm run dev
    ```
 
-## Firebase OAuth Setup
-
-To enable Google and GitHub authentication, follow the instructions in [FIREBASE_OAUTH_SETUP.md](FIREBASE_OAUTH_SETUP.md).
+5. Open your browser and navigate to `http://localhost:5173`
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with hot reload |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build locally |
+| `npm run test` | Run tests in watch mode |
+| `npm run test:ui` | Open test UI dashboard |
+| `npm run test:run` | Run tests once |
+| `npm run lint` | Check code for linting errors |
 
 ## Technologies Used
 
-- React 18
-- Vite
-- Firebase Authentication & Firestore
-- Tailwind CSS
-- Framer Motion
-- Lucide React Icons
+- **Frontend Framework:** React 19 with JSX
+- **Build Tool:** Vite (⚡ Lightning-fast)
+- **State Management:** Redux Toolkit
+- **Authentication & Database:** Firebase (Auth, Firestore, Storage)
+- **Styling:** Tailwind CSS + Framer Motion
+- **Visualizations:** Cytoscape.js (graphs), Custom Canvas (arrays)
+- **Icons:** Lucide React
+- **Testing:** Vitest + React Testing Library
+- **Code Quality:** ESLint + Prettier
 
 ## Project Structure
 
 ```
 src/
+├── algorithms/           # Algorithm implementations (Sorting, Searching, Graph, DP)
 ├── components/
-│   ├── Auth/          # Authentication components
-│   ├── Common/        # Shared components
-│   ├── Layout/        # Layout components
-│   └── Visualisation/ # Algorithm visualization components
-├── hooks/             # Custom React hooks
-├── lib/               # Firebase configuration
-├── styles/            # CSS styles
-├── utils/             # Utility functions
-└── App.jsx            # Main application component
+│   ├── Auth/            # Authentication (Login, Register, etc.)
+│   ├── Common/          # Shared components (Navbar, Loader, ErrorBoundary)
+│   ├── Layout/          # Layout components (Sidebar, ProtectedRoute)
+│   ├── DSA/             # DSA-specific components
+│   └── Visualisation/   # Algorithm visualization components
+├── features/            # Feature modules (auth, algorithms, interview, profile)
+├── hooks/               # Custom React hooks
+├── lib/                 # Firebase configuration & utilities
+├── pages/               # Page components (Home, Dashboard, DSA, etc.)
+├── store/               # Redux store configuration
+├── styles/              # Global styles
+├── utils/               # Utility functions & constants
+└── App.jsx              # Main app component
 ```
+
+## Documentation
+
+- 📖 [Components Guide](docs/components.md)
+- 🎯 [Hooks Documentation](docs/hooks.md)
+- 🔤 [Algorithms](docs/algorithms.md)
+- 🛠️ [Utilities & Libraries](docs/utils-lib.md)
+- 🔑 [Firebase OAuth Setup](FIREBASE_OAUTH_SETUP.md)
+
+## Supported Algorithms
+
+### Sorting
+- Bubble Sort
+- Insertion Sort
+- Selection Sort
+- Merge Sort
+- Quick Sort
+- Radix Sort
+
+### Searching
+- Linear Search
+- Binary Search
+
+### Graph Algorithms
+- Breadth-First Search (BFS)
+- Depth-First Search (DFS)
+- Dijkstra's Algorithm
+
+### Dynamic Programming
+- Knapsack Problem
 
 ## Contributing
 
+We love contributions! Here's how to get involved:
+
 1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License.
->>>>>>> Stashed changes
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+Have questions or found a bug? Please open an issue on GitHub!

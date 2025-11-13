@@ -7,6 +7,7 @@ export function* dijkstra(graph, startId) {
   const prev = {}
   const pq = [] // simple array-based priority queue (for clarity)
   const done = []
+  const visitedEdges = []
   let stepIndex = 0
 
   for (const n of nodes) {
@@ -24,6 +25,7 @@ export function* dijkstra(graph, startId) {
     pq: [...pq],
     distances: { ...dist },
     doneNodes: [...done],
+    visitedEdges: [...visitedEdges],
     description: `Start Dijkstra from ${startId}`,
     stepIndex: stepIndex++,
   }
@@ -43,6 +45,7 @@ export function* dijkstra(graph, startId) {
       pq: [...pq],
       distances: { ...dist },
       doneNodes: [...done],
+      visitedEdges: [...visitedEdges],
       description: `Processing node ${u} (dist ${dist[u]})`,
       stepIndex: stepIndex++,
     }
@@ -60,6 +63,7 @@ export function* dijkstra(graph, startId) {
         pq: [...pq],
         distances: { ...dist },
         doneNodes: [...done],
+        visitedEdges: [...visitedEdges],
         description: `Check ${u} -> ${v} (w=${e.weight ?? 1})`,
         stepIndex: stepIndex++,
       }
@@ -67,6 +71,7 @@ export function* dijkstra(graph, startId) {
         dist[v] = alt
         prev[v] = u
         pq.push({ id: v, dist: alt })
+        visitedEdges.push({ from: u, to: v })
         yield {
           nodes,
           edges,
@@ -75,6 +80,7 @@ export function* dijkstra(graph, startId) {
           pq: [...pq],
           distances: { ...dist },
           doneNodes: [...done],
+          visitedEdges: [...visitedEdges],
           description: `Update dist[${v}] = ${alt}`,
           stepIndex: stepIndex++,
         }
@@ -87,6 +93,7 @@ export function* dijkstra(graph, startId) {
           pq: [...pq],
           distances: { ...dist },
           doneNodes: [...done],
+          visitedEdges: [...visitedEdges],
           description: `No update for ${v}`,
           stepIndex: stepIndex++,
         }
@@ -102,6 +109,7 @@ export function* dijkstra(graph, startId) {
       pq: [...pq],
       distances: { ...dist },
       doneNodes: [...done],
+      visitedEdges: [...visitedEdges],
       description: `Node ${u} settled`,
       stepIndex: stepIndex++,
     }
@@ -115,6 +123,7 @@ export function* dijkstra(graph, startId) {
     pq: [],
     distances: { ...dist },
     doneNodes: [...done],
+    visitedEdges: [...visitedEdges],
     description: 'Dijkstra complete',
     stepIndex: stepIndex++,
   }

@@ -1,3 +1,6 @@
+# Algorithms (Generators)
+
+This file was removed during repository cleanup. Keep only the root README.md as documentation.
 ## Algorithms (Generators)
 
 All algorithms are ES generator functions that `yield` step objects for visualization. Consume them directly or via `useAlgorithm.executeAlgorithm`.

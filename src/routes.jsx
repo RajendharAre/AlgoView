@@ -33,6 +33,8 @@ const Settings = lazy(() => import('./pages/Settings'))
 const Payment = lazy(() => import('./pages/Payment'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
+const EnhancedGraphTest = lazy(() => import('./components/Visualisation/EnhancedGraphTest'))
+const InteractiveGraphEditor = lazy(() => import('./components/Visualisation/InteractiveGraphEditor'))
 
 // Loading component for Suspense
 const LoadingSpinner = () => (
@@ -247,6 +249,26 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<LoadingSpinner />}>
               <Development />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'graph-test',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <EnhancedGraphTest />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'graph-editor',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <InteractiveGraphEditor />
             </Suspense>
           </ProtectedRoute>
         )

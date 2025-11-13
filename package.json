@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
+    "@types/cytoscape": "^3.21.9",
     "cytoscape": "^3.33.1",
+    "cytoscape-cola": "^2.5.1",
     "cytoscape-dagre": "^2.5.0",
     "cytoscape-fcose": "^2.2.0",
     "firebase": "^12.1.0",

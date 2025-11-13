@@ -5,6 +5,7 @@ export function* dfs(graph, startId) {
   const visited = new Set()
   const stack = [startId]
   const done = []
+  const visitedEdges = []
   let stepIndex = 0
 
   yield {
@@ -14,6 +15,7 @@ export function* dfs(graph, startId) {
     visiting: null,
     stack: [...stack],
     doneNodes: [...done],
+    visitedEdges: [...visitedEdges],
     description: `Start DFS at ${startId}`,
     stepIndex: stepIndex++,
   }
@@ -30,6 +32,7 @@ export function* dfs(graph, startId) {
         visiting: u,
         stack: [...stack],
         doneNodes: [...done],
+        visitedEdges: [...visitedEdges],
         description: `Visiting ${u}`,
         stepIndex: stepIndex++,
       }
@@ -40,6 +43,7 @@ export function* dfs(graph, startId) {
         const v = neighbors[i]
         if (!visited.has(v)) {
           stack.push(v)
+          visitedEdges.push({ from: u, to: v })
           yield {
             nodes,
             edges,
@@ -47,6 +51,7 @@ export function* dfs(graph, startId) {
             visiting: v,
             stack: [...stack],
             doneNodes: [...done],
+            visitedEdges: [...visitedEdges],
             description: `Pushed ${v} to stack`,
             stepIndex: stepIndex++,
           }
@@ -58,6 +63,7 @@ export function* dfs(graph, startId) {
             visiting: v,
             stack: [...stack],
             doneNodes: [...done],
+            visitedEdges: [...visitedEdges],
             description: `${v} already visited`,
             stepIndex: stepIndex++,
           }
@@ -72,6 +78,7 @@ export function* dfs(graph, startId) {
         visiting: null,
         stack: [...stack],
         doneNodes: [...done],
+        visitedEdges: [...visitedEdges],
         description: `${u} finished`,
         stepIndex: stepIndex++,
       }
@@ -85,6 +92,7 @@ export function* dfs(graph, startId) {
     visiting: null,
     stack: [],
     doneNodes: [...done],
+    visitedEdges: [...visitedEdges],
     description: 'DFS complete',
     stepIndex: stepIndex++,
   }

@@ -1,13 +1,10 @@
 ## Documentation Index
 
-- Components: `./components.md`
-- Hooks: `./hooks.md`
-- Algorithms: `./algorithms.md`
-- Utilities and Libraries: `./utils-lib.md`
 
 Quick start:
 ```bash
 npm i
 npm run dev
 ```
+This file was removed during repository cleanup. Keep only the root README.md as documentation.
 

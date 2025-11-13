@@ -1,6 +1,4 @@
-## Hooks
-
-### `useAlgorithm`
+This file was removed during repository cleanup. Keep only the root README.md as documentation.
 - **Import**: `import { useAlgorithm } from 'src/hooks/useAlgorithm'`
 - **Returns**:
   - `currentStep: object | undefined`

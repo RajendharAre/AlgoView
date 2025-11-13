@@ -1,11 +1,1 @@
-# Authentication Feature
-
-This directory contains all authentication-related components and logic.
-
-## Structure
-
-- Login Component
-- Register Component
-- Forgot Password Component
-- Authentication Service
-- Authentication Hooks
+This file was removed during repository cleanup. Keep only the root README.md as documentation.

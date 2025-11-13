@@ -1,6 +1,4 @@
-## Components
-
-This document describes public React components exported in `src/components`.
+This file was removed during repository cleanup. Keep only the root README.md as documentation.
 
 ### Algorithm UI
 
