@@ -1,181 +1,299 @@
-import { motion } from 'framer-motion'
-import { Users, Target, Zap, Globe } from 'lucide-react'
+import { useState } from 'react';
+import { Users, Code, BookOpen, Trophy, Calendar, Star, Github, Twitter, Mail, MapPin } from 'lucide-react';
 
 const About = () => {
+  const [activeTab, setActiveTab] = useState('overview');
+
+  const teamMembers = [
+    {
+      name: "Alex Johnson",
+      role: "Lead Developer",
+      bio: "Full-stack developer with expertise in React and modern JavaScript frameworks.",
+      avatar: "https://via.placeholder.com/100x100/3b82f6/ffffff?text=AJ"
+    },
+    {
+      name: "Sarah Chen",
+      role: "UI/UX Designer",
+      bio: "Design specialist focused on creating intuitive and beautiful user experiences.",
+      avatar: "https://via.placeholder.com/100x100/ef4444/ffffff?text=SC"
+    },
+    {
+      name: "Michael Rodriguez",
+      role: "Backend Engineer",
+      bio: "Database and API expert ensuring scalable and efficient server-side solutions.",
+      avatar: "https://via.placeholder.com/100x100/10b981/ffffff?text=MR"
+    },
+    {
+      name: "Emily Davis",
+      role: "Frontend Specialist",
+      bio: "React enthusiast passionate about creating responsive and accessible interfaces.",
+      avatar: "https://via.placeholder.com/100x100/f59e0b/ffffff?text=ED"
+    }
+  ];
+
+  const stats = [
+    { label: "Active Users", value: "10K+", icon: Users },
+    { label: "Algorithms", value: "50+", icon: Code },
+    { label: "Completed", value: "100%", icon: Trophy },
+    { label: "Uptime", value: "99.9%", icon: Calendar }
+  ];
+
   const features = [
     {
-      icon: Users,
-      title: 'Community Driven',
-      description: 'Built by developers for developers with community feedback at the core.'
+      title: "Interactive Visualizations",
+      description: "See algorithms come to life with step-by-step visual representations",
+      icon: "📊"
     },
     {
-      icon: Target,
-      title: 'Precision Focused',
-      description: 'Accurate visualizations that help you understand exactly how algorithms work.'
+      title: "Hands-on Practice",
+      description: "Implement and test algorithms directly in your browser",
+      icon: "💻"
     },
     {
-      icon: Zap,
-      title: 'Performance Optimized',
-      description: 'Fast, responsive interface that works seamlessly across all devices.'
+      title: "Progress Tracking",
+      description: "Monitor your learning journey and achievements",
+      icon: "📈"
     },
     {
-      icon: Globe,
-      title: 'Globally Accessible',
-      description: 'Available to learners and developers worldwide, completely free.'
+      title: "Community Support",
+      description: "Connect with fellow learners and experts for guidance",
+      icon: "👥"
     }
-  ]
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Header */}
-      <div className="text-center mb-16">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
-        >
-          About Algorithm Visualizer
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-xl text-gray-600 max-w-3xl mx-auto"
-        >
-          We're on a mission to make complex algorithms accessible and understandable 
-          for developers, students, and educators worldwide.
-        </motion.p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">About Algorithm Visualizer</h1>
+            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+              Empowering developers and students to master algorithms through interactive visualization and hands-on practice
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Mission Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
-          <p className="text-lg text-gray-600 mb-6">
-            At Algorithm Visualizer, we believe that understanding algorithms shouldn't be difficult. 
-            Traditional learning methods often fall short when it comes to visualizing how algorithms 
-            work step-by-step.
-          </p>
-          <p className="text-lg text-gray-600 mb-6">
-            Our platform bridges that gap by providing interactive, visual representations of complex 
-            algorithms, making it easier for anyone to grasp fundamental concepts in computer science.
-          </p>
-          <p className="text-lg text-gray-600">
-            Whether you're a student preparing for technical interviews, a developer looking to 
-            optimize your code, or an educator seeking better teaching tools, Algorithm Visualizer 
-            is designed to support your journey.
-          </p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8"
-        >
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">What Sets Us Apart</h3>
-          <ul className="space-y-4">
-            <li className="flex items-start">
-              <div className="flex-shrink-0 h-6 w-6 text-blue-500 mt-1">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="ml-3 text-gray-700">Interactive visualizations that show every step</p>
-            </li>
-            <li className="flex items-start">
-              <div className="flex-shrink-0 h-6 w-6 text-blue-500 mt-1">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="ml-3 text-gray-700">Comprehensive coverage of algorithms and data structures</p>
-            </li>
-            <li className="flex items-start">
-              <div className="flex-shrink-0 h-6 w-6 text-blue-500 mt-1">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="ml-3 text-gray-700">Completely free and open-source</p>
-            </li>
-            <li className="flex items-start">
-              <div className="flex-shrink-0 h-6 w-6 text-blue-500 mt-1">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <p className="ml-3 text-gray-700">Regular updates with new algorithms and features</p>
-            </li>
-          </ul>
-        </motion.div>
-      </div>
-
-      {/* Features Grid */}
-      <div className="mb-16">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-3xl font-bold text-center text-gray-900 mb-12"
-        >
-          Why Choose Algorithm Visualizer
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => {
-            const Icon = feature.icon
-            return (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 text-center"
-              >
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon className="h-8 w-8 text-blue-600" />
+      {/* Stats Section */}
+      <div className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="flex justify-center mb-4">
+                  <stat.icon className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            )
-          })}
+                <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
+                <div className="text-gray-600">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Team/Community Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-center text-white"
-      >
-        <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
-        <p className="text-xl mb-8 max-w-2xl mx-auto">
-          Algorithm Visualizer is more than just a tool - it's a community of learners and educators 
-          passionate about making computer science education better for everyone.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <a
-            href="#"
-            className="px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-all duration-300"
-          >
-            Contribute on GitHub
-          </a>
-          <a
-            href="#"
-            className="px-6 py-3 bg-transparent text-white font-bold rounded-lg border-2 border-white hover:bg-white/10 transition-all duration-300"
-          >
-            Join Our Discord
-          </a>
+      {/* Features Section */}
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Us?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Our platform offers unique features designed to enhance your learning experience
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center">
+                <div className="text-3xl mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </motion.div>
-    </div>
-  )
-}
+      </div>
 
-export default About
+      {/* Tabs Section */}
+      <div className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center mb-8">
+            <div className="bg-gray-100 p-1 rounded-lg">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'overview'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveTab('mission')}
+                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'mission'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Mission
+              </button>
+              <button
+                onClick={() => setActiveTab('team')}
+                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'team'
+                    ? 'bg-white text-blue-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Team
+              </button>
+            </div>
+          </div>
+
+          {/* Tab Content */}
+          <div className="bg-white rounded-lg shadow-sm p-8">
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <p className="text-gray-600 mb-4">
+                      Founded in 2023, Algorithm Visualizer began as a passion project to help students and developers 
+                      understand complex algorithms through interactive visualization. What started as a simple concept 
+                      has grown into a comprehensive platform serving thousands of users worldwide.
+                    </p>
+                    <p className="text-gray-600 mb-4">
+                      Our platform combines cutting-edge visualization technology with educational best practices to 
+                      create an engaging learning experience that makes algorithm comprehension accessible to everyone.
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Values</h3>
+                    <ul className="space-y-3">
+                      <li className="flex items-start">
+                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">Excellence in Education</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">Accessibility for All</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">Continuous Innovation</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">Community-Driven Growth</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'mission' && (
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                <div className="prose max-w-none">
+                  <p className="text-gray-600 mb-4">
+                    At Algorithm Visualizer, we believe that understanding algorithms shouldn't be a barrier to 
+                    becoming a great developer. Our mission is to democratize computer science education by making 
+                    complex algorithms accessible, understandable, and enjoyable for everyone.
+                  </p>
+                  <p className="text-gray-600 mb-4">
+                    We strive to create an environment where learners can experiment, make mistakes, and grow at 
+                    their own pace. Through interactive visualizations, comprehensive explanations, and practical 
+                    exercises, we aim to bridge the gap between theoretical knowledge and practical application.
+                  </p>
+                  <div className="bg-blue-50 p-6 rounded-lg mt-6">
+                    <h3 className="text-lg font-semibold text-blue-900 mb-2">Vision Statement</h3>
+                    <p className="text-blue-800">
+                      To become the world's leading platform for algorithm education, empowering millions of 
+                      developers to excel in their careers and contribute to technological advancement.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'team' && (
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Meet Our Team</h2>
+                <p className="text-gray-600 mb-8">
+                  A diverse group of passionate individuals dedicated to revolutionizing how people learn algorithms.
+                </p>
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {teamMembers.map((member, index) => (
+                    <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:shadow-md transition-shadow">
+                      <img 
+                        src={member.avatar} 
+                        alt={member.name}
+                        className="w-20 h-20 rounded-full mx-auto mb-4"
+                      />
+                      <h3 className="text-lg font-semibold text-gray-900">{member.name}</h3>
+                      <p className="text-blue-600 font-medium mb-2">{member.role}</p>
+                      <p className="text-gray-600 text-sm">{member.bio}</p>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-8 pt-8 border-t border-gray-200">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Join Our Journey</h3>
+                  <p className="text-gray-600 mb-4">
+                    We're always looking for talented individuals who share our passion for education and technology.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Contact Us
+                    </button>
+                    <button className="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Github className="h-4 w-4 mr-2" />
+                      Contribute
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Section */}
+      <div className="py-16 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              Have questions or feedback? We'd love to hear from you and help improve your learning experience.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <Mail className="h-8 w-8 text-blue-400 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold mb-2">Email Us</h3>
+              <p className="text-gray-300">contact@algorithmvisualizer.com</p>
+            </div>
+            <div className="text-center">
+              <MapPin className="h-8 w-8 text-blue-400 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold mb-2">Visit Us</h3>
+              <p className="text-gray-300">San Francisco, CA</p>
+            </div>
+            <div className="text-center">
+              <Twitter className="h-8 w-8 text-blue-400 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
+              <p className="text-gray-300">@algo_visualizer</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default About;

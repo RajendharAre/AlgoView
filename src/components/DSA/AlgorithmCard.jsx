@@ -1,9 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { MoreHorizontal, BookOpen, Code, Globe, FileQuestion } from 'lucide-react'
 
 const AlgorithmCard = ({ algorithm }) => {
   const [showMenu, setShowMenu] = useState(false)
+  const dropdownRef = useRef(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if click is outside both the menu and the trigger button
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    // Add event listener when menu is open
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
 
   // Map difficulty levels to styles
   const getDifficultyStyle = (difficulty) => {
@@ -51,7 +72,7 @@ const AlgorithmCard = ({ algorithm }) => {
             )}
           </div>
         </div>
-        <div className="relative">
+        <div ref={dropdownRef} className="relative">
           <button
             onClick={() => setShowMenu(!showMenu)}
             className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100"
@@ -60,7 +81,9 @@ const AlgorithmCard = ({ algorithm }) => {
           </button>
           
           {showMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
+            <div 
+              className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
+            >
               <button className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 <BookOpen size={16} className="mr-2" />
                 View Article

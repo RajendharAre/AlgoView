@@ -11,7 +11,6 @@ const Auth = lazy(() => import('./components/Auth/Auth'))
 const ForgotPassword = lazy(() => import('./components/Auth/ForgotPassword'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const DSA = lazy(() => import('./pages/DSA'))
-const DSAVisualization = lazy(() => import('./pages/DSA/Visualization'))
 const DSAAlgorithms = lazy(() => import('./pages/DSA/Algorithms'))
 const DSAAlgorithmCategory = lazy(() => import('./pages/DSA/Algorithms/Category'))
 const DSAProblems = lazy(() => import('./pages/DSA/Problems'))
@@ -33,8 +32,6 @@ const Settings = lazy(() => import('./pages/Settings'))
 const Payment = lazy(() => import('./pages/Payment'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
-const EnhancedGraphTest = lazy(() => import('./components/Visualisation/EnhancedGraphTest'))
-const InteractiveGraphEditor = lazy(() => import('./components/Visualisation/InteractiveGraphEditor'))
 
 // Loading component for Suspense
 const LoadingSpinner = () => (
@@ -145,14 +142,6 @@ export const router = createBrowserRouter([
             )
           },
           {
-            path: 'visualization/:algorithmId',
-            element: (
-              <Suspense fallback={<LoadingSpinner />}>
-                <DSAVisualization />
-              </Suspense>
-            )
-          },
-          {
             path: 'algorithms',
             element: (
               <Suspense fallback={<LoadingSpinner />}>
@@ -249,26 +238,6 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<LoadingSpinner />}>
               <Development />
-            </Suspense>
-          </ProtectedRoute>
-        )
-      },
-      {
-        path: 'graph-test',
-        element: (
-          <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
-              <EnhancedGraphTest />
-            </Suspense>
-          </ProtectedRoute>
-        )
-      },
-      {
-        path: 'graph-editor',
-        element: (
-          <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
-              <InteractiveGraphEditor />
             </Suspense>
           </ProtectedRoute>
         )

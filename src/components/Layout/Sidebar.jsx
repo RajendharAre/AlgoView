@@ -4,6 +4,7 @@ import {
   Search, 
   Shuffle, 
   GitBranch, 
+  BarChart,
   Search as SearchIcon, 
   ChevronRight,
   ChevronDown
@@ -14,35 +15,122 @@ const Sidebar = () => {
   const [expandedCategories, setExpandedCategories] = useState({
     sorting: false,
     searching: false,
-    graph: false
+    graph: false,
+    tree: false,
+    dynamic: false,
+    greedy: false,
+    backtracking: false
   })
 
   const location = useLocation()
 
-  // Auto-expand the category that matches the current route
+  // Handle navigation and category expansion/collapse
   useEffect(() => {
-    if (location.pathname.includes('bubbleSort') || 
-        location.pathname.includes('selectionSort') ||
-        location.pathname.includes('insertionSort') ||
-        location.pathname.includes('mergeSort') ||
-        location.pathname.includes('quickSort')) {
-      setExpandedCategories({ sorting: true, searching: false, graph: false })
-    } else if (location.pathname.includes('linearSearch') || 
-               location.pathname.includes('binarySearch')) {
-      setExpandedCategories({ sorting: false, searching: true, graph: false })
-    } else if (location.pathname.includes('dfs') || 
-               location.pathname.includes('bfs') || 
-               location.pathname.includes('dijkstra')) {
-      setExpandedCategories({ sorting: false, searching: false, graph: true })
+    // Check if we're in the DSA section with algorithm routes
+    const isDSAAlgorithmRoute = location.pathname.includes('bubbleSort') || 
+                               location.pathname.includes('selectionSort') ||
+                               location.pathname.includes('insertionSort') ||
+                               location.pathname.includes('mergeSort') ||
+                               location.pathname.includes('quickSort') ||
+                               location.pathname.includes('linearSearch') || 
+                               location.pathname.includes('binarySearch') ||
+                               location.pathname.includes('dfs') || 
+                               location.pathname.includes('bfs') || 
+                               location.pathname.includes('dijkstra') ||
+                               location.pathname.includes('fibonacci') ||
+                               location.pathname.includes('coinChange') ||
+                               location.pathname.includes('knapsack') ||
+                               location.pathname.includes('longestCommonSubsequence') ||
+                               location.pathname.includes('editDistance');
+    
+    if (isDSAAlgorithmRoute) {
+      // Auto-expand the category that matches the current route
+      if (location.pathname.includes('bubbleSort') || 
+          location.pathname.includes('selectionSort') ||
+          location.pathname.includes('insertionSort') ||
+          location.pathname.includes('mergeSort') ||
+          location.pathname.includes('quickSort')) {
+        setExpandedCategories(prev => ({
+          ...prev,
+          sorting: true,
+          searching: false,
+          graph: false,
+          tree: false,
+          dynamic: false,
+          greedy: false,
+          backtracking: false
+        }));
+      } else if (location.pathname.includes('linearSearch') || 
+                 location.pathname.includes('binarySearch')) {
+        setExpandedCategories(prev => ({
+          ...prev,
+          sorting: false,
+          searching: true,
+          graph: false,
+          tree: false,
+          dynamic: false,
+          greedy: false,
+          backtracking: false
+        }));
+      } else if (location.pathname.includes('dfs') || 
+                 location.pathname.includes('bfs') || 
+                 location.pathname.includes('dijkstra')) {
+        setExpandedCategories(prev => ({
+          ...prev,
+          sorting: false,
+          searching: false,
+          graph: true,
+          tree: false,
+          dynamic: false,
+          greedy: false,
+          backtracking: false
+        }));
+      } else if (location.pathname.includes('fibonacci') ||
+                 location.pathname.includes('coinChange') ||
+                 location.pathname.includes('knapsack') ||
+                 location.pathname.includes('longestCommonSubsequence') ||
+                 location.pathname.includes('editDistance')) {
+        setExpandedCategories(prev => ({
+          ...prev,
+          sorting: false,
+          searching: false,
+          graph: false,
+          tree: false,
+          dynamic: true, // DP algorithms
+          greedy: false,
+          backtracking: false
+        }));
+      }
+    } else {
+      // If navigating away from DSA section, close all dropdowns
+      setExpandedCategories(prev => {
+        const newExpanded = {};
+        Object.keys(prev).forEach(key => {
+          newExpanded[key] = false;
+        });
+        return newExpanded;
+      });
     }
   }, [location.pathname])
 
-  // Toggle only the clicked category
+  // Toggle category with controlled behavior - only one open at a time
   const toggleCategory = (category) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [category]: !prev[category],
-    }))
+    setExpandedCategories(prev => {
+      // If the clicked category is already open, close it
+      if (prev[category]) {
+        return {
+          ...prev,
+          [category]: false
+        };
+      } else {
+        // Close all categories and open only the clicked one
+        const newExpanded = {};
+        Object.keys(prev).forEach(key => {
+          newExpanded[key] = key === category;
+        });
+        return newExpanded;
+      }
+    });
   }
 
   const categories = [
@@ -75,6 +163,18 @@ const Sidebar = () => {
         { id: 'dfs', name: 'Depth First Search' },
         { id: 'bfs', name: 'Breadth First Search' },
         { id: 'dijkstra', name: 'Dijkstra Algorithm' }
+      ]
+    },
+    {
+      id: 'dynamic',
+      name: 'DP Algorithms',
+      icon: BarChart,
+      algorithms: [
+        { id: 'fibonacci', name: 'Fibonacci' },
+        { id: 'coinChange', name: 'Coin Change' },
+        { id: 'knapsack', name: '0/1 Knapsack' },
+        { id: 'longestCommonSubsequence', name: 'Longest Common Subsequence' },
+        { id: 'editDistance', name: 'Edit Distance' }
       ]
     }
   ]

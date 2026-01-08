@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -12,16 +12,20 @@ import {
   BookOpen, 
   Code,
   LogIn,
-  ChevronDown
+  ChevronDown,
+  Lightbulb,
+  Info
 } from 'lucide-react'
 import { signOut } from '../../store/slices/userSlice'
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
+  const [dsaDropdownOpen, setDsaDropdownOpen] = useState(false)
   const { currentUser, loading } = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const handleSignOut = async () => {
     try {
@@ -34,11 +38,37 @@ const Navbar = () => {
     }
   }
 
+  // Handle DSA dropdown state based on navigation
+  useEffect(() => {
+    const isDSARoute = location.pathname.startsWith('/dsa');
+    
+    // If we're navigating away from DSA section, close the dropdown
+    if (!isDSARoute && dsaDropdownOpen) {
+      setDsaDropdownOpen(false);
+    }
+    // When on the main DSA page, ensure dropdown stays open
+    else if (location.pathname === '/dsa') {
+      setDsaDropdownOpen(true);
+    }
+    // When on DSA sub-pages, don't interfere with user's choice
+  }, [location.pathname])
+
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
-    { name: 'DSA', path: '/dsa', icon: BookOpen },
+    { 
+      name: 'DSA', 
+      path: '/dsa', 
+      icon: BookOpen,
+      dropdown: [
+        { name: 'Algorithms', path: '/dsa/algorithms' },
+        { name: 'Problems', path: '/dsa/problems' },
+        { name: 'Practice', path: '/dsa/practice' },
+        { name: 'Discussions', path: '/dsa/discussions' },
+      ]
+    },
     { name: 'Development', path: '/development', icon: Code },
-    // Removed Community and Rewards as requested
+    { name: 'Ideas', path: '/ideas', icon: Lightbulb },
+    { name: 'About', path: '/about', icon: Info },
   ]
 
   return (
@@ -60,14 +90,47 @@ const Navbar = () => {
             {navItems.map((item) => {
               const Icon = item.icon
               return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
-                >
-                  <Icon className="h-4 w-4 mr-2" />
-                  <span className="text-sm font-medium">{item.name}</span>
-                </Link>
+                <div key={item.name} className="relative">
+                  {item.dropdown ? (
+                    <div className="relative">
+                      <Link
+                        to={item.path}
+                        className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setDsaDropdownOpen(!dsaDropdownOpen);
+                        }}
+                      >
+                        <Icon className="h-4 w-4 mr-2" />
+                        <span className="text-sm font-medium">{item.name}</span>
+                        <ChevronDown className="h-4 w-4 ml-1" />
+                      </Link>
+                                          
+                      {dsaDropdownOpen && (
+                        <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200 z-50">
+                          {item.dropdown.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              to={subItem.path}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              onClick={() => setDsaDropdownOpen(false)}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                    >
+                      <Icon className="h-4 w-4 mr-2" />
+                      <span className="text-sm font-medium">{item.name}</span>
+                    </Link>
+                  )}
+                </div>
               )
             })}
           </div>
@@ -181,15 +244,52 @@ const Navbar = () => {
               {navItems.map((item) => {
                 const Icon = item.icon
                 return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Icon className="h-5 w-5 mr-3" />
-                    {item.name}
-                  </Link>
+                  <div key={item.name}>
+                    {item.dropdown ? (
+                      <div className="space-y-1">
+                        <Link
+                          to={item.path}
+                          className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setDsaDropdownOpen(!dsaDropdownOpen);
+                          }}
+                        >
+                          <Icon className="h-5 w-5 mr-3" />
+                          {item.name}
+                          <ChevronDown className={`h-4 w-4 ml-auto transition-transform ${dsaDropdownOpen ? 'rotate-180' : ''}`} />
+                        </Link>
+                                              
+                        {dsaDropdownOpen && (
+                          <div className="pl-6 space-y-1">
+                            {item.dropdown.map((subItem) => (
+                              <Link
+                                key={subItem.name}
+                                to={subItem.path}
+                                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                                onClick={() => {
+                                  setMobileMenuOpen(false)
+                                  setDsaDropdownOpen(false)
+                                }}
+                              >
+                                {subItem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.path}
+                        className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <Icon className="h-5 w-5 mr-3" />
+                        {item.name}
+                      </Link>
+                    )}
+                  </div>
                 )
               })}
             </div>

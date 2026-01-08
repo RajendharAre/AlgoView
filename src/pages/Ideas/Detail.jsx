@@ -1,197 +1,325 @@
-import { useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowLeft, Heart, MessageCircle, Share2, Bookmark, User, Calendar, Tag } from 'lucide-react'
+import { useParams } from 'react-router-dom';
+import { Heart, MessageCircle, Share2, Bookmark, Users, Calendar, Tag } from 'lucide-react';
+import { useState } from 'react';
 
 const IdeaDetail = () => {
-  const { ideaId } = useParams()
-
-  // Mock idea data
+  const { ideaId } = useParams();
+  
+  // Mock data for the idea
   const idea = {
-    id: ideaId,
-    title: 'Algorithm Visualization Platform',
-    description: 'A comprehensive web platform to visualize complex algorithms step-by-step with interactive controls, making it easier for students and developers to understand how algorithms work.',
-    author: {
-      name: 'Alex Johnson',
-      avatar: null,
-      joinDate: 'January 2023'
-    },
-    category: 'Web Development',
+    id: ideaId || 1,
+    title: "Advanced Algorithm Visualization Platform",
+    description: "An interactive platform for visualizing complex algorithms with step-by-step breakdowns. Users can see how algorithms work in real-time with animated diagrams and explanations.",
+    author: "John Doe",
+    authorAvatar: "https://via.placeholder.com/40x40/3b82f6/ffffff?text=JD",
+    date: "2024-01-15",
     likes: 24,
     comments: 8,
-    tags: ['react', 'd3.js', 'algorithms', 'education', 'visualization'],
-    createdAt: '2023-06-15',
+    tags: ["DSA", "Education", "Visualization", "Interactive"],
+    featured: true,
     content: `
-      <h2>Concept Overview</h2>
-      <p>This platform aims to make complex algorithms accessible and understandable through interactive visualizations. Users can step through algorithms at their own pace, modify input data, and see how the algorithm responds in real-time.</p>
+      ## Detailed Description
       
-      <h2>Key Features</h2>
-      <ul>
-        <li>Interactive step-by-step visualization of algorithms</li>
-        <li>Customizable input data for testing different scenarios</li>
-        <li>Detailed explanations for each step of the algorithm</li>
-        <li>Performance metrics and complexity analysis</li>
-        <li>Save and share visualizations with others</li>
-        <li>Mobile-responsive design for learning on any device</li>
-      </ul>
+      This platform aims to revolutionize how students and professionals learn and understand algorithms. The core features include:
       
-      <h2>Technical Implementation</h2>
-      <p>The platform will be built using React for the frontend with D3.js for visualizations. Firebase will handle user authentication and data storage. The algorithm implementations will be written in JavaScript with detailed commenting to explain each step.</p>
+      - **Interactive Visualizations**: See algorithms in action with step-by-step visual breakdowns
+      - **Multiple Algorithm Types**: Covering sorting, searching, graph algorithms, and more
+      - **Custom Input Support**: Users can input their own data to see how algorithms work with different inputs
+      - **Performance Analysis**: Real-time complexity analysis and comparison between different approaches
+      - **Educational Resources**: Comprehensive guides and explanations for each algorithm
       
-      <h2>Target Audience</h2>
-      <p>This platform is designed for:</p>
-      <ul>
-        <li>Computer science students learning algorithms</li>
-        <li>Developers preparing for technical interviews</li>
-        <li>Educators teaching data structures and algorithms</li>
-        <li>Anyone interested in understanding how algorithms work</li>
-      </ul>
-    `
-  }
+      ## Implementation Approach
+      
+      The platform will be built using modern web technologies:
+      
+      1. **Frontend**: React.js with D3.js for visualizations
+      2. **State Management**: Redux Toolkit for predictable state updates
+      3. **Styling**: Tailwind CSS for responsive design
+      4. **Animations**: Framer Motion for smooth transitions
+      5. **Charts**: Recharts for performance metrics visualization
+      
+      ## Benefits
+      
+      - Improved understanding of complex algorithms
+      - Better retention through visual learning
+      - Hands-on experience without setting up environments
+      - Accessible to anyone with a web browser
+      - Supports multiple learning styles
+    `,
+    relatedIdeas: [
+      {
+        id: 2,
+        title: "Code Interview Simulator",
+        description: "Realistic coding interview environment with timer and video recording",
+        author: "Jane Smith",
+        likes: 18,
+        comments: 5
+      },
+      {
+        id: 3,
+        title: "Collaborative Learning Platform",
+        description: "Real-time collaborative coding environment for peer learning",
+        author: "Mike Johnson",
+        likes: 32,
+        comments: 12
+      }
+    ]
+  };
+
+  const [liked, setLiked] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [comments, setComments] = useState([
+    {
+      id: 1,
+      author: "Alice Wilson",
+      avatar: "https://via.placeholder.com/32x32/ef4444/ffffff?text=AW",
+      content: "This sounds amazing! Would love to contribute to this project.",
+      date: "2024-01-16",
+      likes: 3
+    },
+    {
+      id: 2,
+      author: "Bob Thompson",
+      avatar: "https://via.placeholder.com/32x32/10b981/ffffff?text=BT",
+      content: "I've been looking for something like this. Count me in!",
+      date: "2024-01-15",
+      likes: 7
+    }
+  ]);
+  const [newComment, setNewComment] = useState('');
+
+  const handleLike = () => {
+    setLiked(!liked);
+  };
+
+  const handleBookmark = () => {
+    setBookmarked(!bookmarked);
+  };
+
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    if (newComment.trim()) {
+      const comment = {
+        id: comments.length + 1,
+        author: "Current User",
+        avatar: "https://via.placeholder.com/32x32/8b5cf6/ffffff?text=CU",
+        content: newComment,
+        date: new Date().toISOString().split('T')[0],
+        likes: 0
+      };
+      setComments([...comments, comment]);
+      setNewComment('');
+    }
+  };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <button className="flex items-center text-blue-600 hover:text-blue-700 transition-colors mb-6">
-          <ArrowLeft size={18} className="mr-2" />
-          Back to Ideas
-        </button>
-        
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-              {idea.category}
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Back Button */}
+        <div className="mb-6">
+          <button 
+            onClick={() => window.history.back()}
+            className="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium"
+          >
+            ← Back to Ideas
+          </button>
+        </div>
+
+        {/* Main Idea Card */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          {idea.featured && (
+            <div className="bg-gradient-to-r from-yellow-400 to-orange-400 px-6 py-3">
+              <span className="text-white text-sm font-medium">Featured Idea</span>
             </div>
-            <div className="flex items-center space-x-4">
-              <button className="flex items-center text-gray-500 hover:text-red-500 transition-colors">
-                <Heart size={20} className="mr-1" />
-                <span>{idea.likes}</span>
-              </button>
-              <button className="flex items-center text-gray-500 hover:text-blue-600 transition-colors">
-                <MessageCircle size={20} className="mr-1" />
-                <span>{idea.comments}</span>
-              </button>
-              <button className="text-gray-500 hover:text-blue-600 transition-colors">
-                <Share2 size={20} />
-              </button>
-              <button className="text-gray-500 hover:text-blue-600 transition-colors">
-                <Bookmark size={20} />
-              </button>
-            </div>
-          </div>
+          )}
           
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">{idea.title}</h1>
-          
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                {idea.author.avatar ? (
-                  <img className="h-10 w-10 rounded-full" src={idea.author.avatar} alt={idea.author.name} />
-                ) : (
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
-                    <User size={20} className="text-white" />
-                  </div>
-                )}
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900">{idea.author.name}</p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <Calendar size={14} className="mr-1" />
-                  <span>Joined {idea.author.joinDate}</span>
-                </div>
-              </div>
+          <div className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <h1 className="text-3xl font-bold text-gray-900">{idea.title}</h1>
+              <button
+                onClick={handleBookmark}
+                className={`p-2 rounded-full ${
+                  bookmarked 
+                    ? 'text-blue-600 bg-blue-50' 
+                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Bookmark className="h-5 w-5" />
+              </button>
             </div>
-            <div className="text-sm text-gray-500">
-              Published on {new Date(idea.createdAt).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+            
+            <div className="flex items-center text-sm text-gray-500 mb-6">
+              <img 
+                src={idea.authorAvatar} 
+                alt={idea.author}
+                className="w-8 h-8 rounded-full mr-2"
+              />
+              <span>by {idea.author}</span>
+              <Calendar className="h-4 w-4 ml-4 mr-1" />
+              <span>{new Date(idea.date).toLocaleDateString()}</span>
+            </div>
+            
+            <div className="flex flex-wrap gap-2 mb-6">
+              {idea.tags.map(tag => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                >
+                  <Tag className="h-3 w-3 mr-1" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+            
+            <div className="prose max-w-none mb-8">
+              {idea.content.split('\n\n').map((paragraph, index) => {
+                if (paragraph.startsWith('## ')) {
+                  return (
+                    <h2 key={index} className="text-xl font-semibold text-gray-900 mt-6 mb-3">
+                      {paragraph.replace('## ', '')}
+                    </h2>
+                  );
+                } else if (paragraph.startsWith('- ')) {
+                  return (
+                    <ul key={index} className="list-disc list-inside mb-3">
+                      {paragraph.split('\n').filter(item => item.trim()).map((item, i) => (
+                        <li key={i} className="text-gray-700 mb-1">
+                          {item.replace('- ', '').trim()}
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                } else if (paragraph.match(/^\d\. /)) {
+                  return (
+                    <ol key={index} className="list-decimal list-inside mb-3">
+                      {paragraph.split('\n').filter(item => item.trim()).map((item, i) => (
+                        <li key={i} className="text-gray-700 mb-1">
+                          {item.replace(/^\d\. /, '').trim()}
+                        </li>
+                      ))}
+                    </ol>
+                  );
+                } else if (paragraph.trim()) {
+                  return (
+                    <p key={index} className="text-gray-700 mb-4">
+                      {paragraph}
+                    </p>
+                  );
+                }
+                return null;
               })}
             </div>
+            
+            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+              <div className="flex items-center space-x-6">
+                <button
+                  onClick={handleLike}
+                  className={`flex items-center space-x-2 ${
+                    liked ? 'text-red-600' : 'text-gray-600 hover:text-red-600'
+                  }`}
+                >
+                  <Heart className={`h-5 w-5 ${liked ? 'fill-current' : ''}`} />
+                  <span>{idea.likes + (liked ? 1 : 0)}</span>
+                </button>
+                <div className="flex items-center text-gray-600">
+                  <MessageCircle className="h-5 w-5 mr-1" />
+                  <span>{comments.length}</span>
+                </div>
+                <button className="flex items-center text-gray-600 hover:text-blue-600">
+                  <Share2 className="h-5 w-5 mr-1" />
+                  <span>Share</span>
+                </button>
+              </div>
+              
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Join Discussion
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* Comments Section */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Comments ({comments.length})
+          </h3>
           
-          <p className="text-lg text-gray-700 mb-8">{idea.description}</p>
+          <form onSubmit={handleAddComment} className="mb-6">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Share your thoughts about this idea..."
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              rows="3"
+            />
+            <div className="flex justify-end mt-3">
+              <button
+                type="submit"
+                disabled={!newComment.trim()}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                Post Comment
+              </button>
+            </div>
+          </form>
           
-          <div className="flex flex-wrap gap-2 mb-8">
-            {idea.tags.map(tag => (
-              <span key={tag} className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-gray-100 text-gray-800">
-                <Tag size={14} className="mr-1" />
-                {tag}
-              </span>
+          <div className="space-y-4">
+            {comments.map(comment => (
+              <div key={comment.id} className="flex space-x-3">
+                <img 
+                  src={comment.avatar} 
+                  alt={comment.author}
+                  className="w-8 h-8 rounded-full flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <div className="bg-gray-50 rounded-lg p-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-gray-900">{comment.author}</span>
+                      <span className="text-xs text-gray-500">{comment.date}</span>
+                    </div>
+                    <p className="text-sm text-gray-700">{comment.content}</p>
+                  </div>
+                  <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                    <button className="hover:text-red-600 flex items-center">
+                      <Heart className="h-3 w-3 mr-1" />
+                      {comment.likes}
+                    </button>
+                    <button className="hover:text-blue-600">Reply</button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-          
-          <div 
-            className="prose max-w-none text-gray-700"
-            dangerouslySetInnerHTML={{ __html: idea.content }}
-          />
         </div>
-      </motion.div>
-      
-      {/* Comments Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
-      >
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Discussion ({idea.comments})</h2>
-        
-        <div className="space-y-6">
-          <div className="flex">
-            <div className="flex-shrink-0 mr-4">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center">
-                <User size={20} className="text-white" />
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-sm font-medium text-gray-900">Sarah Williams</h4>
-                  <span className="text-xs text-gray-500">2 days ago</span>
-                </div>
-                <p className="text-gray-700">This is a fantastic idea! I've been looking for something like this for my algorithms class. Would love to see graph algorithms included as well.</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex">
-            <div className="flex-shrink-0 mr-4">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-pink-500 flex items-center justify-center">
-                <User size={20} className="text-white" />
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-sm font-medium text-gray-900">Michael Chen</h4>
-                  <span className="text-xs text-gray-500">1 day ago</span>
-                </div>
-                <p className="text-gray-700">Great concept! Have you considered using WebGL for more complex visualizations? It could handle 3D graph algorithms beautifully.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Add a comment</h3>
-          <textarea
-            rows={4}
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            placeholder="Share your thoughts..."
-          ></textarea>
-          <div className="mt-4 flex justify-end">
-            <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300">
-              Post Comment
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  )
-}
 
-export default IdeaDetail
+        {/* Related Ideas */}
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Ideas</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {idea.relatedIdeas.map(related => (
+              <div key={related.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                <h4 className="font-medium text-gray-900 mb-2">{related.title}</h4>
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{related.description}</p>
+                <div className="flex items-center justify-between text-xs text-gray-500">
+                  <span>by {related.author}</span>
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center">
+                      <Heart className="h-3 w-3 mr-1" />
+                      <span>{related.likes}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <MessageCircle className="h-3 w-3 mr-1" />
+                      <span>{related.comments}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default IdeaDetail;

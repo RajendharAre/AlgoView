@@ -1,215 +1,220 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Search, Filter, Plus, Lightbulb, Heart, MessageCircle, Share2 } from 'lucide-react'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Lightbulb, Plus, MessageCircle, Heart, Share2, Filter, Search } from 'lucide-react';
 
 const Ideas = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')
-
-  const categories = [
-    { id: 'all', name: 'All Ideas' },
-    { id: 'web', name: 'Web Development' },
-    { id: 'mobile', name: 'Mobile Apps' },
-    { id: 'ai', name: 'AI/ML' },
-    { id: 'blockchain', name: 'Blockchain' },
-    { id: 'iot', name: 'IoT' },
-    { id: 'gaming', name: 'Gaming' }
-  ]
-
-  const ideas = [
+  const [ideas, setIdeas] = useState([
     {
       id: 1,
-      title: 'Algorithm Visualization Platform',
-      description: 'A web platform to visualize complex algorithms step-by-step with interactive controls.',
-      author: 'Alex Johnson',
-      category: 'web',
+      title: "Algorithm Visualization Platform",
+      description: "Interactive platform for visualizing different algorithms with step-by-step breakdowns",
+      author: "John Doe",
+      date: "2024-01-15",
       likes: 24,
       comments: 8,
-      tags: ['react', 'd3.js', 'algorithms']
+      tags: ["DSA", "Education", "Visualization"],
+      featured: true
     },
     {
       id: 2,
-      title: 'Smart Home Automation System',
-      description: 'IoT-based home automation system with voice control and mobile app integration.',
-      author: 'Sarah Williams',
-      category: 'iot',
-      likes: 42,
-      comments: 15,
-      tags: ['iot', 'arduino', 'mobile']
+      title: "Code Interview Simulator",
+      description: "Realistic coding interview environment with timer and video recording",
+      author: "Jane Smith",
+      date: "2024-01-10",
+      likes: 18,
+      comments: 5,
+      tags: ["Interview", "Practice", "Assessment"]
     },
     {
       id: 3,
-      title: 'AI-Powered Code Review Assistant',
-      description: 'Machine learning model that automatically reviews code for best practices and potential bugs.',
-      author: 'Michael Chen',
-      category: 'ai',
-      likes: 67,
-      comments: 23,
-      tags: ['ai', 'ml', 'devtools']
+      title: "Collaborative Learning Platform",
+      description: "Real-time collaborative coding environment for peer learning",
+      author: "Mike Johnson",
+      date: "2024-01-08",
+      likes: 32,
+      comments: 12,
+      tags: ["Collaboration", "Learning", "Real-time"]
     },
     {
       id: 4,
-      title: 'Decentralized Social Media Platform',
-      description: 'Blockchain-based social media platform with user-owned data and token rewards.',
-      author: 'Emma Rodriguez',
-      category: 'blockchain',
-      likes: 89,
-      comments: 31,
-      tags: ['blockchain', 'ethereum', 'web3']
+      title: "AI-Powered Code Reviewer",
+      description: "Automated code review system with suggestions and best practices",
+      author: "Sarah Williams",
+      date: "2024-01-05",
+      likes: 15,
+      comments: 3,
+      tags: ["AI", "Review", "Automation"]
     },
     {
       id: 5,
-      title: 'AR Navigation App for Campuses',
-      description: 'Augmented reality navigation app for university campuses with indoor positioning.',
-      author: 'David Kim',
-      category: 'mobile',
-      likes: 35,
-      comments: 12,
-      tags: ['ar', 'mobile', 'navigation']
-    },
-    {
-      id: 6,
-      title: 'Procedural World Generation for Games',
-      description: 'Algorithm for generating infinite, unique game worlds with realistic terrain and ecosystems.',
-      author: 'James Wilson',
-      category: 'gaming',
-      likes: 56,
-      comments: 19,
-      tags: ['gaming', 'algorithms', 'graphics']
+      title: "Algorithm Performance Analyzer",
+      description: "Tool to compare time and space complexity of different algorithms visually",
+      author: "David Brown",
+      date: "2024-01-02",
+      likes: 27,
+      comments: 9,
+      tags: ["Analysis", "Performance", "Comparison"]
     }
-  ]
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const allTags = ['DSA', 'Education', 'Visualization', 'Interview', 'Practice', 'Collaboration', 'Learning', 'AI', 'Review', 'Analysis', 'Performance', 'Automation', 'Real-time'];
+
+  const toggleTag = (tag) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag) 
+        : [...prev, tag]
+    );
+  };
 
   const filteredIdeas = ideas.filter(idea => {
     const matchesSearch = idea.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          idea.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === 'all' || idea.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
+                         idea.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesTags = selectedTags.length === 0 || 
+                       selectedTags.some(tag => idea.tags.includes(tag));
+    
+    return matchesSearch && matchesTags;
+  });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
-        >
-          Innovation Ideas
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-xl text-gray-600 max-w-3xl mx-auto"
-        >
-          Discover inspiring project ideas, share your concepts, and collaborate with our community 
-          of innovators and developers.
-        </motion.p>
-      </div>
-
-      {/* Search and Filter */}
-      <div className="mb-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="relative flex-1 max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 flex items-center">
+                <Lightbulb className="h-8 w-8 text-yellow-500 mr-3" />
+                Ideas & Suggestions
+              </h1>
+              <p className="mt-2 text-lg text-gray-600">
+                Share your ideas and explore innovative concepts for our platform
+              </p>
             </div>
-            <input
-              type="text"
-              placeholder="Search ideas..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Filter className="h-5 w-5 text-gray-400" />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              >
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>{category.name}</option>
-                ))}
-              </select>
-            </div>
-            
-            <button className="flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300">
-              <Plus size={18} className="mr-2" />
-              New Idea
-            </button>
+            <Link
+              to="#"
+              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Submit Idea
+            </Link>
           </div>
         </div>
-      </div>
 
-      {/* Ideas Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredIdeas.map((idea, index) => (
-          <motion.div
-            key={idea.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 * index }}
-            whileHover={{ y: -5 }}
-            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
-          >
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                  {categories.find(cat => cat.id === idea.category)?.name}
-                </div>
-                <button className="text-gray-400 hover:text-red-500 transition-colors">
-                  <Heart size={18} />
-                </button>
-              </div>
-              
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{idea.title}</h3>
-              <p className="text-gray-600 mb-4">{idea.description}</p>
-              
-              <div className="flex flex-wrap gap-2 mb-4">
-                {idea.tags.map(tag => (
-                  <span key={tag} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
+        {/* Filters */}
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search ideas..."
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center">
+              <Filter className="h-4 w-4 text-gray-400 mr-2" />
+              <span className="text-sm font-medium text-gray-700 mr-2">Tags:</span>
+              <div className="flex flex-wrap gap-2">
+                {allTags.map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                      selectedTags.includes(tag)
+                        ? 'bg-blue-100 text-blue-800 border border-blue-300'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
                     {tag}
-                  </span>
+                  </button>
                 ))}
               </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-500">
-                  by {idea.author}
+            </div>
+          </div>
+        </div>
+
+        {/* Ideas Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredIdeas.map((idea) => (
+            <div key={idea.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+              {idea.featured && (
+                <div className="bg-gradient-to-r from-yellow-400 to-orange-400 px-4 py-2">
+                  <span className="text-white text-sm font-medium">Featured Idea</span>
                 </div>
-                <div className="flex items-center space-x-4">
-                  <button className="flex items-center text-gray-500 hover:text-blue-600 transition-colors">
-                    <Heart size={16} className="mr-1" />
-                    <span className="text-sm">{idea.likes}</span>
+              )}
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                    {idea.title}
+                  </h3>
+                </div>
+                
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                  {idea.description}
+                </p>
+                
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {idea.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div className="flex items-center space-x-4">
+                    <span>by {idea.author}</span>
+                    <span>{new Date(idea.date).toLocaleDateString()}</span>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center">
+                      <Heart className="h-4 w-4 mr-1" />
+                      <span>{idea.likes}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <MessageCircle className="h-4 w-4 mr-1" />
+                      <span>{idea.comments}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                    <Share2 className="h-4 w-4 mr-1" />
+                    Share
                   </button>
-                  <button className="flex items-center text-gray-500 hover:text-blue-600 transition-colors">
-                    <MessageCircle size={16} className="mr-1" />
-                    <span className="text-sm">{idea.comments}</span>
-                  </button>
-                  <button className="text-gray-500 hover:text-blue-600 transition-colors">
-                    <Share2 size={16} />
+                  <button className="text-gray-600 hover:text-gray-800 text-sm font-medium">
+                    View Details
                   </button>
                 </div>
               </div>
             </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {filteredIdeas.length === 0 && (
-        <div className="text-center py-12">
-          <Lightbulb className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-medium text-gray-900 mb-2">No ideas found</h3>
-          <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+          ))}
         </div>
-      )}
-    </div>
-  )
-}
 
-export default Ideas
+        {filteredIdeas.length === 0 && (
+          <div className="text-center py-12">
+            <Lightbulb className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No ideas found</h3>
+            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Ideas;

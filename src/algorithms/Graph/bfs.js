@@ -7,6 +7,7 @@ export function* bfs(graph, startId) {
   const q = []
   const done = []
   const visitedEdges = []
+  const visitedPath = []
 
   q.push(startId)
   visited.add(startId)
@@ -22,12 +23,14 @@ export function* bfs(graph, startId) {
     frontier: [...q],
     doneNodes: [...done],
     visitedEdges: [...visitedEdges],
+    visitedPath: [...visitedPath],
     description: `Start BFS at ${startId}`,
     stepIndex: stepIndex++,
   }
 
   while (q.length > 0) {
     const u = q.shift()
+    visitedPath.push(u)
     yield {
       nodes,
       edges,
@@ -36,6 +39,7 @@ export function* bfs(graph, startId) {
       frontier: [...q],
       doneNodes: [...done],
       visitedEdges: [...visitedEdges],
+      visitedPath: [...visitedPath],
       description: `Visiting ${u}`,
       stepIndex: stepIndex++,
     }
@@ -56,6 +60,7 @@ export function* bfs(graph, startId) {
             frontier: [...q],
             doneNodes: [...done],
             visitedEdges: [...visitedEdges],
+            visitedPath: [...visitedPath],
             description: `Discovered ${v} from ${u}`,
             stepIndex: stepIndex++,
           }
@@ -69,6 +74,7 @@ export function* bfs(graph, startId) {
             frontier: [...q],
             doneNodes: [...done],
             visitedEdges: [...visitedEdges],
+            visitedPath: [...visitedPath],
             description: `${v} already visited`,
             stepIndex: stepIndex++,
           }
@@ -85,6 +91,7 @@ export function* bfs(graph, startId) {
       frontier: [...q],
       doneNodes: [...done],
       visitedEdges: [...visitedEdges],
+      visitedPath: [...visitedPath],
       description: `${u} processed`,
       stepIndex: stepIndex++,
     }
@@ -98,6 +105,7 @@ export function* bfs(graph, startId) {
     frontier: [],
     doneNodes: [...done],
     visitedEdges: [...visitedEdges],
+    visitedPath: [...visitedPath],
     description: 'BFS complete',
     stepIndex: stepIndex++,
   }
