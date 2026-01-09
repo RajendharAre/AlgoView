@@ -1,67 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Lightbulb, Plus, MessageCircle, Heart, Share2, Filter, Search } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { getIdeasListener, likeIdea, checkUserLike } from '../services/ideasService';
+import { Lightbulb, Plus, MessageCircle, Heart, Share2, Filter, Search, User, Clock } from 'lucide-react';
 
 const Ideas = () => {
-  const [ideas, setIdeas] = useState([
-    {
-      id: 1,
-      title: "Algorithm Visualization Platform",
-      description: "Interactive platform for visualizing different algorithms with step-by-step breakdowns",
-      author: "John Doe",
-      date: "2024-01-15",
-      likes: 24,
-      comments: 8,
-      tags: ["DSA", "Education", "Visualization"],
-      featured: true
-    },
-    {
-      id: 2,
-      title: "Code Interview Simulator",
-      description: "Realistic coding interview environment with timer and video recording",
-      author: "Jane Smith",
-      date: "2024-01-10",
-      likes: 18,
-      comments: 5,
-      tags: ["Interview", "Practice", "Assessment"]
-    },
-    {
-      id: 3,
-      title: "Collaborative Learning Platform",
-      description: "Real-time collaborative coding environment for peer learning",
-      author: "Mike Johnson",
-      date: "2024-01-08",
-      likes: 32,
-      comments: 12,
-      tags: ["Collaboration", "Learning", "Real-time"]
-    },
-    {
-      id: 4,
-      title: "AI-Powered Code Reviewer",
-      description: "Automated code review system with suggestions and best practices",
-      author: "Sarah Williams",
-      date: "2024-01-05",
-      likes: 15,
-      comments: 3,
-      tags: ["AI", "Review", "Automation"]
-    },
-    {
-      id: 5,
-      title: "Algorithm Performance Analyzer",
-      description: "Tool to compare time and space complexity of different algorithms visually",
-      author: "David Brown",
-      date: "2024-01-02",
-      likes: 27,
-      comments: 9,
-      tags: ["Analysis", "Performance", "Comparison"]
-    }
-  ]);
-
+  const { user } = useAuth();
+  const [ideas, setIdeas] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
+  const [userLikes, setUserLikes] = useState({}); // Track which ideas user has liked
 
-  const allTags = ['DSA', 'Education', 'Visualization', 'Interview', 'Practice', 'Collaboration', 'Learning', 'AI', 'Review', 'Analysis', 'Performance', 'Automation', 'Real-time'];
+  // Get all unique tags from ideas
+  const allTags = [...new Set(ideas.flatMap(idea => idea.tags || []))];
 
+  // Set up real-time listener for ideas
+  useEffect(() => {
+    let unsubscribe;
+    
+    const fetchIdeas = async () => {
+      setLoading(true);
+      unsubscribe = getIdeasListener(
+        (fetchedIdeas) => {
+          setIdeas(fetchedIdeas);
+          setLoading(false);
+          
+          // Update user likes for all fetched ideas
+          if (user) {
+            Promise.all(
+              fetchedIdeas.map(async (idea) => {
+                const hasLiked = await checkUserLike(idea.id, user.uid);
+                return { ideaId: idea.id, hasLiked };
+              })
+            ).then(results => {
+              const likesMap = {};
+              results.forEach(result => {
+                likesMap[result.ideaId] = result.hasLiked;
+              });
+              setUserLikes(prev => ({ ...prev, ...likesMap }));
+            });
+          }
+        },
+        (error) => {
+          console.error('Error fetching ideas:', error);
+          setLoading(false);
+        }
+      );
+    };
+
+    fetchIdeas();
+
+    // Clean up listener on unmount
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [user]);
+
+  // Toggle tag selection
   const toggleTag = (tag) => {
     setSelectedTags(prev => 
       prev.includes(tag) 
@@ -70,12 +68,40 @@ const Ideas = () => {
     );
   };
 
+  // Handle like/unlike
+  const handleLike = async (ideaId) => {
+    if (!user) {
+      alert('Please log in to like ideas');
+      return;
+    }
+
+    try {
+      const result = await likeIdea(ideaId, user.uid);
+      
+      if (result.success) {
+        // Optimistically update the UI
+        setUserLikes(prev => ({
+          ...prev,
+          [ideaId]: result.liked
+        }));
+        
+        // The real-time listener will automatically update the like count from Firestore
+        // No need to manually update the ideas array since the listener handles it
+      } else {
+        console.error('Failed to like idea:', result.error);
+      }
+    } catch (error) {
+      console.error('Error in handleLike:', error);
+    }
+  };
+
+  // Filter ideas based on search and tags
   const filteredIdeas = ideas.filter(idea => {
     const matchesSearch = idea.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         idea.description.toLowerCase().includes(searchTerm.toLowerCase());
+                         (idea.description && idea.description.toLowerCase().includes(searchTerm.toLowerCase()));
     
     const matchesTags = selectedTags.length === 0 || 
-                       selectedTags.some(tag => idea.tags.includes(tag));
+                       (idea.tags && selectedTags.some(tag => idea.tags.includes(tag)));
     
     return matchesSearch && matchesTags;
   });
@@ -96,7 +122,7 @@ const Ideas = () => {
               </p>
             </div>
             <Link
-              to="#"
+              to="/ideas/new"
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -106,10 +132,10 @@ const Ideas = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search ideas..."
@@ -118,15 +144,17 @@ const Ideas = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div className="flex items-center">
-              <Filter className="h-4 w-4 text-gray-400 mr-2" />
-              <span className="text-sm font-medium text-gray-700 mr-2">Tags:</span>
-              <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center min-w-0 flex-1">
+              <div className="flex items-center flex-shrink-0 mr-2">
+                <Filter className="h-4 w-4 text-gray-400 mr-2" />
+                <span className="text-sm font-medium text-gray-700">Tags:</span>
+              </div>
+              <div className="flex flex-wrap gap-2 min-w-0">
                 {allTags.map(tag => (
                   <button
                     key={tag}
                     onClick={() => toggleTag(tag)}
-                    className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                    className={`px-3 py-1 text-xs rounded-full whitespace-nowrap ${
                       selectedTags.includes(tag)
                         ? 'bg-blue-100 text-blue-800 border border-blue-300'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -140,72 +168,95 @@ const Ideas = () => {
           </div>
         </div>
 
+        {/* Loading indicator */}
+        {loading && (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading ideas...</p>
+          </div>
+        )}
+
         {/* Ideas Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredIdeas.map((idea) => (
-            <div key={idea.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-              {idea.featured && (
-                <div className="bg-gradient-to-r from-yellow-400 to-orange-400 px-4 py-2">
-                  <span className="text-white text-sm font-medium">Featured Idea</span>
-                </div>
-              )}
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
-                    {idea.title}
-                  </h3>
-                </div>
-                
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                  {idea.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {idea.tags.map(tag => (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className="flex items-center justify-between text-sm text-gray-500">
-                  <div className="flex items-center space-x-4">
-                    <span>by {idea.author}</span>
-                    <span>{new Date(idea.date).toLocaleDateString()}</span>
+        {!loading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredIdeas.map((idea) => (
+              <div key={idea.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                <div className="p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                      {idea.title}
+                    </h3>
                   </div>
                   
-                  <div className="flex items-center space-x-3">
-                    <div className="flex items-center">
-                      <Heart className="h-4 w-4 mr-1" />
-                      <span>{idea.likes}</span>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                    {idea.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-1 mb-4">
+                    {(idea.tags || []).map(tag => (
+                      <span
+                        key={tag}
+                        className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <div className="flex items-center space-x-2">
+                      <User className="h-4 w-4" />
+                      <span>{idea.authorName || 'Anonymous'}</span>
                     </div>
-                    <div className="flex items-center">
-                      <MessageCircle className="h-4 w-4 mr-1" />
-                      <span>{idea.comments}</span>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4" />
+                      <span>
+                        {idea.createdAt?.toDate ? 
+                          idea.createdAt.toDate().toLocaleDateString() : 
+                          new Date(idea.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <button 
+                      onClick={() => handleLike(idea.id)}
+                      className={`flex items-center space-x-1 ${userLikes[idea.id] ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}
+                    >
+                      <Heart className={`h-4 w-4 ${userLikes[idea.id] ? 'fill-current' : ''}`} />
+                      <span>{idea.likeCount || 0}</span>
+                    </button>
+                    
+                    <Link 
+                      to={`/ideas/${idea.id}`}
+                      className="flex items-center space-x-1 text-gray-500 hover:text-blue-600"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      <span>{idea.commentCount || 0}</span>
+                    </Link>
+                  </div>
+                </div>
+                
+                <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <button className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                      <Share2 className="h-4 w-4 mr-1" />
+                      Share
+                    </button>
+                    <Link 
+                      to={`/ideas/${idea.id}`}
+                      className="text-gray-600 hover:text-gray-800 text-sm font-medium"
+                    >
+                      View Details
+                    </Link>
                   </div>
                 </div>
               </div>
-              
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
-                <div className="flex items-center justify-between">
-                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
-                    <Share2 className="h-4 w-4 mr-1" />
-                    Share
-                  </button>
-                  <button className="text-gray-600 hover:text-gray-800 text-sm font-medium">
-                    View Details
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        {filteredIdeas.length === 0 && (
+        {!loading && filteredIdeas.length === 0 && (
           <div className="text-center py-12">
             <Lightbulb className="h-12 w-12 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">No ideas found</h3>

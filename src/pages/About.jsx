@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, Code, BookOpen, Trophy, Calendar, Star, Github, Twitter, Mail, MapPin } from 'lucide-react';
+import { Users, Code, BookOpen, Trophy, Calendar, Star, Github, Twitter, Mail, MapPin, Grid3X3, Laptop2, TrendingUp, Users2 } from 'lucide-react';
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -42,22 +42,22 @@ const About = () => {
     {
       title: "Interactive Visualizations",
       description: "See algorithms come to life with step-by-step visual representations",
-      icon: "📊"
+      icon: <Grid3X3 className="h-8 w-8 text-blue-600" />
     },
     {
       title: "Hands-on Practice",
       description: "Implement and test algorithms directly in your browser",
-      icon: "💻"
+      icon: <Laptop2 className="h-8 w-8 text-blue-600" />
     },
     {
       title: "Progress Tracking",
       description: "Monitor your learning journey and achievements",
-      icon: "📈"
+      icon: <TrendingUp className="h-8 w-8 text-blue-600" />
     },
     {
       title: "Community Support",
       description: "Connect with fellow learners and experts for guidance",
-      icon: "👥"
+      icon: <Users2 className="h-8 w-8 text-blue-600" />
     }
   ];
 
@@ -105,7 +105,7 @@ const About = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center">
-                <div className="text-3xl mb-4">{feature.icon}</div>
+                <div className="flex justify-center mb-4">{feature.icon}</div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
               </div>
@@ -251,10 +251,10 @@ const About = () => {
                       <Mail className="h-4 w-4 mr-2" />
                       Contact Us
                     </button>
-                    <button className="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    <a href="https://github.com/RajendharAre/AlgoView" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                       <Github className="h-4 w-4 mr-2" />
                       Contribute
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -282,7 +282,7 @@ const About = () => {
             <div className="text-center">
               <MapPin className="h-8 w-8 text-blue-400 mx-auto mb-3" />
               <h3 className="text-lg font-semibold mb-2">Visit Us</h3>
-              <p className="text-gray-300">San Francisco, CA</p>
+              <p className="text-gray-300">Telangana, India</p>
             </div>
             <div className="text-center">
               <Twitter className="h-8 w-8 text-blue-400 mx-auto mb-3" />

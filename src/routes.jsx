@@ -15,7 +15,7 @@ const DSAAlgorithms = lazy(() => import('./pages/DSA/Algorithms'))
 const DSAAlgorithmCategory = lazy(() => import('./pages/DSA/Algorithms/Category'))
 const DSAProblems = lazy(() => import('./pages/DSA/Problems'))
 const DSAProblemSheet = lazy(() => import('./pages/DSA/Problems/Sheet'))
-const DSAPractice = lazy(() => import('./pages/DSA/Practice'))
+const DSAPractice = lazy(() => import('./pages/DSA/Practice/Practice'))
 const DSAProblemPractice = lazy(() => import('./pages/DSA/Practice/Problem'))
 const DSAContribute = lazy(() => import('./pages/DSA/Contribute'))
 const DSAContributeNew = lazy(() => import('./pages/DSA/Contribute/New'))
@@ -25,6 +25,7 @@ const DSADiscussionNew = lazy(() => import('./pages/DSA/Discussions/New'))
 const Development = lazy(() => import('./pages/Development'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
+const NewIdea = lazy(() => import('./pages/Ideas/New'))
 const References = lazy(() => import('./pages/References'))
 const Profile = lazy(() => import('./pages/Profile'))
 const UserProfile = lazy(() => import('./pages/Profile/User'))
@@ -258,6 +259,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<LoadingSpinner />}>
               <IdeaDetail />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'ideas/new',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <NewIdea />
             </Suspense>
           </ProtectedRoute>
         )

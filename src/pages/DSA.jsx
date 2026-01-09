@@ -3,7 +3,6 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from '../components/layout/Sidebar'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Cpu, 
   Menu, 
   X,
   Shuffle,
@@ -14,6 +13,7 @@ import {
   Database,
   Lock
 } from 'lucide-react'
+import { SiThealgorithms } from 'react-icons/si'
 
 const DSA = () => {
   const location = useLocation()
@@ -167,7 +167,7 @@ const DSA = () => {
           {location.pathname === '/dsa' || location.pathname === '/dsa/' ? (
             <div className="flex items-center justify-center h-full p-8">
               <div className="text-center max-w-md">
-                <Cpu size={64} className="mx-auto text-gray-300 mb-4" />
+                <SiThealgorithms size={64} className="mx-auto text-gray-300 mb-4" />
                 <h2 className="text-2xl font-bold text-gray-800 mb-2">Algorithm Visualizer</h2>
                 <p className="text-gray-600 mb-6">
                   Select an algorithm from the sidebar to visualize how it works step by step.

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
+import { useAuth } from '../hooks/useAuth'
 import { 
-  Cpu, 
   Code, 
   Lightbulb, 
   BookOpen, 
@@ -17,8 +17,11 @@ import {
   Pause,
   ArrowRight
 } from 'lucide-react'
+import { SiThealgorithms } from 'react-icons/si'
 
 const Home = () => {
+  const { user } = useAuth();
+  
   // State for testimonials carousel
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
@@ -75,7 +78,7 @@ const Home = () => {
     {
       title: '200+ Algorithm Visualizations',
       description: 'Interactive visualizations for sorting, searching, graph algorithms, and more.',
-      icon: Cpu,
+      icon: SiThealgorithms,
       link: '/dsa'
     },
     {
@@ -218,7 +221,7 @@ const Home = () => {
                 }}
               />
               <div className="absolute inset-8 flex items-center justify-center">
-                <Cpu className="w-16 h-16 text-white opacity-80" />
+                <SiThealgorithms className="w-16 h-16 text-white opacity-80" />
               </div>
             </div>
           </div>
@@ -263,7 +266,7 @@ const Home = () => {
               className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center group"
             >
               Explore Algorithms
-              <Cpu className="ml-2 w-5 h-5" />
+              <SiThealgorithms className="ml-2 w-5 h-5" />
             </Link>
           </motion.div>
         </div>
@@ -507,81 +510,26 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <Link
-              to="/register"
-              className="px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl text-lg"
-            >
-              Sign Up Free
-            </Link>
+            {user ? (
+              <Link
+                to="/dashboard"
+                className="px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl text-lg"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/register"
+                className="px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl text-lg"
+              >
+                Sign Up Free
+              </Link>
+            )}
           </motion.div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          <div className="md:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-1">
-                <svg className="h-8 w-8 text-white" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <span className="text-xl font-bold text-gray-800">Algorithm<span className="text-blue-600">Visualizer</span></span>
-            </div>
-            <p className="text-gray-600 mb-4">
-              Master algorithms through interactive visualization and practice.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-500 hover:text-blue-600 transition-colors">
-                <Linkedin className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-500 hover:text-blue-600 transition-colors">
-                <Github className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-500 hover:text-blue-600 transition-colors">
-                <Twitter className="w-6 h-6" />
-              </a>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Platform</h3>
-            <ul className="space-y-2">
-              <li><Link to="/about" className="text-gray-600 hover:text-blue-600 transition-colors">About</Link></li>
-              <li><Link to="/features" className="text-gray-600 hover:text-blue-600 transition-colors">Features</Link></li>
-              <li><Link to="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Pricing</Link></li>
-              <li><Link to="/blog" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Resources</h3>
-            <ul className="space-y-2">
-              <li><Link to="/documentation" className="text-gray-600 hover:text-blue-600 transition-colors">Documentation</Link></li>
-              <li><Link to="/tutorials" className="text-gray-600 hover:text-blue-600 transition-colors">Tutorials</Link></li>
-              <li><Link to="/support" className="text-gray-600 hover:text-blue-600 transition-colors">Support</Link></li>
-              <li><Link to="/community" className="text-gray-600 hover:text-blue-600 transition-colors">Community</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Legal</h3>
-            <ul className="space-y-2">
-              <li><Link to="/privacy" className="text-gray-600 hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="text-gray-600 hover:text-blue-600 transition-colors">Terms of Service</Link></li>
-              <li><Link to="/cookies" className="text-gray-600 hover:text-blue-600 transition-colors">Cookie Policy</Link></li>
-              <li><Link to="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</Link></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="pt-8 border-t border-gray-200 text-center text-gray-600">
-          <p>&copy; {new Date().getFullYear()} Algorithm Visualizer. All rights reserved.</p>
-        </div>
-      </footer>
+
     </div>
   )
 }

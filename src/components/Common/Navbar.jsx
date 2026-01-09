@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -26,6 +26,27 @@ const Navbar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  
+  const dsaDropdownRef = useRef(null)
+  
+  // Close DSA dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dsaDropdownRef.current && !dsaDropdownRef.current.contains(event.target)) {
+        setDsaDropdownOpen(false);
+      }
+    };
+    
+    // Add event listener when dropdown is open
+    if (dsaDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dsaDropdownOpen]);
 
   const handleSignOut = async () => {
     try {
@@ -78,9 +99,11 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-8 h-8 rounded-lg flex items-center justify-center">
-                <Code className="h-5 w-5 text-white" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Algorithm Visualizer Logo" 
+                className="h-10 w-10 object-contain"
+              />
               <span className="text-xl font-bold text-gray-900">Algorithm Visualizer</span>
             </Link>
           </div>
@@ -92,7 +115,7 @@ const Navbar = () => {
               return (
                 <div key={item.name} className="relative">
                   {item.dropdown ? (
-                    <div className="relative">
+                    <div ref={dsaDropdownRef} className="relative">
                       <Link
                         to={item.path}
                         className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
@@ -105,7 +128,7 @@ const Navbar = () => {
                         <span className="text-sm font-medium">{item.name}</span>
                         <ChevronDown className="h-4 w-4 ml-1" />
                       </Link>
-                                          
+                                        
                       {dsaDropdownOpen && (
                         <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200 z-50">
                           {item.dropdown.map((subItem) => (
@@ -246,7 +269,7 @@ const Navbar = () => {
                 return (
                   <div key={item.name}>
                     {item.dropdown ? (
-                      <div className="space-y-1">
+                      <div ref={dsaDropdownRef} className="space-y-1">
                         <Link
                           to={item.path}
                           className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
@@ -259,7 +282,7 @@ const Navbar = () => {
                           {item.name}
                           <ChevronDown className={`h-4 w-4 ml-auto transition-transform ${dsaDropdownOpen ? 'rotate-180' : ''}`} />
                         </Link>
-                                              
+                                            
                         {dsaDropdownOpen && (
                           <div className="pl-6 space-y-1">
                             {item.dropdown.map((subItem) => (

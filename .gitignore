@@ -144,3 +144,13 @@ ehthumbs.db
 # Database
 *.db
 *.sqlite
+
+# Vite
+.vite/
+
+# Firebase
+firebase-emulator-cache/
+
+# Local configuration
+.env.local
+.env.*.local

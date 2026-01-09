@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
-import { Cpu, Code, Lightbulb, BookOpen, User, TrendingUp } from 'lucide-react'
+import { Code, Lightbulb, BookOpen, User, TrendingUp } from 'lucide-react'
+import { SiThealgorithms } from 'react-icons/si'
 
 const Dashboard = () => {
   const { currentUser } = useSelector((state) => state.user)
 
   const stats = [
-    { name: 'Algorithms Mastered', value: '12', icon: Cpu },
+    { name: 'Algorithms Mastered', value: '12', icon: SiThealgorithms },
     { name: 'Hours Practiced', value: '24', icon: TrendingUp },
     { name: 'Projects Completed', value: '5', icon: Code },
     { name: 'Ideas Explored', value: '18', icon: Lightbulb }
@@ -104,7 +105,7 @@ const Dashboard = () => {
             <div className="space-y-4">
               <button className="w-full flex items-center p-3 text-left rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="p-2 bg-purple-100 rounded-lg">
-                  <Cpu className="h-5 w-5 text-purple-600" />
+                  <SiThealgorithms className="h-5 w-5 text-purple-600" />
                 </div>
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-900">Practice Algorithms</p>

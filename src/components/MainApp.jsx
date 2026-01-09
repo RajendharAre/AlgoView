@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './Common/Navbar'
+import Footer from './Common/Footer'
 
 const MainApp = () => {
   const location = useLocation()
@@ -26,6 +27,9 @@ const MainApp = () => {
           </motion.div>
         </AnimatePresence>
       </main>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }
