@@ -28,6 +28,7 @@ const Navbar = () => {
   const location = useLocation()
   
   const dsaDropdownRef = useRef(null)
+  const userDropdownRef = useRef(null)
   
   // Close DSA dropdown when clicking outside
   useEffect(() => {
@@ -47,6 +48,25 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dsaDropdownOpen]);
+
+  // Close user dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    
+    // Add event listener when dropdown is open
+    if (userDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userDropdownOpen]);
 
   const handleSignOut = async () => {
     try {
@@ -163,7 +183,7 @@ const Navbar = () => {
             {loading ? (
               <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div>
             ) : currentUser ? (
-              <div className="relative">
+              <div className="relative" ref={userDropdownRef}>
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
                   className="flex items-center space-x-2 focus:outline-none"
