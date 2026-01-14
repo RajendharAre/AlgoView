@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { getIdea, getCommentsListener, likeIdea, addComment, checkUserLike } from '../../services/ideasService';
-import { Lightbulb, Heart, MessageCircle, Share2, User, Clock, ArrowLeft } from 'lucide-react';
+import { Lightbulb, Heart, MessageCircle, Share2, User, Clock, ArrowLeft, Github, FileText, BookOpen, Link as LinkIcon } from 'lucide-react';
 
 const IdeaDetail = () => {
   const { ideaId } = useParams();
@@ -198,6 +198,58 @@ const IdeaDetail = () => {
               </span>
             ))}
           </div>
+          
+          {/* References section */}
+          {idea.references && idea.references.length > 0 && (
+            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                <Share2 className="h-5 w-5 mr-2 text-blue-600" />
+                References
+              </h3>
+              <div className="space-y-2">
+                {idea.references.map((reference, index) => {
+                  // Determine the icon based on reference type
+                  let IconComponent;
+                  let iconColor = "text-gray-600";
+                  
+                  switch(reference.type) {
+                    case 'github':
+                      IconComponent = Github;
+                      iconColor = "text-gray-800";
+                      break;
+                    case 'article':
+                      IconComponent = FileText;
+                      iconColor = "text-blue-600";
+                      break;
+                    case 'research-paper':
+                      IconComponent = BookOpen;
+                      iconColor = "text-purple-600";
+                      break;
+                    default:
+                      IconComponent = LinkIcon;
+                      iconColor = "text-gray-600";
+                  }
+                  
+                  return (
+                    <div key={index} className="flex items-center p-2 bg-white rounded border hover:shadow-sm transition-shadow">
+                      <span className={`${iconColor} mr-2`}>
+                        <IconComponent className="h-4 w-4" />
+                      </span>
+                      <a 
+                        href={reference.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 hover:underline text-sm truncate flex-1"
+                        title={reference.url}
+                      >
+                        {reference.type.charAt(0).toUpperCase() + reference.type.slice(1)}: {reference.url}
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
           
           <div className="flex items-center justify-between pt-4 border-t border-gray-200">
             <div className="flex items-center space-x-4">

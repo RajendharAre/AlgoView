@@ -101,7 +101,7 @@ const Development = () => {
           Share your knowledge and help grow our development community by contributing tutorials, 
           code examples, or documentation.
         </p>
-        <button className="px-8 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg">
+        <button className="px-8 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg" href="https://github.com/RajendharAre/AlgoView">
           Become a Contributor
         </button>
       </motion.div>

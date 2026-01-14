@@ -1,47 +1,43 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { addNotification } from '../store/slices/uiSlice';
 import { useAuth } from '../hooks/useAuth';
-import { getIdeasListener, likeIdea, checkUserLike } from '../services/ideasService';
+import { getIdeasListener, likeIdea, checkUserLike, getUserLikesListener } from '../services/ideasService';
 import { Lightbulb, Plus, MessageCircle, Heart, Share2, Filter, Search, User, Clock, X } from 'lucide-react';
 
 const Ideas = () => {
   const { user } = useAuth();
+  const dispatch = useDispatch();
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
-  const [userLikes, setUserLikes] = useState({}); // Track which ideas user has liked
+  const [userLikes, setUserLikes] = useState(new Set()); // Track which ideas user has liked
   const [shareIdea, setShareIdea] = useState(null); // Track which idea is being shared
 
   // Get all unique tags from ideas
   const allTags = [...new Set(ideas.flatMap(idea => idea.tags || []))];
 
-  // Set up real-time listener for ideas
+  // Set up real-time listener for ideas and user likes
   useEffect(() => {
-    let unsubscribe;
+    let ideasUnsubscribe;
+    let refreshUserLikes;
     
     const fetchIdeas = async () => {
       setLoading(true);
-      unsubscribe = getIdeasListener(
+      ideasUnsubscribe = getIdeasListener(
         (fetchedIdeas) => {
           setIdeas(fetchedIdeas);
-          setLoading(false);
           
           // Update user likes for all fetched ideas
           if (user) {
-            Promise.all(
-              fetchedIdeas.map(async (idea) => {
-                const hasLiked = await checkUserLike(idea.id, user.uid);
-                return { ideaId: idea.id, hasLiked };
-              })
-            ).then(results => {
-              const likesMap = {};
-              results.forEach(result => {
-                likesMap[result.ideaId] = result.hasLiked;
-              });
-              setUserLikes(prev => ({ ...prev, ...likesMap }));
+            refreshUserLikes = getUserLikesListener(user.uid, fetchedIdeas, (likedIdeaIds) => {
+              setUserLikes(new Set(likedIdeaIds));
             });
           }
+          
+          setLoading(false);
         },
         (error) => {
           console.error('Error fetching ideas:', error);
@@ -52,10 +48,10 @@ const Ideas = () => {
 
     fetchIdeas();
 
-    // Clean up listener on unmount
+    // Clean up listeners on unmount
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
+      if (ideasUnsubscribe) {
+        ideasUnsubscribe();
       }
     };
   }, [user]);
@@ -72,7 +68,11 @@ const Ideas = () => {
   // Handle like/unlike
   const handleLike = async (ideaId) => {
     if (!user) {
-      alert('Please log in to like ideas');
+      dispatch(addNotification({
+        title: 'Authentication Required',
+        message: 'Please log in to like ideas',
+        type: 'warning'
+      }));
       return;
     }
 
@@ -81,10 +81,15 @@ const Ideas = () => {
       
       if (result.success) {
         // Optimistically update the UI
-        setUserLikes(prev => ({
-          ...prev,
-          [ideaId]: result.liked
-        }));
+        setUserLikes(prev => {
+          const newSet = new Set(prev);
+          if (result.liked) {
+            newSet.add(ideaId);
+          } else {
+            newSet.delete(ideaId);
+          }
+          return newSet;
+        });
         
         // The real-time listener will automatically update the like count from Firestore
         // No need to manually update the ideas array since the listener handles it
@@ -102,12 +107,18 @@ const Ideas = () => {
 
   const nativeShare = async (idea) => {
     if (navigator.share) {
-      await navigator.share({
-        title: idea.title,
-        text: idea.description,
-        url: getShareUrl(idea)
-      });
-      return true;
+      try {
+        await navigator.share({
+          title: idea.title,
+          text: idea.description,
+          url: getShareUrl(idea)
+        });
+        return true;
+      } catch (error) {
+        // User cancelled sharing or other error occurred
+        console.error('Error sharing:', error);
+        return false;
+      }
     }
     return false;
   };
@@ -128,7 +139,11 @@ const Ideas = () => {
 
   const copyLink = async (idea) => {
     await navigator.clipboard.writeText(getShareUrl(idea));
-    alert("Link copied to clipboard");
+    dispatch(addNotification({
+      title: 'Link Copied',
+      message: 'The link has been copied to your clipboard',
+      type: 'success'
+    }));
   };
 
   const handleShare = async (idea) => {
@@ -266,9 +281,9 @@ const Ideas = () => {
                     <div className="flex items-center justify-between">
                       <button 
                         onClick={() => handleLike(idea.id)}
-                        className={`flex items-center space-x-1 ${userLikes[idea.id] ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}
+                        className={`flex items-center space-x-1 ${userLikes.has(idea.id) ? 'text-red-500' : 'text-gray-500 hover:text-red-500'}`}
                       >
-                        <Heart className={`h-4 w-4 ${userLikes[idea.id] ? 'fill-current' : ''}`} />
+                        <Heart className={`h-4 w-4 ${userLikes.has(idea.id) ? 'fill-current' : ''}`} />
                         <span>{idea.likeCount || 0}</span>
                       </button>
                       
@@ -281,12 +296,7 @@ const Ideas = () => {
                           <span>{idea.commentCount || 0}</span>
                         </Link>
                         
-                        {idea.references && idea.references.length > 0 && (
-                          <div className="flex items-center space-x-1 text-gray-500">
-                            <Share2 className="h-4 w-4" />
-                            <span>{idea.references.length}</span>
-                          </div>
-                        )}
+
                       </div>
                     </div>
                   </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { BookOpen, CheckCircle, Clock, Target, ChevronDown, ChevronRight, Grid3X3, FileText, Link as LinkIcon, Package, ClipboardList, Repeat2, ArrowLeftRight, Coins, Search, TreePine, Globe, TrendingUp, Zap } from 'lucide-react';
+import { BookOpen, CheckCircle, Clock, Target, ChevronDown, ChevronRight, Grid3X3, FileText, Link as LinkIcon, Package, ClipboardList, Repeat2, ArrowLeftRight, Coins, Search, TreePine, Globe, TrendingUp, Zap, User, Check, AlertTriangle } from 'lucide-react';
+import { validateProblemSolved } from '../../../services/leetcodeService';
 
 // Mock data for DSA problems - this would ideally come from an API
 const DSA_CATEGORIES = {
@@ -8,137 +9,137 @@ const DSA_CATEGORIES = {
     name: 'Arrays',
     icon: <Grid3X3 className="h-5 w-5" />,
     problems: [
-      { id: 'two-sum', title: 'Two Sum', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/two-sum/', completed: false },
-      { id: 'best-time-to-buy-sell-stock', title: 'Best Time to Buy and Sell Stock', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/', completed: false },
-      { id: 'contains-duplicate', title: 'Contains Duplicate', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/contains-duplicate/', completed: false },
-      { id: 'product-of-array-except-self', title: 'Product of Array Except Self', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/product-of-array-except-self/', completed: false },
-      { id: 'maximum-subarray', title: 'Maximum Subarray', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/maximum-subarray/', completed: false },
-      { id: '3sum', title: '3Sum', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/3sum/', completed: false },
-      { id: 'container-with-most-water', title: 'Container With Most Water', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/container-with-most-water/', completed: false },
-      { id: 'find-median-from-data-stream', title: 'Find Median from Data Stream', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/find-median-from-data-stream/', completed: false },
+      { id: 'two-sum', title: 'Two Sum', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/two-sum/', leetcodeSlug: 'two-sum', completed: false },
+      { id: 'best-time-to-buy-sell-stock', title: 'Best Time to Buy and Sell Stock', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/', leetcodeSlug: 'best-time-to-buy-and-sell-stock', completed: false },
+      { id: 'contains-duplicate', title: 'Contains Duplicate', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/contains-duplicate/', leetcodeSlug: 'contains-duplicate', completed: false },
+      { id: 'product-of-array-except-self', title: 'Product of Array Except Self', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/product-of-array-except-self/', leetcodeSlug: 'product-of-array-except-self', completed: false },
+      { id: 'maximum-subarray', title: 'Maximum Subarray', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/maximum-subarray/', leetcodeSlug: 'maximum-subarray', completed: false },
+      { id: '3sum', title: '3Sum', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/3sum/', leetcodeSlug: '3sum', completed: false },
+      { id: 'container-with-most-water', title: 'Container With Most Water', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/container-with-most-water/', leetcodeSlug: 'container-with-most-water', completed: false },
+      { id: 'find-median-from-data-stream', title: 'Find Median from Data Stream', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/find-median-from-data-stream/', leetcodeSlug: 'find-median-from-data-stream', completed: false },
     ]
   },
   strings: {
     name: 'Strings',
     icon: <FileText className="h-5 w-5" />,
     problems: [
-      { id: 'longest-substring-without-repeating-characters', title: 'Longest Substring Without Repeating Characters', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/', completed: false },
-      { id: 'longest-palindromic-substring', title: 'Longest Palindromic Substring', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/longest-palindromic-substring/', completed: false },
-      { id: 'group-anagrams', title: 'Group Anagrams', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/group-anagrams/', completed: false },
+      { id: 'longest-substring-without-repeating-characters', title: 'Longest Substring Without Repeating Characters', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/', leetcodeSlug: 'longest-substring-without-repeating-characters', completed: false },
+      { id: 'longest-palindromic-substring', title: 'Longest Palindromic Substring', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/longest-palindromic-substring/', leetcodeSlug: 'longest-palindromic-substring', completed: false },
+      { id: 'group-anagrams', title: 'Group Anagrams', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/group-anagrams/', leetcodeSlug: 'group-anagrams', completed: false },
       { id: 'valid-parentheses', title: 'Valid Parentheses', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/valid-parentheses/', completed: false },
-      { id: 'implement-strstr', title: 'Implement strStr()', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/implement-strstr/', completed: false },
-      { id: 'valid-anagram', title: 'Valid Anagram', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/valid-anagram/', completed: false },
+      { id: 'implement-strstr', title: 'Implement strStr()', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/implement-strstr/', leetcodeSlug: 'implement-strstr', completed: false },
+      { id: 'valid-anagram', title: 'Valid Anagram', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/valid-anagram/', leetcodeSlug: 'valid-anagram', completed: false },
     ]
   },
   linkedList: {
     name: 'Linked List',
     icon: <LinkIcon className="h-5 w-5" />,
     problems: [
-      { id: 'reverse-linked-list', title: 'Reverse Linked List', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/reverse-linked-list/', completed: false },
-      { id: 'merge-two-sorted-lists', title: 'Merge Two Sorted Lists', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/merge-two-sorted-lists/', completed: false },
-      { id: 'palindrome-linked-list', title: 'Palindrome Linked List', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/palindrome-linked-list/', completed: false },
-      { id: 'linked-list-cycle', title: 'Linked List Cycle', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/linked-list-cycle/', completed: false },
-      { id: 'remove-nth-node-from-end', title: 'Remove Nth Node From End of List', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/remove-nth-node-from-end-of-list/', completed: false },
-      { id: 'odd-even-linked-list', title: 'Odd Even Linked List', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/odd-even-linked-list/', completed: false },
+      { id: 'reverse-linked-list', title: 'Reverse Linked List', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/reverse-linked-list/', leetcodeSlug: 'reverse-linked-list', completed: false },
+      { id: 'merge-two-sorted-lists', title: 'Merge Two Sorted Lists', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/merge-two-sorted-lists/', leetcodeSlug: 'merge-two-sorted-lists', completed: false },
+      { id: 'palindrome-linked-list', title: 'Palindrome Linked List', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/palindrome-linked-list/', leetcodeSlug: 'palindrome-linked-list', completed: false },
+      { id: 'linked-list-cycle', title: 'Linked List Cycle', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/linked-list-cycle/', leetcodeSlug: 'linked-list-cycle', completed: false },
+      { id: 'remove-nth-node-from-end', title: 'Remove Nth Node From End of List', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/remove-nth-node-from-end-of-list/', leetcodeSlug: 'remove-nth-node-from-end-of-list', completed: false },
+      { id: 'odd-even-linked-list', title: 'Odd Even Linked List', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/odd-even-linked-list/', leetcodeSlug: 'odd-even-linked-list', completed: false },
     ]
   },
   stack: {
     name: 'Stack',
     icon: <Package className="h-5 w-5" />,
     problems: [
-      { id: 'valid-parentheses', title: 'Valid Parentheses', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/valid-parentheses/', completed: false },
-      { id: 'min-stack', title: 'Min Stack', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/min-stack/', completed: false },
-      { id: 'evaluate-reverse-polish-notation', title: 'Evaluate Reverse Polish Notation', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/evaluate-reverse-polish-notation/', completed: false },
-      { id: 'generate-parentheses', title: 'Generate Parentheses', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/generate-parentheses/', completed: false },
+      { id: 'valid-parentheses', title: 'Valid Parentheses', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/valid-parentheses/', leetcodeSlug: 'valid-parentheses', completed: false },
+      { id: 'min-stack', title: 'Min Stack', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/min-stack/', leetcodeSlug: 'min-stack', completed: false },
+      { id: 'evaluate-reverse-polish-notation', title: 'Evaluate Reverse Polish Notation', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/evaluate-reverse-polish-notation/', leetcodeSlug: 'evaluate-reverse-polish-notation', completed: false },
+      { id: 'generate-parentheses', title: 'Generate Parentheses', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/generate-parentheses/', leetcodeSlug: 'generate-parentheses', completed: false },
     ]
   },
   queue: {
     name: 'Queue',
     icon: <ClipboardList className="h-5 w-5" />,
     problems: [
-      { id: 'implement-queue-using-stacks', title: 'Implement Queue using Stacks', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/implement-queue-using-stacks/', completed: false },
-      { id: 'number-of-recent-calls', title: 'Number of Recent Calls', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/number-of-recent-calls/', completed: false },
-      { id: 'design-circular-queue', title: 'Design Circular Queue', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/design-circular-queue/', completed: false },
+      { id: 'implement-queue-using-stacks', title: 'Implement Queue using Stacks', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/implement-queue-using-stacks/', leetcodeSlug: 'implement-queue-using-stacks', completed: false },
+      { id: 'number-of-recent-calls', title: 'Number of Recent Calls', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/number-of-recent-calls/', leetcodeSlug: 'number-of-recent-calls', completed: false },
+      { id: 'design-circular-queue', title: 'Design Circular Queue', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/design-circular-queue/', leetcodeSlug: 'design-circular-queue', completed: false },
     ]
   },
   recursion: {
     name: 'Recursion',
     icon: <Repeat2 className="h-5 w-5" />,
     problems: [
-      { id: 'climbing-stairs', title: 'Climbing Stairs', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/climbing-stairs/', completed: false },
-      { id: 'fibonacci-number', title: 'Fibonacci Number', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/fibonacci-number/', completed: false },
-      { id: 'factorial-trailing-zeroes', title: 'Factorial Trailing Zeroes', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/factorial-trailing-zeroes/', completed: false },
+      { id: 'climbing-stairs', title: 'Climbing Stairs', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/climbing-stairs/', leetcodeSlug: 'climbing-stairs', completed: false },
+      { id: 'fibonacci-number', title: 'Fibonacci Number', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/fibonacci-number/', leetcodeSlug: 'fibonacci-number', completed: false },
+      { id: 'factorial-trailing-zeroes', title: 'Factorial Trailing Zeroes', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/factorial-trailing-zeroes/', leetcodeSlug: 'factorial-trailing-zeroes', completed: false },
     ]
   },
   backtracking: {
     name: 'Backtracking',
     icon: <ArrowLeftRight className="h-5 w-5" />,
     problems: [
-      { id: 'letter-combinations-of-phone-number', title: 'Letter Combinations of a Phone Number', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/letter-combinations-of-phone-number/', completed: false },
-      { id: 'n-queens', title: 'N-Queens', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/n-queens/', completed: false },
-      { id: 'sudoku-solver', title: 'Sudoku Solver', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/sudoku-solver/', completed: false },
-      { id: 'combination-sum', title: 'Combination Sum', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/combination-sum/', completed: false },
+      { id: 'letter-combinations-of-phone-number', title: 'Letter Combinations of a Phone Number', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/letter-combinations-of-phone-number/', leetcodeSlug: 'letter-combinations-of-phone-number', completed: false },
+      { id: 'n-queens', title: 'N-Queens', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/n-queens/', leetcodeSlug: 'n-queens', completed: false },
+      { id: 'sudoku-solver', title: 'Sudoku Solver', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/sudoku-solver/', leetcodeSlug: 'sudoku-solver', completed: false },
+      { id: 'combination-sum', title: 'Combination Sum', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/combination-sum/', leetcodeSlug: 'combination-sum', completed: false },
     ]
   },
   greedy: {
     name: 'Greedy',
     icon: <Coins className="h-5 w-5" />,
     problems: [
-      { id: 'assign-cookies', title: 'Assign Cookies', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/assign-cookies/', completed: false },
-      { id: 'lemonade-change', title: 'Lemonade Change', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/lemonade-change/', completed: false },
-      { id: 'gas-station', title: 'Gas Station', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/gas-station/', completed: false },
-      { id: 'jump-game', title: 'Jump Game', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/jump-game/', completed: false },
+      { id: 'assign-cookies', title: 'Assign Cookies', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/assign-cookies/', leetcodeSlug: 'assign-cookies', completed: false },
+      { id: 'lemonade-change', title: 'Lemonade Change', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/lemonade-change/', leetcodeSlug: 'lemonade-change', completed: false },
+      { id: 'gas-station', title: 'Gas Station', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/gas-station/', leetcodeSlug: 'gas-station', completed: false },
+      { id: 'jump-game', title: 'Jump Game', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/jump-game/', leetcodeSlug: 'jump-game', completed: false },
     ]
   },
   binarySearch: {
     name: 'Binary Search',
     icon: <Search className="h-5 w-5" />,
     problems: [
-      { id: 'binary-search', title: 'Binary Search', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/binary-search/', completed: false },
-      { id: 'search-insert-position', title: 'Search Insert Position', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/search-insert-position/', completed: false },
-      { id: 'find-first-and-last-position', title: 'Find First and Last Position of Element in Sorted Array', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/', completed: false },
-      { id: 'search-in-rotated-sorted-array', title: 'Search in Rotated Sorted Array', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/search-in-rotated-sorted-array/', completed: false },
+      { id: 'binary-search', title: 'Binary Search', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/binary-search/', leetcodeSlug: 'binary-search', completed: false },
+      { id: 'search-insert-position', title: 'Search Insert Position', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/search-insert-position/', leetcodeSlug: 'search-insert-position', completed: false },
+      { id: 'find-first-and-last-position', title: 'Find First and Last Position of Element in Sorted Array', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/', leetcodeSlug: 'find-first-and-last-position-of-element-in-sorted-array', completed: false },
+      { id: 'search-in-rotated-sorted-array', title: 'Search in Rotated Sorted Array', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/search-in-rotated-sorted-array/', leetcodeSlug: 'search-in-rotated-sorted-array', completed: false },
     ]
   },
   trees: {
     name: 'Trees',
     icon: <TreePine className="h-5 w-5" />,
     problems: [
-      { id: 'maximum-depth-of-binary-tree', title: 'Maximum Depth of Binary Tree', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/maximum-depth-of-binary-tree/', completed: false },
-      { id: 'same-tree', title: 'Same Tree', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/same-tree/', completed: false },
-      { id: 'invert-binary-tree', title: 'Invert Binary Tree', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/invert-binary-tree/', completed: false },
-      { id: 'validate-binary-search-tree', title: 'Validate Binary Search Tree', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/validate-binary-search-tree/', completed: false },
-      { id: 'maximum-path-sum', title: 'Binary Tree Maximum Path Sum', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/binary-tree-maximum-path-sum/', completed: false },
+      { id: 'maximum-depth-of-binary-tree', title: 'Maximum Depth of Binary Tree', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/maximum-depth-of-binary-tree/', leetcodeSlug: 'maximum-depth-of-binary-tree', completed: false },
+      { id: 'same-tree', title: 'Same Tree', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/same-tree/', leetcodeSlug: 'same-tree', completed: false },
+      { id: 'invert-binary-tree', title: 'Invert Binary Tree', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/invert-binary-tree/', leetcodeSlug: 'invert-binary-tree', completed: false },
+      { id: 'validate-binary-search-tree', title: 'Validate Binary Search Tree', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/validate-binary-search-tree/', leetcodeSlug: 'validate-binary-search-tree', completed: false },
+      { id: 'maximum-path-sum', title: 'Binary Tree Maximum Path Sum', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/binary-tree-maximum-path-sum/', leetcodeSlug: 'binary-tree-maximum-path-sum', completed: false },
     ]
   },
   graphs: {
     name: 'Graphs',
     icon: <Globe className="h-5 w-5" />,
     problems: [
-      { id: 'number-of-islands', title: 'Number of Islands', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/number-of-islands/', completed: false },
-      { id: 'clone-graph', title: 'Clone Graph', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/clone-graph/', completed: false },
-      { id: 'course-schedule', title: 'Course Schedule', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/course-schedule/', completed: false },
-      { id: 'alien-dictionary', title: 'Alien Dictionary', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/alien-dictionary/', completed: false },
+      { id: 'number-of-islands', title: 'Number of Islands', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/number-of-islands/', leetcodeSlug: 'number-of-islands', completed: false },
+      { id: 'clone-graph', title: 'Clone Graph', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/clone-graph/', leetcodeSlug: 'clone-graph', completed: false },
+      { id: 'course-schedule', title: 'Course Schedule', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/course-schedule/', leetcodeSlug: 'course-schedule', completed: false },
+      { id: 'alien-dictionary', title: 'Alien Dictionary', difficulty: 'Hard', leetcodeUrl: 'https://leetcode.com/problems/alien-dictionary/', leetcodeSlug: 'alien-dictionary', completed: false },
     ]
   },
   dynamicProgramming: {
     name: 'Dynamic Programming',
     icon: <TrendingUp className="h-5 w-5" />,
     problems: [
-      { id: 'climbing-stairs', title: 'Climbing Stairs', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/climbing-stairs/', completed: false },
-      { id: 'coin-change', title: 'Coin Change', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/coin-change/', completed: false },
-      { id: 'longest-common-subsequence', title: 'Longest Common Subsequence', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/longest-common-subsequence/', completed: false },
-      { id: 'word-break', title: 'Word Break', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/word-break/', completed: false },
+      { id: 'climbing-stairs', title: 'Climbing Stairs', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/climbing-stairs/', leetcodeSlug: 'climbing-stairs', completed: false },
+      { id: 'coin-change', title: 'Coin Change', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/coin-change/', leetcodeSlug: 'coin-change', completed: false },
+      { id: 'longest-common-subsequence', title: 'Longest Common Subsequence', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/longest-common-subsequence/', leetcodeSlug: 'longest-common-subsequence', completed: false },
+      { id: 'word-break', title: 'Word Break', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/word-break/', leetcodeSlug: 'word-break', completed: false },
     ]
   },
   bitManipulation: {
     name: 'Bit Manipulation',
     icon: <Zap className="h-5 w-5" />,
     problems: [
-      { id: 'single-number', title: 'Single Number', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/single-number/', completed: false },
-      { id: 'number-of-1-bits', title: 'Number of 1 Bits', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/number-of-1-bits/', completed: false },
-      { id: 'counting-bits', title: 'Counting Bits', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/counting-bits/', completed: false },
-      { id: 'reverse-bits', title: 'Reverse Bits', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/reverse-bits/', completed: false },
+      { id: 'single-number', title: 'Single Number', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/single-number/', leetcodeSlug: 'single-number', completed: false },
+      { id: 'number-of-1-bits', title: 'Number of 1 Bits', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/number-of-1-bits/', leetcodeSlug: 'number-of-1-bits', completed: false },
+      { id: 'counting-bits', title: 'Counting Bits', difficulty: 'Easy', leetcodeUrl: 'https://leetcode.com/problems/counting-bits/', leetcodeSlug: 'counting-bits', completed: false },
+      { id: 'reverse-bits', title: 'Reverse Bits', difficulty: 'Medium', leetcodeUrl: 'https://leetcode.com/problems/reverse-bits/', leetcodeSlug: 'reverse-bits', completed: false },
     ]
   }
 };
@@ -159,6 +160,9 @@ const Practice = () => {
   const [completedProblems, setCompletedProblems] = useState(new Set());
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [leetcodeUsername, setLeetcodeUsername] = useState('');
+  const [showUsernameInput, setShowUsernameInput] = useState(false);
+  const [verifyingProblemId, setVerifyingProblemId] = useState(null);
 
   // Load completed problems from localStorage on mount
   useEffect(() => {
@@ -171,12 +175,111 @@ const Practice = () => {
         console.error('Error parsing completed problems:', e);
       }
     }
+    
+    // Load LeetCode username from localStorage
+    const savedUsername = localStorage.getItem('leetcode_username');
+    if (savedUsername) {
+      setLeetcodeUsername(savedUsername);
+    }
   }, []);
 
   // Save completed problems to localStorage when they change
   useEffect(() => {
     localStorage.setItem('dsa_completed_problems', JSON.stringify([...completedProblems]));
   }, [completedProblems]);
+  
+  // Save LeetCode username to localStorage when it changes
+  useEffect(() => {
+    if (leetcodeUsername) {
+      localStorage.setItem('leetcode_username', leetcodeUsername);
+    }
+  }, [leetcodeUsername]);
+  
+  // Save problem session data when a user starts solving
+  const saveSolveSession = (problemId, leetcodeSlug, timestamp) => {
+    const sessionData = {
+      problemId,
+      leetcodeSlug,
+      clickedAt: timestamp
+    };
+    
+    // Store in localStorage with a unique key
+    const key = `solve_session_${problemId}`;
+    localStorage.setItem(key, JSON.stringify(sessionData));
+  };
+  
+  // Get problem session data
+  const getSolveSession = (problemId) => {
+    const key = `solve_session_${problemId}`;
+    const sessionData = localStorage.getItem(key);
+    if (sessionData) {
+      try {
+        return JSON.parse(sessionData);
+      } catch (e) {
+        console.error('Error parsing session data:', e);
+        return null;
+      }
+    }
+    return null;
+  };
+  
+  // Start solving a problem
+  const startSolve = (problem) => {
+    saveSolveSession(problem.id, problem.leetcodeSlug || problem.id, Date.now());
+    window.open(problem.leetcodeUrl, '_blank');
+  };
+  
+  // Verify a problem completion against LeetCode
+  const verifyProblem = async (problem) => {
+    // First check if user has provided LeetCode username
+    if (!leetcodeUsername) {
+      alert('Please enter your LeetCode username first.');
+      setShowUsernameInput(true);
+      return;
+    }
+    
+    // Get the session data for this problem
+    const session = getSolveSession(problem.id);
+    if (!session) {
+      alert('Please click "Solve" first to start working on this problem.');
+      return;
+    }
+    
+    // Set loading state
+    setVerifyingProblemId(problem.id);
+    
+    try {
+      // Validate if the user has solved this problem since starting the session
+      const isSolved = await validateProblemSolved(
+        leetcodeUsername,
+        problem.leetcodeSlug,
+        session.clickedAt
+      );
+      
+      if (isSolved) {
+        // Mark the problem as completed
+        setCompletedProblems(prev => {
+          const newSet = new Set(prev);
+          newSet.add(problem.id);
+          return newSet;
+        });
+        
+        // Remove the session data since it's verified
+        const key = `solve_session_${problem.id}`;
+        localStorage.removeItem(key);
+        
+        alert('Problem verified successfully!');
+      } else {
+        alert('No accepted submission found yet. Submit on LeetCode and try again.\n\nNote: Make sure your LeetCode profile is public and recent submissions are visible.');
+      }
+    } catch (error) {
+      console.error('Error verifying problem:', error);
+      alert('Error verifying problem. Please check your LeetCode username and try again.\n\nMake sure your profile is public and recent submissions are visible on LeetCode.');
+    } finally {
+      // Reset loading state
+      setVerifyingProblemId(null);
+    }
+  };
 
   // Calculate progress for each category
   const calculateProgress = (categoryName) => {
@@ -266,6 +369,43 @@ const Practice = () => {
               <p className="mt-2 text-lg text-gray-600">
                 Practice coding problems from LeetCode organized by category and difficulty
               </p>
+            </div>
+            
+            {/* LeetCode Username Input */}
+            <div className="flex flex-col items-end">
+              {showUsernameInput ? (
+                <div className="flex items-center space-x-2 mb-2">
+                  <input
+                    type="text"
+                    placeholder="Enter LeetCode username"
+                    value={leetcodeUsername}
+                    onChange={(e) => setLeetcodeUsername(e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <button
+                    onClick={() => setShowUsernameInput(false)}
+                    className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                  >
+                    Save
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-sm text-gray-600">
+                    {leetcodeUsername ? `LeetCode: ${leetcodeUsername}` : 'No LeetCode username set'}
+                  </span>
+                  <button
+                    onClick={() => setShowUsernameInput(true)}
+                    className="p-1 text-blue-600 hover:text-blue-800"
+                  >
+                    <User className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+              <div className="flex items-center text-sm text-gray-500">
+                <AlertTriangle className="h-4 w-4 mr-1" />
+                <span>Public profile required for verification</span>
+              </div>
             </div>
           </div>
         </div>
@@ -394,32 +534,38 @@ const Practice = () => {
                                   </span>
                                 </div>
                                 <div className="flex flex-col space-y-2 ml-4">
-                                  <a
-                                    href={problem.leetcodeUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                  <button
+                                    onClick={() => startSolve(problem)}
                                     className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium"
                                   >
                                     <Target className="h-3 w-3 mr-1" />
                                     Solve
-                                  </a>
+                                  </button>
                                   <button
-                                    onClick={() => toggleProblemCompletion(problem.id)}
+                                    onClick={() => verifyProblem(problem)}
+                                    disabled={!leetcodeUsername || verifyingProblemId === problem.id}
+                                    data-problem-id={problem.id}
+                                    data-action="verify"
                                     className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
                                       completedProblems.has(problem.id)
                                         ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : (leetcodeUsername ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed')
                                     }`}
                                   >
-                                    {completedProblems.has(problem.id) ? (
+                                    {verifyingProblemId === problem.id ? (
                                       <>
-                                        <CheckCircle className="h-3 w-3 mr-1" />
-                                        Done
+                                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                                        Verifying...
+                                      </>
+                                    ) : completedProblems.has(problem.id) ? (
+                                      <>
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Verified
                                       </>
                                     ) : (
                                       <>
-                                        <Clock className="h-3 w-3 mr-1" />
-                                        Mark
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Verify
                                       </>
                                     )}
                                   </button>
@@ -463,32 +609,38 @@ const Practice = () => {
                                   </span>
                                 </div>
                                 <div className="flex flex-col space-y-2 ml-4">
-                                  <a
-                                    href={problem.leetcodeUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                  <button
+                                    onClick={() => startSolve(problem)}
                                     className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium"
                                   >
                                     <Target className="h-3 w-3 mr-1" />
                                     Solve
-                                  </a>
+                                  </button>
                                   <button
-                                    onClick={() => toggleProblemCompletion(problem.id)}
+                                    onClick={() => verifyProblem(problem)}
+                                    disabled={!leetcodeUsername || verifyingProblemId === problem.id}
+                                    data-problem-id={problem.id}
+                                    data-action="verify"
                                     className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
                                       completedProblems.has(problem.id)
                                         ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : (leetcodeUsername ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed')
                                     }`}
                                   >
-                                    {completedProblems.has(problem.id) ? (
+                                    {verifyingProblemId === problem.id ? (
                                       <>
-                                        <CheckCircle className="h-3 w-3 mr-1" />
-                                        Done
+                                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                                        Verifying...
+                                      </>
+                                    ) : completedProblems.has(problem.id) ? (
+                                      <>
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Verified
                                       </>
                                     ) : (
                                       <>
-                                        <Clock className="h-3 w-3 mr-1" />
-                                        Mark
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Verify
                                       </>
                                     )}
                                   </button>
@@ -532,32 +684,38 @@ const Practice = () => {
                                   </span>
                                 </div>
                                 <div className="flex flex-col space-y-2 ml-4">
-                                  <a
-                                    href={problem.leetcodeUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                  <button
+                                    onClick={() => startSolve(problem)}
                                     className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium"
                                   >
                                     <Target className="h-3 w-3 mr-1" />
                                     Solve
-                                  </a>
+                                  </button>
                                   <button
-                                    onClick={() => toggleProblemCompletion(problem.id)}
+                                    onClick={() => verifyProblem(problem)}
+                                    disabled={!leetcodeUsername || verifyingProblemId === problem.id}
+                                    data-problem-id={problem.id}
+                                    data-action="verify"
                                     className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
                                       completedProblems.has(problem.id)
                                         ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : (leetcodeUsername ? 'bg-purple-100 text-purple-800 hover:bg-purple-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed')
                                     }`}
                                   >
-                                    {completedProblems.has(problem.id) ? (
+                                    {verifyingProblemId === problem.id ? (
                                       <>
-                                        <CheckCircle className="h-3 w-3 mr-1" />
-                                        Done
+                                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                                        Verifying...
+                                      </>
+                                    ) : completedProblems.has(problem.id) ? (
+                                      <>
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Verified
                                       </>
                                     ) : (
                                       <>
-                                        <Clock className="h-3 w-3 mr-1" />
-                                        Mark
+                                        <Check className="h-3 w-3 mr-1" />
+                                        Verify
                                       </>
                                     )}
                                   </button>

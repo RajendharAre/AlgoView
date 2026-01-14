@@ -10,7 +10,8 @@ const NewIdea = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    tags: ''
+    tags: '',
+    references: [] // Initialize with an empty array for references
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -33,6 +34,15 @@ const NewIdea = () => {
     );
   }
 
+  const validateUrl = (urlString) => {
+    try {
+      new URL(urlString);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -50,12 +60,21 @@ const NewIdea = () => {
       return;
     }
 
+    // Validate references URLs
+    const invalidUrls = formData.references.filter(ref => !validateUrl(ref.url));
+    if (invalidUrls.length > 0) {
+      setError('Please enter valid URLs for all references');
+      setLoading(false);
+      return;
+    }
+
     const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
 
     const ideaData = {
       title: formData.title.trim(),
       description: formData.description.trim(),
-      tags
+      tags,
+      references: formData.references
     };
 
     const result = await submitIdea(ideaData, user.uid, user.displayName || user.email.split('@')[0]);
@@ -172,6 +191,79 @@ const NewIdea = () => {
                   ) : null;
                 })}
               </div>
+            </div>
+
+            {/* References section */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                References
+              </label>
+              <p className="text-xs text-gray-500 mb-3">Add external links related to your idea (GitHub, articles, research papers, etc.)</p>
+              
+              <div className="space-y-3">
+                {formData.references.map((reference, index) => (
+                  <div key={index} className="flex items-start gap-2">
+                    <select
+                      value={reference.type}
+                      onChange={(e) => {
+                        const updatedReferences = [...formData.references];
+                        updatedReferences[index] = { ...updatedReferences[index], type: e.target.value };
+                        setFormData(prev => ({ ...prev, references: updatedReferences }));
+                      }}
+                      className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="github">GitHub</option>
+                      <option value="article">Article</option>
+                      <option value="research-paper">Research Paper</option>
+                      <option value="other">Other</option>
+                    </select>
+                    
+                    <input
+                      type="url"
+                      value={reference.url}
+                      onChange={(e) => {
+                        const updatedReferences = [...formData.references];
+                        updatedReferences[index] = { ...updatedReferences[index], url: e.target.value };
+                        setFormData(prev => ({ ...prev, references: updatedReferences }));
+                      }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://example.com"
+                    />
+                    
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updatedReferences = formData.references.filter((_, i) => i !== index);
+                        setFormData(prev => ({ ...prev, references: updatedReferences }));
+                      }}
+                      className="px-3 py-2 text-red-600 hover:text-red-800"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              
+              {formData.references.length < 10 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (formData.references.length < 10) {
+                      setFormData(prev => ({
+                        ...prev,
+                        references: [...prev.references, { type: 'github', url: '' }]
+                      }));
+                    }
+                  }}
+                  className="mt-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm"
+                >
+                  + Add Reference
+                </button>
+              )}
+              
+              {formData.references.length > 0 && (
+                <p className="text-xs text-gray-500 mt-2">{formData.references.length}/10 references added</p>
+              )}
             </div>
 
             <div className="flex items-center justify-between">

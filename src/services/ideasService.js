@@ -80,6 +80,7 @@ export const submitIdea = async (ideaData, userId, userName) => {
       likeCount: 0,
       commentCount: 0,
       tags: ideaData.tags || [],
+      references: ideaData.references || [],
     };
 
     const docRef = await addDoc(ideasCollection, newIdea);
@@ -183,6 +184,44 @@ export const getCommentsListener = (ideaId, callback, errorHandler) => {
       errorHandler && errorHandler(error);
     }
   );
+};
+
+// Get all idea IDs that a user has liked with real-time listener
+// This is a simplified version that uses the existing checkUserLike function for each idea
+export const getUserLikesListener = (userId, allIdeas, callback) => {
+  // Since we can't efficiently query all ideas a user has liked, 
+  // we'll create a listener that checks each idea individually
+  // This is less efficient but works with existing security rules
+  
+  const checkUserLikes = async () => {
+    if (!allIdeas || allIdeas.length === 0) {
+      callback([]);
+      return;
+    }
+    
+    const likedIdeaIds = [];
+    
+    // Check each idea to see if user has liked it
+    for (const idea of allIdeas) {
+      try {
+        const likeRef = doc(db, 'ideas', idea.id, 'likes', userId);
+        const likeDoc = await getDoc(likeRef);
+        if (likeDoc.exists()) {
+          likedIdeaIds.push(idea.id);
+        }
+      } catch (error) {
+        console.error(`Error checking like for idea ${idea.id}:`, error);
+      }
+    }
+    
+    callback(likedIdeaIds);
+  };
+  
+  // Call initially and return a function that can be called when ideas change
+  checkUserLikes();
+  
+  // Return a function to re-check when ideas change
+  return checkUserLikes;
 };
 
 // Get a single idea
