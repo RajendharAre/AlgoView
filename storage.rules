@@ -1,0 +1,10 @@
+// Storage is no longer used in this application
+// All images are now generated dynamically based on user data
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;  // Deny all access since we're not using storage
+    }
+  }
+}

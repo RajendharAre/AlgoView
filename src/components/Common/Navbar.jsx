@@ -14,7 +14,8 @@ import {
   LogIn,
   ChevronDown,
   Lightbulb,
-  Info
+  Info,
+  Brain
 } from 'lucide-react'
 import { signOut } from '../../store/slices/userSlice'
 
@@ -109,6 +110,7 @@ const Navbar = () => {
     },
     { name: 'Development', path: '/development', icon: Code },
     { name: 'Ideas', path: '/ideas', icon: Lightbulb },
+    { name: 'AI', path: '/ai', icon: Brain },
     { name: 'About', path: '/about', icon: Info },
   ]
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Mock Real-Time Test</title>
+</head>
+<body>
+    <h1>🧪 Firebase Mock Real-Time Test</h1>
+    
+    <div>
+        <h2>Tab Identity: <span id="tabId"></span></h2>
+        <button onclick="createTestData()">Create Test Data</button>
+        <button onclick="readTestData()">Read Test Data</button>
+        <button onclick="updateTestData()">Update Test Data</button>
+    </div>
+    
+    <div>
+        <h3>Real-Time Events:</h3>
+        <div id="events" style="height: 200px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
+    </div>
+
+    <script type="module">
+        // Import the mock Firebase
+        import { db, doc, setDoc, getDoc, onSnapshot } from './src/lib/firebase-mock.js';
+        
+        // Generate unique tab ID
+        const tabId = Math.random().toString(36).substr(2, 9);
+        document.getElementById('tabId').textContent = tabId;
+        
+        // Log function
+        function log(message) {
+            const eventsDiv = document.getElementById('events');
+            const timestamp = new Date().toLocaleTimeString();
+            eventsDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+            console.log(`[${tabId}]`, message);
+        }
+        
+        // Test document reference
+        const testDocRef = doc(db, 'test', 'shared-document');
+        
+        // Set up real-time listener
+        const unsubscribe = onSnapshot(testDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                log(`🔄 REAL-TIME UPDATE RECEIVED: ${JSON.stringify(data)}`);
+            } else {
+                log('📄 Document does not exist');
+            }
+        });
+        
+        // Test functions
+        window.createTestData = async function() {
+            try {
+                const testData = {
+                    createdAt: Date.now(),
+                    createdBy: tabId,
+                    message: `Hello from tab ${tabId}`,
+                    counter: 1
+                };
+                
+                await setDoc(testDocRef, testData);
+                log(`✅ Created test data: ${JSON.stringify(testData)}`);
+            } catch (error) {
+                log(`❌ Error creating data: ${error.message}`);
+            }
+        };
+        
+        window.readTestData = async function() {
+            try {
+                const docSnap = await getDoc(testDocRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    log(`📖 Read data: ${JSON.stringify(data)}`);
+                } else {
+                    log('❌ Document does not exist');
+                }
+            } catch (error) {
+                log(`❌ Error reading data: ${error.message}`);
+            }
+        };
+        
+        window.updateTestData = async function() {
+            try {
+                const docSnap = await getDoc(testDocRef);
+                let currentData = {};
+                
+                if (docSnap.exists()) {
+                    currentData = docSnap.data();
+                }
+                
+                const updatedData = {
+                    ...currentData,
+                    updatedAt: Date.now(),
+                    updatedBy: tabId,
+                    counter: (currentData.counter || 0) + 1,
+                    message: `Updated by tab ${tabId}`
+                };
+                
+                await setDoc(testDocRef, updatedData, { merge: true });
+                log(`✅ Updated data: ${JSON.stringify(updatedData)}`);
+            } catch (error) {
+                log(`❌ Error updating data: ${error.message}`);
+            }
+        };
+        
+        // Monitor localStorage for cross-tab communication
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'firebase-mock-sync') {
+                log(`📡 CROSS-TAB MESSAGE RECEIVED: ${event.newValue}`);
+            }
+        });
+        
+        log('🚀 Test page initialized. Open this page in multiple tabs to test real-time sync!');
+    </script>
+</body>
+</html>

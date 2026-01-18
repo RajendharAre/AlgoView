@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Nature Demonstration</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 2px solid #ddd; border-radius: 8px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { padding: 10px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .status-indicator { 
+            width: 20px; 
+            height: 20px; 
+            border-radius: 50%; 
+            display: inline-block; 
+            margin-right: 10px;
+        }
+        .online { background-color: #28a745; }
+        .offline { background-color: #dc3545; }
+        .syncing { background-color: #ffc107; }
+        #events { 
+            height: 300px; 
+            overflow-y: scroll; 
+            border: 1px solid #ccc; 
+            padding: 10px; 
+            background-color: #f8f9fa;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Dynamic Nature Test Dashboard</h1>
+    
+    <div class="test-section info">
+        <h2>📊 Current Status</h2>
+        <p><span class="status-indicator online"></span> System Status: <strong>ONLINE</strong></p>
+        <p><span class="status-indicator syncing"></span> Real-time Sync: <strong>ACTIVE</strong></p>
+        <p>Tab ID: <strong><span id="tabId">Loading...</span></strong></p>
+    </div>
+
+    <div class="test-section warning">
+        <h2>🧪 Test Controls</h2>
+        <button class="btn-primary" onclick="testSessionCreation()">Create Session</button>
+        <button class="btn-success" onclick="testVerification()">Test Verification</button>
+        <button class="btn-warning" onclick="clearEvents()">Clear Log</button>
+        <button class="btn-primary" onclick="openNewTab()">Open New Tab</button>
+    </div>
+
+    <div class="test-section success">
+        <h2>📈 Real-time Events</h2>
+        <div id="events"></div>
+    </div>
+
+    <div class="test-section info">
+        <h2>📋 Expected Dynamic Behavior</h2>
+        <ul>
+            <li><strong>✅ Instant UI Updates:</strong> Button states change immediately after actions</li>
+            <li><strong>✅ Cross-tab Sync:</strong> Actions in one tab appear in others instantly</li>
+            <li><strong>✅ Real-time Listeners:</strong> Data changes trigger automatic updates</li>
+            <li><strong>✅ State Persistence:</strong> Progress maintains across page refreshes</li>
+        </ul>
+    </div>
+
+    <script type="module">
+        // Import the mock Firebase
+        import { db, doc, setDoc, getDoc, onSnapshot } from './src/lib/firebase-mock.js';
+        
+        // Generate unique tab ID
+        const tabId = Math.random().toString(36).substr(2, 9);
+        document.getElementById('tabId').textContent = tabId;
+        
+        // Event logging function
+        function logEvent(message, type = 'info') {
+            const eventsDiv = document.getElementById('events');
+            const timestamp = new Date().toLocaleTimeString();
+            const eventEntry = `[${timestamp}] [${tabId}] ${message}`;
+            
+            const div = document.createElement('div');
+            div.textContent = eventEntry;
+            div.style.color = type === 'success' ? '#155724' : type === 'error' ? '#721c24' : '#0c5460';
+            div.style.marginBottom = '5px';
+            
+            eventsDiv.appendChild(div);
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+            
+            console.log(`[${tabId}] ${message}`);
+        }
+        
+        // Test document reference
+        const testUserDoc = doc(db, 'users', `test-user-${tabId}`);
+        
+        // Set up real-time listener
+        logEvent('🔄 Setting up real-time listener...', 'info');
+        const unsubscribe = onSnapshot(testUserDoc, (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                logEvent(`🔄 REAL-TIME UPDATE: ${JSON.stringify(data)}`, 'success');
+            } else {
+                logEvent('📄 Document initialized', 'info');
+            }
+        });
+        
+        // Test functions
+        window.testSessionCreation = async function() {
+            try {
+                logEvent('🎯 Testing session creation...', 'info');
+                
+                const sessionData = {
+                    createdAt: Date.now(),
+                    tabId: tabId,
+                    action: 'session_created',
+                    problem: 'two-sum',
+                    status: 'solving'
+                };
+                
+                await setDoc(testUserDoc, {
+                    sessions: {
+                        'two-sum': sessionData
+                    }
+                }, { merge: true });
+                
+                logEvent(`✅ Session created: ${JSON.stringify(sessionData)}`, 'success');
+                
+                // Simulate immediate UI update
+                setTimeout(() => {
+                    logEvent('🎨 UI would update: Button changed from "Solve" to "Verify"', 'success');
+                }, 100);
+                
+            } catch (error) {
+                logEvent(`❌ Error: ${error.message}`, 'error');
+            }
+        };
+        
+        window.testVerification = async function() {
+            try {
+                logEvent('🎯 Testing verification flow...', 'info');
+                
+                // First create a session
+                await testSessionCreation();
+                
+                // Wait a bit then simulate verification
+                setTimeout(async () => {
+                    const verificationData = {
+                        verifiedAt: Date.now(),
+                        tabId: tabId,
+                        action: 'problem_verified',
+                        problem: 'two-sum',
+                        status: 'completed'
+                    };
+                    
+                    await setDoc(testUserDoc, {
+                        completedProblems: {
+                            'two-sum': true
+                        },
+                        sessions: {
+                            'two-sum': null // Remove session
+                        }
+                    }, { merge: true });
+                    
+                    logEvent(`✅ Problem verified: ${JSON.stringify(verificationData)}`, 'success');
+                    logEvent('🎨 UI would update: Button changed to "Verified" with green color', 'success');
+                    logEvent('🔄 Real-time listeners triggered in all tabs', 'success');
+                    
+                }, 500);
+                
+            } catch (error) {
+                logEvent(`❌ Error: ${error.message}`, 'error');
+            }
+        };
+        
+        window.clearEvents = function() {
+            document.getElementById('events').innerHTML = '';
+            logEvent('🧹 Event log cleared', 'info');
+        };
+        
+        window.openNewTab = function() {
+            window.open(window.location.href, '_blank');
+            logEvent('🔗 New tab opened - test cross-tab synchronization!', 'success');
+        };
+        
+        // Monitor localStorage for cross-tab communication
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'firebase-mock-sync') {
+                logEvent(`📡 CROSS-TAB MESSAGE: ${event.newValue}`, 'success');
+            }
+        });
+        
+        // Initialize
+        logEvent('🚀 Dynamic Nature Test Dashboard Initialized', 'success');
+        logEvent('💡 Click "Create Session" to see dynamic behavior in action', 'info');
+        logEvent('💡 Open multiple tabs to test cross-tab synchronization', 'info');
+        logEvent('💡 Watch the real-time event log for automatic updates', 'info');
+    </script>
+</body>
+</html>

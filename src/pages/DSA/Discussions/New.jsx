@@ -1,16 +1,65 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, Tag, User } from 'lucide-react'
+import { useAuth } from '../../../hooks/useAuth'
+import { db } from '../../../lib/firebase'
+import { doc, setDoc } from 'firebase/firestore'
+import { serverTimestamp } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const DSADiscussionNew = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [tags, setTags] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle submission logic here
-    console.log({ title, content, tags })
+    
+    if (!user) {
+      setError('You must be logged in to post a discussion')
+      return
+    }
+    
+    if (!title.trim() || !content.trim()) {
+      setError('Title and content are required')
+      return
+    }
+    
+    setLoading(true)
+    setError('')
+    
+    try {
+      // Parse tags from comma-separated string
+      const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+      
+      // Create discussion document
+      const discussionRef = doc(db, 'discussions', Date.now().toString())
+      
+      await setDoc(discussionRef, {
+        title: title.trim(),
+        content: content.trim(),
+        tags: tagsArray,
+        authorId: user.uid,
+        authorName: user.email?.split('@')[0] || 'Anonymous',
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        replies: 0,
+        views: 0,
+        lastActivity: serverTimestamp()
+      })
+      
+      // Navigate to the discussions list
+      navigate('/dsa/discussions')
+    } catch (err) {
+      console.error('Error creating discussion:', err)
+      setError('Failed to create discussion. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -27,6 +76,12 @@ const DSADiscussionNew = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {error && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                {error}
+              </div>
+            )}
+            
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Discussion Title
@@ -78,14 +133,28 @@ const DSADiscussionNew = () => {
               <div className="flex items-center gap-3">
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={loading}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                    loading 
+                      ? 'bg-blue-400 text-white cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
                 >
-                  <Send size={16} />
-                  Post Discussion
+                  {loading ? (
+                    <>
+                      <div className="w-4 h-4 border-t-2 border-white border-solid rounded-full animate-spin"></div>
+                      Posting...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={16} />
+                      Post Discussion
+                    </>)}
                 </button>
                 <button
                   type="button"
                   className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  onClick={() => navigate('/dsa/discussions')}
                 >
                   Cancel
                 </button>

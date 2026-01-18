@@ -2,23 +2,104 @@ import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 import { Code, Lightbulb, BookOpen, User, TrendingUp } from 'lucide-react'
 import { SiThealgorithms } from 'react-icons/si'
+import { useAuth } from '../hooks/useAuth'
+import { useState, useEffect } from 'react'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../lib/firebase'
 
 const Dashboard = () => {
   const { currentUser } = useSelector((state) => state.user)
+  const { user } = useAuth();
+  const [dashboardData, setDashboardData] = useState({
+    stats: {
+      algorithmsMastered: 0,
+      hoursPracticed: 0,
+      ideasExplored: 0,
+      resourcesSaved: 0
+    },
+    recentActivity: [],
+    completedProblems: 0,
+    totalProblems: 0
+  });
 
-  const stats = [
-    { name: 'Algorithms Mastered', value: '12', icon: SiThealgorithms },
-    { name: 'Hours Practiced', value: '24', icon: TrendingUp },
-    { name: 'Projects Completed', value: '5', icon: Code },
-    { name: 'Ideas Explored', value: '18', icon: Lightbulb }
-  ]
+  useEffect(() => {
+    if (!user) return;
+    
+    const unsubscribe = onSnapshot(doc(db, 'users', user.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        
+        // Calculate stats based on user data
+        let completedProblems = 0;
+        let hoursPracticed = 0;
+        let ideasExplored = 0;
+        let resourcesSaved = 0;
+        
+        // Count completed problems
+        if (userData.completedProblems) {
+          completedProblems = Object.keys(userData.completedProblems).filter(
+            problemId => userData.completedProblems[problemId]
+          ).length;
+        }
+        
+        // Calculate hours practiced (placeholder - would need actual time tracking)
+        // For now, we'll estimate based on number of completed problems
+        hoursPracticed = Math.min(200, Math.floor(completedProblems * 0.5)); // Approximate 0.5 hours per problem
+        
+        // Count ideas explored (would come from a separate ideas collection)
+        // For now, using a placeholder based on activity level
+        ideasExplored = Math.min(50, Math.floor(completedProblems * 0.3));
+        
+        // Count resources saved (would come from user's saved items)
+        // For now, using a placeholder based on activity
+        resourcesSaved = Math.min(100, Math.floor(completedProblems * 0.7));
+        
+        // Update dashboard data
+        setDashboardData({
+          stats: {
+            algorithmsMastered: completedProblems,
+            hoursPracticed: hoursPracticed,
+            ideasExplored: ideasExplored,
+            resourcesSaved: resourcesSaved
+          },
+          recentActivity: [
+            {
+              id: 1,
+              action: `Completed ${completedProblems} algorithms`,
+              time: 'Just now',
+              type: 'problem-completion'
+            },
+            // Add more activity items based on user data
+            ...(userData.sessions ? Object.entries(userData.sessions).map(([problemId, session], idx) => ({
+              id: idx + 2,
+              action: `Started solving ${problemId.replace(/-/g, ' ')}`,
+              time: new Date(session.clickedAt).toLocaleString(),
+              type: 'problem-start'
+            })) : [])
+          ].slice(0, 4), // Limit to 4 recent activities
+          completedProblems,
+          totalProblems: completedProblems // Simplified for now
+        });
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [user]);
 
-  const recentActivity = [
-    { id: 1, action: 'Completed Bubble Sort Visualization', time: '2 hours ago' },
-    { id: 2, action: 'Started Merge Sort Tutorial', time: '1 day ago' },
-    { id: 3, action: 'Saved Dijkstra Algorithm to Favorites', time: '2 days ago' },
-    { id: 4, action: 'Posted idea: "Graph Algorithms in Game Development"', time: '3 days ago' }
-  ]
+  // // Original static data (kept for reference)
+  // const stats = [
+  //   { name: 'Algorithms Mastered', value: '12', icon: SiThealgorithms },
+  //   { name: 'Hours Practiced', value: '24', icon: TrendingUp },
+  //   { name: 'Projects Completed', value: '5', icon: Code },
+  //   { name: 'Ideas Explored', value: '18', icon: Lightbulb }
+  // ]
+
+  // const recentActivity = [
+  //   { id: 1, action: 'Completed Bubble Sort Visualization', time: '2 hours ago' },
+  //   { id: 2, action: 'Started Merge Sort Tutorial', time: '1 day ago' },
+  //   { id: 3, action: 'Saved Dijkstra Algorithm to Favorites', time: '2 days ago' },
+  //   { id: 4, action: 'Posted idea: "Graph Algorithms in Game Development"', time: '3 days ago' }
+  // ]
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -43,7 +124,13 @@ const Dashboard = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat, index) => {
+        {
+          [
+            { name: 'Algorithms Mastered', value: (dashboardData.stats.algorithmsMastered || 0).toString(), icon: SiThealgorithms },
+            { name: 'Hours Practiced', value: (dashboardData.stats.hoursPracticed || 0).toString(), icon: TrendingUp },
+            { name: 'Ideas Shared', value: (dashboardData.stats.ideasExplored || 0).toString(), icon: Lightbulb },
+            { name: 'Resources Saved', value: (dashboardData.stats.resourcesSaved || 0).toString(), icon: BookOpen }
+          ].map((stat, index) => {
           const Icon = stat.icon
           return (
             <motion.div
@@ -78,7 +165,7 @@ const Dashboard = () => {
           >
             <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
             <div className="space-y-4">
-              {recentActivity.map((activity) => (
+              {dashboardData.recentActivity.map((activity) => (
                 <div key={activity.id} className="flex items-start">
                   <div className="flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
                     <div className="h-2 w-2 rounded-full bg-blue-600"></div>

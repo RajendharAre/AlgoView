@@ -13,7 +13,7 @@ service cloud.firestore {
       // OR a user is updating only likeCount/commentCount
       allow update: if request.auth != null &&
         (
-          request.auth.uid == resource.data.authorId ||
+          request.auth.uid == resource.data.authorId || 
           (
             request.resource.data.diff(resource.data).changedKeys().hasOnly(['likeCount', 'commentCount'])
           )
@@ -32,6 +32,35 @@ service cloud.firestore {
         allow read: if true;
         allow create: if request.auth != null;
         allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      }
+    }
+    
+    // Users collection - allow users to read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Discussions collection
+    match /discussions/{discussionId} {
+      allow read: if true;
+      
+      // Anyone logged in can create a discussion
+      allow create: if request.auth != null;
+      
+      // Allow updates only by the author
+      allow update: if request.auth != null && 
+                   request.auth.uid == resource.data.authorId;
+      
+      // Allow deletion only by the author
+      allow delete: if request.auth != null && 
+                   request.auth.uid == resource.data.authorId;
+      
+      // Discussion replies/subcollections
+      match /replies/{replyId} {
+        allow read: if true;
+        allow create: if request.auth != null;
+        allow update, delete: if request.auth != null && 
+                               request.auth.uid == resource.data.authorId;
       }
     }
   }

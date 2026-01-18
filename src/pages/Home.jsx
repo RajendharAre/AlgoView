@@ -193,9 +193,9 @@ const Home = () => {
 
   // Stats data
   const stats = [
-    { id: 1, value: 200, label: 'Algorithms', suffix: '+' },
-    { id: 2, value: 10, label: 'Users', suffix: 'K+' },
-    { id: 3, value: 50, label: 'Visualizations', suffix: 'K+' }
+    { id: 1, value: 10, label: 'Algorithms', suffix: '+' },
+    { id: 2, value: 100, label: 'Users', suffix: '+' },
+    { id: 3, value: 50, label: 'Visualizations', suffix: '+' }
   ]
 
   // Company logos data
@@ -1268,7 +1268,7 @@ const Home = () => {
           
           {/* Infinite horizontal scroll of testimonials */}
           <div className="relative overflow-hidden py-8">
-            <div className="flex animate-scroll whitespace-nowrap">
+            <div className="flex animate-marquee whitespace-nowrap">
               {[...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
                 <div key={`${testimonial.id}-${index}`} className="inline-block mx-4">
                   <div className="bg-gradient-to-r from-cyan-500 to-emerald-500 text-white px-4 py-2 rounded-full text-sm font-medium">
@@ -1312,8 +1312,8 @@ const Home = () => {
               align-items: center;
               justify-content: center;
             }
-            .animate-scroll {
-              animation: scroll 30s linear infinite;
+            .animate-marquee {
+              animation: marquee 30s linear infinite;
             }
             .scrollbar-hide {
               -ms-overflow-style: none;
@@ -1446,17 +1446,17 @@ const Home = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                 >
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 text-white">
                     Unlock Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Developer Potential</span>
                   </h2>
                   <p className="text-lg md:text-xl mb-6 text-slate-300">
-                    Join 10,247 developers who transformed their algorithm mastery journey with our interactive platform.
+                    Join 250 developers who transformed their algorithm mastery journey with our interactive platform.
                   </p>
                   
                   {/* Live counter */}
                   <div className="mb-8">
                     <div className="text-2xl font-bold text-cyan-400">
-                      <Counter value={10247}>+</Counter>
+                      <Counter value={250}>+</Counter>
                       <span className="text-sm ml-2 text-slate-400">developers already joined</span>
                     </div>
                   </div>
@@ -1667,67 +1667,7 @@ const Home = () => {
         </div>
       </div>
       
-      {/* Enhanced Footer */}
-      <footer className="bg-slate-900 text-white py-16 mt-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {/* Newsletter Signup */}
-            <div className="lg:col-span-2">
-              <h3 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-emerald-400">
-                Join Our Community
-              </h3>
-              <p className="text-slate-400 mb-6">
-                Join 10K+ developers receiving weekly algorithm tips and updates
-              </p>
-              <form className="flex flex-col sm:flex-row gap-3">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  className="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 min-w-0"
-                />
-                <button 
-                  type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-emerald-500 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 whitespace-nowrap"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-            
-            {/* Links */}
-            <div>
-              <h4 className="font-bold text-lg mb-4">Resources</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Documentation</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Tutorials</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">API Reference</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="font-bold text-lg mb-4">Company</h4>
-              <ul className="space-y-2 text-slate-400">
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Changelog</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition-colors">Contact</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-slate-500 text-sm">
-              © 2024 Algorithm Visualizer. All rights reserved.
-            </div>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-slate-500 hover:text-cyan-400 transition-colors">Terms</a>
-              <a href="#" className="text-slate-500 hover:text-cyan-400 transition-colors">Privacy</a>
-              <a href="#" className="text-slate-500 hover:text-cyan-400 transition-colors">Cookies</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+
     </>
   )
 }

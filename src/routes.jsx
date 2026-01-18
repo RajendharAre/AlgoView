@@ -24,6 +24,7 @@ const DSADiscussionDetail = lazy(() => import('./pages/DSA/Discussions/Discussio
 const DSADiscussionNew = lazy(() => import('./pages/DSA/Discussions/New'))
 const Development = lazy(() => import('./pages/Development'))
 const Ideas = lazy(() => import('./pages/Ideas'))
+const AI = lazy(() => import('./pages/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
 const NewIdea = lazy(() => import('./pages/Ideas/New'))
 const References = lazy(() => import('./pages/References'))
@@ -249,6 +250,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<LoadingSpinner />}>
               <Ideas />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'ai',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <AI />
             </Suspense>
           </ProtectedRoute>
         )

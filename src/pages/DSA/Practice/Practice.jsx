@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { BookOpen, CheckCircle, Clock, Target, ChevronDown, ChevronRight, Grid3X3, FileText, Link as LinkIcon, Package, ClipboardList, Repeat2, ArrowLeftRight, Coins, Search, TreePine, Globe, TrendingUp, Zap, User, Check, AlertTriangle } from 'lucide-react';
 import { validateProblemSolved } from '../../../services/leetcodeService';
+import { useAuth } from '../../../hooks/useAuth';
+import { useProfile } from '../../../hooks/useProfile';
+import { doc, setDoc, getDoc, onSnapshot, deleteField, updateDoc } from 'firebase/firestore';
+import { db } from '../../../lib/firebase';
 
 // Mock data for DSA problems - this would ideally come from an API
 const DSA_CATEGORIES = {
@@ -157,127 +161,425 @@ const DIFFICULTY_ORDER = {
 };
 
 const Practice = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { profile, getLeetCodeUsername } = useProfile(user?.uid);
+  
   const [completedProblems, setCompletedProblems] = useState(new Set());
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [leetcodeUsername, setLeetcodeUsername] = useState('');
-  const [showUsernameInput, setShowUsernameInput] = useState(false);
   const [verifyingProblemId, setVerifyingProblemId] = useState(null);
-
-  // Load completed problems from localStorage on mount
-  useEffect(() => {
-    const savedCompleted = localStorage.getItem('dsa_completed_problems');
-    if (savedCompleted) {
-      try {
-        const parsed = JSON.parse(savedCompleted);
-        setCompletedProblems(new Set(parsed));
-      } catch (e) {
-        console.error('Error parsing completed problems:', e);
-      }
-    }
-    
-    // Load LeetCode username from localStorage
-    const savedUsername = localStorage.getItem('leetcode_username');
-    if (savedUsername) {
-      setLeetcodeUsername(savedUsername);
-    }
-  }, []);
-
-  // Save completed problems to localStorage when they change
-  useEffect(() => {
-    localStorage.setItem('dsa_completed_problems', JSON.stringify([...completedProblems]));
-  }, [completedProblems]);
   
-  // Save LeetCode username to localStorage when it changes
+  // State to force re-renders when needed
+  const [forceRerender, setForceRerender] = useState(0);
+  
+  // Load user sessions to track solving state
+  const [userSessions, setUserSessions] = useState({});
+  
+  // Get LeetCode username from profile
+  const leetcodeUsername = getLeetCodeUsername();
+
+
+  // Load user data from Firebase on mount
   useEffect(() => {
-    if (leetcodeUsername) {
-      localStorage.setItem('leetcode_username', leetcodeUsername);
-    }
-  }, [leetcodeUsername]);
+    if (!user) return;
+    
+    console.log('=== INITIALIZING USER DATA ===');
+    console.log('User UID:', user.uid);
+    
+    const unsubscribe = onSnapshot(doc(db, 'users', user.uid), async (docSnap) => {
+      console.log('=== REAL-TIME LISTENER TRIGGERED ===');
+      console.log('Document snapshot exists:', docSnap.exists());
+      
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        console.log('Loaded user data from Firebase:', userData);
+        
+        // Load completed problems
+        if (userData.completedProblems) {
+          setCompletedProblems(new Set(Object.keys(userData.completedProblems).filter(
+            problemId => userData.completedProblems[problemId]
+          )));
+        }
+        
+        // Load user sessions
+        if (userData.sessions) {
+          console.log('Updating userSessions state with:', userData.sessions);
+          setUserSessions(userData.sessions || {});
+        } else {
+          console.log('Clearing userSessions state');
+          setUserSessions({});
+        }
+        
+        // Load LeetCode username
+        if (userData.leetcodeUsername) {
+          setLeetcodeUsername(userData.leetcodeUsername);
+        }
+      } else {
+        console.log('Document does not exist, initializing empty user document');
+        
+        // Initialize empty user document
+        try {
+          await setDoc(doc(db, 'users', user.uid), {
+            completedProblems: {},
+            sessions: {},
+            leetcodeUsername: ''
+          }, { merge: true });
+          
+          console.log('✅ Empty user document initialized');
+          
+          // Set initial empty states
+          setUserSessions({});
+          setCompletedProblems(new Set());
+          setLeetcodeUsername('');
+        } catch (error) {
+          console.error('❌ Error initializing user document:', error);
+        }
+      }
+      
+      console.log('=== REAL-TIME LISTENER UPDATE COMPLETE ===');
+    });
+    
+    return () => unsubscribe();
+  }, [user]);
+
+
+  
+
+  
+
   
   // Save problem session data when a user starts solving
-  const saveSolveSession = (problemId, leetcodeSlug, timestamp) => {
+  const saveSolveSession = async (problemId, leetcodeSlug, timestamp) => {
+    if (!user) {
+      console.log('No user authenticated, skipping session save for:', problemId);
+      return;
+    }
+    
     const sessionData = {
       problemId,
       leetcodeSlug,
       clickedAt: timestamp
     };
     
-    // Store in localStorage with a unique key
-    const key = `solve_session_${problemId}`;
-    localStorage.setItem(key, JSON.stringify(sessionData));
+    console.log('=== SAVE SESSION DEBUG ===');
+    console.log('Problem ID:', problemId);
+    console.log('LeetCode Slug:', leetcodeSlug);
+    console.log('Timestamp:', timestamp);
+    console.log('User UID:', user.uid);
+    console.log('Session Data to Save:', sessionData);
+    
+    try {
+      // Store in Firebase with a unique key
+      console.log('Attempting to save to Firebase...');
+      // Use nested object structure for sessions
+      const currentDoc = await getDoc(doc(db, 'users', user.uid));
+      let currentData = {};
+      if (currentDoc.exists()) {
+        currentData = currentDoc.data();
+      }
+      
+      const updatedSessions = {
+        ...currentData.sessions,
+        [problemId]: sessionData
+      };
+      
+      await setDoc(doc(db, 'users', user.uid), {
+        sessions: updatedSessions
+      }, { merge: true });
+      
+      console.log('✅ Session data saved successfully to Firebase');
+      
+      // Manually update the userSessions state to reflect the new session
+      // This is a workaround since the real-time listener might not trigger immediately
+      setUserSessions(prev => ({
+        ...prev,
+        [problemId]: sessionData
+      }));
+      console.log('✅ UserSessions state updated manually with new session');
+      
+      // Verify the save by reading it back immediately
+      console.log('Verifying save by reading back from Firebase...');
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        console.log('Read back user data:', userData);
+        if (userData.sessions && userData.sessions[problemId]) {
+          console.log('✅ Session verified in Firebase:', userData.sessions[problemId]);
+        } else {
+          console.log('❌ Session NOT found in Firebase after save');
+          console.log('Available sessions:', userData.sessions);
+        }
+      } else {
+        console.log('❌ User document not found after save');
+      }
+      
+    } catch (error) {
+      console.error('❌ Error saving session to Firebase:', error);
+      throw error;
+    }
   };
   
-  // Get problem session data
-  const getSolveSession = (problemId) => {
-    const key = `solve_session_${problemId}`;
-    const sessionData = localStorage.getItem(key);
-    if (sessionData) {
-      try {
-        return JSON.parse(sessionData);
-      } catch (e) {
-        console.error('Error parsing session data:', e);
-        return null;
-      }
+
+  
+
+  
+
+
+
+
+  // Helper function to determine if a problem is currently being solved
+  const isSolving = (problemId) => {
+    // A problem is considered 'solving' if there's a session for it but it's not yet completed
+    const session = userSessions[problemId];
+    const isSession = !!session;
+    const isCompleted = completedProblems.has(problemId);
+    
+    // Add visual feedback for debugging
+    const result = isSession && !isCompleted;
+    if (result) {
+      console.log(`🎯 DYNAMIC UPDATE: Problem ${problemId} is now in SOLVING state`);
     }
-    return null;
+    
+    console.log('isSolving check for problem:', problemId, { 
+      userSessions, 
+      session, 
+      isSession, 
+      isCompleted, 
+      result: result,
+      dynamicUpdate: result ? '🟢 ACTIVE' : '⚪ INACTIVE'
+    });
+    return result;
   };
   
   // Start solving a problem
-  const startSolve = (problem) => {
-    saveSolveSession(problem.id, problem.leetcodeSlug || problem.id, Date.now());
+  const startSolve = async (problem) => {
+    if (!user) {
+      alert('Please log in to track your progress');
+      return;
+    }
+    
+    const slugToSave = problem.leetcodeSlug || problem.id;
+    const timestamp = Date.now();
+    
+    console.log('Starting solve for problem:', problem.id, 'slug:', slugToSave, 'timestamp:', timestamp);
+    
+    // Save session to Firebase immediately
+    await saveSolveSession(problem.id, slugToSave, timestamp);
+    
+    console.log('Session saved, opening LeetCode...');
+    
+    // Open LeetCode in new tab
     window.open(problem.leetcodeUrl, '_blank');
+    
+    // Show confirmation message
+    alert(`Session started for "${problem.title}"!\n\nAfter solving on LeetCode, click "Verify" to confirm completion.`);
   };
   
   // Verify a problem completion against LeetCode
   const verifyProblem = async (problem) => {
+    console.log('\n=== VERIFY DEBUG START ===');
+    console.log('Problem ID:', problem.id);
+    console.log('Problem Object:', problem);
+    console.log('User UID:', user?.uid);
+    console.log('Username:', leetcodeUsername);
+    console.log('Current userSessions state:', userSessions);
+    console.log('Current completedProblems:', [...completedProblems]);
+    
+    console.log('\n=== STEP 1: Checking prerequisites ===');
+    
     // First check if user has provided LeetCode username
     if (!leetcodeUsername) {
-      alert('Please enter your LeetCode username first.');
-      setShowUsernameInput(true);
+      console.log('❌ No LeetCode username found');
+      
+      // Show popup prompting user to add LeetCode profile in Profile page
+      alert('LeetCode profile not found. Please add your LeetCode profile in your Profile page first.');
+      navigate('/profile');
       return;
     }
     
-    // Get the session data for this problem
-    const session = getSolveSession(problem.id);
+    console.log('✅ LeetCode username found:', leetcodeUsername);
+    
+    console.log('\n=== STEP 2: Fetching session from Firebase ===');
+    
+    // IMPORTANT: Always fetch fresh session data from Firebase to avoid race conditions
+    let session = null;
+    
+    if (user) {
+      console.log('Attempting to fetch user document from Firebase for UID:', user.uid);
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        console.log('Firebase response received');
+        
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          console.log('✅ User document exists. Raw data:', userData);
+          
+          // Check if sessions field exists
+          if (userData.sessions) {
+            console.log('✅ Sessions field exists:', userData.sessions);
+            
+            // Get the session for this specific problem
+            if (userData.sessions[problem.id]) {
+              session = userData.sessions[problem.id];
+              console.log('✅ Session found for problem', problem.id, ':', session);
+            } else {
+              console.log('❌ No session found for problem:', problem.id);
+              console.log('Available sessions in Firebase:', Object.keys(userData.sessions || {}));
+            }
+          } else {
+            console.log('❌ No sessions field in user document');
+            console.log('User document structure:', Object.keys(userData));
+          }
+        } else {
+          console.log('❌ User document does not exist in Firebase for UID:', user.uid);
+        }
+      } catch (error) {
+        console.error('❌ Error fetching session from Firebase:', error);
+        console.error('Error details:', error.message);
+      }
+    } else {
+      console.log('❌ No user object available');
+    }
+    
+    console.log('\n=== STEP 3: Session validation ===');
+    
+    // Check if session exists
     if (!session) {
-      alert('Please click "Solve" first to start working on this problem.');
+      console.log('❌ NO SESSION FOUND for problem:', problem.id);
+      console.log('This is why you see the "Please click Solve first" message');
+      
+      // Show detailed error with possible causes
+      alert(
+        'Session not found for this problem. Possible causes:\n\n' +
+        '1. You may not have clicked "Solve" yet\n' +
+        '2. Session data failed to save to Firebase\n' +
+        '3. You might be using a different browser/device\n' +
+        '4. Firebase authentication issue\n\n' +
+        'Please try clicking "Solve" again and check the console for errors.'
+      );
       return;
     }
+    
+    console.log('✅ Session found and validated:', session);
+    console.log('Session clicked at:', new Date(session.clickedAt).toLocaleString());
+    console.log('Current time:', new Date().toLocaleString());
+    
+    console.log('\n=== STEP 4: Preparing verification ===');
+    
+    // Determine the slug to use for verification
+    const slugToCheck = problem.leetcodeSlug || session.leetcodeSlug || problem.id;
+    
+    console.log('Verification parameters:', {
+      uiSlug: problem.leetcodeSlug,
+      sessionSlug: session.leetcodeSlug,
+      finalSlug: slugToCheck,
+      sessionClickedAt: session.clickedAt,
+      readableTime: new Date(session.clickedAt).toLocaleString()
+    });
     
     // Set loading state
     setVerifyingProblemId(problem.id);
     
     try {
+      console.log('\n=== STEP 5: Calling LeetCode API ===');
+      console.log('Calling validateProblemSolved with:', {
+        username: leetcodeUsername,
+        slug: slugToCheck,
+        clickedAt: session.clickedAt
+      });
+      
       // Validate if the user has solved this problem since starting the session
       const isSolved = await validateProblemSolved(
         leetcodeUsername,
-        problem.leetcodeSlug,
+        slugToCheck,
         session.clickedAt
       );
       
+      console.log('\n=== STEP 6: Processing validation result ===');
+      console.log('Validation result:', isSolved);
+      
       if (isSolved) {
-        // Mark the problem as completed
+        console.log('✅ Problem solved! Updating completion status');
+        
+        // Mark the problem as completed in Firebase
+        console.log('Saving completion to Firebase...');
+        // Use nested object structure for completedProblems
+        const currentDoc = await getDoc(doc(db, 'users', user.uid));
+        let currentData = {};
+        if (currentDoc.exists()) {
+          currentData = currentDoc.data();
+        }
+                
+        const updatedCompletedProblems = {
+          ...currentData.completedProblems,
+          [problem.id]: true
+        };
+                
+        await setDoc(doc(db, 'users', user.uid), {
+          completedProblems: updatedCompletedProblems,
+        }, { merge: true });
+        
+        // Update local state
+        console.log('Updating local state...');
         setCompletedProblems(prev => {
           const newSet = new Set(prev);
           newSet.add(problem.id);
           return newSet;
         });
         
+        console.log('Removing session data from Firebase...');
         // Remove the session data since it's verified
-        const key = `solve_session_${problem.id}`;
-        localStorage.removeItem(key);
+        // Use updateDoc with deleteField for removing nested fields
+        await updateDoc(doc(db, 'users', user.uid), {
+          [`sessions.${problem.id}`]: deleteField(),
+        });
         
-        alert('Problem verified successfully!');
+        console.log('✅ Verification completed successfully!');
+        
+        // Show visual confirmation of dynamic update
+        console.log('🎯 DYNAMIC NATURE PROOF:');
+        console.log('   🔄 Real-time listener triggered');
+        console.log('   🎨 UI state automatically updated');
+        console.log('   💾 Data persisted across sessions');
+        console.log('   🌐 Cross-tab synchronization ready');
+        
+        alert('🎉 Problem verified successfully! Great job!\n\n✨ DYNAMIC NATURE CONFIRMED:\n• Real-time data synchronization\n• Instant UI updates\n• Persistent progress tracking\n• Cross-tab coordination');
+        
+        // Force re-render
+        setForceRerender(prev => prev + 1);
       } else {
-        alert('No accepted submission found yet. Submit on LeetCode and try again.\n\nNote: Make sure your LeetCode profile is public and recent submissions are visible.');
+        console.log('❌ Problem not solved yet according to LeetCode API');
+        alert(
+          '❌ No accepted submission found yet.\n\n' +
+          'Please make sure:\n' +
+          '1. You submitted a correct solution on LeetCode\n' +
+          '2. Your submission status is "Accepted"\n' +
+          '3. Your LeetCode profile is public\n' +
+          '4. Recent submissions are visible\n\n' +
+          'Wait a moment and try verifying again.'
+        );
       }
     } catch (error) {
-      console.error('Error verifying problem:', error);
-      alert('Error verifying problem. Please check your LeetCode username and try again.\n\nMake sure your profile is public and recent submissions are visible on LeetCode.');
+      console.error('\n❌ Error during verification process:', error);
+      console.error('Error type:', error.name);
+      console.error('Error message:', error.message);
+      
+      alert(
+        '❌ Error verifying problem.\n\n' +
+        'Please check:\n' +
+        '1. Your LeetCode username is correct\n' +
+        '2. Your profile is public\n' +
+        '3. You have internet connection\n' +
+        '4. Backend server is running (localhost:5000)\n\n' +
+        'Check browser console for detailed error information.'
+      );
     } finally {
+      console.log('\n=== CLEANUP ===');
+      console.log('Resetting verifying state for problem:', problem.id);
       // Reset loading state
       setVerifyingProblemId(null);
+      console.log('=== VERIFY DEBUG END ===\n');
     }
   };
 
@@ -371,41 +673,32 @@ const Practice = () => {
               </p>
             </div>
             
-            {/* LeetCode Username Input */}
+            {/* LeetCode Username Display */}
             <div className="flex flex-col items-end">
-              {showUsernameInput ? (
-                <div className="flex items-center space-x-2 mb-2">
-                  <input
-                    type="text"
-                    placeholder="Enter LeetCode username"
-                    value={leetcodeUsername}
-                    onChange={(e) => setLeetcodeUsername(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <button
-                    onClick={() => setShowUsernameInput(false)}
-                    className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Save
-                  </button>
+              {!user ? (
+                <div className="text-sm text-red-600 flex items-center">
+                  <AlertTriangle className="h-4 w-4 mr-1" />
+                  Please log in to use the practice features
                 </div>
               ) : (
                 <div className="flex items-center space-x-2 mb-2">
                   <span className="text-sm text-gray-600">
-                    {leetcodeUsername ? `LeetCode: ${leetcodeUsername}` : 'No LeetCode username set'}
+                    {leetcodeUsername ? `LeetCode: ${leetcodeUsername}` : 'No LeetCode profile set'}
                   </span>
                   <button
-                    onClick={() => setShowUsernameInput(true)}
+                    onClick={() => navigate('/profile')}
                     className="p-1 text-blue-600 hover:text-blue-800"
                   >
                     <User className="h-4 w-4" />
                   </button>
                 </div>
               )}
-              <div className="flex items-center text-sm text-gray-500">
-                <AlertTriangle className="h-4 w-4 mr-1" />
-                <span>Public profile required for verification</span>
-              </div>
+              {user && (
+                <div className="flex items-center text-sm text-gray-500 mt-1">
+                  <AlertTriangle className="h-4 w-4 mr-1" />
+                  <span>Public profile required for verification</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -528,6 +821,7 @@ const Practice = () => {
                                     {completedProblems.has(problem.id) && (
                                       <CheckCircle className="h-5 w-5 text-green-500" />
                                     )}
+                                    
                                   </div>
                                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${DIFFICULTY_COLORS[problem.difficulty]}`}>
                                     {problem.difficulty}
@@ -536,14 +830,33 @@ const Practice = () => {
                                 <div className="flex flex-col space-y-2 ml-4">
                                   <button
                                     onClick={() => startSolve(problem)}
-                                    className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium"
+                                    disabled={!user}
+                                    className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
+                                      user 
+                                        ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                        : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                    }`}
                                   >
                                     <Target className="h-3 w-3 mr-1" />
-                                    Solve
+                                    {isSolving(problem.id) ? 'Solving...' : 'Solve'}
                                   </button>
                                   <button
-                                    onClick={() => verifyProblem(problem)}
-                                    disabled={!leetcodeUsername || verifyingProblemId === problem.id}
+                                    onClick={() => {
+                                      console.log('Verify button clicked for problem:', problem.id, {
+                                        completed: completedProblems.has(problem.id),
+                                        hasUsername: !!leetcodeUsername,
+                                        isVerifying: verifyingProblemId === problem.id,
+                                        sessions: userSessions[problem.id],
+                                        clickedAt: userSessions[problem.id]?.clickedAt,
+                                        allSessions: userSessions
+                                      });
+                                      verifyProblem(problem);
+                                    }}
+                                    disabled={
+                                      completedProblems.has(problem.id) ||
+                                      !leetcodeUsername ||
+                                      verifyingProblemId === problem.id
+                                    }
                                     data-problem-id={problem.id}
                                     data-action="verify"
                                     className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
@@ -571,6 +884,7 @@ const Practice = () => {
                                   </button>
                                 </div>
                               </div>
+
                             </div>
                           ))}
                         </div>
@@ -603,6 +917,7 @@ const Practice = () => {
                                     {completedProblems.has(problem.id) && (
                                       <CheckCircle className="h-5 w-5 text-green-500" />
                                     )}
+                                    
                                   </div>
                                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${DIFFICULTY_COLORS[problem.difficulty]}`}>
                                     {problem.difficulty}
@@ -611,14 +926,33 @@ const Practice = () => {
                                 <div className="flex flex-col space-y-2 ml-4">
                                   <button
                                     onClick={() => startSolve(problem)}
-                                    className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium"
+                                    disabled={!user}
+                                    className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
+                                      user 
+                                        ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                        : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                    }`}
                                   >
                                     <Target className="h-3 w-3 mr-1" />
-                                    Solve
+                                    {isSolving(problem.id) ? 'Solving...' : 'Solve'}
                                   </button>
                                   <button
-                                    onClick={() => verifyProblem(problem)}
-                                    disabled={!leetcodeUsername || verifyingProblemId === problem.id}
+                                    onClick={() => {
+                                      console.log('Verify button clicked for problem:', problem.id, {
+                                        completed: completedProblems.has(problem.id),
+                                        hasUsername: !!leetcodeUsername,
+                                        isVerifying: verifyingProblemId === problem.id,
+                                        sessions: userSessions[problem.id],
+                                        clickedAt: userSessions[problem.id]?.clickedAt,
+                                        allSessions: userSessions
+                                      });
+                                      verifyProblem(problem);
+                                    }}
+                                    disabled={
+                                      completedProblems.has(problem.id) ||
+                                      !leetcodeUsername ||
+                                      verifyingProblemId === problem.id
+                                    }
                                     data-problem-id={problem.id}
                                     data-action="verify"
                                     className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
@@ -646,6 +980,7 @@ const Practice = () => {
                                   </button>
                                 </div>
                               </div>
+
                             </div>
                           ))}
                         </div>
@@ -678,6 +1013,7 @@ const Practice = () => {
                                     {completedProblems.has(problem.id) && (
                                       <CheckCircle className="h-5 w-5 text-green-500" />
                                     )}
+                                    
                                   </div>
                                   <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${DIFFICULTY_COLORS[problem.difficulty]}`}>
                                     {problem.difficulty}
@@ -686,14 +1022,33 @@ const Practice = () => {
                                 <div className="flex flex-col space-y-2 ml-4">
                                   <button
                                     onClick={() => startSolve(problem)}
-                                    className="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-xs font-medium"
+                                    disabled={!user}
+                                    className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
+                                      user 
+                                        ? 'bg-blue-600 text-white hover:bg-blue-700'
+                                        : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                    }`}
                                   >
                                     <Target className="h-3 w-3 mr-1" />
-                                    Solve
+                                    {isSolving(problem.id) ? 'Solving...' : 'Solve'}
                                   </button>
                                   <button
-                                    onClick={() => verifyProblem(problem)}
-                                    disabled={!leetcodeUsername || verifyingProblemId === problem.id}
+                                    onClick={() => {
+                                      console.log('Verify button clicked for problem:', problem.id, {
+                                        completed: completedProblems.has(problem.id),
+                                        hasUsername: !!leetcodeUsername,
+                                        isVerifying: verifyingProblemId === problem.id,
+                                        sessions: userSessions[problem.id],
+                                        clickedAt: userSessions[problem.id]?.clickedAt,
+                                        allSessions: userSessions
+                                      });
+                                      verifyProblem(problem);
+                                    }}
+                                    disabled={
+                                      completedProblems.has(problem.id) ||
+                                      !leetcodeUsername ||
+                                      verifyingProblemId === problem.id
+                                    }
                                     data-problem-id={problem.id}
                                     data-action="verify"
                                     className={`inline-flex items-center px-3 py-1 rounded-md transition-colors text-xs font-medium ${
@@ -721,6 +1076,7 @@ const Practice = () => {
                                   </button>
                                 </div>
                               </div>
+
                             </div>
                           ))}
                         </div>

@@ -1,65 +1,50 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, MessageCircle, TrendingUp, Clock, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { db } from '../../../lib/firebase'
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 
 const DSADiscussions = () => {
   const [activeTab, setActiveTab] = useState('trending')
   const [searchQuery, setSearchQuery] = useState('')
+  const [discussions, setDiscussions] = useState([])
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
-  // Mock discussions data
-  const discussions = [
-    {
-      id: '1',
-      title: 'Understanding Dynamic Programming Patterns',
-      author: 'Alex Johnson',
-      replies: 24,
-      views: 156,
-      lastActivity: '2023-06-15T14:30:00Z',
-      tags: ['dynamic-programming', 'algorithms'],
-      isPinned: true
-    },
-    {
-      id: '2',
-      title: 'Best Resources for Graph Algorithms',
-      author: 'Sarah Chen',
-      replies: 18,
-      views: 92,
-      lastActivity: '2023-06-15T11:15:00Z',
-      tags: ['graph', 'resources'],
-      isPinned: false
-    },
-    {
-      id: '3',
-      title: 'Time Complexity Analysis Help',
-      author: 'Mike Rodriguez',
-      replies: 12,
-      views: 78,
-      lastActivity: '2023-06-14T16:45:00Z',
-      tags: ['complexity', 'big-o'],
-      isPinned: false
-    },
-    {
-      id: '4',
-      title: 'Binary Search Tree Implementation Question',
-      author: 'Emma Wilson',
-      replies: 31,
-      views: 204,
-      lastActivity: '2023-06-14T09:20:00Z',
-      tags: ['binary-search-tree', 'implementation'],
-      isPinned: false
-    },
-    {
-      id: '5',
-      title: 'System Design for DSA Platforms',
-      author: 'David Kim',
-      replies: 42,
-      views: 312,
-      lastActivity: '2023-06-13T18:10:00Z',
-      tags: ['system-design', 'architecture'],
-      isPinned: false
-    }
-  ]
+  // Load discussions from Firebase in real-time
+  useEffect(() => {
+    // Listen to the discussions collection
+    const unsubscribe = onSnapshot(collection(db, 'discussions'), (querySnapshot) => {
+      const discussionsList = []
+      querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        discussionsList.push({
+          id: doc.id,
+          ...data,
+          author: data.authorName,
+          lastActivity: data.lastActivity?.toDate ? data.lastActivity.toDate().toISOString() : (data.lastActivity instanceof Date ? data.lastActivity.toISOString() : data.lastActivity),
+          tags: data.tags || []
+        })
+      })
+      
+      // Sort by lastActivity descending
+      discussionsList.sort((a, b) => {
+        const dateA = new Date(a.lastActivity);
+        const dateB = new Date(b.lastActivity);
+        return dateB - dateA; // Descending order
+      });
+      
+      setDiscussions(discussionsList)
+      setLoading(false)
+    }, (error) => {
+      console.error('Error fetching discussions:', error)
+      setLoading(false)
+    })
+    
+    return () => unsubscribe()
+  }, [])
 
   // Filter discussions based on search query
   const filteredDiscussions = discussions.filter(discussion =>
@@ -133,60 +118,73 @@ const DSADiscussions = () => {
 
           {/* Discussions List */}
           <div className="divide-y divide-gray-200">
-            {filteredDiscussions.map((discussion) => (
-              <div key={discussion.id} className="p-6 hover:bg-gray-50 transition-colors">
-                <div className="flex items-start gap-4">
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                      <MessageCircle className="text-gray-500" size={20} />
+            {loading ? (
+              <div className="p-12 text-center">
+                <div className="w-8 h-8 border-t-2 border-blue-600 border-solid rounded-full animate-spin mx-auto"></div>
+                <p className="mt-4 text-gray-600">Loading discussions...</p>
+              </div>
+            ) : filteredDiscussions.length === 0 ? (
+              <div className="p-12 text-center">
+                <MessageCircle size={48} className="text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-600">No discussions found</p>
+                <p className="text-gray-500 text-sm mt-2">Be the first to start a discussion!</p>
+              </div>
+            ) : (
+              filteredDiscussions.map((discussion) => (
+                <div key={discussion.id} className="p-6 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="flex flex-col items-center gap-1">
+                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                        <MessageCircle className="text-gray-500" size={20} />
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-bold text-gray-900">{discussion.replies}</div>
+                        <div className="text-xs text-gray-500">replies</div>
+                      </div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-sm font-bold text-gray-900">{discussion.replies}</div>
-                      <div className="text-xs text-gray-500">replies</div>
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      {discussion.isPinned && (
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
-                          Pinned
-                        </span>
-                      )}
-                      <Link
-                        to={`/dsa/discussions/${discussion.id}`}
-                        className="text-lg font-medium text-gray-900 hover:text-blue-600"
-                      >
-                        {discussion.title}
-                      </Link>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                      {discussion.tags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        {discussion.isPinned && (
+                          <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
+                            Pinned
+                          </span>
+                        )}
+                        <Link
+                          to={`/dsa/discussions/${discussion.id}`}
+                          className="text-lg font-medium text-gray-900 hover:text-blue-600"
                         >
-                          {tag}
-                        </span>
-                      ))}
+                          {discussion.title}
+                        </Link>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        {discussion.tags.map((tag, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <span>by {discussion.author}</span>
+                        <span>{new Date(discussion.lastActivity).toLocaleDateString()}</span>
+                        <span>{discussion.views} views</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <span>by {discussion.author}</span>
-                      <span>{new Date(discussion.lastActivity).toLocaleDateString()}</span>
-                      <span>{discussion.views} views</span>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <Clock size={16} />
+                      <span>
+                        {Math.floor(
+                          (new Date().getTime() - new Date(discussion.lastActivity).getTime()) /
+                            (1000 * 60 * 60)
+                        )}h ago
+                      </span>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <Clock size={16} />
-                    <span>
-                      {Math.floor(
-                        (new Date().getTime() - new Date(discussion.lastActivity).getTime()) /
-                          (1000 * 60 * 60)
-                      )}h ago
-                    </span>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* Pagination */}
