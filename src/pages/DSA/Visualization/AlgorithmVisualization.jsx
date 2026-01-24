@@ -1,11 +1,16 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import BubbleSortVisualization from './BubbleSort';
-import SelectionSortVisualization from './SelectionSort';
-import MergeSortVisualization from './MergeSort';
-import InsertionSortVisualization from './InsertionSort';
-import QuickSortVisualization from './QuickSort';
-import HeapSortVisualization from './HeapSort';
+import BubbleSortVisualization from './Sorting/BubbleSort';
+import SelectionSortVisualization from './Sorting/SelectionSort';
+import MergeSortVisualization from './Sorting/MergeSort';
+import InsertionSortVisualization from './Sorting/InsertionSort';
+import QuickSortVisualization from './Sorting/QuickSort';
+import HeapSortVisualization from './Sorting/HeapSort';
+import BucketSortVisualization from './Sorting/BucketSort';
+import LinearSearchVisualization from './Searching/LinearSearch';
+import BinarySearchVisualization from './Searching/BinarySearch';
+import BFSVisualization from './Graph/BFS';
+import DFSVisualization from './Graph/DFS';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -22,6 +27,11 @@ const AlgorithmVisualization = () => {
     'insertionSort': InsertionSortVisualization,
     'quickSort': QuickSortVisualization,
     'heapSort': HeapSortVisualization,
+    'bucketSort': BucketSortVisualization,
+    'linearSearch': LinearSearchVisualization,
+    'binarySearch': BinarySearchVisualization,
+    'bfs': BFSVisualization,
+    'dfs': DFSVisualization,
     // Add more algorithms here as they are implemented
   };
 

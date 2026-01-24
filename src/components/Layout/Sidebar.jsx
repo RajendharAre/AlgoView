@@ -33,6 +33,7 @@ const Sidebar = () => {
                                location.pathname.includes('mergeSort') ||
                                location.pathname.includes('quickSort') ||
                                location.pathname.includes('heapSort') ||
+                               location.pathname.includes('bucketSort') ||
                                location.pathname.includes('linearSearch') || 
                                location.pathname.includes('binarySearch') ||
                                location.pathname.includes('dfs') || 
@@ -51,7 +52,8 @@ const Sidebar = () => {
           location.pathname.includes('insertionSort') ||
           location.pathname.includes('mergeSort') ||
           location.pathname.includes('quickSort') ||
-          location.pathname.includes('heapSort')) {
+          location.pathname.includes('heapSort') ||
+          location.pathname.includes('bucketSort')) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: true,
@@ -146,7 +148,8 @@ const Sidebar = () => {
         { id: 'insertionSort', name: 'Insertion Sort' },
         { id: 'mergeSort', name: 'Merge Sort' },
         { id: 'quickSort', name: 'Quick Sort' },
-        { id: 'heapSort', name: 'Heap Sort' }
+        { id: 'heapSort', name: 'Heap Sort' },
+        { id: 'bucketSort', name: 'Bucket Sort' }
       ]
     },
     {

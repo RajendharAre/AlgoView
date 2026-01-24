@@ -1,135 +1,145 @@
-// src/algorithms/Graph/bfs.js
-export function* bfs(graph, startId) {
-  // graph: { nodes: [{id,label,x,y}], edges: [{from,to}] }
-  const nodes = graph.nodes.map(n => ({ ...n }))
-  const edges = graph.edges.map(e => ({ ...e }))
-  const visited = new Set()
-  const q = []
-  const done = []
-  const visitedEdges = []
-  const visitedPath = []
+/**
+ * BFS Algorithm Implementation with Visualization Steps
+ */
 
-  q.push(startId)
-  visited.add(startId)
-
-  let stepIndex = 0
-
-  // initial state
-  yield {
-    nodes,
-    edges,
-    current: null,
-    visiting: null,
-    frontier: [...q],
-    doneNodes: [...done],
-    visitedEdges: [...visitedEdges],
-    visitedPath: [...visitedPath],
-    description: `Start BFS at ${startId}`,
-    stepIndex: stepIndex++,
+// Generator function for BFS visualization steps
+export function* bfs(graph, startNodeId) {
+  const visited = new Set();
+  const traversalOrder = [];
+  
+  // If no start node is provided, use the first node in the graph
+  let actualStartNodeId = startNodeId;
+  if (!actualStartNodeId && graph.nodes.length > 0) {
+    actualStartNodeId = graph.nodes[0].id;
+  }
+  
+  // Check if start node exists in the current graph
+  const startNodeExists = graph.nodes.some(node => node.id === actualStartNodeId);
+  
+  if (!startNodeExists) {
+    yield {
+      visited: new Set(),
+      queue: [],
+      activeNode: null,
+      traversalOrder: [],
+      currentStep: `Start node does not exist in the graph`,
+      edges: graph.edges,
+      nodes: graph.nodes,
+      componentsFound: 0
+    };
+    return;
   }
 
-  while (q.length > 0) {
-    const u = q.shift()
-    visitedPath.push(u)
-    yield {
-      nodes,
-      edges,
-      current: u,
-      visiting: u,
-      frontier: [...q],
-      doneNodes: [...done],
-      visitedEdges: [...visitedEdges],
-      visitedPath: [...visitedPath],
-      description: `Visiting ${u}`,
-      stepIndex: stepIndex++,
-    }
+  // Initial state
+  yield {
+    visited: new Set(),
+    queue: [],
+    activeNode: null,
+    traversalOrder: [],
+    currentStep: `Starting BFS traversal from Node ${actualStartNodeId}`,
+    edges: graph.edges,
+    nodes: graph.nodes,
+    componentsFound: 0
+  };
 
-    // neighbors
-    for (const e of edges) {
-      if (e.from === u) {
-        const v = e.to
-        if (!visited.has(v)) {
-          visited.add(v)
-          q.push(v)
-          visitedEdges.push({ from: u, to: v })
+  // Use the same approach as the original working BFS
+  const globalVisited = new Set();
+  const fullOrder = [];
+  let compCount = 0;
+
+  const allNodeIds = graph.nodes.map(n => n.id);
+  const sortedRoots = startNodeId 
+    ? [startNodeId, ...allNodeIds.filter(id => id !== startNodeId)] 
+    : allNodeIds;
+
+  for (let rootId of sortedRoots) {
+    if (globalVisited.has(rootId)) continue;
+
+    compCount++;
+    
+    const localQueue = [rootId];
+    
+    yield {
+      visited: new Set(globalVisited),
+      queue: [...localQueue],
+      activeNode: rootId,
+      traversalOrder: [...fullOrder],
+      currentStep: `Starting traversal at Node ${graph.nodes.find(n => n.id === rootId)?.label}`,
+      edges: graph.edges,
+      nodes: graph.nodes,
+      componentsFound: compCount
+    };
+    
+    while (localQueue.length > 0) {
+      const u = localQueue.shift();
+      
+      yield {
+        visited: new Set(globalVisited),
+        queue: [...localQueue],
+        activeNode: u,
+        traversalOrder: [...fullOrder],
+        currentStep: `Processing Node ${graph.nodes.find(n => n.id === u)?.label}`,
+        edges: graph.edges,
+        nodes: graph.nodes,
+        componentsFound: compCount
+      };
+      
+      if (globalVisited.has(u)) continue;
+
+      const nodeObj = graph.nodes.find(n => n.id === u);
+      globalVisited.add(u);
+      fullOrder.push(u);
+      
+      yield {
+        visited: new Set(globalVisited),
+        queue: [...localQueue],
+        activeNode: u,
+        traversalOrder: [...fullOrder],
+        currentStep: `Visiting Node ${nodeObj?.label}`,
+        edges: graph.edges,
+        nodes: graph.nodes,
+        componentsFound: compCount
+      };
+
+      const neighbors = graph.edges
+        .filter(e => e.u === u || e.v === u)
+        .map(e => (e.u === u ? e.v : e.u))
+        .filter(v => !globalVisited.has(v));
+
+      for (const v of neighbors) {
+        if (!localQueue.includes(v)) {
+          localQueue.push(v);
           yield {
-            nodes,
-            edges,
-            current: u,
-            visiting: v,
-            frontier: [...q],
-            doneNodes: [...done],
-            visitedEdges: [...visitedEdges],
-            visitedPath: [...visitedPath],
-            description: `Discovered ${v} from ${u}`,
-            stepIndex: stepIndex++,
-          }
-        } else {
-          // neighbor already seen - optional step
-          yield {
-            nodes,
-            edges,
-            current: u,
-            visiting: v,
-            frontier: [...q],
-            doneNodes: [...done],
-            visitedEdges: [...visitedEdges],
-            visitedPath: [...visitedPath],
-            description: `${v} already visited`,
-            stepIndex: stepIndex++,
-          }
+            visited: new Set(globalVisited),
+            queue: [...localQueue],
+            activeNode: u,
+            traversalOrder: [...fullOrder],
+            currentStep: `Neighbor Node ${graph.nodes.find(n => n.id === v)?.label} added to queue`,
+            edges: graph.edges,
+            nodes: graph.nodes,
+            componentsFound: compCount
+          };
         }
       }
     }
-
-    done.push(u)
-    yield {
-      nodes,
-      edges,
-      current: null,
-      visiting: null,
-      frontier: [...q],
-      doneNodes: [...done],
-      visitedEdges: [...visitedEdges],
-      visitedPath: [...visitedPath],
-      description: `${u} processed`,
-      stepIndex: stepIndex++,
-    }
   }
 
   yield {
-    nodes,
-    edges,
-    current: null,
-    visiting: null,
-    frontier: [],
-    doneNodes: [...done],
-    visitedEdges: [...visitedEdges],
-    visitedPath: [...visitedPath],
-    description: 'BFS complete',
-    stepIndex: stepIndex++,
-  }
+    visited: new Set(globalVisited),
+    queue: [],
+    activeNode: null,
+    traversalOrder: [...fullOrder],
+    currentStep: `BFS traversal complete.`,
+    edges: graph.edges,
+    nodes: graph.nodes,
+    componentsFound: compCount
+  };
 }
 
-/**
- * Algorithm information for Breadth-First Search
- * 
- * @type {Object}
- * @property {string} name - Name of the algorithm
- * @property {string} category - Category of the algorithm
- * @property {Object} complexity - Time and space complexity
- * @property {Object} complexity.time - Time complexity for different cases
- * @property {string} complexity.time.best - Best case time complexity
- * @property {string} complexity.time.average - Average case time complexity
- * @property {string} complexity.time.worst - Worst case time complexity
- * @property {string} complexity.space - Space complexity
- * @property {boolean} stable - Whether the algorithm is stable
- * @property {boolean} inPlace - Whether the algorithm sorts in-place
- * @property {string} description - Brief description of the algorithm
- */
+// Algorithm info object
 export const bfsInfo = {
   name: 'Breadth-First Search',
-  category: 'graph',
+  category: 'Graph',
   complexity: {
     time: {
       best: 'O(V + E)',
@@ -138,86 +148,16 @@ export const bfsInfo = {
     },
     space: 'O(V)'
   },
-  stable: true,
-  inPlace: false,
-  description: 'A graph traversal algorithm that explores all vertices at the present depth level before moving on to vertices at the next depth level.',
-  code: {
-    javascript: `
-function bfs(graph, startNode) {
-  const visited = new Set();
-  const queue = [startNode];
-  const result = [];
-  
-  visited.add(startNode);
-  
-  while (queue.length > 0) {
-    const currentNode = queue.shift();
-    result.push(currentNode);
-    
-    // Visit all neighbors
-    for (const neighbor of graph[currentNode]) {
-      if (!visited.has(neighbor)) {
-        visited.add(neighbor);
-        queue.push(neighbor);
-      }
-    }
-  }
-  
-  return result;
-}`,
-    python: `
-from collections import deque
-
-def bfs(graph, start_node):
-    visited = set()
-    queue = deque([start_node])
-    result = []
-    
-    visited.add(start_node)
-    
-    while queue:
-        current_node = queue.popleft()
-        result.append(current_node)
-        
-        # Visit all neighbors
-        for neighbor in graph[current_node]:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                queue.append(neighbor)
-    
-    return result`,
-    java: `
-import java.util.*;
-
-public static List<String> bfs(Map<String, List<String>> graph, String startNode) {
-    Set<String> visited = new HashSet<>();
-    Queue<String> queue = new LinkedList<>();
-    List<String> result = new ArrayList<>();
-    
-    visited.add(startNode);
-    queue.add(startNode);
-    
-    while (!queue.isEmpty()) {
-        String currentNode = queue.poll();
-        result.add(currentNode);
-        
-        // Visit all neighbors
-        for (String neighbor : graph.get(currentNode)) {
-            if (!visited.contains(neighbor)) {
-                visited.add(neighbor);
-                queue.add(neighbor);
-            }
-        }
-    }
-    
-    return result;
-}`
-  },
-  useCases: [
-    'Finding the shortest path in unweighted graphs',
-    'Level-order traversal of trees',
-    'Finding all nodes within one connected component',
-    'Broadcasting in networks',
-    'Garbage collection in memory management'
-  ]
-}
+  description: 'Breadth-First Search is an algorithm for traversing graph data structures.',
+  explanation: 'BFS explores all vertices at the present depth level before moving on to vertices at the next depth level, using a queue data structure.',
+  steps: [
+    'Initialize a queue and visited set',
+    'Add starting vertex to queue',
+    'While queue is not empty:',
+    '  Dequeue vertex',
+    '  Visit vertex if not visited',
+    '  Enqueue all unvisited adjacent vertices',
+    'Repeat until queue is empty'
+  ],
+  generator: bfs
+};

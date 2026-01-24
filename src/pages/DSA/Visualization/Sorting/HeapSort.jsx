@@ -1,45 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Play, 
-  RotateCcw, 
-  Binary, 
-  Activity, 
-  Info, 
-  RefreshCw, 
-  Keyboard,
-  Lock,
-  GitBranch,
-  History,
-  ArrowDownToLine
-} from 'lucide-react';
+import { ArrowLeft, Activity, Keyboard, Lock, History, RefreshCw, RotateCcw, Play, Info, Target } from 'lucide-react';
+import CommonSidebar from '../../../../components/Visualisation/CommonSidebar';
+import ArrayBlock from '../../../../components/Visualisation/ArrayBlock';
+import Legend from '../../../../components/Visualisation/Legend';
+import { heapSortInfo } from '../../../../algorithms/Sorting/heapSort';
+import { COLORS, SPEEDS } from '../../../../constants/visualizationConstants';
 
-/**
- * Heap Sort Visualizer
- * Palette: Monochromatic "Snow to Carbon"
- */
-
-const COLORS = {
-  brightSnow: '#f8f9faff',
-  platinum: '#e9ecefff',
-  alabasterGrey: '#dee2e6ff',
-  paleSlate: '#ced4daff',
-  paleSlate2: '#adb5bdff',
-  slateGrey: '#6c757dff',
-  ironGrey: '#495057ff',
-  gunmetal: '#343a40ff',
-  carbonBlack: '#212529ff',
-};
-
-const SPEEDS = [
-  { label: '1x', value: 1000 },
-  { label: '1.5x', value: 666 },
-  { label: '1.75x', value: 571 },
-  { label: '2x', value: 500 },
-  { label: '2.5x', value: 400 },
-  { label: '3x', value: 333 },
-];
-
-const App = () => {
+const HeapSortVisualization = () => {
   const [array, setArray] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [speedIndex, setSpeedIndex] = useState(0);
@@ -205,92 +172,24 @@ const App = () => {
   return (
     <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
-        <div className="p-6 border-b border-[#f1f3f5]">
-          <div className="flex items-center gap-3 mb-1">
-            <div className="w-8 h-8 bg-[#212529] rounded flex items-center justify-center text-white">
-              <Binary size={18} />
-            </div>
-            <h1 className="text-base font-bold tracking-tight">Heap Sort</h1>
-          </div>
-          <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">Tree-Based Sorting</p>
-        </div>
-
-        <div className="p-6 border-b border-[#f1f3f5]">
-           <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider mb-3 flex items-center gap-2">
-             <Activity size={12} /> Speed
-           </h3>
-           <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#f8f9faff] rounded-xl border border-[#dee2e6]">
-              {SPEEDS.map((s, idx) => (
-                <button
-                  key={s.label}
-                  onClick={() => setSpeedIndex(idx)}
-                  className={`px-2 py-1.5 text-[10px] font-bold rounded-lg transition-all ${speedIndex === idx ? 'bg-[#212529] text-white shadow-md' : 'text-[#6c757d] hover:bg-slate-100'}`}
-                >
-                  {s.label}
-                </button>
-              ))}
-           </div>
-        </div>
-
-        <div className="p-6 border-b border-[#f1f3f5]">
-          <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider mb-4 flex items-center justify-between">
-            <span className="flex items-center gap-2"><Keyboard size={12} /> Comma-Input</span>
-            {isRunning && <Lock size={10} className="text-amber-600" />}
-          </h3>
-          <textarea 
-            value={inputValue}
-            onChange={handleInputChange}
-            disabled={isRunning}
-            className="w-full h-20 p-3 text-xs font-mono rounded-xl border border-[#dee2e6] focus:ring-1 focus:ring-black outline-none transition-all resize-none"
-            placeholder="50, 20, 10, 40, 30..."
-          />
-        </div>
-
-        <div className="p-6 border-b border-[#f1f3f5] space-y-2">
-            <button 
-              onClick={heapSort}
-              disabled={isRunning}
-              className="w-full py-3 bg-[#212529] text-white rounded-xl flex items-center justify-center gap-2 font-bold text-xs disabled:opacity-30 transition-transform active:scale-95 shadow-md"
-            >
-              <Play size={14} fill="white" /> Build & Sort Heap
-            </button>
-            <div className="flex gap-2">
-                <button onClick={generateRandomArray} disabled={isRunning} className="flex-1 py-2 bg-white border border-[#dee2e6] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
-                    <RefreshCw size={12} className="inline mr-1" /> Random
-                </button>
-                <button onClick={resetAll} className="flex-1 py-2 bg-white border border-[#dee2e6] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
-                    <RotateCcw size={12} className="inline mr-1" /> Reset
-                </button>
-            </div>
-        </div>
-
-        <div className="flex-1 p-6 space-y-4">
-            <div className={`p-4 rounded-xl border-l-4 transition-all ${isRunning ? 'bg-[#212529] text-white' : 'bg-[#f8f9faff] border-[#dee2e6]'}`}>
-                <p className="text-[9px] font-black uppercase opacity-60 mb-1">Status</p>
-                <p className="text-xs font-bold leading-tight">{currentStep}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">
-                    <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Comps</p>
-                    <p className="text-lg font-bold font-mono">{stats.comparisons}</p>
-                </div>
-                <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">
-                    <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Swaps</p>
-                    <p className="text-lg font-bold font-mono">{stats.swaps}</p>
-                </div>
-            </div>
-            <div className="mt-auto pt-4 border-t border-[#f1f3f5]">
-               <h4 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-widest mb-3 flex items-center gap-2">
-                 <History size={12} /> Complexity
-               </h4>
-               <div className="space-y-1 text-[10px] font-bold text-[#6c757d]">
-                  <div className="flex justify-between"><span>Worst:</span> <span className="font-mono">O(n log n)</span></div>
-                  <div className="flex justify-between"><span>Space:</span> <span className="font-mono">O(1)</span></div>
-               </div>
-            </div>
-        </div>
-      </aside>
+      <CommonSidebar
+        algorithmTitle="Heap Sort"
+        algorithmSubtitle="Tree-Based Sorting"
+        inputValue={inputValue}
+        onInputChange={handleInputChange}
+        isRunning={isRunning}
+        onRunAlgorithm={heapSort}
+        onGenerateRandom={generateRandomArray}
+        onReset={resetAll}
+        speedIndex={speedIndex}
+        onSpeedChange={setSpeedIndex}
+        currentStep={currentStep}
+        stats={stats}
+        complexityInfo={heapSortInfo.complexity}
+        runButtonText="Build & Sort Heap"
+        inputPlaceholder="50, 20, 10, 40, 30..."
+        inputLabel="Comma-Input"
+      />
 
       {/* Main Workspace */}
       <main className="flex-1 flex flex-col bg-[#f8f9faff] relative overflow-hidden">
@@ -305,24 +204,24 @@ const App = () => {
                     const isSorted = idx >= heapSize && heapSize !== -1;
 
                     return (
-                        <div 
+                        <ArrayBlock
                             key={idx}
-                            className={`w-12 h-12 rounded-lg flex items-center justify-center text-xs font-black border-2 transition-all duration-300
-                                ${isSwapping ? 'bg-[#212529] text-white border-[#212529] scale-110' : 
-                                  isComparing ? 'bg-[#6c757d] text-white border-[#6c757d] scale-105' : 
-                                  isSorted ? 'bg-[#dee2e6] text-[#adb5bd] border-transparent' : 'bg-white border-[#e9ecefff]'}
-                            `}
-                        >
-                            {val}
-                        </div>
+                            value={val}
+                            index={idx}
+                            isComparing={isComparing}
+                            isSwapping={isSwapping}
+                            isSorted={isSorted}
+                            size="normal"
+                            showIndex={false}
+                        />
                     );
                 })}
             </div>
         </div>
 
         {/* Tree View (Heap Visualization) */}
-        <div className="flex-1 relative p-12">
-            <p className="text-center text-[9px] font-black uppercase text-[#adb5bd] mb-12 tracking-[0.2em]">Binary Max-Heap Logic</p>
+        <div className="flex-1 relative p-6 pt-2 pb-12 -mt-6">
+            <p className="text-center text-[9px] font-black uppercase text-[#adb5bd] mb-6 tracking-[0.2em]">Binary Max-Heap Logic</p>
             
             <div className="relative w-full h-full max-w-2xl mx-auto">
                 {/* Render Edges first */}
@@ -362,8 +261,7 @@ const App = () => {
                             key={`node-${i}`}
                             className={`absolute -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full flex items-center justify-center text-sm font-black transition-all duration-500 shadow-md border-2
                                 ${isSwapping ? 'bg-[#212529] text-white border-[#212529] scale-125 z-10' : 
-                                  isComparing ? 'bg-[#6c757d] text-white border-[#6c757d] scale-110' : 'bg-white border-[#dee2e6]'}
-                            `}
+                                  isComparing ? 'bg-[#6c757d] text-white border-[#6c757d] scale-110' : 'bg-white border-[#dee2e6]'}`}
                             style={{ left: pos.x, top: pos.y }}
                         >
                             {val}
@@ -375,33 +273,18 @@ const App = () => {
         </div>
 
         {/* Legend Overlay */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 px-8 py-4 bg-white/90 backdrop-blur-sm border border-[#dee2e6] rounded-3xl shadow-2xl">
-           <div className="flex items-center gap-6">
-              <LegendItem color={COLORS.carbonBlack} label="Swapping / Root" />
-              <LegendItem color={COLORS.slateGrey} label="Comparing" />
-              <LegendItem color={COLORS.platinum} label="In Heap" />
-              <LegendItem color={COLORS.alabasterGrey} label="Sorted" />
-           </div>
-           
-           <div className="w-full h-px bg-[#dee2e6] opacity-50"></div>
-           
-           <div className="flex items-center gap-2">
-             <Info size={14} className="text-[#adb5bd]" />
-             <span className="text-[9px] font-black text-[#adb5bd] uppercase tracking-wide">
-               Heap Sort: Max element rises to root, then extracted
-             </span>
-           </div>
-        </div>
+        <Legend 
+          items={[
+            { color: COLORS.carbonBlack, label: "Swapping / Root" },
+            { color: COLORS.slateGrey, label: "Comparing" },
+            { color: COLORS.platinum, label: "In Heap" },
+            { color: COLORS.alabasterGrey, label: "Sorted" }
+          ]}
+          description="Heap Sort: Max element rises to root, then extracted"
+        />
       </main>
     </div>
   );
 };
 
-const LegendItem = ({ color, label }) => (
-  <div className="flex items-center gap-2">
-    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }}></div>
-    <span className="text-[9px] font-black uppercase text-[#6c757d] tracking-wide">{label}</span>
-  </div>
-);
-
-export default App;
+export default HeapSortVisualization;

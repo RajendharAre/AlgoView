@@ -11,6 +11,8 @@ import { binarySearchInfo } from '../algorithms/Searching/binarySearch'
 import { bfsInfo } from '../algorithms/Graph/bfs'
 import { dfsInfo } from '../algorithms/Graph/dfs'
 import { dijkstraInfo } from '../algorithms/Graph/dijkstra'
+import { heapSortInfo } from '../algorithms/Sorting/heapSort'
+import { bucketSortInfo } from '../algorithms/Sorting/bucketSort'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -101,6 +103,22 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/dijkstra').then(m => m.dijkstra),
     ...dijkstraInfo
+  },
+
+  heapSort: {
+    id: 'heapSort',
+    name: 'Heap Sort',
+    category: ALGORITHM_CATEGORIES.SORTING,
+    importFn: () => import('../algorithms/Sorting/heapSort').then(m => m.heapSort),
+    ...heapSortInfo
+  },
+
+  bucketSort: {
+    id: 'bucketSort',
+    name: 'Bucket Sort',
+    category: ALGORITHM_CATEGORIES.SORTING,
+    importFn: () => import('../algorithms/Sorting/bucketSort').then(m => m.bucketSort),
+    ...bucketSortInfo
   },
 }
 

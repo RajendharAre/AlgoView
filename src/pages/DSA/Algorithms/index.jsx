@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Search, Filter, BookOpen, BarChart, GitBranch, Shuffle, Database, Lock } from 'lucide-react'
+import { Search, Filter, BookOpen, BarChart, GitBranch, Shuffle, Database, Lock, ChevronLeft, ChevronRight } from 'lucide-react'
 import AlgorithmCard from '../../../components/DSA/AlgorithmCard'
 import { ALGORITHMS, ALGORITHM_CATEGORIES } from '../../../utils/algorithmConstants'
 import useDebounce from '../../../hooks/useDebounce'
@@ -9,6 +9,8 @@ import useDebounce from '../../../hooks/useDebounce'
 const DSAAlgorithms = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [currentPage, setCurrentPage] = useState(1)
+  const algorithmsPerPage = 12
   
   // Use debounced search term
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -40,6 +42,19 @@ const DSAAlgorithms = () => {
       return matchesSearch && matchesCategory
     })
   }, [algorithmsWithDifficulty, debouncedSearchTerm, selectedCategory])
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchTerm, selectedCategory]);
+
+  // Paginate the filtered algorithms
+  const indexOfLastAlgorithm = currentPage * algorithmsPerPage
+  const indexOfFirstAlgorithm = indexOfLastAlgorithm - algorithmsPerPage
+  const currentAlgorithms = filteredAlgorithms.slice(indexOfFirstAlgorithm, indexOfLastAlgorithm)
+
+  // Calculate total pages
+  const totalPages = Math.ceil(filteredAlgorithms.length / algorithmsPerPage)
 
   return (
     <div className="p-6">
@@ -83,12 +98,12 @@ const DSAAlgorithms = () => {
 
       {/* Results count */}
       <div className="mb-4 text-sm text-gray-500">
-        Showing {filteredAlgorithms.length} of {algorithmsWithDifficulty.length} algorithms
+        Showing {(indexOfFirstAlgorithm + 1)}-{Math.min(indexOfLastAlgorithm, filteredAlgorithms.length)} of {filteredAlgorithms.length} algorithms
       </div>
 
       {/* Algorithms Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAlgorithms.map((algorithm, index) => (
+        {currentAlgorithms.map((algorithm, index) => (
           <AlgorithmCard key={algorithm.id} algorithm={algorithm} />
         ))}
       </div>
@@ -98,6 +113,39 @@ const DSAAlgorithms = () => {
           <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-xl font-medium text-gray-900 mb-2">No algorithms found</h3>
           <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+        </div>
+      )}
+
+      {/* Pagination Controls */}
+      {filteredAlgorithms.length > 0 && totalPages > 1 && (
+        <div className="mt-8 flex items-center justify-center space-x-2">
+          <button
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-md border ${
+              currentPage === 1 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200' 
+                : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-300'
+            }`}
+          >
+            <ChevronLeft className="h-4 w-4 inline" />
+          </button>
+          
+          <span className="px-4 py-2 text-gray-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          
+          <button
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-md border ${
+              currentPage === totalPages 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200' 
+                : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-300'
+            }`}
+          >
+            <ChevronRight className="h-4 w-4 inline" />
+          </button>
         </div>
       )}
     </div>

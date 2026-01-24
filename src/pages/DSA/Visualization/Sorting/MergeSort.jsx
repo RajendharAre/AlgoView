@@ -13,36 +13,16 @@ import {
   ArrowDown,
   ArrowLeft
 } from 'lucide-react';
-import CommonSidebar from '../../../components/Visualisation/CommonSidebar';
-import ArrayBlock from '../../../components/Visualisation/ArrayBlock';
-import Legend from '../../../components/Visualisation/Legend';
-import { mergeSortInfo } from '../../../algorithms/Sorting/mergeSort';
+import CommonSidebar from '../../../../components/Visualisation/CommonSidebar';
+import ArrayBlock from '../../../../components/Visualisation/ArrayBlock';
+import Legend from '../../../../components/Visualisation/Legend';
+import { mergeSortInfo } from '../../../../algorithms/Sorting/mergeSort';
+import { COLORS, SPEEDS } from '../../../../constants/visualizationConstants';
 
 /**
  * Merge Sort Block Visualizer
  * Palette: Monochromatic "Snow to Carbon"
  */
-
-const COLORS = {
-  brightSnow: '#f8f9faff',
-  platinum: '#e9ecefff',
-  alabasterGrey: '#dee2e6ff',
-  paleSlate: '#ced4daff',
-  paleSlate2: '#adb5bdff',
-  slateGrey: '#6c757dff',
-  ironGrey: '#495057ff',
-  gunmetal: '#343a40ff',
-  carbonBlack: '#212529ff',
-};
-
-const SPEEDS = [
-  { label: '1x', value: 1000 },
-  { label: '1.5x', value: 700 },
-  { label: '1.75x', value: 500 },
-  { label: '2x', value: 350 },
-  { label: '2.5x', value: 200 },
-  { label: '3x', value: 100 },
-];
 
 const MergeSortVisualization = () => {
   const [array, setArray] = useState([]);

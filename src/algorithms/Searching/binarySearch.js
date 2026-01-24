@@ -1,67 +1,108 @@
-// src/algorithms/Searching/binarySearch.js
+/**
+ * Binary Search Algorithm Implementation with Visualization Steps
+ */
+
+// Generator function for binary search visualization steps
 export function* binarySearch(arr, target) {
-  let a = [...arr].sort((x, y) => x - y) // Ensure array is sorted
-  let low = 0
-  let high = a.length - 1
+  let left = 0;
+  let right = arr.length - 1;
+  let comparisons = 0;
 
-  while (low <= high) {
-    let mid = Math.floor((low + high) / 2)
+  // Initial state
+  yield {
+    array: [...arr],
+    low: left,
+    high: right,
+    mid: -1,
+    foundIndex: -1,
+    target: target,
+    comparisons: comparisons,
+    currentStep: "Starting Binary Search",
+    searchFailed: false
+  };
 
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    comparisons++;
+
+    // Show mid calculation
     yield {
-      array: [...a],
-      low,
-      mid,
-      high,
-      description: `Checking middle element ${a[mid]}`,
+      array: [...arr],
+      low: left,
+      high: right,
+      mid: mid,
+      foundIndex: -1,
+      target: target,
+      comparisons: comparisons,
+      currentStep: `Mid index: ${mid}. Comparing ${arr[mid]} with ${target}.`,
+      searchFailed: false
+    };
+
+    if (arr[mid] === target) {
+      // Target found
+      yield {
+        array: [...arr],
+        low: -1,
+        high: -1,
+        mid: -1,
+        foundIndex: mid,
+        target: target,
+        comparisons: comparisons,
+        currentStep: `Target ${target} found at index ${mid}.`,
+        searchFailed: false
+      };
+      return;
     }
 
-    if (a[mid] === target) {
+    if (arr[mid] < target) {
+      // Move left pointer
       yield {
-        array: [...a],
-        low,
-        mid,
-        high,
-        found: true,
-        description: `Element ${target} found at index ${mid}`,
-      }
-      return
-    } else if (a[mid] < target) {
-      low = mid + 1
+        array: [...arr],
+        low: mid + 1,
+        high: right,
+        mid: -1,
+        foundIndex: -1,
+        target: target,
+        comparisons: comparisons,
+        currentStep: `${arr[mid]} < ${target}: Moving Low pointer to ${mid + 1}`,
+        searchFailed: false
+      };
+      left = mid + 1;
     } else {
-      high = mid - 1
+      // Move right pointer
+      yield {
+        array: [...arr],
+        low: left,
+        high: mid - 1,
+        mid: -1,
+        foundIndex: -1,
+        target: target,
+        comparisons: comparisons,
+        currentStep: `${arr[mid]} > ${target}: Moving High pointer to ${mid - 1}`,
+        searchFailed: false
+      };
+      right = mid - 1;
     }
   }
 
   // Target not found
   yield {
-    array: [...a],
+    array: [...arr],
     low: -1,
-    mid: -1,
     high: -1,
-    found: false,
-    description: `Element ${target} not found`,
-  }
+    mid: -1,
+    foundIndex: -1,
+    target: target,
+    comparisons: comparisons,
+    currentStep: `Target ${target} not found in array.`,
+    searchFailed: true
+  };
 }
 
-/**
- * Algorithm information for Binary Search
- * 
- * @type {Object}
- * @property {string} name - Name of the algorithm
- * @property {string} category - Category of the algorithm
- * @property {Object} complexity - Time and space complexity
- * @property {Object} complexity.time - Time complexity for different cases
- * @property {string} complexity.time.best - Best case time complexity
- * @property {string} complexity.time.average - Average case time complexity
- * @property {string} complexity.time.worst - Worst case time complexity
- * @property {string} complexity.space - Space complexity
- * @property {boolean} stable - Whether the algorithm is stable
- * @property {boolean} inPlace - Whether the algorithm sorts in-place
- * @property {string} description - Brief description of the algorithm
- */
+// Algorithm info object
 export const binarySearchInfo = {
   name: 'Binary Search',
-  category: 'searching',
+  category: 'Searching',
   complexity: {
     time: {
       best: 'O(1)',
@@ -70,69 +111,15 @@ export const binarySearchInfo = {
     },
     space: 'O(1)'
   },
-  stable: true,
-  inPlace: true,
-  description: 'An efficient search algorithm that finds the position of a target value within a sorted array by repeatedly dividing the search interval in half.',
-  code: {
-    javascript: `
-function binarySearch(arr, target) {
-  let low = 0;
-  let high = arr.length - 1;
-  
-  while (low <= high) {
-    let mid = Math.floor((low + high) / 2);
-    
-    if (arr[mid] === target) {
-      return mid; // Element found
-    } else if (arr[mid] < target) {
-      low = mid + 1; // Search right half
-    } else {
-      high = mid - 1; // Search left half
-    }
-  }
-  
-  return -1; // Element not found
-}`,
-    python: `
-def binary_search(arr, target):
-    low = 0
-    high = len(arr) - 1
-    
-    while low <= high:
-        mid = (low + high) // 2
-        
-        if arr[mid] == target:
-            return mid  # Element found
-        elif arr[mid] < target:
-            low = mid + 1  # Search right half
-        else:
-            high = mid - 1  # Search left half
-    
-    return -1  # Element not found`,
-    java: `
-public static int binarySearch(int[] arr, int target) {
-    int low = 0;
-    int high = arr.length - 1;
-    
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        
-        if (arr[mid] == target) {
-            return mid; // Element found
-        } else if (arr[mid] < target) {
-            low = mid + 1; // Search right half
-        } else {
-            high = mid - 1; // Search left half
-        }
-    }
-    
-    return -1; // Element not found
-}`
-  },
-  useCases: [
-    'Searching in large sorted datasets',
-    'Finding elements in sorted arrays or lists',
-    'Implementing dictionary or phonebook lookups',
-    'When data is already sorted or can be sorted efficiently'
-  ]
-}
+  description: 'Binary search is an efficient algorithm for finding an item in a sorted array.',
+  explanation: 'Binary search works by repeatedly dividing in half the portion of the array that could contain the item, until you\'ve narrowed down the possible locations to just one.',
+  steps: [
+    'Array must be sorted',
+    'Compare target with middle element',
+    'If equal, return index',
+    'If target is smaller, search left half',
+    'If target is larger, search right half',
+    'Repeat until found or search space is empty'
+  ],
+  generator: binarySearch
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import SortingVisualization from '../../../components/Visualisation/SortingVisualization';
-import { bubbleSort, bubbleSortInfo } from '../../../algorithms/Sorting/bubbleSort';
+import SortingVisualization from '../../../../components/Visualisation/SortingVisualization';
+import { bubbleSort, bubbleSortInfo } from '../../../../algorithms/Sorting/bubbleSort';
 
 /**
  * Bubble Sort Visualization Page

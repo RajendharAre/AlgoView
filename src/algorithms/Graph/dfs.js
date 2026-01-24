@@ -1,122 +1,159 @@
-// src/algorithms/Graph/dfs.js
-export function* dfs(graph, startId) {
-  const nodes = graph.nodes.map(n => ({ ...n }))
-  const edges = graph.edges.map(e => ({ ...e }))
-  const visited = new Set()
-  const stack = [startId]
-  const done = []
-  const visitedEdges = []
-  let stepIndex = 0
-
-  yield {
-    nodes,
-    edges,
-    current: null,
-    visiting: null,
-    stack: [...stack],
-    doneNodes: [...done],
-    visitedEdges: [...visitedEdges],
-    description: `Start DFS at ${startId}`,
-    stepIndex: stepIndex++,
+// Generator function for DFS visualization steps
+export function* dfs(graph, startNodeId) {
+  const visited = new Set();
+  const traversalOrder = [];
+  const callStack = [];
+  
+  // If no start node is provided, use the first node in the graph
+  let actualStartNodeId = startNodeId;
+  if (!actualStartNodeId && graph.nodes.length > 0) {
+    actualStartNodeId = graph.nodes[0].id;
+  }
+  
+  // Check if start node exists in the current graph
+  const startNodeExists = graph.nodes.some(node => node.id === actualStartNodeId);
+  
+  if (!startNodeExists) {
+    yield {
+      visited: new Set(),
+      callStack: [],
+      activeNode: null,
+      traversalOrder: [],
+      currentStep: `Start node does not exist in the graph`,
+      edges: graph.edges,
+      nodes: graph.nodes,
+      componentsFound: 0
+    };
+    return;
   }
 
-  while (stack.length > 0) {
-    const u = stack.pop()
+  // Initial state
+  yield {
+    visited: new Set(),
+    callStack: [],
+    activeNode: null,
+    traversalOrder: [],
+    currentStep: `Starting DFS traversal from Node ${actualStartNodeId}`,
+    edges: graph.edges,
+    nodes: graph.nodes,
+    componentsFound: 0
+  };
 
-    if (!visited.has(u)) {
-      visited.add(u)
+  // Use the same approach as the original working DFS
+  const globalVisited = new Set();
+  const fullOrder = [];
+  let compCount = 0;
+
+  const allNodeIds = graph.nodes.map(n => n.id);
+  const sortedRoots = startNodeId 
+    ? [startNodeId, ...allNodeIds.filter(id => id !== startNodeId)] 
+    : allNodeIds;
+
+  // DFS visit function (recursive-like using generator)
+  function* dfsVisit(nodeId, localCallStack) {
+    if (globalVisited.has(nodeId)) return;
+
+    // Discovery phase
+    globalVisited.add(nodeId);
+    const nodeObj = graph.nodes.find(n => n.id === nodeId);
+    fullOrder.push(nodeId);
+    
+    yield {
+      visited: new Set(globalVisited),
+      callStack: [...localCallStack, nodeId],
+      activeNode: nodeId,
+      traversalOrder: [...fullOrder],
+      currentStep: `Discovering Node ${nodeObj?.label}`,
+      edges: graph.edges,
+      nodes: graph.nodes,
+      componentsFound: compCount
+    };
+
+    // Explore neighbors
+    const neighbors = graph.edges
+      .filter(e => e.u === nodeId || e.v === nodeId)
+      .map(e => (e.u === nodeId ? e.v : e.u))
+      .filter(v => !globalVisited.has(v));
+
+    for (const neighborId of neighbors) {
+      const neighborObj = graph.nodes.find(n => n.id === neighborId);
       yield {
-        nodes,
-        edges,
-        current: u,
-        visiting: u,
-        stack: [...stack],
-        doneNodes: [...done],
-        visitedEdges: [...visitedEdges],
-        description: `Visiting ${u}`,
-        stepIndex: stepIndex++,
-      }
+        visited: new Set(globalVisited),
+        callStack: [...localCallStack, nodeId],
+        activeNode: nodeId,
+        traversalOrder: [...fullOrder],
+        currentStep: `Moving from Node ${nodeObj?.label} to unexplored Node ${neighborObj?.label}`,
+        edges: graph.edges,
+        nodes: graph.nodes,
+        componentsFound: compCount
+      };
 
-      // push neighbors (to simulate recursion order, push reverse)
-      const neighbors = edges.filter(e => e.from === u).map(e => e.to)
-      for (let i = neighbors.length - 1; i >= 0; i--) {
-        const v = neighbors[i]
-        if (!visited.has(v)) {
-          stack.push(v)
-          visitedEdges.push({ from: u, to: v })
-          yield {
-            nodes,
-            edges,
-            current: u,
-            visiting: v,
-            stack: [...stack],
-            doneNodes: [...done],
-            visitedEdges: [...visitedEdges],
-            description: `Pushed ${v} to stack`,
-            stepIndex: stepIndex++,
-          }
-        } else {
-          yield {
-            nodes,
-            edges,
-            current: u,
-            visiting: v,
-            stack: [...stack],
-            doneNodes: [...done],
-            visitedEdges: [...visitedEdges],
-            description: `${v} already visited`,
-            stepIndex: stepIndex++,
-          }
-        }
-      }
-
-      done.push(u)
+      // Recursively visit neighbor
+      yield* dfsVisit(neighborId, [...localCallStack, nodeId]);
+      
+      // Post-recursion recovery
       yield {
-        nodes,
-        edges,
-        current: null,
-        visiting: null,
-        stack: [...stack],
-        doneNodes: [...done],
-        visitedEdges: [...visitedEdges],
-        description: `${u} finished`,
-        stepIndex: stepIndex++,
-      }
+        visited: new Set(globalVisited),
+        callStack: [...localCallStack, nodeId],
+        activeNode: nodeId,
+        traversalOrder: [...fullOrder],
+        currentStep: `Backtracking to Node ${nodeObj?.label}`,
+        edges: graph.edges,
+        nodes: graph.nodes,
+        componentsFound: compCount
+      };
     }
+
+    // Finished processing node
+    yield {
+      visited: new Set(globalVisited),
+      callStack: [...localCallStack],
+      activeNode: nodeId,
+      traversalOrder: [...fullOrder],
+      currentStep: `Finished processing Node ${nodeObj?.label}`,
+      edges: graph.edges,
+      nodes: graph.nodes,
+      componentsFound: compCount
+    };
+  }
+
+  // Main DFS loop for connected components
+  for (let rootId of sortedRoots) {
+    if (globalVisited.has(rootId)) continue;
+
+    compCount++;
+    
+    yield {
+      visited: new Set(globalVisited),
+      callStack: [rootId],
+      activeNode: rootId,
+      traversalOrder: [...fullOrder],
+      currentStep: `Starting DFS traversal at Node ${graph.nodes.find(n => n.id === rootId)?.label}`,
+      edges: graph.edges,
+      nodes: graph.nodes,
+      componentsFound: compCount
+    };
+
+    // Start DFS from this root
+    yield* dfsVisit(rootId, []);
   }
 
   yield {
-    nodes,
-    edges,
-    current: null,
-    visiting: null,
-    stack: [],
-    doneNodes: [...done],
-    visitedEdges: [...visitedEdges],
-    description: 'DFS complete',
-    stepIndex: stepIndex++,
-  }
+    visited: new Set(globalVisited),
+    callStack: [],
+    activeNode: null,
+    traversalOrder: [...fullOrder],
+    currentStep: `DFS traversal complete.`,
+    edges: graph.edges,
+    nodes: graph.nodes,
+    componentsFound: compCount
+  };
 }
 
-/**
- * Algorithm information for Depth-First Search
- * 
- * @type {Object}
- * @property {string} name - Name of the algorithm
- * @property {string} category - Category of the algorithm
- * @property {Object} complexity - Time and space complexity
- * @property {Object} complexity.time - Time complexity for different cases
- * @property {string} complexity.time.best - Best case time complexity
- * @property {string} complexity.time.average - Average case time complexity
- * @property {string} complexity.time.worst - Worst case time complexity
- * @property {string} complexity.space - Space complexity
- * @property {boolean} stable - Whether the algorithm is stable
- * @property {boolean} inPlace - Whether the algorithm sorts in-place
- * @property {string} description - Brief description of the algorithm
- */
+// Algorithm info object
 export const dfsInfo = {
   name: 'Depth-First Search',
-  category: 'graph',
+  category: 'Graph',
   complexity: {
     time: {
       best: 'O(V + E)',
@@ -125,91 +162,17 @@ export const dfsInfo = {
     },
     space: 'O(V)'
   },
-  stable: true,
-  inPlace: false,
-  description: 'A graph traversal algorithm that explores as far as possible along each branch before backtracking.',
-  code: {
-    javascript: `
-function dfs(graph, startNode) {
-  const visited = new Set();
-  const stack = [startNode];
-  const result = [];
-  
-  while (stack.length > 0) {
-    const currentNode = stack.pop();
-    
-    if (!visited.has(currentNode)) {
-      visited.add(currentNode);
-      result.push(currentNode);
-      
-      // Add neighbors to stack (in reverse order for consistent traversal)
-      const neighbors = graph[currentNode] || [];
-      for (let i = neighbors.length - 1; i >= 0; i--) {
-        if (!visited.has(neighbors[i])) {
-          stack.push(neighbors[i]);
-        }
-      }
-    }
-  }
-  
-  return result;
-}`,
-    python: `
-def dfs(graph, start_node):
-    visited = set()
-    stack = [start_node]
-    result = []
-    
-    while stack:
-        current_node = stack.pop()
-        
-        if current_node not in visited:
-            visited.add(current_node)
-            result.append(current_node)
-            
-            # Add neighbors to stack
-            neighbors = graph.get(current_node, [])
-            for neighbor in reversed(neighbors):
-                if neighbor not in visited:
-                    stack.append(neighbor)
-    
-    return result`,
-    java: `
-import java.util.*;
-
-public static List<String> dfs(Map<String, List<String>> graph, String startNode) {
-    Set<String> visited = new HashSet<>();
-    Stack<String> stack = new Stack<>();
-    List<String> result = new ArrayList<>();
-    
-    stack.push(startNode);
-    
-    while (!stack.isEmpty()) {
-        String currentNode = stack.pop();
-        
-        if (!visited.contains(currentNode)) {
-            visited.add(currentNode);
-            result.add(currentNode);
-            
-            // Add neighbors to stack
-            List<String> neighbors = graph.getOrDefault(currentNode, new ArrayList<>());
-            for (int i = neighbors.size() - 1; i >= 0; i--) {
-                String neighbor = neighbors.get(i);
-                if (!visited.contains(neighbor)) {
-                    stack.push(neighbor);
-                }
-            }
-        }
-    }
-    
-    return result;
-}`
-  },
-  useCases: [
-    'Detecting cycles in graphs',
-    'Topological sorting',
-    'Finding connected components',
-    'Pathfinding and maze solving',
-    'Tree and graph traversal'
-  ]
-}
+  description: 'Depth-First Search is an algorithm for traversing graph data structures.',
+  explanation: 'DFS explores as far as possible along each branch before backtracking, using a stack data structure.',
+  steps: [
+    'Initialize visited set and call stack',
+    'Choose starting vertex',
+    'Mark vertex as visited',
+    'Push vertex onto call stack',
+    'For each unvisited adjacent vertex:',
+    '  Recursively apply DFS',
+    'Pop vertex from call stack when finished',
+    'Repeat until all vertices are visited'
+  ],
+  generator: dfs
+};

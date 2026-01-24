@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import SortingVisualization from '../../../components/Visualisation/SortingVisualization';
-import { selectionSort, selectionSortInfo } from '../../../algorithms/Sorting/selectionSort';
+import SortingVisualization from '../../../../components/Visualisation/SortingVisualization';
+import { selectionSort, selectionSortInfo } from '../../../../algorithms/Sorting/selectionSort';
 
 /**
  * Selection Sort Visualization Page

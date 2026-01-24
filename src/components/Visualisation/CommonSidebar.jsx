@@ -9,27 +9,7 @@ import {
   RotateCcw,
   Play
 } from 'lucide-react';
-
-const COLORS = {
-  brightSnow: '#f8f9faff',
-  platinum: '#e9ecefff',
-  alabasterGrey: '#dee2e6ff',
-  paleSlate: '#ced4daff',
-  paleSlate2: '#adb5bdff',
-  slateGrey: '#6c757dff',
-  ironGrey: '#495057ff',
-  gunmetal: '#343a40ff',
-  carbonBlack: '#212529ff',
-};
-
-const SPEEDS = [
-  { label: '1x', value: 1000 },
-  { label: '1.5x', value: 666 },
-  { label: '1.75x', value: 571 },
-  { label: '2x', value: 500 },
-  { label: '2.5x', value: 400 },
-  { label: '3x', value: 333 },
-];
+import { COLORS, SPEEDS } from '../../constants/visualizationConstants';
 
 const CommonSidebar = ({
   algorithmTitle,
@@ -47,7 +27,9 @@ const CommonSidebar = ({
   complexityInfo,
   runButtonText = "Start Algorithm",
   inputPlaceholder = "10, 20, 30...",
-  inputLabel = "Input Data"
+  inputLabel = "Input Data",
+  showInput = true,
+  children
 }) => {
   return (
     <aside className="w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
@@ -82,19 +64,21 @@ const CommonSidebar = ({
          </div>
       </div>
 
-      <div className="p-6 border-b border-[#f1f3f5]">
-        <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider mb-4 flex items-center justify-between">
-          <span className="flex items-center gap-2"><Keyboard size={12} /> {inputLabel}</span>
-          {isRunning && <Lock size={10} className="text-amber-600" />}
-        </h3>
-        <textarea 
-          value={inputValue}
-          onChange={onInputChange}
-          disabled={isRunning}
-          className="w-full h-20 p-3 text-xs font-mono rounded-xl border border-[#dee2e6] focus:ring-1 focus:ring-black outline-none transition-all resize-none"
-          placeholder={inputPlaceholder}
-        />
-      </div>
+      {showInput && (
+        <div className="p-6 border-b border-[#f1f3f5]">
+          <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider mb-4 flex items-center justify-between">
+            <span className="flex items-center gap-2"><Keyboard size={12} /> {inputLabel}</span>
+            {isRunning && <Lock size={10} className="text-amber-600" />}
+          </h3>
+          <textarea 
+            value={inputValue}
+            onChange={onInputChange}
+            disabled={isRunning}
+            className="w-full h-20 p-3 text-xs font-mono rounded-xl border border-[#dee2e6] focus:ring-1 focus:ring-black outline-none transition-all resize-none"
+            placeholder={inputPlaceholder}
+          />
+        </div>
+      )}
 
       <div className="p-6 border-b border-[#f1f3f5] space-y-2">
           <button 
@@ -114,21 +98,29 @@ const CommonSidebar = ({
           </div>
       </div>
 
+      {children}
+
       <div className="flex-1 p-6 space-y-4">
           <div className={`p-4 rounded-xl border-l-4 transition-all ${isRunning ? 'bg-[#212529] text-white' : 'bg-[#f8f9faff] border-[#dee2e6]'}`}>
               <p className="text-[9px] font-black uppercase opacity-60 mb-1">Status</p>
               <p className="text-xs font-bold leading-tight">{currentStep}</p>
           </div>
-          <div className="grid grid-cols-2 gap-2 text-center">
-              <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">
-                  <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Comps</p>
-                  <p className="text-lg font-bold font-mono">{stats.comparisons}</p>
-              </div>
-              <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">
-                  <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Swaps</p>
-                  <p className="text-lg font-bold font-mono">{stats.swaps}</p>
-              </div>
-          </div>
+          {(stats?.comparisons !== undefined || stats?.swaps !== undefined) && (
+            <div className="flex gap-2 text-center">
+                {stats?.comparisons !== undefined && (
+                  <div className="flex-1 p-3 bg-white border border-[#dee2e6] rounded-xl">
+                      <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Comps</p>
+                      <p className="text-lg font-bold font-mono">{stats?.comparisons || 0}</p>
+                  </div>
+                )}
+                {stats?.swaps !== undefined && (
+                  <div className="flex-1 p-3 bg-white border border-[#dee2e6] rounded-xl">
+                      <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Swaps</p>
+                      <p className="text-lg font-bold font-mono">{stats?.swaps || 0}</p>
+                  </div>
+                )}
+            </div>
+          )}
           {complexityInfo && (
             <div className="mt-auto pt-4 border-t border-[#f1f3f5]">
                <h4 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-widest mb-3 flex items-center gap-2">

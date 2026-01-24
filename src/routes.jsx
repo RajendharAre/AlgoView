@@ -24,7 +24,7 @@ const DSADiscussionDetail = lazy(() => import('./pages/DSA/Discussions/Discussio
 const DSADiscussionNew = lazy(() => import('./pages/DSA/Discussions/New'))
 const AlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/AlgorithmVisualization'));
 const DynamicAlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/DynamicAlgorithmVisualization'));
-const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/SelectionSort'))
+const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/Sorting/SelectionSort'))
 const Development = lazy(() => import('./pages/Development'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI'))

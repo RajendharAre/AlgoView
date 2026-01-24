@@ -1,17 +1,6 @@
 import React from 'react';
 import { Info } from 'lucide-react';
-
-const COLORS = {
-  brightSnow: '#f8f9faff',
-  platinum: '#e9ecefff',
-  alabasterGrey: '#dee2e6ff',
-  paleSlate: '#ced4daff',
-  paleSlate2: '#adb5bdff',
-  slateGrey: '#6c757dff',
-  ironGrey: '#495057ff',
-  gunmetal: '#343a40ff',
-  carbonBlack: '#212529ff',
-};
+import { COLORS } from '../../constants/visualizationConstants';
 
 const Legend = ({ items, description, showDivider = true }) => {
   return (
