@@ -140,6 +140,8 @@ const Profile = () => {
     displayName: '',
     bio: '',
     location: '',
+    alternateEmail: '',
+    mobileNumber: '',
     skills: [],
     socialLinks: {
       leetcode: '',
@@ -156,6 +158,8 @@ const Profile = () => {
         displayName: profile.displayName || authUser?.displayName || '',
         bio: profile.bio || '',
         location: profile.location || '',
+        alternateEmail: profile.alternateEmail || '',
+        mobileNumber: profile.mobileNumber || '',
         skills: profile.skills || [],
         socialLinks: {
           leetcode: profile.socialLinks?.leetcode || '',
@@ -175,6 +179,8 @@ const Profile = () => {
       email: authUser.email,
       bio: formData.bio,
       location: formData.location,
+      alternateEmail: formData.alternateEmail,
+      mobileNumber: formData.mobileNumber,
       skills: formData.skills,
       socialLinks: formData.socialLinks
     })
@@ -461,6 +467,9 @@ const Profile = () => {
                 <Mail size={16} className="mr-2" />
                 <span>{authUser?.email}</span>
               </div>
+              {isEditing && (
+                <div className="text-xs text-gray-500 mt-1">Primary email cannot be changed</div>
+              )}
             </div>
             <div className="mt-4 md:mt-0 text-sm text-gray-500">
               <div className="flex items-center">
@@ -506,6 +515,46 @@ const Profile = () => {
                     <span className="text-gray-700">
                       {formData.location || 'No location specified'}
                     </span>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            {/* Contact Information Section */}
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h2>
+              <div className="space-y-4">
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Additional Email (optional)</div>
+                  {isEditing ? (
+                    <input
+                      type="email"
+                      value={formData.alternateEmail}
+                      onChange={(e) => handleChange('alternateEmail', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="optional@domain.com"
+                    />
+                  ) : (
+                    <div className="text-gray-700">
+                      {formData.alternateEmail || <span className="text-gray-400">No additional email specified</span>}
+                    </div>
+                  )}
+                </div>
+                
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">Mobile Number (optional)</div>
+                  {isEditing ? (
+                    <input
+                      type="tel"
+                      value={formData.mobileNumber}
+                      onChange={(e) => handleChange('mobileNumber', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Enter phone number"
+                    />
+                  ) : (
+                    <div className="text-gray-700">
+                      {formData.mobileNumber || <span className="text-gray-400">No mobile number specified</span>}
+                    </div>
                   )}
                 </div>
               </div>

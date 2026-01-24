@@ -36,7 +36,7 @@ export function* bubbleSort(arr) {
         yield {
           array: [...a],
           compared: [j, j + 1],
-          swapped: true,
+          swapped: [j, j + 1],
           doneIndex,
           description: `Swapped ${a[j]} and ${a[j + 1]}`,
         }

@@ -31,6 +31,8 @@ export const useProfile = (userId) => {
             email: '',
             bio: '',
             location: '',
+            alternateEmail: '',
+            mobileNumber: '',
             skills: [],
             socialLinks: {
               leetcode: '',

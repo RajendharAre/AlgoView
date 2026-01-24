@@ -22,6 +22,9 @@ const DSAContributeNew = lazy(() => import('./pages/DSA/Contribute/New'))
 const DSADiscussions = lazy(() => import('./pages/DSA/Discussions'))
 const DSADiscussionDetail = lazy(() => import('./pages/DSA/Discussions/Discussion'))
 const DSADiscussionNew = lazy(() => import('./pages/DSA/Discussions/New'))
+const AlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/AlgorithmVisualization'));
+const DynamicAlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/DynamicAlgorithmVisualization'));
+const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/SelectionSort'))
 const Development = lazy(() => import('./pages/Development'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI'))
@@ -228,6 +231,14 @@ export const router = createBrowserRouter([
             element: (
               <Suspense fallback={<LoadingSpinner />}>
                 <DSADiscussionNew />
+              </Suspense>
+            )
+          },
+          {
+            path: 'visualization/:algorithmId',
+            element: (
+              <Suspense fallback={<LoadingSpinner />}>
+                <AlgorithmVisualization />
               </Suspense>
             )
           }
