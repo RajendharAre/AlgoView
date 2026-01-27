@@ -192,7 +192,7 @@ const QuickSortVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={quickSortInfo.complexity}
-        runButtonText="Start Partitioning"
+        runButtonText="Run"
         inputPlaceholder="38, 27, 43, 3, 9, 82, 10"
         inputLabel="Input Array"
       />

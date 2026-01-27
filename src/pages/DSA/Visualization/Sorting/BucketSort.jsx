@@ -168,7 +168,7 @@ const BucketSortVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={bucketSortInfo.complexity}
-        runButtonText="Start Sorting"
+        runButtonText="Run"
         inputPlaceholder="0, 45, 12, 88, 23..."
         inputLabel="Array Input"
       />

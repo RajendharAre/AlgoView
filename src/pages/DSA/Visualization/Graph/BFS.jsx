@@ -179,7 +179,7 @@ const BFSVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={bfsInfo.complexity}
-        runButtonText="Run Traversal"
+        runButtonText="Run"
         inputLabel=""
         inputPlaceholder=""
         showInput={false}

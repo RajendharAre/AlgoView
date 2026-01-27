@@ -186,7 +186,7 @@ const HeapSortVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={heapSortInfo.complexity}
-        runButtonText="Build & Sort Heap"
+        runButtonText="Run"
         inputPlaceholder="50, 20, 10, 40, 30..."
         inputLabel="Comma-Input"
       />

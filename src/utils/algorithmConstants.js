@@ -13,6 +13,8 @@ import { dfsInfo } from '../algorithms/Graph/dfs'
 import { dijkstraInfo } from '../algorithms/Graph/dijkstra'
 import { heapSortInfo } from '../algorithms/Sorting/heapSort'
 import { bucketSortInfo } from '../algorithms/Sorting/bucketSort'
+import { bellmanFordInfo } from '../algorithms/Graph/bellmanFord'
+import { floydWarshallInfo } from '../algorithms/Graph/floydWarshall'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -119,6 +121,22 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/bucketSort').then(m => m.bucketSort),
     ...bucketSortInfo
+  },
+
+  bellmanFord: {
+    id: 'bellmanFord',
+    name: 'Bellman-Ford Algorithm',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../algorithms/Graph/bellmanFord').then(m => m.bellmanFord),
+    ...bellmanFordInfo
+  },
+
+  floydWarshall: {
+    id: 'floydWarshall',
+    name: 'Floyd-Warshall Algorithm',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../algorithms/Graph/floydWarshall').then(m => m.floydWarshall),
+    ...floydWarshallInfo
   },
 }
 

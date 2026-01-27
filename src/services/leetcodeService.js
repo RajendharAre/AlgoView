@@ -96,9 +96,10 @@ export const validateProblemSolved = async (username, problemSlug, sessionTimest
     console.log('Received submissions for validation:', submissions);
     
     // Find if there's an accepted submission for this problem after the session started
+    // Handle both string and numeric status codes (10 typically means 'Accepted')
     const successfulSubmission = submissions.find(submission => 
       submission.titleSlug === problemSlug &&
-      submission.status === 'Accepted' &&
+      (submission.status === 'Accepted' || submission.status === 10) &&
       submission.timestamp * 1000 > sessionTimestamp  // Convert to milliseconds
     );
     
@@ -151,21 +152,30 @@ export const mockFetchRecentSubmissions = async (username) => {
     },
     {
       id: 2,
+      title: "Valid Anagram",
+      titleSlug: "valid-anagram",
+      status: "Accepted",
+      lang: "javascript",
+      timestamp: Math.floor(Date.now() / 1000) - 1800, // 30 minutes ago
+      url: `https://leetcode.com/submissions/detail/123456788/`
+    },
+    {
+      id: 3,
       title: "Add Two Numbers",
       titleSlug: "add-two-numbers",
       status: "Accepted",
       lang: "javascript",
       timestamp: Math.floor(Date.now() / 1000) - 3600, // 1 hour ago
-      url: `https://leetcode.com/submissions/detail/123456788/`
+      url: `https://leetcode.com/submissions/detail/123456787/`
     },
     {
-      id: 3,
+      id: 4,
       title: "Longest Substring Without Repeating Characters",
       titleSlug: "longest-substring-without-repeating-characters",
       status: "Wrong Answer",
       lang: "python3",
       timestamp: Math.floor(Date.now() / 1000) - 7200, // 2 hours ago
-      url: `https://leetcode.com/submissions/detail/123456787/`
+      url: `https://leetcode.com/submissions/detail/123456786/`
     }
   ];
 };

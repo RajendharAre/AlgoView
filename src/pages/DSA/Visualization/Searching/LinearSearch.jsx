@@ -132,7 +132,7 @@ const LinearSearchVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={linearSearchInfo.complexity}
-        runButtonText="Start Search"
+        runButtonText="Run"
         inputPlaceholder="10, 20, 30..."
         targetValue={targetValue}
         onTargetChange={handleTargetChange}

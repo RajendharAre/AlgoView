@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { BookOpen, CheckCircle, Clock, Target, ChevronDown, ChevronRight, Grid3X3, FileText, Link as LinkIcon, Package, ClipboardList, Repeat2, ArrowLeftRight, Coins, Search, TreePine, Globe, TrendingUp, Zap, User, Check, AlertTriangle } from 'lucide-react';
-import { validateProblemSolved } from '../../../services/leetcodeService';
+import { validateProblemSolved, fetchRecentSubmissions } from '../../../services/leetcodeService';
 import { useAuth } from '../../../hooks/useAuth';
 import { useProfile } from '../../../hooks/useProfile';
 import { doc, setDoc, getDoc, onSnapshot, deleteField, updateDoc } from 'firebase/firestore';
@@ -204,17 +204,13 @@ const Practice = () => {
         
         // Load user sessions
         if (userData.sessions) {
-          console.log('Updating userSessions state with:', userData.sessions);
           setUserSessions(userData.sessions || {});
         } else {
-          console.log('Clearing userSessions state');
           setUserSessions({});
         }
         
-        // Load LeetCode username
-        if (userData.leetcodeUsername) {
-          setLeetcodeUsername(userData.leetcodeUsername);
-        }
+        // LeetCode username is loaded via useProfile hook
+        console.log('LeetCode username will be loaded via useProfile hook');
       } else {
         console.log('Document does not exist, initializing empty user document');
         
@@ -231,7 +227,7 @@ const Practice = () => {
           // Set initial empty states
           setUserSessions({});
           setCompletedProblems(new Set());
-          setLeetcodeUsername('');
+          // LeetCode username is managed via useProfile hook
         } catch (error) {
           console.error('❌ Error initializing user document:', error);
         }
@@ -270,17 +266,11 @@ const Practice = () => {
     console.log('Session Data to Save:', sessionData);
     
     try {
-      // Store in Firebase with a unique key
-      console.log('Attempting to save to Firebase...');
-      // Use nested object structure for sessions
-      const currentDoc = await getDoc(doc(db, 'users', user.uid));
-      let currentData = {};
-      if (currentDoc.exists()) {
-        currentData = currentDoc.data();
-      }
+      // Clear any existing sessions before creating a new one
+      console.log('Clearing existing sessions before creating new session for:', problemId);
       
+      // Only keep the new session, clearing any previous ones
       const updatedSessions = {
-        ...currentData.sessions,
         [problemId]: sessionData
       };
       
@@ -288,15 +278,14 @@ const Practice = () => {
         sessions: updatedSessions
       }, { merge: true });
       
-      console.log('✅ Session data saved successfully to Firebase');
+      console.log('✅ Session data saved successfully to Firebase (old sessions cleared)');
       
-      // Manually update the userSessions state to reflect the new session
-      // This is a workaround since the real-time listener might not trigger immediately
+      // Manually update the userSessions state to reflect only the new session
+      // Use callback form to ensure we're working with the latest state
       setUserSessions(prev => ({
-        ...prev,
         [problemId]: sessionData
       }));
-      console.log('✅ UserSessions state updated manually with new session');
+      console.log('✅ UserSessions state updated with new session (old sessions cleared)');
       
       // Verify the save by reading it back immediately
       console.log('Verifying save by reading back from Firebase...');
@@ -335,21 +324,47 @@ const Practice = () => {
     const isSession = !!session;
     const isCompleted = completedProblems.has(problemId);
     
-    // Add visual feedback for debugging
-    const result = isSession && !isCompleted;
-    if (result) {
-      console.log(`🎯 DYNAMIC UPDATE: Problem ${problemId} is now in SOLVING state`);
+    // Only consider the problem as 'solving' if it has an active session and is not completed
+    return isSession && !isCompleted;
+  };
+  
+  // Clear the current solving session when user navigates away or starts a new problem
+  const clearCurrentSession = async (problemId) => {
+    if (!user) {
+      console.log('No user authenticated, skipping session clear for:', problemId);
+      return;
     }
     
-    console.log('isSolving check for problem:', problemId, { 
-      userSessions, 
-      session, 
-      isSession, 
-      isCompleted, 
-      result: result,
-      dynamicUpdate: result ? '🟢 ACTIVE' : '⚪ INACTIVE'
-    });
-    return result;
+    console.log('Clearing current session for problem:', problemId);
+    
+    try {
+      // Fetch current document
+      const currentDoc = await getDoc(doc(db, 'users', user.uid));
+      let currentData = {};
+      if (currentDoc.exists()) {
+        currentData = currentDoc.data();
+      }
+      
+      // Remove the session for this problem
+      const updatedSessions = { ...currentData.sessions };
+      delete updatedSessions[problemId];
+      
+      await setDoc(doc(db, 'users', user.uid), {
+        sessions: updatedSessions
+      }, { merge: true });
+      
+      console.log('✅ Session cleared from Firebase for problem:', problemId);
+      
+      // Update local state
+      setUserSessions(prev => {
+        const newState = { ...prev };
+        delete newState[problemId];
+        return newState;
+      });
+      
+    } catch (error) {
+      console.error('❌ Error clearing session from Firebase:', error);
+    }
   };
   
   // Start solving a problem
@@ -359,12 +374,20 @@ const Practice = () => {
       return;
     }
     
+    // Clear any existing sessions before starting a new one
+    if (Object.keys(userSessions).length > 0) {
+      console.log('Clearing existing sessions before starting new problem:', problem.id);
+      for (const existingProblemId of Object.keys(userSessions)) {
+        await clearCurrentSession(existingProblemId);
+      }
+    }
+    
     const slugToSave = problem.leetcodeSlug || problem.id;
     const timestamp = Date.now();
     
     console.log('Starting solve for problem:', problem.id, 'slug:', slugToSave, 'timestamp:', timestamp);
     
-    // Save session to Firebase immediately
+    // Save session to Firebase
     await saveSolveSession(problem.id, slugToSave, timestamp);
     
     console.log('Session saved, opening LeetCode...');
@@ -375,6 +398,7 @@ const Practice = () => {
     // Show confirmation message
     alert(`Session started for "${problem.title}"!\n\nAfter solving on LeetCode, click "Verify" to confirm completion.`);
   };
+  
   
   // Verify a problem completion against LeetCode
   const verifyProblem = async (problem) => {
@@ -478,6 +502,15 @@ const Practice = () => {
       readableTime: new Date(session.clickedAt).toLocaleString()
     });
     
+    // Additional debugging for the validation
+    console.log('Preparing to validate problem solved with:', {
+      username: leetcodeUsername,
+      slug: slugToCheck,
+      clickedAt: session.clickedAt,
+      clickedAtDate: new Date(session.clickedAt).toISOString(),
+      currentTime: new Date().toISOString()
+    });
+    
     // Set loading state
     setVerifyingProblemId(problem.id);
     
@@ -488,22 +521,59 @@ const Practice = () => {
         slug: slugToCheck,
         clickedAt: session.clickedAt
       });
-      
+          
       // Validate if the user has solved this problem since starting the session
       const isSolved = await validateProblemSolved(
         leetcodeUsername,
         slugToCheck,
         session.clickedAt
       );
-      
+          
       console.log('\n=== STEP 6: Processing validation result ===');
       console.log('Validation result:', isSolved);
-      
-      if (isSolved) {
-        console.log('✅ Problem solved! Updating completion status');
-        
+          
+      // If the primary validation failed, try a more lenient check (any accepted submission)
+      let finalResult = isSolved;
+      if (!isSolved) {
+        console.log('Primary validation failed, trying fallback check for any accepted submission...');
+        try {
+          const allSubmissions = await fetchRecentSubmissions(leetcodeUsername);
+          console.log('All fetched submissions:', allSubmissions);
+          console.log('Looking for slug:', slugToCheck);
+          
+          // Log all submission slugs for debugging
+          console.log('All submission slugs:', allSubmissions.map(s => s.titleSlug));
+          
+          // Check for exact match first
+          // Handle both string and numeric status codes
+          const exactMatch = allSubmissions.find(submission => 
+            submission.titleSlug === slugToCheck &&
+            (submission.status === 'Accepted' || submission.status === 10)
+          );
+          
+          if (exactMatch) {
+            console.log('✅ Found exact match:', exactMatch);
+          } else {
+            console.log('❌ No exact match found for slug:', slugToCheck);
+            // Look for partial matches
+            const partialMatches = allSubmissions.filter(submission => 
+              submission.titleSlug && submission.titleSlug.includes(slugToCheck)
+            );
+            console.log('Partial matches found:', partialMatches);
+          }
+          
+          const fallbackCheck = !!exactMatch;
+          console.log('Fallback validation result:', fallbackCheck);
+          finalResult = fallbackCheck;
+        } catch (fallbackError) {
+          console.error('Fallback validation also failed:', fallbackError);
+          console.error('Fallback error details:', fallbackError.message);
+          finalResult = false;
+        }
+      }
+            
+      if (finalResult) {
         // Mark the problem as completed in Firebase
-        console.log('Saving completion to Firebase...');
         // Use nested object structure for completedProblems
         const currentDoc = await getDoc(doc(db, 'users', user.uid));
         let currentData = {};
@@ -521,35 +591,26 @@ const Practice = () => {
         }, { merge: true });
         
         // Update local state
-        console.log('Updating local state...');
         setCompletedProblems(prev => {
           const newSet = new Set(prev);
           newSet.add(problem.id);
           return newSet;
         });
         
-        console.log('Removing session data from Firebase...');
+
         // Remove the session data since it's verified
         // Use updateDoc with deleteField for removing nested fields
         await updateDoc(doc(db, 'users', user.uid), {
           [`sessions.${problem.id}`]: deleteField(),
         });
         
-        console.log('✅ Verification completed successfully!');
+
         
-        // Show visual confirmation of dynamic update
-        console.log('🎯 DYNAMIC NATURE PROOF:');
-        console.log('   🔄 Real-time listener triggered');
-        console.log('   🎨 UI state automatically updated');
-        console.log('   💾 Data persisted across sessions');
-        console.log('   🌐 Cross-tab synchronization ready');
-        
-        alert('🎉 Problem verified successfully! Great job!\n\n✨ DYNAMIC NATURE CONFIRMED:\n• Real-time data synchronization\n• Instant UI updates\n• Persistent progress tracking\n• Cross-tab coordination');
+        alert('🎉 Problem verified successfully! Great job!\n\n✨');
         
         // Force re-render
         setForceRerender(prev => prev + 1);
       } else {
-        console.log('❌ Problem not solved yet according to LeetCode API');
         alert(
           '❌ No accepted submission found yet.\n\n' +
           'Please make sure:\n' +
@@ -561,9 +622,7 @@ const Practice = () => {
         );
       }
     } catch (error) {
-      console.error('\n❌ Error during verification process:', error);
-      console.error('Error type:', error.name);
-      console.error('Error message:', error.message);
+      console.error('Error during verification process:', error);
       
       alert(
         '❌ Error verifying problem.\n\n' +
@@ -575,11 +634,8 @@ const Practice = () => {
         'Check browser console for detailed error information.'
       );
     } finally {
-      console.log('\n=== CLEANUP ===');
-      console.log('Resetting verifying state for problem:', problem.id);
       // Reset loading state
       setVerifyingProblemId(null);
-      console.log('=== VERIFY DEBUG END ===\n');
     }
   };
 

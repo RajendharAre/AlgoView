@@ -39,6 +39,8 @@ const Sidebar = () => {
                                location.pathname.includes('dfs') || 
                                location.pathname.includes('bfs') || 
                                location.pathname.includes('dijkstra') ||
+                               location.pathname.includes('bellmanFord') ||
+                               location.pathname.includes('floydWarshall') ||
                                location.pathname.includes('fibonacci') ||
                                location.pathname.includes('coinChange') ||
                                location.pathname.includes('knapsack') ||
@@ -78,7 +80,9 @@ const Sidebar = () => {
         }));
       } else if (location.pathname.includes('dfs') || 
                  location.pathname.includes('bfs') || 
-                 location.pathname.includes('dijkstra')) {
+                 location.pathname.includes('dijkstra') ||
+                 location.pathname.includes('bellmanFord') ||
+                 location.pathname.includes('floydWarshall')) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -168,7 +172,9 @@ const Sidebar = () => {
       algorithms: [
         { id: 'dfs', name: 'Depth First Search' },
         { id: 'bfs', name: 'Breadth First Search' },
-        { id: 'dijkstra', name: 'Dijkstra Algorithm' }
+        { id: 'dijkstra', name: 'Dijkstra Algorithm' },
+        { id: 'bellmanFord', name: 'Bellman-Ford Algorithm' },
+        { id: 'floydWarshall', name: 'Floyd-Warshall Algorithm' }
       ]
     },
     {

@@ -177,7 +177,7 @@ const DFSVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={dfsInfo.complexity}
-        runButtonText="Start DFS Traversal"
+        runButtonText="Run"
         inputLabel=""
         inputPlaceholder=""
         showInput={false}

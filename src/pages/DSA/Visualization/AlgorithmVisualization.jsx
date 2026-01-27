@@ -11,6 +11,9 @@ import LinearSearchVisualization from './Searching/LinearSearch';
 import BinarySearchVisualization from './Searching/BinarySearch';
 import BFSVisualization from './Graph/BFS';
 import DFSVisualization from './Graph/DFS';
+import DijkstraVisualization from './Graph/Dijkstra';
+import BellmanFordVisualization from './Graph/BellmanFord';
+import FloydWarshallVisualization from './Graph/FloydWarshall';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -32,6 +35,9 @@ const AlgorithmVisualization = () => {
     'binarySearch': BinarySearchVisualization,
     'bfs': BFSVisualization,
     'dfs': DFSVisualization,
+    'dijkstra': DijkstraVisualization,
+    'bellmanFord': BellmanFordVisualization,
+    'floydWarshall': FloydWarshallVisualization,
     // Add more algorithms here as they are implemented
   };
 

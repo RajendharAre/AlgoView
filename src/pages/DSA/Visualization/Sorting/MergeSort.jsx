@@ -189,7 +189,7 @@ const MergeSortVisualization = () => {
         currentStep={currentStep}
         stats={stats}
         complexityInfo={mergeSortInfo.complexity}
-        runButtonText="Visualize"
+        runButtonText="Run"
         inputPlaceholder="10, 20, 30..."
         inputLabel="Input Data"
       />

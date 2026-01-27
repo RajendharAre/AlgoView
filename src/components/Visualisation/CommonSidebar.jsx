@@ -25,7 +25,7 @@ const CommonSidebar = ({
   currentStep,
   stats,
   complexityInfo,
-  runButtonText = "Start Algorithm",
+  runButtonText = "Run",
   inputPlaceholder = "10, 20, 30...",
   inputLabel = "Input Data",
   showInput = true,
