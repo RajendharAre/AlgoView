@@ -83,7 +83,7 @@ const Payment = () => {
           transition={{ delay: 0.1 }}
           className="text-xl text-gray-600 max-w-3xl mx-auto"
         >
-          Unlock the full potential of Algorithm Visualizer with our premium plans. 
+          Unlock the full potential of AlgoView with our premium plans. 
           Start learning algorithms at your own pace with unlimited access to all features.
         </motion.p>
       </div>

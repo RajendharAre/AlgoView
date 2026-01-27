@@ -936,7 +936,7 @@ const Home = () => {
                 <thead>
                   <tr>
                     <th className="p-4 text-lg font-bold text-slate-900 border-b border-slate-200">Feature</th>
-                    <th className="p-4 text-lg font-bold text-cyan-600 border-b border-slate-200">Algorithm Visualizer</th>
+                    <th className="p-4 text-lg font-bold text-cyan-600 border-b border-slate-200">AlgoView</th>
                     <th className="p-4 text-lg font-bold text-slate-600 border-b border-slate-200">YouTube Tutorials</th>
                     <th className="p-4 text-lg font-bold text-slate-600 border-b border-slate-200">Text Books</th>
                   </tr>

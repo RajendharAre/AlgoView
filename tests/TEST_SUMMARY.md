@@ -1,8 +1,8 @@
-# Algorithm Visualizer Test Suite Summary
+# AlgoView Test Suite Summary
 
 ## Overview
 
-This document summarizes the comprehensive testing implementation for the Algorithm Visualizer application. The testing strategy includes unit tests, integration tests, and documentation to ensure the application functions correctly and reliably.
+This document summarizes the comprehensive testing implementation for the AlgoView application. The testing strategy includes unit tests, integration tests, and documentation to ensure the application functions correctly and reliably.
 
 ## Tests Created
 

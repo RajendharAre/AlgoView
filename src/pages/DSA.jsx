@@ -168,7 +168,7 @@ const DSA = () => {
             <div className="flex items-center justify-center h-full p-8">
               <div className="text-center max-w-md">
                 <SiThealgorithms size={64} className="mx-auto text-gray-300 mb-4" />
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">Algorithm Visualizer</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">AlgoView</h2>
                 <p className="text-gray-600 mb-6">
                   Select an algorithm from the sidebar to visualize how it works step by step.
                 </p>

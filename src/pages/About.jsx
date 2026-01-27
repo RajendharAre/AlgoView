@@ -67,7 +67,7 @@ const About = () => {
       <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About Algorithm Visualizer</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">About AlgoView</h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
               Empowering developers and students to master algorithms through interactive visualization and hands-on practice
             </p>
@@ -160,7 +160,7 @@ const About = () => {
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <p className="text-gray-600 mb-4">
-                      Founded in 2023, Algorithm Visualizer began as a passion project to help students and developers 
+                      Founded in 2023, AlgoView began as a passion project to help students and developers 
                       understand complex algorithms through interactive visualization. What started as a simple concept 
                       has grown into a comprehensive platform serving thousands of users worldwide.
                     </p>
@@ -199,7 +199,7 @@ const About = () => {
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
                 <div className="prose max-w-none">
                   <p className="text-gray-600 mb-4">
-                    At Algorithm Visualizer, we believe that understanding algorithms shouldn't be a barrier to 
+                    At AlgoView, we believe that understanding algorithms shouldn't be a barrier to 
                     becoming a great developer. Our mission is to democratize computer science education by making 
                     complex algorithms accessible, understandable, and enjoyable for everyone.
                   </p>
@@ -277,7 +277,8 @@ const About = () => {
             <div className="text-center">
               <Mail className="h-8 w-8 text-blue-400 mx-auto mb-3" />
               <h3 className="text-lg font-semibold mb-2">Email Us</h3>
-              <p className="text-gray-300">contact@algorithmvisualizer.com</p>
+              <p className="text-gray-300">contact@algorls
+                ithmvisualizer.com</p>
             </div>
             <div className="text-center">
               <MapPin className="h-8 w-8 text-blue-400 mx-auto mb-3" />

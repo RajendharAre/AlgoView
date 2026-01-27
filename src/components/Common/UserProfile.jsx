@@ -106,7 +106,7 @@ const UserProfile = () => {
                   }}
                 >
                   <Info className="h-4 w-4 text-gray-500" />
-                  <span>About Algorithm Visualizer</span>
+                  <span>About AlgoView</span>
                 </button>
               </div>
 

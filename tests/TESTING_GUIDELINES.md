@@ -1,8 +1,8 @@
-# Algorithm Visualizer Testing Guidelines
+# AlgoView Testing Guidelines
 
 ## Overview
 
-This document provides comprehensive guidelines for testing the Algorithm Visualizer application. The testing strategy includes unit tests, integration tests, and end-to-end tests to ensure the application functions correctly and reliably.
+This document provides comprehensive guidelines for testing the AlgoView application. The testing strategy includes unit tests, integration tests, and end-to-end tests to ensure the application functions correctly and reliably.
 
 ## Testing Framework
 

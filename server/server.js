@@ -1,5 +1,5 @@
 /**
- * Main server file for Algorithm Visualizer backend
+ * Main server file for AlgoView backend
  */
 
 require('dotenv').config();
@@ -19,7 +19,7 @@ app.use('/api/leetcode', leetcodeRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
-  res.json({ message: 'Algorithm Visualizer Backend API' });
+  res.json({ message: 'AlgoView Backend API' });
 });
 
 // Error handling middleware

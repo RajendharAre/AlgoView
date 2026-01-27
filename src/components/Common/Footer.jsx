@@ -10,10 +10,10 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-4">
               <img 
                 src="/logo.png" 
-                alt="Algorithm Visualizer Logo" 
+                alt="AlgoView Logo" 
                 className="h-8 w-8 object-contain"
               />
-              <span className="text-xl font-bold text-gray-800">Algorithm<span className="text-blue-600">Visualizer</span></span>
+              <span className="text-xl font-bold text-gray-800">Algo<span className="text-blue-600">View</span></span>
             </div>
             <p className="text-gray-600 mb-4">
               Master algorithms through interactive visualization and practice.
@@ -63,7 +63,7 @@ const Footer = () => {
         </div>
         
         <div className="pt-8 border-t border-gray-200 text-center text-gray-600">
-          <p>&copy; {new Date().getFullYear()} Algorithm Visualizer. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} AlgoView. All rights reserved.</p>
         </div>
       </div>
     </footer>

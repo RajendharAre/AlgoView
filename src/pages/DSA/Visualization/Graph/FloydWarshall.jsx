@@ -146,13 +146,7 @@ const FloydWarshallVisualization = () => {
           </div>
         </div>
 
-        {/* Status Display */}
-        <div className="p-6 border-b border-[#f1f3f5]">
-          <div className={`p-4 rounded-xl border-l-4 transition-all ${isRunning ? 'bg-[#212529] text-white shadow-md' : 'bg-[#f8f9faff] border-[#dee2e6]'}`}>
-            <p className="text-[9px] font-black uppercase opacity-60 mb-1">Status</p>
-            <p className="text-xs font-bold leading-tight h-10 overflow-hidden">{currentStep}</p>
-          </div>
-        </div>
+
 
         {/* Distance Matrix Display */}
         <div className="flex-1 p-6 space-y-4">

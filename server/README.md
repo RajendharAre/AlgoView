@@ -1,6 +1,6 @@
-# Algorithm Visualizer Backend
+# AlgoView Backend
 
-This is the backend API for the Algorithm Visualizer project that handles LeetCode verification functionality.
+This is the backend API for the AlgoView project that handles LeetCode verification functionality.
 
 ## Features
 - Proxy to LeetCode's API to fetch user submission history

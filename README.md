@@ -1,4 +1,4 @@
-# Algorithm Visualizer
+# AlgoView
 
 An interactive web application for visualizing algorithms with step-by-step animations.
 
@@ -25,7 +25,7 @@ An interactive web application for visualizing algorithms with step-by-step anim
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd algorithm-visualizer
+   cd algoview
    ```
 
 2. Install dependencies:

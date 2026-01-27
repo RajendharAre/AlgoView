@@ -207,12 +207,6 @@ const BellmanFordVisualization = () => {
 
         {/* Additional Metrics for Bellman-Ford */}
         <div className="p-6 border-b border-[#f1f3f5] space-y-3">
-          <div className={`p-3 rounded-xl border-l-4 transition-all ${hasNegativeCycle ? 'bg-red-50 border-red-500 text-red-700' : isRunning ? 'bg-[#212529] text-white' : 'bg-[#f8f9faff] border-[#dee2e6]'}`}>
-            <p className="text-[9px] font-black uppercase opacity-60 mb-1 flex items-center gap-1">
-              {hasNegativeCycle && <AlertTriangle size={10} />} Status
-            </p>
-            <p className="text-xs font-bold leading-tight">{currentStep}</p>
-          </div>
           
           <div className="grid grid-cols-2 gap-2 text-center">
             <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">

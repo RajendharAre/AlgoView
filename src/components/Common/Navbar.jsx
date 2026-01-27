@@ -123,10 +123,10 @@ const Navbar = () => {
             <Link to="/" className="flex items-center space-x-2">
               <img 
                 src="/logo.png" 
-                alt="Algorithm Visualizer Logo" 
+                alt="AlgoView Logo" 
                 className="h-10 w-10 object-contain"
               />
-              <span className="text-xl font-bold text-gray-900">Algorithm Visualizer</span>
+              <span className="text-xl font-bold text-gray-900">AlgoView</span>
             </Link>
           </div>
 

@@ -1,7 +1,7 @@
 {
-  "name": "algorithm-visualizer-backend",
+  "name": "algoview-backend",
   "version": "1.0.0",
-  "description": "Backend API for Algorithm Visualizer project",
+  "description": "Backend API for AlgoView project",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

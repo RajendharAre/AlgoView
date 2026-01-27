@@ -9,7 +9,7 @@ const DSARewardsRedeem = () => {
   const rewards = [
     {
       id: 1,
-      name: 'Algorithm Visualizer T-Shirt',
+      name: 'AlgoView T-Shirt',
       points: 500,
       image: null,
       description: 'Premium cotton t-shirt with algorithm visualization design',
