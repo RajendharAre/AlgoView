@@ -53,6 +53,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Sensitive API Keys and Credentials
+.env.*.key
+*.secret
+*.key
+
 # vercel
 .vercel
 

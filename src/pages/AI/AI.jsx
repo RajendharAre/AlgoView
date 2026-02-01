@@ -5,6 +5,7 @@
  */
 
 import { useEffect } from 'react';
+import './styles/markdown.css';
 import { Header } from './components/Header';
 import { ChatWindow } from './components/ChatWindow';
 import { ChatInput } from './components/ChatInput';
@@ -54,26 +55,31 @@ export default function AI() {
     
     try {
       // Step 1: Send user message (optimistic update handled by hook)
-      const userMessageId = await sendFirebaseMessage('user', userMessage);
+      console.log('📤 User message:', userMessage);
+      await sendFirebaseMessage('user', userMessage);
       
-      // Step 2: Generate AI response
-      console.log('Generating AI response for:', userMessage);
+      // Step 2: Generate AI response with proper prompting
+      console.log('🤖 Generating AI response...');
       const aiResponse = await generateResponse(userMessage);
-      console.log('Generated AI response:', aiResponse);
+      console.log('✅ AI response generated');
       
       // Step 3: Send AI response (optimistic update handled by hook)
       await sendFirebaseMessage('assistant', aiResponse);
       
     } catch (err) {
-      console.error('Error in message handling:', err);
+      console.error('❌ Error in message handling:', err);
       
-      // Send a fallback error message to maintain conversation flow
-      const errorMessage = `<div class="ai-response"><p>Sorry, I encountered an error processing your request. Please try again.</p></div>`;
+      // Send a helpful error message
+      const errorMessage = `I encountered an error while processing your request. This might be because:
+- The Gemini API key is not configured (add VITE_GEMINI_API_KEY to .env)
+- There's a network connectivity issue
+- The API service is temporarily unavailable
+
+Please try again, or make sure your API key is properly configured for better responses.`;
       try {
         await sendFirebaseMessage('assistant', errorMessage);
       } catch (sendError) {
-        console.error('Failed to send fallback message:', sendError);
-        // Even if we can't send the fallback, we've logged the original error
+        console.error('Failed to send error message:', sendError);
       }
     }
   };
@@ -113,7 +119,7 @@ export default function AI() {
       />
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-full max-h-screen">
+      <div className="flex-1 flex flex-col h-screen">
         {/* Header */}
         <Header 
           title="AlgoView AI"
@@ -123,39 +129,34 @@ export default function AI() {
           disabled={isLoading || isSending}
         />
 
-        {/* Chat Window */}
-        <div className="flex-1 overflow-hidden bg-white dark:bg-gray-800">
-          <ChatWindow
-            messages={chatMessages}
-            isLoading={isLoading}
-            isSending={isSending}
-            onCopy={handleCopy}
-            loadingText="AI is thinking..."
-          />
-        </div>
+        {/* Chat Window - Takes remaining space */}
+        <ChatWindow
+          messages={chatMessages}
+          onCopy={handleCopy}
+        />
 
-        {/* Input Area */}
-        <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
-          <div className="max-w-3xl mx-auto">
+        {/* Fixed Input Area at Bottom */}
+        <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+          <div className="w-full max-w-3xl mx-auto px-4 py-4">
             <ChatInput
               value={input}
               onChange={setInput}
               onSubmit={handleSubmit}
               onCopy={handleCopy}
               isLoading={isSending}
-              disabled={!activeChatId || isLoading || isSending}
+              disabled={!activeChatId || isSending}
               placeholder="Message AlgoView AI..."
             />
           </div>
         </div>
 
-        {/* Error display */}
+        {/* Error Toast */}
         {error && (
-          <div className="fixed bottom-24 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 max-w-md">
+          <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 max-w-sm">
             <span className="text-sm flex-1">{error.message || 'An error occurred'}</span>
             <button 
               onClick={handleErrorClear}
-              className="text-white hover:text-gray-200 font-bold text-lg ml-2"
+              className="text-white hover:text-gray-200 font-bold text-lg"
               aria-label="Close error"
             >
               ×

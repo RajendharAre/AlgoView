@@ -52,177 +52,17 @@ export function useChatHistoryFirebase(currentUser) {
     activeChatIdRef.current = activeChatId;
   }, [activeChatId]);
 
-  // Fetch all chats for the authenticated user in real-time
-  const fetchUserChats = useCallback(() => {
-    // Do nothing if user is not authenticated
-    if (!userId) {
-      setChats([]);
-      setMessages([]);
-      setActiveChatId(null);
-      setLoading(false);
-      setError(null);
-      return;
-    }
-
-    // Prevent duplicate listeners
-    if (chatsUnsubscribeRef.current) {
-      chatsUnsubscribeRef.current();
-      chatsUnsubscribeRef.current = null;
-    }
-
-    try {
-      const chatsRef = collection(db, 'users', userId, 'chats');
-      const chatsQuery = query(chatsRef, orderBy('updatedAt', 'desc'));
-      
-      chatsUnsubscribeRef.current = onSnapshot(chatsQuery, 
-        (snapshot) => {
-          const chatList = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-            createdAt: doc.data().createdAt?.toDate() || new Date(),
-            updatedAt: doc.data().updatedAt?.toDate() || new Date(),
-            lastMessage: lastMessages[doc.id] || ''
-          }));
-          
-          setChats(chatList);
-          setLoading(false);
-          setError(null);
-          
-          // If no active chat and we have chats, select the first one
-          if (!activeChatIdRef.current && chatList.length > 0) {
-            setActiveChatId(chatList[0].id);
-          }
-        },
-        (error) => {
-          // Handle permission-denied errors gracefully
-          if (error.code === 'permission-denied') {
-            setChats([]);
-            setMessages([]);
-            setActiveChatId(null);
-            setError(new Error('Permission denied. Please log in to access your chats.'));
-          } else if (error.code === 'unauthenticated') {
-            setChats([]);
-            setMessages([]);
-            setActiveChatId(null);
-            setError(new Error('Authentication required. Please log in.'));
-          } else {
-            setError(new Error(`Failed to load chats: ${error.message}`));
-          }
-          setLoading(false);
-        }
-      );
-    } catch (error) {
-      setError(new Error(`Failed to initialize chat system: ${error.message}`));
-      setLoading(false);
-    }
-  }, [userId, lastMessages]);
-
-  // Fetch messages for the active chat in real-time
-  const fetchActiveChatMessages = useCallback(() => {
-    // Reset messages when switching chats
-    setMessages([]);
-    setOptimisticMessages([]);
-    // Do nothing if user is not authenticated or no active chat
-    if (!userId || !activeChatId) {
-      setMessages([]);
-      setOptimisticMessages([]);
-      return;
-    }
-
-    // Prevent duplicate listeners
-    if (messagesUnsubscribeRef.current) {
-      messagesUnsubscribeRef.current();
-      messagesUnsubscribeRef.current = null;
-    }
-
-    try {
-      const messagesRef = collection(db, 'users', userId, 'chats', activeChatId, 'messages');
-      const messagesQuery = query(messagesRef, orderBy('createdAt', 'asc'), orderBy('__name__', 'asc'));
-      
-      messagesUnsubscribeRef.current = onSnapshot(messagesQuery,
-        (snapshot) => {
-          const messageList = snapshot.docs.map(doc => {
-            const data = doc.data();
-            
-            // Handle timestamp conversion properly
-            let createdAt;
-            if (data.createdAt?.toDate) {
-              // Firebase Timestamp
-              createdAt = data.createdAt.toDate();
-            } else if (data.createdAt instanceof Date) {
-              // Already a Date object
-              createdAt = data.createdAt;
-            } else {
-              // Fallback to current time
-              createdAt = data.createdAt || new Date();
-            }
-            
-            return {
-              id: doc.id,
-              ...data,
-              createdAt: createdAt
-            };
-          });
-          
-          // Ensure messages are properly sorted by creation time
-          const sortedMessages = [...messageList].sort((a, b) => {
-            // First sort by createdAt
-            const timeDiff = a.createdAt.getTime() - b.createdAt.getTime();
-            if (timeDiff !== 0) return timeDiff;
-            // Then sort by document ID as tiebreaker
-            return a.id.localeCompare(b.id);
-          });
-          
-          console.log('Firestore snapshot received:', messageList.length, 'messages');
-          console.log('Sorted messages:', sortedMessages);
-          
-          // Filter out any pending optimistic messages that have been confirmed
-          const confirmedMessageIds = new Set(sortedMessages.map(msg => msg.id));
-          const filteredOptimistic = optimisticMessages.filter(
-            msg => !confirmedMessageIds.has(msg.tempId || msg.id)
-          );
-          
-          setMessages(sortedMessages);
-          setOptimisticMessages(filteredOptimistic);
-          setError(null);
-          
-          // Update last message for this chat
-          if (sortedMessages.length > 0) {
-            const lastMessage = sortedMessages[sortedMessages.length - 1];
-            setLastMessages(prev => ({
-              ...prev,
-              [activeChatId]: lastMessage.content.substring(0, 50)
-            }));
-          }
-        },
-        (error) => {
-          console.error('Error in messages subscription:', error);
-          // Handle permission-denied errors gracefully
-          if (error.code === 'permission-denied') {
-            setMessages([]);
-            setError(new Error('Permission denied. You can only access messages in your own chats.'));
-          } else if (error.code === 'unauthenticated') {
-            setMessages([]);
-            setError(new Error('Authentication required to access messages.'));
-          } else {
-            setError(new Error(`Failed to load messages: ${error.message}`));
-          }
-        }
-      );
-    } catch (error) {
-      setError(new Error(`Failed to initialize message listener: ${error.message}`));
-    }
-  }, [userId, activeChatId]);
-
   // Create new chat
   const createNewChat = useCallback(async (title = 'New Chat') => {
     if (!userId) {
       const error = new Error('User must be logged in to create chat');
       setError(error);
+      console.error('createNewChat failed:', error.message);
       throw error;
     }
 
     try {
+      console.log('Creating new chat with title:', title, 'for user:', userId);
       const chatsRef = collection(db, 'users', userId, 'chats');
       const chatDoc = await addDoc(chatsRef, {
         title,
@@ -231,11 +71,14 @@ export function useChatHistoryFirebase(currentUser) {
         updatedAt: serverTimestamp()
       });
       
+      console.log('Chat created successfully:', chatDoc.id);
+      
       // Automatically select the new chat
       setActiveChatId(chatDoc.id);
       setError(null);
       return chatDoc.id;
     } catch (error) {
+      console.error('Error creating chat:', error);
       const userError = new Error(`Failed to create new chat: ${error.message}`);
       setError(userError);
       throw userError;
@@ -298,6 +141,7 @@ export function useChatHistoryFirebase(currentUser) {
     if (!userId || !activeChatId || !content?.trim()) {
       const error = new Error('Missing required parameters: userId, activeChatId, or content');
       setError(error);
+      console.error('sendMessage failed:', error.message);
       throw error;
     }
 
@@ -315,14 +159,13 @@ export function useChatHistoryFirebase(currentUser) {
       isOptimistic: true
     };
     
-    // Add to pending messages map
-    pendingMessagesRef.current.set(tempId, optimisticMessage);
+    console.log('Creating optimistic message:', { tempId, role, contentLength: trimmedContent.length });
     
-    // Add to optimistic messages array immediately
+    // Add to optimistic messages array immediately for instant UI feedback
     setOptimisticMessages(prev => [...prev, optimisticMessage]);
     
     try {
-      // Add message to chat
+      // Add message to Firestore
       const messagesRef = collection(db, 'users', userId, 'chats', activeChatId, 'messages');
       const messageData = {
         role,
@@ -330,47 +173,37 @@ export function useChatHistoryFirebase(currentUser) {
         createdAt: serverTimestamp()
       };
       
+      console.log('Saving message to Firestore:', { role, contentLength: trimmedContent.length, chatId: activeChatId });
       const messageRef = await addDoc(messagesRef, messageData);
-      console.log(`Message added to Firestore with ID: ${messageRef.id}`, { role, content: trimmedContent });
-      console.log('Active chat ID when sending message:', activeChatId);
+      console.log(`Message saved to Firestore with ID: ${messageRef.id}`);
       
-      // Update chat's updatedAt timestamp
+      // Update chat's updatedAt timestamp to show it in sidebar
       const chatRef = doc(db, 'users', userId, 'chats', activeChatId);
       await updateDoc(chatRef, {
         updatedAt: serverTimestamp()
       });
+      console.log('Chat updatedAt timestamp updated');
       
       // Generate and update chat title for first user message
       if (role === 'user') {
         try {
-          // Check if this is the first message in the chat
-          const messagesQuery = query(collection(db, 'users', userId, 'chats', activeChatId, 'messages'));
-          const messagesSnapshotCount = await new Promise((resolve) => {
-            const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-              resolve(snapshot.size);
-              unsubscribe();
-            });
-          });
-          
-          // Update title if this is likely the first user message
-          if (messagesSnapshotCount <= 2) {
-            const newTitle = generateChatTitle(trimmedContent);
-            await updateChatTitle(userId, activeChatId, newTitle);
-          }
+          const newTitle = generateChatTitle(trimmedContent);
+          await updateChatTitle(userId, activeChatId, newTitle);
+          console.log('Chat title updated to:', newTitle);
         } catch (titleError) {
-          // Don't throw - title update is not critical
+          console.warn('Title update failed (non-critical):', titleError.message);
         }
       }
       
-      // Remove from pending messages
-      pendingMessagesRef.current.delete(tempId);
+      // Remove optimistic message - real message will appear from Firestore listener
+      setOptimisticMessages(prev => prev.filter(msg => msg.tempId !== tempId));
       
       setError(null);
       return messageRef.id;
     } catch (error) {
+      console.error('Error sending message:', error);
       // Remove optimistic message on error
       setOptimisticMessages(prev => prev.filter(msg => msg.tempId !== tempId));
-      pendingMessagesRef.current.delete(tempId);
       
       const userError = new Error(`Failed to send message: ${error.message}`);
       setError(userError);
@@ -380,31 +213,58 @@ export function useChatHistoryFirebase(currentUser) {
     }
   }, [userId, activeChatId]);
 
-  // Cleanup listeners on unmount
+  // Initialize chat listener when userId changes
   useEffect(() => {
-    return () => {
-      if (chatsUnsubscribeRef.current) {
-        chatsUnsubscribeRef.current();
-        chatsUnsubscribeRef.current = null;
-      }
-      if (messagesUnsubscribeRef.current) {
-        messagesUnsubscribeRef.current();
-        messagesUnsubscribeRef.current = null;
-      }
-    };
-  }, []);
-
-  // Handle authentication state changes
-  useEffect(() => {
+    console.log('Setting up auth listener, current userId:', userId);
+    
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User logged in - re-fetch chats
-        if (!isInitializedRef.current) {
-          fetchUserChats();
-          isInitializedRef.current = true;
+      if (user && user.uid) {
+        console.log('User authenticated, setting up chats listener:', user.uid);
+        // Set up the real-time chats listener
+        const chatsRef = collection(db, 'users', user.uid, 'chats');
+        const chatsQuery = query(chatsRef, orderBy('updatedAt', 'desc'));
+        
+        if (chatsUnsubscribeRef.current) {
+          chatsUnsubscribeRef.current();
         }
+        
+        chatsUnsubscribeRef.current = onSnapshot(chatsQuery, 
+          (snapshot) => {
+            const chatList = snapshot.docs.map(doc => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                ...data,
+                createdAt: data.createdAt?.toDate?.() || new Date(),
+                updatedAt: data.updatedAt?.toDate?.() || new Date(),
+                lastMessage: lastMessages[doc.id] || ''
+              };
+            });
+            
+            console.log('Chats loaded:', chatList.length);
+            setChats(chatList);
+            setLoading(false);
+            setError(null);
+            
+            // Auto-select first chat if none selected
+            if (!activeChatIdRef.current && chatList.length > 0) {
+              console.log('Auto-selecting first chat:', chatList[0].id);
+              setActiveChatId(chatList[0].id);
+            }
+          },
+          (error) => {
+            console.error('Error loading chats:', error);
+            setError(new Error(`Failed to load chats: ${error.message}`));
+            setLoading(false);
+          }
+        );
       } else {
-        // User logged out - clear everything
+        console.log('User not authenticated');
+        setChats([]);
+        setMessages([]);
+        setActiveChatId(null);
+        setError(null);
+        setLoading(false);
         if (chatsUnsubscribeRef.current) {
           chatsUnsubscribeRef.current();
           chatsUnsubscribeRef.current = null;
@@ -413,59 +273,113 @@ export function useChatHistoryFirebase(currentUser) {
           messagesUnsubscribeRef.current();
           messagesUnsubscribeRef.current = null;
         }
-        setChats([]);
-        setMessages([]);
-        setActiveChatId(null);
-        setLastMessages({});
-        setError(null);
-        setLoading(false);
-        isInitializedRef.current = false;
       }
     });
 
-    // Cleanup auth listener
     return () => {
       unsubscribeAuth();
-      // Also cleanup any existing Firestore listeners
-      if (chatsUnsubscribeRef.current) {
-        chatsUnsubscribeRef.current();
-        chatsUnsubscribeRef.current = null;
-      }
-      if (messagesUnsubscribeRef.current) {
-        messagesUnsubscribeRef.current();
-        messagesUnsubscribeRef.current = null;
-      }
     };
-  }, [fetchUserChats]);
+  }, []);
 
-  // Update messages listener when active chat changes
+  // Set up messages listener when active chat changes
   useEffect(() => {
-    fetchActiveChatMessages();
-    
-    // Cleanup messages listener when component unmounts or activeChatId changes
-    return () => {
+    if (!userId || !activeChatId) {
+      console.log('Clearing messages - no userId or activeChatId');
+      setMessages([]);
+      setOptimisticMessages([]);
+      
       if (messagesUnsubscribeRef.current) {
         messagesUnsubscribeRef.current();
         messagesUnsubscribeRef.current = null;
       }
-    };
-  }, [fetchActiveChatMessages, activeChatId, userId]);
+      return;
+    }
+
+    console.log('Setting up messages listener for chat:', activeChatId);
+    
+    // Clean up previous listener
+    if (messagesUnsubscribeRef.current) {
+      messagesUnsubscribeRef.current();
+      messagesUnsubscribeRef.current = null;
+    }
+
+    try {
+      const messagesRef = collection(db, 'users', userId, 'chats', activeChatId, 'messages');
+      const messagesQuery = query(messagesRef, orderBy('createdAt', 'asc'));
+      
+      messagesUnsubscribeRef.current = onSnapshot(messagesQuery,
+        (snapshot) => {
+          const messageList = snapshot.docs.map(doc => {
+            const data = doc.data();
+            
+            let createdAt;
+            if (data.createdAt?.toDate) {
+              createdAt = data.createdAt.toDate();
+            } else if (data.createdAt instanceof Date) {
+              createdAt = data.createdAt;
+            } else {
+              createdAt = new Date();
+            }
+            
+            return {
+              id: doc.id,
+              ...data,
+              createdAt: createdAt
+            };
+          });
+          
+          console.log('Messages loaded for chat:', activeChatId, '- count:', messageList.length);
+          
+          // Update last message
+          if (messageList.length > 0) {
+            const lastMsg = messageList[messageList.length - 1];
+            setLastMessages(prev => ({
+              ...prev,
+              [activeChatId]: lastMsg.content?.substring(0, 50) || 'No preview'
+            }));
+          }
+          
+          setMessages(messageList);
+          setOptimisticMessages(prev => 
+            prev.filter(opt => 
+              !messageList.some(msg => msg.id === opt.tempId || msg.id === opt.id)
+            )
+          );
+          setError(null);
+        },
+        (error) => {
+          console.error('Error loading messages:', error);
+          setError(new Error(`Failed to load messages: ${error.message}`));
+        }
+      );
+    } catch (error) {
+      console.error('Error setting up messages listener:', error);
+      setError(new Error(`Failed to set up messages: ${error.message}`));
+    }
+  }, [userId, activeChatId]);
 
   // Combine messages with optimistic messages
   const allMessages = useMemo(() => {
-    // Combine confirmed and optimistic messages, sort by timestamp
+    // Combine confirmed and optimistic messages
     const combined = [
       ...messages,
       ...optimisticMessages.filter(optMsg => 
-        !messages.some(confMsg => confMsg.id === optMsg.tempId || confMsg.id === optMsg.id)
+        // Only include optimistic if it hasn't been confirmed in Firestore
+        !messages.some(msg => 
+          msg.id === optMsg.tempId || 
+          msg.id === optMsg.id ||
+          (msg.role === optMsg.role && 
+           msg.content === optMsg.content &&
+           Math.abs(msg.createdAt.getTime() - optMsg.createdAt.getTime()) < 1000)
+        )
       )
     ];
     
+    // Sort by creation time
     return combined.sort((a, b) => {
-      const timeA = a.createdAt.getTime();
-      const timeB = b.createdAt.getTime();
-      if (timeA !== timeB) return timeA - timeB;
-      return (a.id || '').localeCompare(b.id || '');
+      const timeA = a.createdAt?.getTime?.() || 0;
+      const timeB = b.createdAt?.getTime?.() || 0;
+      return timeA - timeB;
     });
   }, [messages, optimisticMessages]);
 

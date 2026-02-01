@@ -1,9 +1,10 @@
 /**
  * Message bubble component for displaying individual chat messages
- * Handles both user and assistant messages with proper styling
+ * Renders messages with clean markdown styling, no animations
  */
 
 import { User, Bot, Copy } from 'lucide-react';
+import { parseMarkdown, extractPlainText } from '../utils/markdownRenderer';
 import DOMPurify from 'dompurify';
 
 /**
@@ -14,78 +15,93 @@ import DOMPurify from 'dompurify';
  */
 export function MessageBubble({ message, onCopy }) {
   const isUser = message.role === 'user';
-  const isOptimistic = message.isOptimistic || false;
   
   const handleCopy = (e) => {
     e.stopPropagation();
-    if (onCopy) {
-      onCopy(message.content);
+    if (onCopy && message.content) {
+      // Copy clean text, not HTML
+      const plainText = isUser ? message.content : extractPlainText(message.content);
+      onCopy(plainText);
     }
   };
-  
+
+  // Parse markdown to clean HTML
+  const renderContent = () => {
+    if (isUser) {
+      // User messages: plain text, preserve line breaks
+      return <div className="text-sm whitespace-pre-wrap">{message.content}</div>;
+    } else {
+      // AI messages: render as markdown
+      const htmlContent = parseMarkdown(message.content || '');
+      const cleanHtml = DOMPurify.sanitize(htmlContent);
+      
+      return (
+        <div 
+          className="text-sm markdown-content prose prose-sm dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{ __html: cleanHtml }}
+        />
+      );
+    }
+  };
+
   return (
     <div
-      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4 ${isOptimistic ? 'opacity-70' : ''}`}
+      className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}
       data-testid="message-bubble"
     >
-      <div className="flex items-start gap-3 max-w-[calc(100%-50px)]">
+      <div className="flex items-start gap-3 max-w-2xl">
         {/* Avatar */}
-        <div 
-          className={`
-            flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center
-            ${isUser 
-              ? 'bg-blue-500 text-white' 
-              : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-            }
-          `}
-        >
-          {isUser ? (
-            <User className="w-4 h-4" data-testid="user-icon" />
-          ) : (
+        {!isUser && (
+          <div 
+            className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+            role="img"
+            aria-label="AI Assistant"
+          >
             <Bot className="w-4 h-4" data-testid="bot-icon" />
-          )}
-        </div>
+          </div>
+        )}
         
         {/* Message content */}
         <div 
           className={`
             relative px-4 py-3 rounded-lg
             ${isUser 
-              ? 'bg-blue-500 text-white rounded-tr-none' 
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-200 dark:border-gray-700'
+              ? 'bg-blue-500 text-white rounded-br-none ml-auto' 
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none border border-gray-200 dark:border-gray-700'
             }
           `}
         >
-          {isUser ? (
-            <div className="text-sm whitespace-pre-wrap">{message.content || '...'}</div>
-          ) : (
-            <div>
-              <div className="text-xs text-gray-500 mb-1">AI Response:</div>
-              <div 
-                className="text-sm"
-                dangerouslySetInnerHTML={{ __html: message.content || '<p>Processing response...</p>' }} 
-              />
-            </div>
-          )}
+          {renderContent()}
           
-          {/* Copy button (only for AI messages with onCopy handler) */}
+          {/* Copy button (only for AI messages) */}
           {!isUser && onCopy && (
             <button
               onClick={handleCopy}
               className="
-                absolute -top-2 -right-2 w-6 h-6 bg-white dark:bg-gray-800 
-                rounded-full border border-gray-200 dark:border-gray-600 
-                flex items-center justify-center opacity-0 group-hover:opacity-100 
-                hover:bg-gray-50 dark:hover:bg-gray-700
-                shadow-sm
+                absolute top-2 right-2 p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700
+                text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200
+                transition-colors
               "
+              title="Copy message"
               aria-label="Copy message"
             >
-              <Copy className="w-3 h-3 text-gray-500 dark:text-gray-400" />
+              <Copy className="w-4 h-4" />
             </button>
           )}
         </div>
+
+        {/* User avatar */}
+        {isUser && (
+          <div 
+            className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-blue-500 text-white"
+            role="img"
+            aria-label="You"
+          >
+            <User className="w-4 h-4" data-testid="user-icon" />
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
