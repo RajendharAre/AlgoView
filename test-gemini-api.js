@@ -1,5 +1,14 @@
 // Test script to verify Gemini API functionality
-const API_KEY = 'AIzaSyAh1B2ymTz900dfjHJ-ODzRIcSj7U588RI'; // Using the key from your .env
+// Load environment variables
+require('dotenv').config();
+
+const API_KEY = process.env.VITE_GEMINI_API_KEY;
+
+if (!API_KEY) {
+    console.error('Error: VITE_GEMINI_API_KEY is not set in .env file');
+    process.exit(1);
+}
+
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
 async function testGeminiAPI() {
