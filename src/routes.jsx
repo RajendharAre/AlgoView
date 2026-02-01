@@ -27,7 +27,7 @@ const DynamicAlgorithmVisualization = lazy(() => import('./pages/DSA/Visualizati
 const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/Sorting/SelectionSort'))
 const Development = lazy(() => import('./pages/Development'))
 const Ideas = lazy(() => import('./pages/Ideas'))
-const AI = lazy(() => import('./pages/AI'))
+const AI = lazy(() => import('./pages/AI/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
 const NewIdea = lazy(() => import('./pages/Ideas/New'))
 const References = lazy(() => import('./pages/References'))
