@@ -6,6 +6,7 @@
 import { User, Bot, Copy } from 'lucide-react';
 import { parseMarkdown, extractPlainText } from '../utils/markdownRenderer';
 import DOMPurify from 'dompurify';
+import FormattedResponse from './FormattedResponse';
 
 /**
  * Message bubble component
@@ -31,16 +32,8 @@ export function MessageBubble({ message, onCopy }) {
       // User messages: plain text, preserve line breaks
       return <div className="text-sm whitespace-pre-wrap">{message.content}</div>;
     } else {
-      // AI messages: render as markdown
-      const htmlContent = parseMarkdown(message.content || '');
-      const cleanHtml = DOMPurify.sanitize(htmlContent);
-      
-      return (
-        <div 
-          className="text-sm markdown-content prose prose-sm dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: cleanHtml }}
-        />
-      );
+      // AI messages: use FormattedResponse for proper structure
+      return <FormattedResponse content={message.content} />;
     }
   };
 

@@ -1,61 +1,290 @@
-/* Markdown content styles for AI chat messages */
+/* ChatGPT-style markdown content for AI responses */
 .markdown-content {
-  line-height: 1.6;
+  line-height: 1.7;
+  color: inherit;
+  font-size: 0.95rem;
 }
 
-.markdown-content h1,
-.markdown-content h2,
-.markdown-content h3 {
-  margin: 1em 0 0.5em 0;
-  font-weight: 600;
-}
-
+/* Headings - Clear visual hierarchy */
 .markdown-content h1 {
-  font-size: 1.5em;
+  font-size: 1.8em;
+  font-weight: 700;
+  margin: 1.5em 0 0.8em 0;
+  color: #60a5fa;
+  border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+  padding-bottom: 0.3em;
 }
 
 .markdown-content h2 {
-  font-size: 1.3em;
+  font-size: 1.4em;
+  font-weight: 700;
+  margin: 1.3em 0 0.6em 0;
+  color: #93c5fd;
 }
 
 .markdown-content h3 {
-  font-size: 1.1em;
+  font-size: 1.15em;
+  font-weight: 600;
+  margin: 1em 0 0.5em 0;
+  color: #bfdbfe;
 }
 
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  font-size: 1.05em;
+  font-weight: 600;
+  margin: 0.8em 0 0.4em 0;
+  color: inherit;
+}
+
+/* Paragraphs - Better spacing */
 .markdown-content p {
-  margin: 0.5em 0;
+  margin: 0.8em 0;
+  line-height: 1.7;
+  color: inherit;
 }
 
+/* Lists - Better formatting */
 .markdown-content ul,
 .markdown-content ol {
-  margin: 0.5em 0;
-  padding-left: 1.5em;
+  margin: 0.8em 0;
+  padding-left: 2em;
 }
 
 .markdown-content li {
-  margin: 0.25em 0;
+  margin: 0.4em 0;
+  color: inherit;
+  line-height: 1.6;
 }
 
-.markdown-content code {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 0.9em;
+.markdown-content ul li::marker {
+  color: #60a5fa;
 }
 
-.markdown-content pre {
-  margin: 1em 0;
-  overflow-x: auto;
-  font-size: 0.9em;
-  line-height: 1.4;
-}
-
-.markdown-content a {
-  font-weight: 500;
-}
-
-.markdown-content strong {
+.markdown-content ol li::marker {
+  color: #60a5fa;
   font-weight: 600;
+}
+
+/* Code - Inline and blocks */
+.markdown-content code {
+  font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+}
+
+.markdown-content code.inline-code {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  white-space: nowrap;
+}
+
+/* Code blocks with react-syntax-highlighter */
+.code-block-container {
+  background-color: #0d0d0d;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 8px;
+  margin: 1.2em 0;
+  overflow: hidden;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1a1a;
+  color: #9ca3af;
+  padding: 0.5em 1em;
+  font-size: 0.85em;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+  font-family: 'Fira Code', monospace;
+}
+
+.code-language {
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.code-copy-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.3em 0.8em;
+  background-color: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 4px;
+  color: #9ca3af;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.code-copy-button:hover {
+  background-color: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+/* react-syntax-highlighter override */
+.code-block-container pre {
+  margin: 0 !important;
+  padding: 1em !important;
+  background-color: #0d0d0d !important;
+  border-radius: 0;
+}
+
+.code-block-container code {
+  font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  background-color: #0d0d0d !important;
+  color: #d4d4d4 !important;
+}
+
+/* OLD code blocks - remove these classes if code-block divs no longer exist */
+.markdown-content .code-block {
+  background-color: #0d0d0d;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 8px;
+  margin: 1.2em 0;
+  overflow: hidden;
+}
+
+.markdown-content .code-lang {
+  background-color: #1a1a1a;
+  color: #9ca3af;
+  padding: 0.5em 1em;
+  font-size: 0.85em;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+  font-family: 'Fira Code', monospace;
+}
+
+.markdown-content .code-block pre {
+  margin: 0;
+  padding: 1em;
+  overflow-x: auto;
+  background-color: #0d0d0d;
+}
+
+.markdown-content .code-block code {
+  color: #d4d4d4;
+  font-size: 0.9em;
+  line-height: 1.5;
+  font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+/* Syntax Highlighting Colors (VS Code Dark+ style) */
+.markdown-content .hljs-attr,
+.markdown-content .hljs-attribute {
+  color: #9cdcfe;
+}
+
+.markdown-content .hljs-type,
+.markdown-content .hljs-class,
+.markdown-content .hljs-title {
+  color: #4ec9b0;
+}
+
+.markdown-content .hljs-string {
+  color: #ce9178;
+}
+
+.markdown-content .hljs-number {
+  color: #b5cea8;
+}
+
+.markdown-content .hljs-literal {
+  color: #569cd6;
+}
+
+.markdown-content .hljs-keyword {
+  color: #569cd6;
+}
+
+.markdown-content .hljs-function {
+  color: #dcdcaa;
+}
+
+.markdown-content .hljs-builtin {
+  color: #9cdcfe;
+}
+
+.markdown-content .hljs-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.markdown-content .hljs-params {
+  color: #d4d4d4;
+}
+
+.markdown-content .hljs-symbol {
+  color: #569cd6;
+}
+
+.markdown-content .hljs-operator {
+  color: #d4d4d4;
+}
+
+.markdown-content .hljs-tag,
+.markdown-content .hljs-name {
+  color: #569cd6;
+}
+
+.markdown-content .hljs-attr-name {
+  color: #9cdcfe;
+}
+
+.markdown-content .hljs-meta {
+  color: #858585;
+}
+
+/* Divider/Horizontal rule */
+.markdown-content hr,
+.markdown-content .divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(96, 165, 250, 0.3), transparent);
+  margin: 2em 0;
+}
+
+/* Links */
+.markdown-content a,
+.markdown-content .markdown-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.5);
+  transition: all 0.2s ease;
+}
+
+.markdown-content a:hover,
+.markdown-content .markdown-link:hover {
+  color: #93c5fd;
+  border-bottom-color: #93c5fd;
+}
+
+/* Strong and emphasis */
+.markdown-content strong {
+  font-weight: 700;
+  color: #fbbf24;
 }
 
 .markdown-content em {
   font-style: italic;
+  color: #fca5a5;
+}
+
+/* List styling */
+.markdown-content .markdown-list {
+  list-style: disc;
+  list-style-position: outside;
+}
+
+.markdown-content .markdown-list li {
+  margin-left: 1.5em;
 }
