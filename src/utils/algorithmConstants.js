@@ -142,32 +142,19 @@ export const ALGORITHMS = {
 
 // Helper: find by lowercase id (e.g., "bubbleSort")
 export const getAlgorithmInfoById = id => {
-  console.log('=== DEBUGGING ALGORITHM LOOKUP ===');
-  console.log('Looking up algorithm with ID:', id);
-  console.log('Available algorithms:', Object.keys(ALGORITHMS));
-  console.log('Type of id:', typeof id);
-  console.log('Algorithm registry keys:', Object.keys(ALGORITHMS));
-  
   // Check if the ID exists exactly as provided
   if (ALGORITHMS.hasOwnProperty(id)) {
-    console.log('Exact match found for:', id);
-    const result = ALGORITHMS[id];
-    console.log('Returning algorithm info:', result);
-    return result;
+    return ALGORITHMS[id];
   }
   
   // If no exact match, let's check for possible issues
-  console.log('No exact match found. Checking for possible issues...');
-  
   // Check if it's undefined or null
   if (id === undefined || id === null) {
-    console.log('ID is undefined or null');
     return null;
   }
   
   // Check if it's an empty string
   if (id === '') {
-    console.log('ID is an empty string');
     return null;
   }
   
@@ -175,12 +162,10 @@ export const getAlgorithmInfoById = id => {
   const lowerId = id.toLowerCase();
   for (const key in ALGORITHMS) {
     if (key.toLowerCase() === lowerId) {
-      console.log('Found case-insensitive match:', key);
       return ALGORITHMS[key];
     }
   }
   
-  console.log('No algorithm found for ID:', id);
   return null;
 }
 

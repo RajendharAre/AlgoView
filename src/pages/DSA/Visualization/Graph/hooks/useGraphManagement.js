@@ -17,6 +17,8 @@ export const useGraphManagement = (initialNodes, initialEdges, onResetAlgorithmS
   const isRunningRef = useRef(false);
   const svgRef = useRef(null);
   const resetCallbackRef = useRef(onResetAlgorithmState);
+  // Track the next available node ID to prevent duplicates
+  const nextNodeIdRef = useRef(Math.max(...initialNodes.map(n => n.id), 0) + 1);
 
   // Speed management
   useEffect(() => {
@@ -42,11 +44,15 @@ export const useGraphManagement = (initialNodes, initialEdges, onResetAlgorithmS
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
+    // Use nextNodeIdRef to ensure unique IDs, increment for next node
+    const newNodeId = nextNodeIdRef.current;
+    nextNodeIdRef.current += 1;
+    
     const newNode = { 
-      id: nodes.length, 
+      id: newNodeId, 
       x, 
       y, 
-      label: nodes.length.toString() 
+      label: newNodeId.toString() 
     };
     
     setNodes([...nodes, newNode]);
@@ -57,13 +63,10 @@ export const useGraphManagement = (initialNodes, initialEdges, onResetAlgorithmS
     if (isRunning) return;
 
     if (mode === 'DELETE') {
-      const newNodes = nodes.filter(n => n.id !== node.id).map((n, i) => ({ ...n, id: i, label: i.toString() }));
-      setNodes(newNodes);
-      setEdges(edges.filter(edge => edge.u !== node.id && edge.v !== node.id).map(edge => {
-        const newU = edge.u > node.id ? edge.u - 1 : edge.u;
-        const newV = edge.v > node.id ? edge.v - 1 : edge.v;
-        return { ...edge, u: newU, v: newV };
-      }));
+      // Delete node while preserving IDs of remaining nodes
+      setNodes(nodes.filter(n => n.id !== node.id));
+      // Remove edges connected to deleted node
+      setEdges(edges.filter(edge => edge.u !== node.id && edge.v !== node.id));
     } else if (mode === 'LINK') {
       if (!linkSource) {
         setLinkSource(node.id);
@@ -81,6 +84,8 @@ export const useGraphManagement = (initialNodes, initialEdges, onResetAlgorithmS
   const resetGraph = (newNodes = initialNodes, newEdges = initialEdges) => {
     setNodes(newNodes);
     setEdges(newEdges);
+    // Reset the node ID counter to the max ID + 1
+    nextNodeIdRef.current = Math.max(...newNodes.map(n => n.id), 0) + 1;
     if (resetCallbackRef.current) {
       resetCallbackRef.current();
     }
@@ -89,6 +94,8 @@ export const useGraphManagement = (initialNodes, initialEdges, onResetAlgorithmS
   const clearGraph = () => {
     setNodes([]);
     setEdges([]);
+    // Reset the node ID counter
+    nextNodeIdRef.current = 1;
     if (resetCallbackRef.current) {
       resetCallbackRef.current();
     }

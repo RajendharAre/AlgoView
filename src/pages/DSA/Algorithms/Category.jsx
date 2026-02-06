@@ -5,8 +5,6 @@ import { ArrowLeft, BarChart, GitBranch, Shuffle, Database, Lock, BookOpen, Sear
 
 const DSAAlgorithmCategory = () => {
   const { category } = useParams()
-  
-  console.log('DSAAlgorithmCategory rendered with category:', category);
 
   const categoryInfo = {
     sorting: { name: 'Sorting Algorithms', icon: Shuffle, description: 'Algorithms for arranging elements in a specific order' },
@@ -51,8 +49,6 @@ const DSAAlgorithmCategory = () => {
   }
 
   const algorithms = algorithmsByCategory[category] || []
-  
-  console.log('Algorithms for category:', algorithms);
 
   return (
     <div className="p-6">
@@ -102,7 +98,6 @@ const DSAAlgorithmCategory = () => {
               <Link
                 to={`/dsa/visualization/${algorithm.id}`}
                 className="text-blue-600 hover:text-blue-700 font-medium text-sm"
-                onClick={() => console.log('Clicked on algorithm:', algorithm.id)}
               >
                 Visualize
               </Link>

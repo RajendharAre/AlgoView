@@ -23,6 +23,17 @@ import DistanceTable from './components/DistanceTable';
 import GraphCanvas from './components/GraphCanvas';
 import { useGraphManagement } from './hooks/useGraphManagement';
 
+// Helper function to convert sequential number to alphabetic label
+const getAlphabeticLabel = (nodeCount) => {
+  if (nodeCount < 26) {
+    return String.fromCharCode(65 + nodeCount); // 0→A, 1→B, ..., 25→Z
+  }
+  // For more than 26 nodes: A1, A2, ..., B1, B2, etc.
+  const letterIndex = Math.floor(nodeCount / 26);
+  const charIndex = nodeCount % 26;
+  return String.fromCharCode(64 + letterIndex) + String.fromCharCode(65 + charIndex);
+};
+
 const DijkstraVisualization = () => {
   // Initial graph data
   const INITIAL_NODES = [
@@ -81,12 +92,35 @@ const DijkstraVisualization = () => {
     setIsRunning,
     setSpeedIndex,
     setLinkSource,
-    handleCanvasClick,
+    setNodes,
+    setEdges,
+    handleCanvasClick: hookHandleCanvasClick,
     handleNodeClick: baseHandleNodeClick,
     resetGraph,
     clearGraph,
     sleep
   } = useGraphManagement(INITIAL_NODES, INITIAL_EDGES, resetAlgoState);
+
+  // Override handleCanvasClick to use alphabetic labels for Dijkstra
+  const handleCanvasClick = (e) => {
+    if (isRunning || mode !== 'ADD') return;
+    const rect = svgRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Generate new node ID and alphabetic label
+    const newNodeId = Math.max(...nodes.map(n => n.id), 0) + 1;
+    const newLabel = getAlphabeticLabel(nodes.length); // nodes.length gives us the next sequential index
+    
+    const newNode = { 
+      id: newNodeId, 
+      x, 
+      y, 
+      label: newLabel 
+    };
+    
+    setNodes([...nodes, newNode]);
+  };
 
   // Enhanced node click handler for Dijkstra specific modes
   const handleNodeClick = (e, node) => {
@@ -95,15 +129,26 @@ const DijkstraVisualization = () => {
 
     if (mode === 'START') {
       setStartNodeId(node.id);
-    } else {
-      // Handle DELETE and LINK modes through base handler
-      baseHandleNodeClick(e, node);
+    } else if (mode === 'DELETE') {
+      // Delete the node and its edges
+      const newNodes = nodes.filter(n => n.id !== node.id);
       
-      // Special handling for DELETE mode - update start node if needed
-      if (mode === 'DELETE' && startNodeId === node.id) {
-        const remainingNodes = nodes.filter(n => n.id !== node.id);
-        setStartNodeId(remainingNodes.length > 0 ? remainingNodes[0].id : null);
+      // Renumber all remaining nodes' labels to keep them sequential (A, B, C, D, etc.)
+      const relabeledNodes = newNodes.map((n, index) => ({
+        ...n,
+        label: getAlphabeticLabel(index)
+      }));
+      
+      setNodes(relabeledNodes);
+      setEdges(edges.filter(edge => edge.u !== node.id && edge.v !== node.id));
+      
+      // Update start node if deleted
+      if (startNodeId === node.id) {
+        setStartNodeId(relabeledNodes.length > 0 ? relabeledNodes[0].id : null);
       }
+    } else if (mode === 'LINK') {
+      // Handle LINK mode through base handler
+      baseHandleNodeClick(e, node);
     }
   };
 
@@ -167,8 +212,13 @@ const DijkstraVisualization = () => {
   };
 
   const resetAll = () => {
-    resetGraph(INITIAL_NODES, INITIAL_EDGES);
-    setStartNodeId(INITIAL_NODES[0].id);
+    // Reset to initial nodes with proper labels
+    const initialNodesWithLabels = INITIAL_NODES.map((node, index) => ({
+      ...node,
+      label: getAlphabeticLabel(index)
+    }));
+    resetGraph(initialNodesWithLabels, INITIAL_EDGES);
+    setStartNodeId(initialNodesWithLabels[0].id);
   };
 
   const clearAll = clearGraph;
@@ -178,6 +228,137 @@ const DijkstraVisualization = () => {
     totalNodes: nodes.length,
     currentStep: currentStep
   };
+
+
+
+  // === Compute highlight objects for rendering ===
+  const highlightNodes = {};
+  
+  // Build adjacency list to find reachable nodes
+  const buildReachableNodes = () => {
+    const reachable = new Set();
+    const queue = [startNodeId];
+    reachable.add(startNodeId);
+    
+    while (queue.length > 0) {
+      const currentId = queue.shift();
+      // Find all neighbors (both outgoing and incoming edges for undirected interpretation)
+      const neighbors = new Set();
+      edges.forEach(edge => {
+        if (edge.u === currentId) neighbors.add(edge.v);
+        if (edge.v === currentId) neighbors.add(edge.u);
+      });
+      
+      neighbors.forEach(neighborId => {
+        if (!reachable.has(neighborId)) {
+          reachable.add(neighborId);
+          queue.push(neighborId);
+        }
+      });
+    }
+    
+    return reachable;
+  };
+  
+  const reachableNodes = startNodeId ? buildReachableNodes() : new Set();
+  const unreachableNodes = nodes.filter(n => !reachableNodes.has(n.id));
+  
+  // Show warning if there are unreachable nodes
+  useEffect(() => {
+    if (unreachableNodes.length > 0 && !isRunning) {
+      const unreachableLabels = unreachableNodes.map(n => n.label).join(', ');
+      setCurrentStep(`⚠️ Unreachable nodes: ${unreachableLabels}. Connect them to the main graph to include in traversal.`);
+    }
+  }, [unreachableNodes, isRunning]);
+  
+  // Highlight start node
+  if (startNodeId) {
+    highlightNodes[startNodeId] = {
+      fill: COLORS.ironGrey,
+      stroke: COLORS.ironGrey,
+      textColor: 'white',
+      scale: '1.1',
+      showLabel: true
+    };
+  }
+
+  // Highlight active node (currently processing)
+  if (activeNode) {
+    highlightNodes[activeNode] = {
+      fill: COLORS.carbonBlack,
+      stroke: COLORS.carbonBlack,
+      textColor: 'white',
+      scale: '1.2',
+      showLabel: true
+    };
+  }
+
+  // Highlight visited nodes
+  visited.forEach(nodeId => {
+    if (!highlightNodes[nodeId]) {
+      highlightNodes[nodeId] = {
+        fill: COLORS.slateGrey,
+        stroke: COLORS.slateGrey,
+        textColor: 'white',
+        scale: '1',
+        showLabel: true
+      };
+    }
+  });
+
+  // Highlight frontier nodes (in priority queue)
+  frontier.forEach(nodeId => {
+    if (!highlightNodes[nodeId]) {
+      highlightNodes[nodeId] = {
+        fill: COLORS.platinum,
+        stroke: COLORS.gunmetal,
+        textColor: COLORS.gunmetal,
+        scale: '1',
+        showLabel: true
+      };
+    }
+  });
+
+  // Highlight final path nodes
+  finalPath.forEach(nodeId => {
+    if (highlightNodes[nodeId]) {
+      highlightNodes[nodeId] = {
+        ...highlightNodes[nodeId],
+        fill: COLORS.carbonBlack,
+        stroke: COLORS.carbonBlack,
+        scale: '1.15',
+        textColor: 'white'
+      };
+    }
+  });
+  
+  // Highlight unreachable nodes in light grey (if not running)
+  if (!isRunning && unreachableNodes.length > 0) {
+    unreachableNodes.forEach(node => {
+      if (!highlightNodes[node.id]) {
+        highlightNodes[node.id] = {
+          fill: COLORS.alabasterGrey,
+          stroke: COLORS.paleSlate2,
+          textColor: COLORS.paleSlate2,
+          scale: '0.9',
+          showLabel: true
+        };
+      }
+    });
+  }
+
+  // Compute highlight edges for final path
+  const highlightEdges = [];
+  if (finalPath.length > 1) {
+    for (let i = 0; i < finalPath.length - 1; i++) {
+      const fromId = finalPath[i];
+      const toId = finalPath[i + 1];
+      const edgeIdx = edges.findIndex(e => (e.u === fromId && e.v === toId) || (e.u === toId && e.v === fromId));
+      if (edgeIdx !== -1) {
+        highlightEdges.push(edgeIdx);
+      }
+    }
+  }
 
   return (
     <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
@@ -226,15 +407,12 @@ const DijkstraVisualization = () => {
         <GraphCanvas
           nodes={nodes}
           edges={edges}
-          visited={visited}
-          frontier={frontier}
-          activeNode={activeNode}
-          startNodeId={startNodeId}
-          finalPath={finalPath}
-          distances={distances}
+          highlightNodes={highlightNodes}
+          highlightEdges={highlightEdges}
           handleCanvasClick={handleCanvasClick}
           handleNodeClick={handleNodeClick}
           svgRef={svgRef}
+          showArrows={true}
         />
 
         {/* Legend Overlay */}
@@ -243,13 +421,14 @@ const DijkstraVisualization = () => {
               <LegendItem color={COLORS.carbonBlack} label="Active / Final Path" />
               <LegendItem color={COLORS.slateGrey} label="Settled (Visited)" />
               <LegendItem color={COLORS.platinum} label="Frontier (In PQ)" />
+              <LegendItem color={COLORS.alabasterGrey} label="Unreachable" />
               <LegendItem color="white" label="Unvisited" border />
            </div>
            <div className="w-full h-px bg-[#dee2e6] opacity-50"></div>
            <div className="flex items-center gap-2">
              <Info size={14} className="text-[#adb5bd]" />
              <span className="text-[9px] font-black text-[#adb5bd] uppercase tracking-wide">
-                Dijkstra's Algorithm: Select the nearest unvisited node and relax its neighbors.
+                Dijkstra's Algorithm: Arrows show edge direction. Connect isolated nodes to include in traversal.
              </span>
            </div>
         </div>
