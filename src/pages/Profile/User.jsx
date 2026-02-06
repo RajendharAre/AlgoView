@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { User, Calendar, MapPin, Link as LinkIcon, Mail, Trophy, TrendingUp, Edit3, Save, ExternalLink } from 'lucide-react'
-import { useAuth } from '../../../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore'
-import { db } from '../../../lib/firebase'
+import { db } from '../../lib/firebase'
 
 const UserProfile = () => {
   const { userId } = useParams()
