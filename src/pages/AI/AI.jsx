@@ -4,12 +4,13 @@
  * Follows strict separation of concerns pattern - routing logic only
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './styles/markdown.css';
 import { Header } from './components/Header';
 import { ChatWindow } from './components/ChatWindow';
 import { ChatInput } from './components/ChatInput';
 import { ChatSidebar } from './components/ChatSidebar';
+import ChatDeletePopup from './components/ChatDeletePopup';
 import { useChatHistoryFirebase } from './hooks/useChatHistoryFirebase';
 import { useChatInput } from './hooks/useChatInput';
 import { generateResponse } from './utils/responseGenerator';
@@ -22,6 +23,7 @@ import { useAuth } from '../../hooks/useAuth';
  */
 export default function AI() {
   const { user: currentUser } = useAuth();
+  const [isShowingDeletePopup, setIsShowingDeletePopup] = useState(false);
   
   const {
     chats,
@@ -91,7 +93,14 @@ Please try again, or make sure your API key is properly configured for better re
 
   // Handle clear chat (delete current chat)
   const handleClear = async () => {
-    if (activeChatId && window.confirm('Delete this chat and all messages?')) {
+    if (activeChatId) {
+      setIsShowingDeletePopup(true);
+    }
+  };
+
+  // Confirm deletion of the chat
+  const handleConfirmDelete = async () => {
+    if (activeChatId) {
       try {
         await deleteChat(activeChatId);
       } catch (err) {
@@ -163,6 +172,14 @@ Please try again, or make sure your API key is properly configured for better re
             </button>
           </div>
         )}
+
+        {/* Chat Delete Confirmation Popup */}
+        <ChatDeletePopup
+          isOpen={isShowingDeletePopup}
+          onClose={() => setIsShowingDeletePopup(false)}
+          onConfirm={handleConfirmDelete}
+          chatTitle={chats.find(c => c.id === activeChatId)?.title || 'this chat'}
+        />
       </div>
     </div>
   );
