@@ -57,36 +57,20 @@ export function MessageBubble({ message, onCopy }) {
         {/* Message content */}
         <div 
           className={`
-            relative px-4 py-3 rounded-lg
+            relative rounded-lg
             ${isUser 
-              ? 'bg-blue-500 text-white rounded-br-none ml-auto' 
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-bl-none border border-gray-200 dark:border-gray-700'
+              ? 'bg-gray-200 dark:bg-gray-600 text-gray-900 dark:text-gray-100 rounded-br-none ml-auto px-4 py-3' 
+              : 'bg-transparent text-gray-900 dark:text-gray-100 rounded-bl-none px-0 py-2'
             }
           `}
         >
           {renderContent()}
-          
-          {/* Copy button (only for AI messages) */}
-          {!isUser && onCopy && (
-            <button
-              onClick={handleCopy}
-              className="
-                absolute top-2 right-2 p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700
-                text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200
-                transition-colors
-              "
-              title="Copy message"
-              aria-label="Copy message"
-            >
-              <Copy className="w-4 h-4" />
-            </button>
-          )}
         </div>
 
         {/* User avatar */}
         {isUser && (
           <div 
-            className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-blue-500 text-white"
+            className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-gray-300 dark:bg-gray-500 text-gray-900 dark:text-gray-100"
             role="img"
             aria-label="You"
           >

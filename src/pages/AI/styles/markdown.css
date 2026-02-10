@@ -3,6 +3,8 @@
   line-height: 1.7;
   color: inherit;
   font-size: 0.95rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Headings - Clear visual hierarchy */
@@ -287,4 +289,192 @@
 
 .markdown-content .markdown-list li {
   margin-left: 1.5em;
+}
+
+/* Table styling */
+.markdown-content table,
+.markdown-content .markdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: rgba(96, 165, 250, 0.02);
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  min-width: 100%;
+}
+
+.markdown-content table thead,
+.markdown-content .markdown-table thead {
+  background-color: rgba(96, 165, 250, 0.1);
+  border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.markdown-content table tbody,
+.markdown-content .markdown-table tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.markdown-content table tr,
+.markdown-content .markdown-table tr {
+  display: table-row;
+}
+
+.markdown-content table th,
+.markdown-content .markdown-table th {
+  padding: 0.875em 1em;
+  text-align: left;
+  font-weight: 700;
+  color: #60a5fa;
+  border-right: 1px solid rgba(96, 165, 250, 0.15);
+  font-size: 0.95em;
+  word-wrap: break-word;
+  word-break: break-word;
+  display: table-cell;
+}
+
+.markdown-content table th:last-child,
+.markdown-content .markdown-table th:last-child {
+  border-right: none;
+}
+
+.markdown-content table td,
+.markdown-content .markdown-table td {
+  padding: 0.75em 1em;
+  border-right: 1px solid rgba(96, 165, 250, 0.1);
+  border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+  color: inherit;
+  font-size: 0.9em;
+  word-wrap: break-word;
+  word-break: break-word;
+  display: table-cell;
+}
+
+.markdown-content table td:last-child,
+.markdown-content .markdown-table td:last-child {
+  border-right: none;
+}
+
+.markdown-content table tbody tr:last-child td,
+.markdown-content .markdown-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-content table tbody tr:hover,
+.markdown-content .markdown-table tbody tr:hover {
+  background-color: rgba(96, 165, 250, 0.08);
+}
+
+.markdown-content table tbody tr:nth-child(even),
+.markdown-content .markdown-table tbody tr:nth-child(even) {
+  background-color: rgba(96, 165, 250, 0.03);
+}
+
+/* Blockquote styling */
+.markdown-content blockquote {
+  border-left: 4px solid #60a5fa;
+  padding-left: 1em;
+  padding: 0.5em 0 0.5em 1em;
+  margin: 1.2em 0;
+  background-color: rgba(96, 165, 250, 0.08);
+  font-style: italic;
+  color: inherit;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Inline code background adjustments */
+.markdown-content code.inline-code {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Table styling */
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.markdown-content table thead {
+  background-color: rgba(96, 165, 250, 0.1);
+  border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+}
+
+.markdown-content table th {
+  padding: 0.75em 1em;
+  text-align: left;
+  font-weight: 700;
+  color: #60a5fa;
+  border-right: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.markdown-content table th:last-child {
+  border-right: none;
+}
+
+.markdown-content table td {
+  padding: 0.75em 1em;
+  border-right: 1px solid rgba(96, 165, 250, 0.1);
+  border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+}
+
+.markdown-content table td:last-child {
+  border-right: none;
+}
+
+.markdown-content table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-content table tbody tr:hover {
+  background-color: rgba(96, 165, 250, 0.05);
+}
+
+/* Blockquote styling */
+.markdown-content blockquote {
+  border-left: 4px solid #60a5fa;
+  padding-left: 1em;
+  padding: 0.5em 0 0.5em 1em;
+  margin: 1em 0;
+  background-color: rgba(96, 165, 250, 0.05);
+  font-style: italic;
+  color: inherit;
+}
+
+/* Inline code background adjustments */
+.markdown-content code.inline-code {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Links and code in tables - ensure proper wrapping */
+.markdown-content table td a,
+.markdown-content .markdown-table td a,
+.markdown-content table td code,
+.markdown-content .markdown-table td code {
+  word-wrap: break-word;
+  word-break: break-all;
+  display: inline;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Ensure dashes display correctly for empty cells */
+.markdown-content table td:empty::before,
+.markdown-content .markdown-table td:empty::before {
+  content: '-';
+  color: rgba(96, 165, 250, 0.5);
 }

@@ -141,6 +141,7 @@ Please try again, or make sure your API key is properly configured for better re
         {/* Chat Window - Takes remaining space */}
         <ChatWindow
           messages={chatMessages}
+          isLoading={isSending}
           onCopy={handleCopy}
         />
 

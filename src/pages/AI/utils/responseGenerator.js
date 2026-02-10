@@ -8,6 +8,56 @@
  */
 
 /**
+ * Check if user is requesting a table format
+ * @param {string} input - User input
+ * @returns {boolean} True if user is asking for a table
+ */
+function isTableRequest(input) {
+  const tableKeywords = ['table', 'spreadsheet', 'grid', 'format', 'structure', 'list', 'comparison', 'problems solved', 'problem tracking', 'chart', 'organize'];
+  const inputLower = input.toLowerCase();
+  
+  return tableKeywords.some(keyword => inputLower.includes(keyword));
+}
+
+/**
+ * Get enhanced system prompt for table generation
+ * @param {string} input - User input
+ * @returns {string} System prompt with table-specific instructions
+ */
+function getTableFormattingPrompt(input) {
+  return `You are a data formatter.
+
+CRITICAL: When the user asks for a table or structured data:
+
+STRICT RULES:
+- Return ONLY a valid GitHub-flavored Markdown table
+- Do NOT write any text before the table
+- Do NOT write any explanation after the table
+- Do NOT use bullet points inside cells
+- Do NOT wrap lines inside cells
+- Every row MUST have the exact same number of columns
+- Use plain text only (no special formatting, no paragraphs)
+- For missing values, use "-"
+
+TABLE COLUMNS (for problem tracking):
+Problem Name | Platform | Problem Link | Topics | Difficulty | Status | Date Solved | Time Taken (min) | Time Complexity | Space Complexity | Solution Link | Notes
+
+STRUCTURE:
+| Column 1 | Column 2 | Column 3 | ... |
+|---|---|---|---|
+| Data | Data | Data | ... |
+
+EXAMPLE:
+| Problem Name | Platform | Problem Link | Topics | Difficulty | Status | Date Solved | Time Taken (min) | Time Complexity | Space Complexity | Solution Link | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Two Sum | LeetCode | https://leetcode.com/problems/two-sum | Array, Hash Map | Easy | Solved | 2023-01-15 | 15 | O(n) | O(n) | https://github.com/user/solutions | Use hash map |
+
+Original user request: "${input}"
+
+Now generate the table following the rules above.`;
+}
+
+/**
  * System prompt that guides the AI behavior
  * This tells Gemini how to act and what to prioritize
  */
@@ -51,7 +101,26 @@ const SYSTEM_PROMPT = `You are AlgoView AI, a comprehensive educational assistan
 - Use --- to separate major sections when needed
 - Keep paragraphs concise and scannable
 
-**EXAMPLE FORMAT:**
+**TABLE FORMATTING (CRITICAL):**
+When generating tables, you MUST follow these strict rules:
+- Return ONLY a valid GitHub-flavored Markdown table
+- Do NOT write any text before or after the table
+- Do NOT explain anything around the table
+- Do NOT use bullet points inside cells
+- Do NOT wrap lines - keep cells on single lines
+- Every row MUST have the exact same number of columns
+- Use plain text only inside cells (no inline paragraphs, no special formatting)
+- Use "-" for any missing or empty values
+- For Problem Tracking Tables specifically, use these exact columns in this order:
+  Problem Name | Platform | Problem Link | Topics | Difficulty | Status | Date Solved | Time Taken (min) | Time Complexity | Space Complexity | Solution Link | Notes
+
+**EXAMPLE TABLE FORMAT:**
+| Problem Name | Platform | Problem Link | Topics | Difficulty | Status | Date Solved | Time Taken (min) | Time Complexity | Space Complexity | Solution Link | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Two Sum | LeetCode | https://leetcode.com/problems/two-sum | Array, Hash Map | Easy | Solved | 2023-01-15 | 15 | O(n) | O(n) | https://github.com/user/solutions | Use hash map for O(n) solution |
+| Merge Intervals | LeetCode | https://leetcode.com/problems/merge-intervals | Array, Sorting | Medium | Solved | 2023-02-10 | 30 | O(n log n) | O(n) | https://github.com/user/solutions | Sort by start time |
+
+**EXAMPLE FORMAT (for non-table responses):**
 ## Topic Name
 
 Brief introduction explaining the concept.
@@ -107,12 +176,20 @@ export async function generateResponse(input) {
   console.log('🤖 Initializing AI response generator...');
   console.log('Gemini API Key available:', geminiApiKey ? '✅ Yes' : '❌ No');
   
+  // Detect if user is asking for a table
+  const requestingTable = isTableRequest(input);
+  const systemPrompt = requestingTable ? getTableFormattingPrompt(input) : SYSTEM_PROMPT;
+  
+  if (requestingTable) {
+    console.log('📊 Detected table request - using specialized table formatting prompt');
+  }
+  
   // Try to use Gemini API with system prompt
   if (geminiApiKey && geminiApiKey !== 'your_gemini_api_key_here') {
     try {
       console.log('📡 Connecting to Gemini API...');
       console.log('👤 User query:', input);
-      const response = await callGeminiAPI(input, SYSTEM_PROMPT);
+      const response = await callGeminiAPI(input, systemPrompt);
       console.log('✅ Gemini AI response received successfully');
       return response;
     } catch (error) {

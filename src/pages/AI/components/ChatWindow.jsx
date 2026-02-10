@@ -5,15 +5,18 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { MessageBubble } from './MessageBubble';
+import { ThinkingIndicator } from './ThinkingIndicator';
 
 /**
  * Chat window component
  * @param {Object} props
  * @param {Array} props.messages - Array of message objects
+ * @param {boolean} props.isLoading - Whether AI is generating response
  * @param {Function} props.onCopy - Copy message handler
  */
 export function ChatWindow({ 
   messages = [], 
+  isLoading = false,
   onCopy
 }) {
   const scrollContainerRef = useRef(null);
@@ -44,7 +47,7 @@ export function ChatWindow({
     if (isUserNearBottom) {
       scrollToBottom();
     }
-  }, [messages, isUserNearBottom, scrollToBottom]);
+  }, [messages, isLoading, isUserNearBottom, scrollToBottom]);
 
   return (
     <main 
@@ -79,6 +82,9 @@ export function ChatWindow({
               onCopy={onCopy}
             />
           ))}
+          
+          {/* Thinking indicator */}
+          {isLoading && <ThinkingIndicator />}
         </div>
 
         {/* Scroll anchor */}
