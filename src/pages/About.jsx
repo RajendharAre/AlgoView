@@ -1,5 +1,36 @@
 import { useState } from 'react';
-import { Users, Code, BookOpen, Trophy, Calendar, Star, Github, Twitter, Mail, MapPin, Grid3X3, Laptop2, TrendingUp, Users2 } from 'lucide-react';
+import { Users, Code, BookOpen, Trophy, Calendar, Star, Github, Twitter, Mail, MapPin, Grid3X3, Laptop2, TrendingUp, Users2, Linkedin } from 'lucide-react';
+
+// Semantic color tokens from grayscale palette
+const COLORS = {
+  bg: {
+    primary: '#f8f9fa',
+    secondary: '#e9ecef',
+    tertiary: '#dee2e6',
+    surface: '#ffffff',
+  },
+  text: {
+    primary: '#212529',
+    secondary: '#495057',
+    tertiary: '#6c757d',
+    muted: '#adb5bd',
+  },
+  border: {
+    light: '#dee2e6',
+    medium: '#ced4da',
+  },
+  accent: {
+    warning: '#f59e0b',
+  }
+}
+
+// Subtle shadow system for depth
+const SHADOWS = {
+  xs: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+  sm: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',
+  md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+  lg: '0 10px 15px -3px rgba(0, 0, 0, 0.12)',
+}
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -42,33 +73,33 @@ const About = () => {
     {
       title: "Interactive Visualizations",
       description: "See algorithms come to life with step-by-step visual representations",
-      icon: <Grid3X3 className="h-8 w-8 text-blue-600" />
+      icon: <Grid3X3 className="h-8 w-8" style={{ color: COLORS.text.primary }} />
     },
     {
       title: "Hands-on Practice",
       description: "Implement and test algorithms directly in your browser",
-      icon: <Laptop2 className="h-8 w-8 text-blue-600" />
+      icon: <Laptop2 className="h-8 w-8" style={{ color: COLORS.text.primary }} />
     },
     {
       title: "Progress Tracking",
       description: "Monitor your learning journey and achievements",
-      icon: <TrendingUp className="h-8 w-8 text-blue-600" />
+      icon: <TrendingUp className="h-8 w-8" style={{ color: COLORS.text.primary }} />
     },
     {
       title: "Community Support",
       description: "Connect with fellow learners and experts for guidance",
-      icon: <Users2 className="h-8 w-8 text-blue-600" />
+      icon: <Users2 className="h-8 w-8" style={{ color: COLORS.text.primary }} />
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div style={{ backgroundColor: COLORS.bg.primary, minHeight: '100vh' }}>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+      <div className="py-16" style={{ backgroundColor: COLORS.bg.surface }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About AlgoView</h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: COLORS.text.primary }}>About AlgoView</h1>
+            <p className="text-xl md:text-2xl max-w-3xl mx-auto" style={{ color: COLORS.text.secondary }}>
               Empowering developers and students to master algorithms through interactive visualization and hands-on practice
             </p>
           </div>
@@ -76,16 +107,16 @@ const About = () => {
       </div>
 
       {/* Stats Section */}
-      <div className="py-12 bg-white">
+      <div className="py-12" style={{ backgroundColor: COLORS.bg.surface }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="flex justify-center mb-4">
-                  <stat.icon className="h-8 w-8 text-blue-600" />
+                  <stat.icon className="h-8 w-8" style={{ color: COLORS.text.primary }} />
                 </div>
-                <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-3xl font-bold" style={{ color: COLORS.text.primary }}>{stat.value}</div>
+                <div style={{ color: COLORS.text.secondary }}>{stat.label}</div>
               </div>
             ))}
           </div>
@@ -93,21 +124,21 @@ const About = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-16 bg-gray-50">
+      <div className="py-16" style={{ backgroundColor: COLORS.bg.primary }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Us?</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.text.primary }}>Why Choose Us?</h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: COLORS.text.secondary }}>
               Our platform offers unique features designed to enhance your learning experience
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center">
+              <div key={index} className="p-6 rounded-lg border text-center" style={{ backgroundColor: COLORS.bg.surface, borderColor: COLORS.border.light, boxShadow: SHADOWS.sm }}>
                 <div className="flex justify-center mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.text.primary }}>{feature.title}</h3>
+                <p style={{ color: COLORS.text.secondary }}>{feature.description}</p>
               </div>
             ))}
           </div>
@@ -118,34 +149,37 @@ const About = () => {
       <div className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center mb-8">
-            <div className="bg-gray-100 p-1 rounded-lg">
+            <div className="p-1 rounded-lg" style={{ backgroundColor: COLORS.bg.secondary }}>
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'overview'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors`}
+                style={{
+                  backgroundColor: activeTab === 'overview' ? COLORS.bg.surface : 'transparent',
+                  color: activeTab === 'overview' ? COLORS.text.primary : COLORS.text.secondary,
+                  boxShadow: activeTab === 'overview' ? SHADOWS.sm : 'none'
+                }}
               >
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab('mission')}
-                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'mission'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors`}
+                style={{
+                  backgroundColor: activeTab === 'mission' ? COLORS.bg.surface : 'transparent',
+                  color: activeTab === 'mission' ? COLORS.text.primary : COLORS.text.secondary,
+                  boxShadow: activeTab === 'mission' ? SHADOWS.sm : 'none'
+                }}
               >
                 Mission
               </button>
               <button
                 onClick={() => setActiveTab('team')}
-                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors ${
-                  activeTab === 'team'
-                    ? 'bg-white text-blue-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors`}
+                style={{
+                  backgroundColor: activeTab === 'team' ? COLORS.bg.surface : 'transparent',
+                  color: activeTab === 'team' ? COLORS.text.primary : COLORS.text.secondary,
+                  boxShadow: activeTab === 'team' ? SHADOWS.sm : 'none'
+                }}
               >
                 Team
               </button>
@@ -153,13 +187,13 @@ const About = () => {
           </div>
 
           {/* Tab Content */}
-          <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="rounded-lg p-8 border" style={{ backgroundColor: COLORS.bg.surface, borderColor: COLORS.border.light, boxShadow: SHADOWS.sm }}>
             {activeTab === 'overview' && (
               <div className="space-y-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+                <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Our Story</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <p className="text-gray-600 mb-4">
+                    <p className="mb-4" style={{ color: COLORS.text.secondary }}>
                       Founded in 2023, AlgoView began as a passion project to help students and developers 
                       understand complex algorithms through interactive visualization. What started as a simple concept 
                       has grown into a comprehensive platform serving thousands of users worldwide.
@@ -169,24 +203,24 @@ const About = () => {
                       create an engaging learning experience that makes algorithm comprehension accessible to everyone.
                     </p>
                   </div>
-                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Our Values</h3>
+                  <div className="p-6 rounded-lg border" style={{ backgroundColor: COLORS.bg.tertiary, borderColor: COLORS.border.light }}>
+                    <h3 className="text-xl font-semibold mb-4" style={{ color: COLORS.text.primary }}>Our Values</h3>
                     <ul className="space-y-3">
                       <li className="flex items-start">
-                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700">Excellence in Education</span>
+                        <Star className="h-5 w-5 mt-0.5 mr-3 flex-shrink-0" style={{ color: COLORS.accent.warning }} />
+                        <span style={{ color: COLORS.text.secondary }}>Excellence in Education</span>
                       </li>
                       <li className="flex items-start">
-                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700">Accessibility for All</span>
+                        <Star className="h-5 w-5 mt-0.5 mr-3 flex-shrink-0" style={{ color: COLORS.accent.warning }} />
+                        <span style={{ color: COLORS.text.secondary }}>Accessibility for All</span>
                       </li>
                       <li className="flex items-start">
-                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700">Continuous Innovation</span>
+                        <Star className="h-5 w-5 mt-0.5 mr-3 flex-shrink-0" style={{ color: COLORS.accent.warning }} />
+                        <span style={{ color: COLORS.text.secondary }}>Continuous Innovation</span>
                       </li>
                       <li className="flex items-start">
-                        <Star className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700">Community-Driven Growth</span>
+                        <Star className="h-5 w-5 mt-0.5 mr-3 flex-shrink-0" style={{ color: COLORS.accent.warning }} />
+                        <span style={{ color: COLORS.text.secondary }}>Community-Driven Growth</span>
                       </li>
                     </ul>
                   </div>
@@ -196,9 +230,9 @@ const About = () => {
 
             {activeTab === 'mission' && (
               <div className="space-y-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Our Mission</h2>
                 <div className="prose max-w-none">
-                  <p className="text-gray-600 mb-4">
+                  <p className="mb-4" style={{ color: COLORS.text.secondary }}>
                     At AlgoView, we believe that understanding algorithms shouldn't be a barrier to 
                     becoming a great developer. Our mission is to democratize computer science education by making 
                     complex algorithms accessible, understandable, and enjoyable for everyone.
@@ -208,9 +242,9 @@ const About = () => {
                     their own pace. Through interactive visualizations, comprehensive explanations, and practical 
                     exercises, we aim to bridge the gap between theoretical knowledge and practical application.
                   </p>
-                  <div className="bg-blue-50 p-6 rounded-lg mt-6">
-                    <h3 className="text-lg font-semibold text-blue-900 mb-2">Vision Statement</h3>
-                    <p className="text-blue-800">
+                  <div className="p-6 rounded-lg mt-6 border" style={{ backgroundColor: COLORS.bg.tertiary, borderColor: COLORS.border.light }}>
+                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.text.primary }}>Vision Statement</h3>
+                    <p style={{ color: COLORS.text.secondary }}>
                       To become the world's leading platform for algorithm education, empowering millions of 
                       developers to excel in their careers and contribute to technological advancement.
                     </p>
@@ -221,37 +255,37 @@ const About = () => {
 
             {activeTab === 'team' && (
               <div className="space-y-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Meet Our Team</h2>
-                <p className="text-gray-600 mb-8">
+                <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Meet Our Team</h2>
+                <p className="mb-8" style={{ color: COLORS.text.secondary }}>
                   A diverse group of passionate individuals dedicated to revolutionizing how people learn algorithms.
                 </p>
                 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {teamMembers.map((member, index) => (
-                    <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 text-center hover:shadow-md transition-shadow">
+                    <div key={index} className="border rounded-lg p-6 text-center transition-shadow" style={{ backgroundColor: COLORS.bg.surface, borderColor: COLORS.border.light, boxShadow: SHADOWS.sm }} onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md} onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}>
                       <img 
                         src={member.avatar} 
                         alt={member.name}
                         className="w-20 h-20 rounded-full mx-auto mb-4"
                       />
-                      <h3 className="text-lg font-semibold text-gray-900">{member.name}</h3>
-                      <p className="text-blue-600 font-medium mb-2">{member.role}</p>
-                      <p className="text-gray-600 text-sm">{member.bio}</p>
+                      <h3 className="text-lg font-semibold" style={{ color: COLORS.text.primary }}>{member.name}</h3>
+                      <p className="font-medium mb-2" style={{ color: COLORS.text.primary }}>{member.role}</p>
+                      <p className="text-sm" style={{ color: COLORS.text.secondary }}>{member.bio}</p>
                     </div>
                   ))}
                 </div>
                 
-                <div className="mt-8 pt-8 border-t border-gray-200">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Join Our Journey</h3>
-                  <p className="text-gray-600 mb-4">
+                <div className="mt-8 pt-8" style={{ borderTopColor: COLORS.border.light, borderTopWidth: '1px' }}>
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: COLORS.text.primary }}>Join Our Journey</h3>
+                  <p className="mb-4" style={{ color: COLORS.text.secondary }}>
                     We're always looking for talented individuals who share our passion for education and technology.
                   </p>
                   <div className="flex flex-wrap gap-4">
-                    <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <button className="flex items-center px-4 py-2 rounded-lg transition-all" style={{ backgroundColor: COLORS.text.primary, color: COLORS.bg.surface, boxShadow: SHADOWS.sm }} onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md} onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}>
                       <Mail className="h-4 w-4 mr-2" />
                       Contact Us
                     </button>
-                    <a href="https://github.com/RajendharAre/AlgoView" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    <a href="https://github.com/RajendharAre/AlgoView" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 rounded-lg border transition-colors" style={{ borderColor: COLORS.border.light, color: COLORS.text.primary }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = COLORS.bg.secondary} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                       <Github className="h-4 w-4 mr-2" />
                       Contribute
                     </a>
@@ -264,31 +298,30 @@ const About = () => {
       </div>
 
       {/* Contact Section */}
-      <div className="py-16 bg-gray-900 text-white">
+      <div className="py-16 text-white" style={{ backgroundColor: COLORS.text.primary }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.bg.surface }}>Get In Touch</h2>
+            <p className="max-w-2xl mx-auto" style={{ color: COLORS.bg.secondary }}>
               Have questions or feedback? We'd love to hear from you and help improve your learning experience.
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <Mail className="h-8 w-8 text-blue-400 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold mb-2">Email Us</h3>
-              <p className="text-gray-300">contact@algorls
-                ithmvisualizer.com</p>
+              <Mail className="h-8 w-8 mx-auto mb-3" style={{ color: COLORS.bg.secondary }} />
+              <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.bg.surface }}>Email Us</h3>
+              <p style={{ color: COLORS.bg.secondary }}>contact@algorithmvisualizer.com</p>
             </div>
             <div className="text-center">
-              <MapPin className="h-8 w-8 text-blue-400 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold mb-2">Visit Us</h3>
-              <p className="text-gray-300">Telangana, India</p>
+              <MapPin className="h-8 w-8 mx-auto mb-3" style={{ color: COLORS.bg.secondary }} />
+              <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.bg.surface }}>Visit Us</h3>
+              <p style={{ color: COLORS.bg.secondary }}>Telangana, India</p>
             </div>
             <div className="text-center">
-              <Twitter className="h-8 w-8 text-blue-400 mx-auto mb-3" />
-              <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
-              <p className="text-gray-300">@algo_visualizer</p>
+              <Twitter className="h-8 w-8 mx-auto mb-3" style={{ color: COLORS.bg.secondary }} />
+              <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.bg.surface }}>Follow Us</h3>
+              <p style={{ color: COLORS.bg.secondary }}>@algo_visualizer</p>
             </div>
           </div>
         </div>

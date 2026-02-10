@@ -1,6 +1,36 @@
 import { motion } from 'framer-motion'
 import { Code, BookOpen, Video, FileText, Users, MessageSquare } from 'lucide-react'
 
+// Semantic color tokens from grayscale palette
+const COLORS = {
+  bg: {
+    primary: '#f8f9fa',
+    secondary: '#e9ecef',
+    tertiary: '#dee2e6',
+    surface: '#ffffff',
+  },
+  text: {
+    primary: '#212529',
+    secondary: '#495057',
+    tertiary: '#6c757d',
+    muted: '#adb5bd',
+  },
+  border: {
+    light: '#dee2e6',
+    medium: '#ced4da',
+  },
+  accent: {
+    warning: '#f59e0b',
+  }
+}
+
+// Subtle shadow system for depth
+const SHADOWS = {
+  sm: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',
+  md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+  lg: '0 10px 15px -3px rgba(0, 0, 0, 0.12)',
+}
+
 const Development = () => {
   const resources = [
     {
@@ -47,7 +77,8 @@ const Development = () => {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+          className="text-4xl md:text-5xl font-bold mb-6"
+          style={{ color: COLORS.text.primary }}
         >
           Development Resources
         </motion.h1>
@@ -55,7 +86,8 @@ const Development = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-xl text-gray-600 max-w-3xl mx-auto"
+          className="text-xl max-w-3xl mx-auto"
+          style={{ color: COLORS.text.secondary }}
         >
           Access comprehensive tutorials, code examples, and learning materials to enhance your 
           development skills across multiple technologies and frameworks.
@@ -72,16 +104,23 @@ const Development = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * index }}
               whileHover={{ y: -5 }}
-              className="bg-white rounded-xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-all duration-300"
+              className="rounded-xl p-6 border transition-all duration-300"
+              style={{
+                backgroundColor: COLORS.bg.surface,
+                borderColor: COLORS.border.light,
+                boxShadow: SHADOWS.md
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
             >
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Icon className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{ backgroundColor: COLORS.bg.secondary }}>
+                <Icon className="h-6 w-6" style={{ color: COLORS.text.primary }} />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{resource.title}</h3>
-              <p className="text-gray-600 mb-4">{resource.description}</p>
+              <h3 className="text-xl font-semibold mb-2" style={{ color: COLORS.text.primary }}>{resource.title}</h3>
+              <p className="mb-4" style={{ color: COLORS.text.secondary }}>{resource.description}</p>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-500">{resource.count}</span>
-                <button className="text-blue-600 font-medium hover:text-blue-700 transition-colors">
+                <span className="text-sm" style={{ color: COLORS.text.tertiary }}>{resource.count}</span>
+                <button className="font-medium transition-colors" style={{ color: COLORS.text.primary }}>
                   Explore
                 </button>
               </div>
@@ -94,14 +133,27 @@ const Development = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7 }}
-        className="mt-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-center text-white"
+        className="mt-16 rounded-2xl p-8 text-center"
+        style={{
+          backgroundColor: COLORS.text.primary,
+          color: COLORS.bg.surface
+        }}
       >
-        <h2 className="text-3xl font-bold mb-4">Want to Contribute?</h2>
-        <p className="text-xl mb-8 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.bg.surface }}>Want to Contribute?</h2>
+        <p className="text-xl mb-8 max-w-2xl mx-auto" style={{ color: COLORS.bg.secondary }}>
           Share your knowledge and help grow our development community by contributing tutorials, 
           code examples, or documentation.
         </p>
-        <button className="px-8 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg" href="https://github.com/RajendharAre/AlgoView">
+        <button className="px-8 py-3 font-bold rounded-lg transition-all duration-300" 
+          style={{
+            backgroundColor: COLORS.bg.surface,
+            color: COLORS.text.primary,
+            boxShadow: SHADOWS.lg
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
+          onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
+          href="https://github.com/RajendharAre/AlgoView"
+        >
           Become a Contributor
         </button>
       </motion.div>

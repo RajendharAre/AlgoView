@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import InteractiveFeatureCard from '../components/InteractiveFeatureCard'
+import Testimonial3DCard from '../components/Testimonial3DCard'
 import { 
   Star,
   ArrowRight,
@@ -10,7 +12,8 @@ import {
   ChevronRight,
   Brain,
   Users,
-  BookOpen
+  BookOpen,
+  Rocket
 } from 'lucide-react'
 import { SiThealgorithms, SiGoogle, SiAmazon, SiMeta, SiNetflix, SiAdobe, SiAccenture, SiGoldmansachs, SiSpotify, SiApple, SiTesla, SiTcs, SiInfosys, SiWipro, SiCisco, SiFlipkart } from 'react-icons/si'
 
@@ -35,6 +38,7 @@ const COLORS = {
   accent: {
     success: '#10b981',
     warning: '#f59e0b',
+    green: '#8ed500',
   }
 }
 
@@ -123,7 +127,7 @@ const Home = () => {
       role: 'Senior Developer at Meta',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
       content: 'The interactive visualizations are incredible. It helped me improve my problem-solving speed significantly.',
-      rating: 5
+      rating: 4.3
     },
     {
       id: 3,
@@ -131,7 +135,7 @@ const Home = () => {
       role: 'Tech Lead at Microsoft',
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
       content: 'I recommend this to my team members. The most effective way to master algorithms and data structures.',
-      rating: 5
+      rating: 4.5
     },
     {
       id: 4,
@@ -139,7 +143,7 @@ const Home = () => {
       role: 'Full Stack Developer at Netflix',
       avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
       content: 'As someone who switched careers into tech, this platform made complex algorithms approachable and easy to understand.',
-      rating: 5
+      rating: 4.7
     }
   ]
 
@@ -421,17 +425,17 @@ const Home = () => {
               {/* Single continuous smooth curve connecting all 12 nodes sequentially */}
               <path
                 d="M 100 40
-                   Q 500 82, 900 125
-                   Q 500 168, 100 210
-                   Q 500 253, 900 295
-                   Q 500 338, 100 380
-                   Q 500 423, 900 465
-                   Q 500 508, 100 550
-                   Q 500 593, 900 635
-                   Q 500 678, 100 720
-                   Q 500 763, 900 805
-                   Q 500 848, 100 890
-                   Q 300 933, 500 975"
+                   C 200 65, 800 100, 900 125
+                   C 800 155, 200 185, 100 210
+                   C 200 240, 800 270, 900 295
+                   C 800 320, 200 355, 100 380
+                   C 200 410, 800 440, 900 465
+                   C 800 490, 200 525, 100 550
+                   C 200 580, 800 610, 900 635
+                   C 800 660, 200 695, 100 720
+                   C 200 750, 800 780, 900 805
+                   C 800 830, 200 865, 100 890
+                   C 200 920, 400 960, 500 975"
                 fill="none"
                 stroke={COLORS.border.medium}
                 strokeWidth="3"
@@ -497,12 +501,13 @@ const Home = () => {
             className="mt-24 max-w-4xl mx-auto p-6 rounded-lg border-l-4"
             style={{
               backgroundColor: COLORS.bg.secondary,
-              borderColor: COLORS.accent.success,
+              borderColor: COLORS.text.primary,
               borderWidth: '0 0 0 4px'
             }}
           >
-            <h4 className="font-semibold mb-2" style={{ color: COLORS.text.primary }}>
-              🚀 Your Learning Journey
+            <h4 className="font-semibold mb-2 flex items-center gap-2" style={{ color: COLORS.text.primary }}>
+              <Rocket className="w-5 h-5" />
+              Your Learning Journey
             </h4>
             <p style={{ color: COLORS.text.secondary }}>
               Follow the curved path to master DSA progressively. Beginner topics build foundations, intermediate topics develop problem-solving skills, and advanced topics prepare you for complex challenges. Click any node to practice problems for that topic.
@@ -536,47 +541,18 @@ const Home = () => {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  whileHover={{ y: -4 }}
-                  className="p-6 rounded-xl border transition-all duration-300 cursor-pointer"
-                  style={{
-                    backgroundColor: COLORS.bg.surface,
-                    borderColor: COLORS.border.light,
-                    boxShadow: SHADOWS.sm
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
-                  onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}
-                >
-                  <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center mb-4"
-                    style={{ backgroundColor: COLORS.bg.secondary }}
-                  >
-                    <Icon className="w-6 h-6" style={{ color: COLORS.text.primary }} />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-sm mb-4" style={{ color: COLORS.text.tertiary }}>
-                    {feature.description}
-                  </p>
-                  <Link
-                    to={feature.link}
-                    className="inline-flex items-center gap-2 text-sm font-medium group"
-                    style={{ color: COLORS.text.primary }}
-                  >
-                    Learn more
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </motion.div>
-              )
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.6 }}
+              >
+                <InteractiveFeatureCard feature={feature} COLORS={COLORS} />
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
@@ -725,8 +701,8 @@ const Home = () => {
             </motion.p>
           </div>
 
-          {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Testimonials Grid with 3D Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.id}
@@ -734,46 +710,12 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                whileHover={{ y: -2 }}
-                className="p-6 rounded-xl border"
-                style={{
-                  backgroundColor: COLORS.bg.surface,
-                  borderColor: COLORS.border.light,
-                  boxShadow: SHADOWS.sm
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
-                onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}
               >
-                {/* Avatar & Info */}
-                <div className="flex items-center gap-3 mb-4">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-sm">{testimonial.name}</h4>
-                    <p className="text-xs" style={{ color: COLORS.text.tertiary }}>
-                      {testimonial.role}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Rating */}
-                <div className="flex gap-1 mb-3">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-current"
-                      style={{ color: COLORS.accent.warning }}
-                    />
-                  ))}
-                </div>
-
-                {/* Review Text */}
-                <p className="text-sm leading-relaxed" style={{ color: COLORS.text.secondary }}>
-                  "{testimonial.content}"
-                </p>
+                <Testimonial3DCard
+                  testimonial={testimonial}
+                  COLORS={COLORS}
+                  SHADOWS={SHADOWS}
+                />
               </motion.div>
             ))}
           </div>
