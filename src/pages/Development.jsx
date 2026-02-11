@@ -1,164 +1,159 @@
-import { motion } from 'framer-motion'
-import { Code, BookOpen, Video, FileText, Users, MessageSquare } from 'lucide-react'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FaBook, FaCode, FaVideo, FaFileAlt, FaUsers, FaQuestionCircle } from 'react-icons/fa';
 
-// Semantic color tokens from grayscale palette
-const COLORS = {
-  bg: {
-    primary: '#f8f9fa',
-    secondary: '#e9ecef',
-    tertiary: '#dee2e6',
-    surface: '#ffffff',
-  },
-  text: {
-    primary: '#212529',
-    secondary: '#495057',
-    tertiary: '#6c757d',
-    muted: '#adb5bd',
-  },
-  border: {
-    light: '#dee2e6',
-    medium: '#ced4da',
-  },
-  accent: {
-    warning: '#f59e0b',
-  }
-}
+export default function Development() {
+  const navigate = useNavigate();
 
-// Subtle shadow system for depth
-const SHADOWS = {
-  sm: '0 1px 3px 0 rgba(0, 0, 0, 0.08)',
-  md: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-  lg: '0 10px 15px -3px rgba(0, 0, 0, 0.12)',
-}
-
-const Development = () => {
-  const resources = [
+  const sections = [
     {
-      title: 'Tutorials',
-      description: 'Step-by-step guides for various programming concepts and technologies.',
-      icon: BookOpen,
-      count: '24 tutorials'
+      id: 'tutorials',
+      label: 'Tutorials',
+      icon: FaBook,
+      description: 'Comprehensive step-by-step guides covering DSA, Web Development, and more.',
+      color: 'from-blue-500 to-blue-600',
+      path: '/development/tutorials'
     },
     {
-      title: 'Code Examples',
-      description: 'Practical code snippets and examples for common development tasks.',
-      icon: Code,
-      count: '156 examples'
+      id: 'codes',
+      label: 'Code Examples',
+      icon: FaCode,
+      description: 'Ready-to-use code snippets with syntax highlighting in multiple languages.',
+      color: 'from-purple-500 to-purple-600',
+      path: '/development/code-examples'
     },
     {
-      title: 'Video Courses',
-      description: 'Comprehensive video courses on modern development practices.',
-      icon: Video,
-      count: '12 courses'
+      id: 'videos',
+      label: 'Video Courses',
+      icon: FaVideo,
+      description: 'Curated video courses from top platforms for visual learners.',
+      color: 'from-red-500 to-red-600',
+      path: '/development/videos'
     },
     {
-      title: 'Documentation',
-      description: 'Detailed documentation for libraries, frameworks, and tools.',
-      icon: FileText,
-      count: '48 docs'
+      id: 'docs',
+      label: 'Documentation',
+      icon: FaFileAlt,
+      description: 'Official documentation and reference guides for popular technologies.',
+      color: 'from-amber-500 to-amber-600',
+      path: '/development/documentation'
     },
     {
-      title: 'Community',
-      description: 'Connect with other developers and share knowledge.',
-      icon: Users,
-      count: '2.4k members'
+      id: 'community',
+      label: 'Community',
+      icon: FaUsers,
+      description: 'Connect with developers on Discord, Telegram, Reddit, and GitHub.',
+      color: 'from-green-500 to-green-600',
+      path: '/development/community'
     },
     {
-      title: 'Q&A Forum',
-      description: 'Ask questions and get answers from experienced developers.',
-      icon: MessageSquare,
-      count: '1.1k questions'
+      id: 'qa',
+      label: 'Q&A Forum',
+      icon: FaQuestionCircle,
+      description: 'Popular questions and answers from the community.',
+      color: 'from-indigo-500 to-indigo-600',
+      path: '/development/qa'
     }
-  ]
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-16">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold mb-6"
-          style={{ color: COLORS.text.primary }}
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 py-12"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Development Hub</h1>
+          <p className="text-lg text-gray-600 max-w-3xl">
+            Master DSA, Web Development, DevOps, and more with tutorials, code examples, video courses, and community resources.
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Section Cards Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ staggerChildren: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          Development Resources
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-xl max-w-3xl mx-auto"
-          style={{ color: COLORS.text.secondary }}
-        >
-          Access comprehensive tutorials, code examples, and learning materials to enhance your 
-          development skills across multiple technologies and frameworks.
-        </motion.p>
+          {sections.map((section, index) => {
+            const Icon = section.icon;
+            return (
+              <motion.div
+                key={section.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="h-full bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300">
+                  {/* Color Header */}
+                  <div className={`h-24 bg-gradient-to-r ${section.color} relative`}>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Icon className="text-white text-4xl" />
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      {section.label}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-6 line-clamp-3">
+                      {section.description}
+                    </p>
+
+                    {/* Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => navigate(section.path)}
+                      className={`w-full py-3 rounded-lg font-semibold text-white bg-gradient-to-r ${section.color} hover:shadow-lg transition-all duration-300`}
+                    >
+                      Explore
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {resources.map((resource, index) => {
-          const Icon = resource.icon
-          return (
-            <motion.div
-              key={resource.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * index }}
-              whileHover={{ y: -5 }}
-              className="rounded-xl p-6 border transition-all duration-300"
-              style={{
-                backgroundColor: COLORS.bg.surface,
-                borderColor: COLORS.border.light,
-                boxShadow: SHADOWS.md
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
-              onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
-            >
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{ backgroundColor: COLORS.bg.secondary }}>
-                <Icon className="h-6 w-6" style={{ color: COLORS.text.primary }} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2" style={{ color: COLORS.text.primary }}>{resource.title}</h3>
-              <p className="mb-4" style={{ color: COLORS.text.secondary }}>{resource.description}</p>
-              <div className="flex items-center justify-between">
-                <span className="text-sm" style={{ color: COLORS.text.tertiary }}>{resource.count}</span>
-                <button className="font-medium transition-colors" style={{ color: COLORS.text.primary }}>
-                  Explore
-                </button>
-              </div>
-            </motion.div>
-          )
-        })}
-      </div>
-
+      {/* Stats Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
-        className="mt-16 rounded-2xl p-8 text-center"
-        style={{
-          backgroundColor: COLORS.text.primary,
-          color: COLORS.bg.surface
-        }}
+        transition={{ delay: 0.6 }}
+        className="bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-gray-200 py-12"
       >
-        <h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.bg.surface }}>Want to Contribute?</h2>
-        <p className="text-xl mb-8 max-w-2xl mx-auto" style={{ color: COLORS.bg.secondary }}>
-          Share your knowledge and help grow our development community by contributing tutorials, 
-          code examples, or documentation.
-        </p>
-        <button className="px-8 py-3 font-bold rounded-lg transition-all duration-300" 
-          style={{
-            backgroundColor: COLORS.bg.surface,
-            color: COLORS.text.primary,
-            boxShadow: SHADOWS.lg
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
-          onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
-          href="https://github.com/RajendharAre/AlgoView"
-        >
-          Become a Contributor
-        </button>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <StatCard icon={FaBook} label="Tutorials" value="50+" />
+            <StatCard icon={FaCode} label="Code Examples" value="100+" />
+            <StatCard icon={FaVideo} label="Video Courses" value="200+" />
+            <StatCard icon={FaUsers} label="Community Members" value="10K+" />
+          </div>
+        </div>
       </motion.div>
     </div>
-  )
+  );
 }
 
-export default Development
+function StatCard({ icon: Icon, label, value }) {
+  return (
+    <motion.div
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-lg p-6 border border-gray-200 text-center"
+    >
+      <Icon className="text-blue-600 text-3xl mx-auto mb-3" />
+      <div className="text-2xl font-bold text-gray-900">{value}</div>
+      <div className="text-sm text-gray-600 mt-1">{label}</div>
+    </motion.div>
+  );
+}

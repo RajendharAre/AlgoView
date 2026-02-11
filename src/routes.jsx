@@ -26,6 +26,8 @@ const AlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/Algo
 const DynamicAlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/DynamicAlgorithmVisualization'));
 const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/Sorting/SelectionSort'))
 const Development = lazy(() => import('./pages/Development'))
+const TutorialsList = lazy(() => import('./pages/Development/Tutorials/TutorialsList'))
+const CodeExamplesList = lazy(() => import('./pages/Development/CodeExamples/CodeExamplesList'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
@@ -251,6 +253,26 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<LoadingSpinner />}>
               <Development />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'development/tutorials',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <TutorialsList />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'development/code-examples',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <CodeExamplesList />
             </Suspense>
           </ProtectedRoute>
         )
