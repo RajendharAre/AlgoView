@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumbnail Testing Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .video-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .thumbnail-container {
+            position: relative;
+            background: #e0e0e0;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+        }
+        .thumbnail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.loaded {
+            background: #4caf50;
+            color: white;
+        }
+        .status.failed {
+            background: #f44336;
+            color: white;
+        }
+        .status.loading {
+            background: #2196f3;
+            color: white;
+        }
+        .info {
+            padding: 10px;
+        }
+        .title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .id {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .url {
+            font-size: 11px;
+            color: #999;
+            word-break: break-all;
+            background: #f9f9f9;
+            padding: 5px;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+        .summary {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .stat {
+            display: inline-block;
+            margin: 0 20px;
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2196f3;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Video Thumbnails Testing Tool</h1>
+        <div class="summary">
+            <div class="stat">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Videos</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="loadedCount" style="color: #4caf50;">0</div>
+                <div class="stat-label">Loaded ✓</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="failedCount" style="color: #f44336;">0</div>
+                <div class="stat-label">Failed ✗</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="loadingCount" style="color: #2196f3;">0</div>
+                <div class="stat-label">Loading</div>
+            </div>
+        </div>
+        <div class="video-grid" id="videoGrid"></div>
+    </div>
+
+    <script>
+        // Videos Config Data
+        const videosConfig = [
+  {id: 'fcc-react-001', title: 'React Course - Beginner\'s Tutorial', thumbnail: 'https://img.youtube.com/vi/DLX62G4lc44/maxresdefault.jpg'},
+  {id: 'fcc-react-002', title: 'React Redux Tutorial for Beginners', thumbnail: 'https://img.youtube.com/vi/poQXNp9ItL4/maxresdefault.jpg'},
+  {id: 'fcc-vue-001', title: 'Vue.js Course for Beginners', thumbnail: 'https://img.youtube.com/vi/FXpIoQ_rT_c/maxresdefault.jpg'},
+  {id: 'fcc-angular-001', title: 'Angular Full Course', thumbnail: 'https://img.youtube.com/vi/3qBXWKgfog4/maxresdefault.jpg'},
+  {id: 'fcc-js-001', title: 'JavaScript Algorithms and Data Structures', thumbnail: 'https://img.youtube.com/vi/PkZYUXjMrKM/maxresdefault.jpg'},
+  {id: 'fcc-ts-001', title: 'TypeScript Tutorial for Beginners', thumbnail: 'https://img.youtube.com/vi/gp5H0Vw39yw/maxresdefault.jpg'},
+  {id: 'fcc-node-001', title: 'Node.js and Express.js - Full Course', thumbnail: 'https://img.youtube.com/vi/Oe421EPjeBE/maxresdefault.jpg'},
+  {id: 'fcc-python-001', title: 'Python for Everybody - Full Course', thumbnail: 'https://img.youtube.com/vi/8DvO9XspHc0/maxresdefault.jpg'},
+  {id: 'fcc-django-001', title: 'Django for Beginners', thumbnail: 'https://img.youtube.com/vi/o0XbHvZhnIA/maxresdefault.jpg'},
+  {id: 'fcc-mongodb-001', title: 'MongoDB - The Complete Developer\'s Guide', thumbnail: 'https://img.youtube.com/vi/-56x56UppqQ/maxresdefault.jpg'},
+  {id: 'fcc-java-001', title: 'Java Programming for Beginners', thumbnail: 'https://img.youtube.com/vi/eIrMbAQSU34/maxresdefault.jpg'},
+  {id: 'fcc-spring-001', title: 'Spring Boot - Building REST APIs', thumbnail: 'https://img.youtube.com/vi/9SGDpanBqAQ/maxresdefault.jpg'},
+  {id: 'fcc-dsa-001', title: 'Data Structures - Full Course', thumbnail: 'https://img.youtube.com/vi/RBSGKlAvoiM/maxresdefault.jpg'},
+  {id: 'fcc-dsa-002', title: 'Data Structures Easy to Advanced', thumbnail: 'https://img.youtube.com/vi/pkYVOmU3MgA/maxresdefault.jpg'},
+  {id: 'fcc-graph-001', title: 'Graph Algorithms Explained', thumbnail: 'https://img.youtube.com/vi/tWVWeAqZ0WU/maxresdefault.jpg'},
+  {id: 'fcc-algo-001', title: 'Algorithms Course', thumbnail: 'https://img.youtube.com/vi/fSymbchE8A4/maxresdefault.jpg'},
+  {id: 'fcc-algo-002', title: 'Dynamic Programming', thumbnail: 'https://img.youtube.com/vi/aPQY-AwMOkU/maxresdefault.jpg'},
+  {id: 'fcc-sorting-001', title: 'Sorting Algorithms Visualized', thumbnail: 'https://img.youtube.com/vi/pFQ_DwrIeMz/maxresdefault.jpg'},
+  {id: 'fcc-sysdes-001', title: 'System Design Interview Course', thumbnail: 'https://img.youtube.com/vi/ZgdS0EUmn70/maxresdefault.jpg'},
+  {id: 'fcc-sysdes-002', title: 'Scalability and System Design with Java', thumbnail: 'https://img.youtube.com/vi/SGYY3i_sDUY/maxresdefault.jpg'},
+  {id: 'fcc-fullstack-001', title: 'Full Stack Web Development', thumbnail: 'https://img.youtube.com/vi/CdAZ9dh8luY/maxresdefault.jpg'},
+  {id: 'fcc-html-css-001', title: 'HTML and CSS - Build Responsive Websites', thumbnail: 'https://img.youtube.com/vi/X1mnO3gVQOo/maxresdefault.jpg'},
+  {id: 'fcc-responsive-001', title: 'Responsive Web Design - Full Course', thumbnail: 'https://img.youtube.com/vi/srvUrASNj0s/maxresdefault.jpg'},
+  {id: 'fcc-nextjs-001', title: 'Next.js - React Framework Course', thumbnail: 'https://img.youtube.com/vi/A63UxsQsEbU/maxresdefault.jpg'},
+  {id: 'fcc-docker-001', title: 'Docker Tutorial for Beginners', thumbnail: 'https://img.youtube.com/vi/fqMOX6JJhGo/maxresdefault.jpg'},
+  {id: 'fcc-kubernetes-001', title: 'Kubernetes Tutorial for Beginners', thumbnail: 'https://img.youtube.com/vi/d6WC5n9G_sM/maxresdefault.jpg'},
+  {id: 'fcc-git-001', title: 'Git and GitHub - Complete Guide', thumbnail: 'https://img.youtube.com/vi/RGOj5yH7evk/maxresdefault.jpg'},
+  {id: 'fcc-ci-cd-001', title: 'CI/CD Pipeline with GitHub Actions', thumbnail: 'https://img.youtube.com/vi/R8_veQiYBjI/maxresdefault.jpg'},
+  {id: 'fcc-react-native-001', title: 'React Native - Build Mobile Apps', thumbnail: 'https://img.youtube.com/vi/0-S5a0eS84c/maxresdefault.jpg'},
+  {id: 'fcc-flutter-001', title: 'Flutter Course', thumbnail: 'https://img.youtube.com/vi/jDE6d-xM7bw/maxresdefault.jpg'},
+  {id: 'fcc-android-001', title: 'Android Development - Full Course', thumbnail: 'https://img.youtube.com/vi/fis26HvvDII/maxresdefault.jpg'},
+  {id: 'fcc-aws-001', title: 'AWS Cloud Practitioner Course', thumbnail: 'https://img.youtube.com/vi/SOTamCEtlj0/maxresdefault.jpg'},
+  {id: 'fcc-gcp-001', title: 'Google Cloud Platform Course', thumbnail: 'https://img.youtube.com/vi/LQYGP1R75A4/maxresdefault.jpg'},
+  {id: 'fcc-azure-001', title: 'Microsoft Azure - Complete Course', thumbnail: 'https://img.youtube.com/vi/tIpXx9-MZ80/maxresdefault.jpg'},
+  {id: 'fcc-ml-001', title: 'Machine Learning Course for Beginners', thumbnail: 'https://img.youtube.com/vi/i_LwzRVP7bg/maxresdefault.jpg'},
+  {id: 'fcc-deeplearning-001', title: 'Deep Learning - Neural Networks', thumbnail: 'https://img.youtube.com/vi/VyWAvY2CF9c/maxresdefault.jpg'},
+  {id: 'fcc-nlp-001', title: 'Natural Language Processing', thumbnail: 'https://img.youtube.com/vi/PJKYqLP6VFY/maxresdefault.jpg'},
+  {id: 'fcc-sql-001', title: 'SQL Tutorial - Full Course', thumbnail: 'https://img.youtube.com/vi/HXV3zeQKqGY/maxresdefault.jpg'},
+  {id: 'fcc-postgres-001', title: 'PostgreSQL - Advanced Database Course', thumbnail: 'https://img.youtube.com/vi/qw--VYLpxG4/maxresdefault.jpg'},
+  {id: 'fcc-graphql-001', title: 'GraphQL Course', thumbnail: 'https://img.youtube.com/vi/ed8SzALpx1Q/maxresdefault.jpg'},
+  {id: 'fcc-testing-001', title: 'Testing JavaScript', thumbnail: 'https://img.youtube.com/vi/7r4xVznh7E0/maxresdefault.jpg'},
+  {id: 'fcc-e2e-001', title: 'Cypress Tutorial', thumbnail: 'https://img.youtube.com/vi/7N63cMKosIE/maxresdefault.jpg'},
+  {id: 'fcc-interview-001', title: 'Coding Interview Questions and Answers', thumbnail: 'https://img.youtube.com/vi/M2GwWZJZjqE/maxresdefault.jpg'},
+  {id: 'fcc-dsa-interview-001', title: 'Data Structures and Algorithms Interview Prep', thumbnail: 'https://img.youtube.com/vi/0IAPZzGSbME/maxresdefault.jpg'},
+  {id: 'fcc-behavioral-001', title: 'Behavioral Interview Preparation', thumbnail: 'https://img.youtube.com/vi/TyKl0c_0PxU/maxresdefault.jpg'}
+        ];
+
+        let loadedCount = 0;
+        let failedCount = 0;
+        let loadingCount = videosConfig.length;
+
+        const grid = document.getElementById('videoGrid');
+
+        videosConfig.forEach((video, index) => {
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            
+            const thumbContainer = document.createElement('div');
+            thumbContainer.className = 'thumbnail-container';
+            
+            const status = document.createElement('div');
+            status.className = 'status loading';
+            status.textContent = 'Loading...';
+            
+            const img = document.createElement('img');
+            img.className = 'thumbnail-img';
+            img.src = video.thumbnail;
+            
+            img.onload = () => {
+                status.className = 'status loaded';
+                status.textContent = '✓ Loaded';
+                loadedCount++;
+                loadingCount--;
+                updateStats();
+            };
+            
+            img.onerror = () => {
+                status.className = 'status failed';
+                status.textContent = '✗ Failed';
+                failedCount++;
+                loadingCount--;
+                updateStats();
+            };
+            
+            thumbContainer.appendChild(img);
+            thumbContainer.appendChild(status);
+            
+            const info = document.createElement('div');
+            info.className = 'info';
+            
+            const title = document.createElement('div');
+            title.className = 'title';
+            title.textContent = video.title;
+            
+            const id = document.createElement('div');
+            id.className = 'id';
+            id.textContent = `ID: ${video.id}`;
+            
+            const url = document.createElement('div');
+            url.className = 'url';
+            url.textContent = video.thumbnail;
+            
+            info.appendChild(title);
+            info.appendChild(id);
+            info.appendChild(url);
+            
+            card.appendChild(thumbContainer);
+            card.appendChild(info);
+            grid.appendChild(card);
+        });
+
+        function updateStats() {
+            document.getElementById('totalCount').textContent = videosConfig.length;
+            document.getElementById('loadedCount').textContent = loadedCount;
+            document.getElementById('failedCount').textContent = failedCount;
+            document.getElementById('loadingCount').textContent = loadingCount;
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>

@@ -15,6 +15,8 @@ import { heapSortInfo } from '../algorithms/Sorting/heapSort'
 import { bucketSortInfo } from '../algorithms/Sorting/bucketSort'
 import { bellmanFordInfo } from '../algorithms/Graph/bellmanFord'
 import { floydWarshallInfo } from '../algorithms/Graph/floydWarshall'
+import { astarInfo } from '../pages/DSA/Visualization/Searching/utils/astarInfo'
+import { kruskalInfo } from '../pages/DSA/Visualization/Graph/utils/kruskalInfo'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -82,6 +84,14 @@ export const ALGORITHMS = {
     ...binarySearchInfo
   },
 
+  aStar: {
+    id: 'aStar',
+    name: 'A* Pathfinding',
+    category: ALGORITHM_CATEGORIES.PATHFINDING,
+    simpleVisualization: true,
+    ...astarInfo
+  },
+
   // Graph Algorithms
   bfs: {
     id: 'bfs',
@@ -137,6 +147,14 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/floydWarshall').then(m => m.floydWarshall),
     ...floydWarshallInfo
+  },
+
+  kruskal: {
+    id: 'kruskal',
+    name: 'Kruskal\'s Algorithm',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    simpleVisualization: true,
+    ...kruskalInfo
   },
 }
 

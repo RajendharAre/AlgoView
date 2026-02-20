@@ -1,0 +1,22 @@
+{
+  "comment": "Image URL mapping for tutorials. Replace URLs with your Firebase Storage download URLs.",
+  "instructions": "Get each URL from Firebase Console → Storage → Click image → Copy URL",
+  
+  "React Hooks - Complete Guide": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FReactJS.png?alt=media",
+  
+  "Node.js REST API Development": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FNodeJS.png?alt=media",
+  
+  "CSS Grid & Flexbox Mastery": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FCSSFlexBox.png?alt=media",
+  
+  "TypeScript for React Developers": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FTypeScript.png?alt=media",
+  
+  "Docker & Containerization": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FDockerContainer.png?alt=media",
+  
+  "Next.js Full-Stack Development": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FNextJS.png?alt=media",
+  
+  "Tailwind CSS Advanced Techniques": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FTailWindCSS.png?alt=media",
+  
+  "MongoDB & Mongoose Complete Guide": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FMongoDB.png?alt=media",
+  
+  "AWS Cloud Deployment Guide": "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.appspot.com/o/tutorials%2FAWSCloud.png?alt=media"
+}

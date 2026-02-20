@@ -10,7 +10,10 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "upload-images": "node scripts/setup-firebase-images.js",
+    "map-urls": "node scripts/map-firebase-urls.js",
+    "apply-mapping": "node scripts/apply-image-mapping.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
@@ -22,7 +25,9 @@
     "dompurify": "^3.3.1",
     "dotenv": "^17.2.3",
     "firebase": "^12.1.0",
+    "firebase-admin": "^13.6.1",
     "framer-motion": "^12.23.12",
+    "glob": "^13.0.4",
     "highlight.js": "^11.11.1",
     "http-proxy-middleware": "^3.0.5",
     "lucide-react": "^0.541.0",

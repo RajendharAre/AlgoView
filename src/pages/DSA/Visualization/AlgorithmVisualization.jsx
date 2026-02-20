@@ -9,11 +9,13 @@ import HeapSortVisualization from './Sorting/HeapSort';
 import BucketSortVisualization from './Sorting/BucketSort';
 import LinearSearchVisualization from './Searching/LinearSearch';
 import BinarySearchVisualization from './Searching/BinarySearch';
+import AStarVisualization from './Searching/AStar';
 import BFSVisualization from './Graph/BFS';
 import DFSVisualization from './Graph/DFS';
 import DijkstraVisualization from './Graph/Dijkstra';
 import BellmanFordVisualization from './Graph/BellmanFord';
 import FloydWarshallVisualization from './Graph/FloydWarshall';
+import KruskalVisualization from './Graph/Kruskal';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -33,11 +35,13 @@ const AlgorithmVisualization = () => {
     'bucketSort': BucketSortVisualization,
     'linearSearch': LinearSearchVisualization,
     'binarySearch': BinarySearchVisualization,
+    'aStar': AStarVisualization,
     'bfs': BFSVisualization,
     'dfs': DFSVisualization,
     'dijkstra': DijkstraVisualization,
     'bellmanFord': BellmanFordVisualization,
     'floydWarshall': FloydWarshallVisualization,
+    'kruskal': KruskalVisualization,
     // Add more algorithms here as they are implemented
   };
 

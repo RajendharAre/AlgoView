@@ -1,23 +1,52 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaClock, FaEye, FaStar, FaTimes } from 'react-icons/fa';
+import { FaClock, FaEye, FaStar, FaTimes, FaCrown } from 'react-icons/fa';
+
+// Grayscale palette
+const COLORS = {
+  bg: {
+    primary: '#f8f9fa',
+    secondary: '#e9ecef',
+    tertiary: '#dee2e6',
+    dark: '#343a40',
+  },
+  text: {
+    primary: '#212529',
+    secondary: '#495057',
+    tertiary: '#6c757d',
+    muted: '#adb5bd',
+    light: '#f8f9fa',
+  },
+  border: {
+    light: '#dee2e6',
+    medium: '#ced4da',
+  },
+  star: '#f59e0b',
+};
+
+// UI accent colors for tags and badges
+const CATEGORY_COLORS = {
+  Web: { bg: '#dbeafe', text: '#1e40af' },
+  DevOps: { bg: '#d1fae5', text: '#065f46' },
+  Cloud: { bg: '#ede9fe', text: '#5b21b6' },
+  AI: { bg: '#fef3c7', text: '#92400e' },
+};
+
+const DIFFICULTY_COLORS = {
+  Beginner: { bg: '#d1fae5', text: '#065f46' },
+  Intermediate: { bg: '#fef3c7', text: '#92400e' },
+  Advanced: { bg: '#fee2e2', text: '#991b1b' },
+};
+
+const TAG_COLORS = { bg: '#e0e7ff', text: '#4338ca' };
+const PREMIUM_COLORS = { bg: '#fef3c7', text: '#92400e', icon: '#d97706' };
 
 export default function TutorialCard({ tutorial }) {
   const [isHovered, setIsHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
-  const getDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case 'Beginner':
-        return 'bg-green-100 text-green-800';
-      case 'Intermediate':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Advanced':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const catColor = CATEGORY_COLORS[tutorial.category] || { bg: COLORS.bg.tertiary, text: COLORS.text.secondary };
+  const diffColor = DIFFICULTY_COLORS[tutorial.difficulty] || { bg: COLORS.bg.tertiary, text: COLORS.text.secondary };
 
   const renderStars = (rating) => {
     const stars = [];
@@ -26,20 +55,20 @@ export default function TutorialCard({ tutorial }) {
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(
-        <FaStar key={`star-${i}`} className="text-yellow-400" />
+        <FaStar key={`star-${i}`} style={{ color: COLORS.star }} />
       );
     }
 
     if (hasHalfStar) {
       stars.push(
-        <FaStar key="half-star" className="text-yellow-400 opacity-50" />
+        <FaStar key="half-star" style={{ color: COLORS.star, opacity: 0.5 }} />
       );
     }
 
     const emptyStars = 5 - Math.ceil(rating);
     for (let i = 0; i < emptyStars; i++) {
       stars.push(
-        <FaStar key={`empty-${i}`} className="text-gray-300" />
+        <FaStar key={`empty-${i}`} style={{ color: COLORS.border.light }} />
       );
     }
 
@@ -52,18 +81,19 @@ export default function TutorialCard({ tutorial }) {
       <motion.div
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="h-full bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+        style={{ backgroundColor: COLORS.bg.primary, borderColor: COLORS.border.light }}
+        className="h-full rounded-lg border overflow-hidden hover:shadow-lg transition-shadow duration-300"
       >
         {/* Image */}
-        <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100 overflow-hidden">
+        <div style={{ backgroundColor: COLORS.bg.secondary }} className="relative h-48 overflow-hidden">
           <img
             src={tutorial.imageUrl}
             alt={tutorial.title}
             className="w-full h-full object-cover"
           />
           {tutorial.isPremium && (
-            <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-              <FaStar size={12} />
+            <div style={{ backgroundColor: PREMIUM_COLORS.bg, color: PREMIUM_COLORS.text }} className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+              <FaCrown size={12} style={{ color: PREMIUM_COLORS.icon }} />
               Premium
             </div>
           )}
@@ -73,7 +103,8 @@ export default function TutorialCard({ tutorial }) {
           >
             <button
               onClick={() => setShowDetails(true)}
-              className="bg-white text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition"
+              style={{ backgroundColor: COLORS.bg.primary, color: COLORS.text.primary }}
+              className="px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition"
             >
               View Details
             </button>
@@ -84,49 +115,49 @@ export default function TutorialCard({ tutorial }) {
         <div className="p-5">
           {/* Category & Difficulty */}
           <div className="flex justify-between items-start mb-3">
-            <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+            <span style={{ backgroundColor: catColor.bg, color: catColor.text }} className="inline-block px-3 py-1 text-xs font-medium rounded-full">
               {tutorial.category}
             </span>
-            <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${getDifficultyColor(tutorial.difficulty)}`}>
+            <span className="inline-block px-3 py-1 text-xs font-medium rounded-full" style={{ backgroundColor: diffColor.bg, color: diffColor.text }}>
               {tutorial.difficulty}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 cursor-pointer transition">
+          <h3 style={{ color: COLORS.text.primary }} className="text-lg font-bold mb-2 line-clamp-2 cursor-pointer transition">
             {tutorial.title}
           </h3>
 
           {/* Description */}
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+          <p style={{ color: COLORS.text.secondary }} className="text-sm mb-4 line-clamp-2">
             {tutorial.description}
           </p>
 
           {/* Tags */}
           <div className="flex flex-wrap gap-1 mb-4">
             {tutorial.tags.slice(0, 2).map((tag, i) => (
-              <span key={i} className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+              <span key={i} style={{ color: TAG_COLORS.text, backgroundColor: TAG_COLORS.bg }} className="text-xs px-2 py-1 rounded">
                 #{tag}
               </span>
             ))}
             {tutorial.tags.length > 2 && (
-              <span className="text-xs text-gray-500">+{tutorial.tags.length - 2} more</span>
+              <span style={{ color: COLORS.text.muted }} className="text-xs">+{tutorial.tags.length - 2} more</span>
             )}
           </div>
 
           {/* Rating */}
-          <div className="flex items-center justify-between mb-4 pb-4 border-t border-gray-200">
+          <div style={{ borderTopColor: COLORS.border.light }} className="flex items-center justify-between mb-4 pb-4 border-t">
             <div className="flex items-center gap-2">
               <div className="flex gap-0.5">
                 {renderStars(tutorial.rating)}
               </div>
-              <span className="text-sm font-semibold text-gray-900">{tutorial.rating}</span>
-              <span className="text-xs text-gray-600">({tutorial.ratingCount})</span>
+              <span style={{ color: COLORS.text.primary }} className="text-sm font-semibold">{tutorial.rating}</span>
+              <span style={{ color: COLORS.text.tertiary }} className="text-xs">({tutorial.ratingCount})</span>
             </div>
           </div>
 
           {/* Meta Info */}
-          <div className="flex justify-between text-sm text-gray-600 mb-4">
+          <div style={{ color: COLORS.text.secondary }} className="flex justify-between text-sm mb-4">
             <div className="flex items-center gap-1">
               <FaClock size={14} />
               <span>{tutorial.duration} min</span>
@@ -138,12 +169,12 @@ export default function TutorialCard({ tutorial }) {
           </div>
 
           {/* Author */}
-          <div className="text-xs text-gray-600 border-t border-gray-200 pt-3">
-            By <span className="font-semibold text-gray-900">{tutorial.author}</span>
+          <div style={{ color: COLORS.text.tertiary, borderTopColor: COLORS.border.light }} className="text-xs border-t pt-3">
+            By <span style={{ color: COLORS.text.primary }} className="font-semibold">{tutorial.author}</span>
           </div>
 
           {/* Read Button */}
-          <button className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+          <button style={{ backgroundColor: COLORS.bg.dark, color: COLORS.text.light }} className="w-full mt-4 py-2 rounded-lg font-semibold hover:opacity-90 transition">
             Start Learning
           </button>
         </div>
@@ -163,24 +194,26 @@ export default function TutorialCard({ tutorial }) {
             animate={{ scale: 1 }}
             exit={{ scale: 0.95 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-lg max-w-2xl max-h-[90vh] overflow-y-auto"
+            style={{ backgroundColor: COLORS.bg.primary }}
+            className="rounded-lg max-w-2xl max-h-[90vh] overflow-y-auto"
           >
             {/* Modal Header */}
-            <div className="sticky top-0 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 border-b border-gray-200 flex justify-between items-start">
+            <div style={{ backgroundColor: COLORS.bg.primary, borderBottomColor: COLORS.border.light }} className="sticky top-0 p-6 border-b flex justify-between items-start">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">{tutorial.title}</h2>
+                <h2 style={{ color: COLORS.text.primary }} className="text-2xl font-bold mb-2">{tutorial.title}</h2>
                 <div className="flex gap-2">
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                  <span style={{ backgroundColor: catColor.bg, color: catColor.text }} className="px-3 py-1 text-xs font-medium rounded-full">
                     {tutorial.category}
                   </span>
-                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${getDifficultyColor(tutorial.difficulty)}`}>
+                  <span className="px-3 py-1 text-xs font-medium rounded-full" style={{ backgroundColor: diffColor.bg, color: diffColor.text }}>
                     {tutorial.difficulty}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setShowDetails(false)}
-                className="text-gray-500 hover:text-gray-700 text-xl"
+                style={{ color: COLORS.text.tertiary }}
+                className="hover:opacity-70 text-xl"
               >
                 <FaTimes size={20} />
               </button>
@@ -190,40 +223,40 @@ export default function TutorialCard({ tutorial }) {
             <div className="p-6">
               {/* Stats */}
               <div className="grid grid-cols-4 gap-4 mb-6">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="text-2xl mb-2"><FaClock className="text-blue-600" /></div>
-                  <div className="text-xs text-gray-600 mt-1">Duration</div>
-                  <div className="text-lg font-bold">{tutorial.duration} min</div>
+                <div style={{ backgroundColor: COLORS.bg.primary }} className="p-4 rounded-lg">
+                  <div className="text-2xl mb-2"><FaClock style={{ color: COLORS.text.tertiary }} /></div>
+                  <div style={{ color: COLORS.text.tertiary }} className="text-xs mt-1">Duration</div>
+                  <div style={{ color: COLORS.text.primary }} className="text-lg font-bold">{tutorial.duration} min</div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="text-2xl mb-2"><FaEye className="text-blue-600" /></div>
-                  <div className="text-xs text-gray-600 mt-1">Views</div>
-                  <div className="text-lg font-bold">{tutorial.views || 0}</div>
+                <div style={{ backgroundColor: COLORS.bg.primary }} className="p-4 rounded-lg">
+                  <div className="text-2xl mb-2"><FaEye style={{ color: COLORS.star }} /></div>
+                  <div style={{ color: COLORS.text.tertiary }} className="text-xs mt-1">Views</div>
+                  <div style={{ color: COLORS.text.primary }} className="text-lg font-bold">{tutorial.views || 0}</div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="text-2xl mb-2"><FaStar className="text-blue-600" /></div>
-                  <div className="text-xs text-gray-600 mt-1">Rating</div>
-                  <div className="text-lg font-bold">{tutorial.rating}</div>
+                <div style={{ backgroundColor: COLORS.bg.primary }} className="p-4 rounded-lg">
+                  <div className="text-2xl mb-2"><FaStar style={{ color: COLORS.star }} /></div>
+                  <div style={{ color: COLORS.text.tertiary }} className="text-xs mt-1">Rating</div>
+                  <div style={{ color: COLORS.text.primary }} className="text-lg font-bold">{tutorial.rating}</div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="text-2xl mb-2"><FaStar className="text-blue-600" /></div>
-                  <div className="text-xs text-gray-600 mt-1">Reviews</div>
-                  <div className="text-lg font-bold">{tutorial.ratingCount || 0}</div>
+                <div style={{ backgroundColor: COLORS.bg.primary }} className="p-4 rounded-lg">
+                  <div className="text-2xl mb-2"><FaStar style={{ color: COLORS.star }} /></div>
+                  <div style={{ color: COLORS.text.tertiary }} className="text-xs mt-1">Reviews</div>
+                  <div style={{ color: COLORS.text.primary }} className="text-lg font-bold">{tutorial.ratingCount || 0}</div>
                 </div>
               </div>
 
               {/* Description */}
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Overview</h3>
-                <p className="text-gray-700 leading-relaxed">{tutorial.description}</p>
+                <h3 style={{ color: COLORS.text.primary }} className="text-lg font-bold mb-2">Overview</h3>
+                <p style={{ color: COLORS.text.secondary }} className="leading-relaxed">{tutorial.description}</p>
               </div>
 
               {/* Tags */}
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Topics Covered</h3>
+                <h3 style={{ color: COLORS.text.primary }} className="text-lg font-bold mb-2">Topics Covered</h3>
                 <div className="flex flex-wrap gap-2">
                   {tutorial.tags.map((tag, i) => (
-                    <span key={i} className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                    <span key={i} style={{ backgroundColor: TAG_COLORS.bg, color: TAG_COLORS.text }} className="px-3 py-1 text-sm rounded-full">
                       #{tag}
                     </span>
                   ))}
@@ -231,13 +264,13 @@ export default function TutorialCard({ tutorial }) {
               </div>
 
               {/* Author */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                <div className="text-sm text-gray-600 mb-1">Author</div>
-                <div className="text-lg font-bold text-gray-900">{tutorial.author}</div>
+              <div style={{ backgroundColor: COLORS.bg.primary }} className="mb-6 p-4 rounded-lg">
+                <div style={{ color: COLORS.text.tertiary }} className="text-sm mb-1">Author</div>
+                <div style={{ color: COLORS.text.primary }} className="text-lg font-bold">{tutorial.author}</div>
               </div>
 
               {/* CTA Button */}
-              <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition text-lg">
+              <button style={{ backgroundColor: COLORS.bg.dark, color: COLORS.text.light }} className="w-full py-3 rounded-lg font-bold hover:opacity-90 transition text-lg">
                 {tutorial.isPremium ? 'Unlock Premium to Learn' : 'Start Learning Now'}
               </button>
             </div>

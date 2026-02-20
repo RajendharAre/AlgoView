@@ -35,7 +35,8 @@ const DSAAlgorithmCategory = () => {
     ],
     searching: [
       { id: 'linearSearch', name: 'Linear Search', difficulty: 'Easy', description: 'Simple search algorithm that checks each element' },
-      { id: 'binarySearch', name: 'Binary Search', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' }
+      { id: 'binarySearch', name: 'Binary Search', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' },
+      { id: 'aStar', name: 'A* Pathfinding', difficulty: 'Hard', description: 'Informed search algorithm that finds optimal paths in grid environments' }
     ],
     graph: [
       { id: 'dfs', name: 'Depth First Search', difficulty: 'Medium', description: 'Graph traversal algorithm exploring as far as possible' },

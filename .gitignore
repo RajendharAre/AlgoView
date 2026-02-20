@@ -57,6 +57,8 @@ yarn-error.log*
 .env.*.key
 *.secret
 *.key
+serviceAccountKey.json
+firebase-urls.json
 
 # vercel
 .vercel

@@ -51,7 +51,7 @@ const DSAContributeNew = () => {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full"
                 >
                   <option value="algorithm">Algorithm Explanation</option>
                   <option value="problem">Problem Solution</option>
@@ -68,7 +68,7 @@ const DSAContributeNew = () => {
                 <select
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full"
                 >
                   <option value="beginner">Beginner</option>
                   <option value="easy">Easy</option>

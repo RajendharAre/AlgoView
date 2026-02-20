@@ -152,12 +152,12 @@ const Navbar = () => {
                       </Link>
                                         
                       {dsaDropdownOpen && (
-                        <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200 z-50">
+                        <div className="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden py-1">
                           {item.dropdown.map((subItem) => (
                             <Link
                               key={subItem.name}
                               to={subItem.path}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              className="block px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                               onClick={() => setDsaDropdownOpen(false)}
                             >
                               {subItem.name}
@@ -210,7 +210,7 @@ const Navbar = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 border border-gray-200 z-50"
+                      className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden py-1"
                     >
                       <div className="px-4 py-3 border-b border-gray-100">
                         <p className="text-sm font-medium text-gray-900 truncate">{currentUser.displayName || 'User'}</p>
@@ -218,7 +218,7 @@ const Navbar = () => {
                       </div>
                       <Link
                         to="/profile"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                         onClick={() => setUserDropdownOpen(false)}
                       >
                         <User className="h-4 w-4 mr-3" />
@@ -226,19 +226,21 @@ const Navbar = () => {
                       </Link>
                       <Link
                         to="/settings"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                         onClick={() => setUserDropdownOpen(false)}
                       >
                         <Settings className="h-4 w-4 mr-3" />
                         Settings
                       </Link>
-                      <button
-                        onClick={handleSignOut}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        <LogOut className="h-4 w-4 mr-3" />
-                        Sign out
-                      </button>
+                      <div className="border-t border-gray-100 mt-1 pt-1">
+                        <button
+                          onClick={handleSignOut}
+                          className="flex items-center w-full px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
+                        >
+                          <LogOut className="h-4 w-4 mr-3" />
+                          Sign out
+                        </button>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>

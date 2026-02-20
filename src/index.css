@@ -85,3 +85,101 @@ body {
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" 1;
 }
+
+/* ─── Global Select / Dropdown Styling ─── */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px !important;
+  cursor: pointer;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  padding: 0.625rem 2.25rem 0.625rem 0.875rem;
+  color: #212529;
+  background-color: #f8f9fa;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+select:hover {
+  border-color: #adb5bd;
+}
+
+select:focus {
+  outline: none;
+  border-color: #343a40;
+  box-shadow: 0 0 0 3px rgba(52, 58, 64, 0.12);
+  background-color: #ffffff;
+}
+
+select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #e9ecef;
+}
+
+/* Option styling (limited browser support but helps) */
+select option {
+  padding: 8px 12px;
+  color: #212529;
+  background-color: #ffffff;
+}
+
+select option:checked {
+  background-color: #e9ecef;
+}
+
+/* ─── Global Input / Text Input Styling ─── */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+textarea {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  color: #212529;
+  background-color: #f8f9fa;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="url"]:hover,
+input[type="search"]:hover,
+input[type="password"]:hover,
+input[type="number"]:hover,
+input[type="tel"]:hover,
+textarea:hover {
+  border-color: #adb5bd;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #343a40;
+  box-shadow: 0 0 0 3px rgba(52, 58, 64, 0.12);
+  background-color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #adb5bd;
+}

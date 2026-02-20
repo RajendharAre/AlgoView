@@ -36,11 +36,13 @@ const Sidebar = () => {
                                location.pathname.includes('bucketSort') ||
                                location.pathname.includes('linearSearch') || 
                                location.pathname.includes('binarySearch') ||
+                               location.pathname.includes('aStar') ||
                                location.pathname.includes('dfs') || 
                                location.pathname.includes('bfs') || 
                                location.pathname.includes('dijkstra') ||
                                location.pathname.includes('bellmanFord') ||
                                location.pathname.includes('floydWarshall') ||
+                               location.pathname.includes('kruskal') ||
                                location.pathname.includes('fibonacci') ||
                                location.pathname.includes('coinChange') ||
                                location.pathname.includes('knapsack') ||
@@ -67,7 +69,8 @@ const Sidebar = () => {
           backtracking: false
         }));
       } else if (location.pathname.includes('linearSearch') || 
-                 location.pathname.includes('binarySearch')) {
+                 location.pathname.includes('binarySearch') ||
+                 location.pathname.includes('aStar')) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -82,7 +85,8 @@ const Sidebar = () => {
                  location.pathname.includes('bfs') || 
                  location.pathname.includes('dijkstra') ||
                  location.pathname.includes('bellmanFord') ||
-                 location.pathname.includes('floydWarshall')) {
+                 location.pathname.includes('floydWarshall') ||
+                 location.pathname.includes('kruskal')) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -162,7 +166,8 @@ const Sidebar = () => {
       icon: SearchIcon,
       algorithms: [
         { id: 'linearSearch', name: 'Linear Search' },
-        { id: 'binarySearch', name: 'Binary Search' }
+        { id: 'binarySearch', name: 'Binary Search' },
+        { id: 'aStar', name: 'A* Pathfinding' }
       ]
     },
     {
@@ -174,7 +179,8 @@ const Sidebar = () => {
         { id: 'bfs', name: 'Breadth First Search' },
         { id: 'dijkstra', name: 'Dijkstra Algorithm' },
         { id: 'bellmanFord', name: 'Bellman-Ford Algorithm' },
-        { id: 'floydWarshall', name: 'Floyd-Warshall Algorithm' }
+        { id: 'floydWarshall', name: 'Floyd-Warshall Algorithm' },
+        { id: 'kruskal', name: 'Kruskal\'s Algorithm' }
       ]
     },
     {
@@ -206,14 +212,14 @@ const Sidebar = () => {
       {/* Search */}
       <div className="p-4 border-b border-gray-200">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <input
             type="text"
             placeholder="Search algorithms..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" />
         </div>
       </div>
 

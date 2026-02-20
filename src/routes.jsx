@@ -28,6 +28,7 @@ const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/
 const Development = lazy(() => import('./pages/Development'))
 const TutorialsList = lazy(() => import('./pages/Development/Tutorials/TutorialsList'))
 const CodeExamplesList = lazy(() => import('./pages/Development/CodeExamples/CodeExamplesList'))
+const VideosPage = lazy(() => import('./pages/Development/Videos/VideosPage'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
@@ -273,6 +274,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<LoadingSpinner />}>
               <CodeExamplesList />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'development/videos',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<LoadingSpinner />}>
+              <VideosPage />
             </Suspense>
           </ProtectedRoute>
         )

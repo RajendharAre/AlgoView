@@ -3,6 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBook, FaCode, FaVideo, FaFileAlt, FaUsers, FaQuestionCircle } from 'react-icons/fa';
 
+// Semantic color tokens from grayscale palette
+const COLORS = {
+  bg: {
+    primary: '#f8f9fa',
+    secondary: '#e9ecef',
+    tertiary: '#dee2e6',
+  },
+  text: {
+    primary: '#212529',
+    secondary: '#495057',
+    tertiary: '#6c757d',
+    muted: '#adb5bd',
+  },
+  border: {
+    light: '#dee2e6',
+    medium: '#ced4da',
+  },
+  accent: {
+    primary: '#343a40', // gunmetal
+    secondary: '#6c757d', // slate-grey
+  }
+};
+
 export default function Development() {
   const navigate = useNavigate();
 
@@ -11,8 +34,8 @@ export default function Development() {
       id: 'tutorials',
       label: 'Tutorials',
       icon: FaBook,
-      description: 'Comprehensive step-by-step guides covering DSA, Web Development, and more.',
-      color: 'from-blue-500 to-blue-600',
+      description: 'Comprehensive step-by-step guides covering Web Development, DevOps, and more.',
+      accentColor: COLORS.accent.primary,
       path: '/development/tutorials'
     },
     {
@@ -20,7 +43,7 @@ export default function Development() {
       label: 'Code Examples',
       icon: FaCode,
       description: 'Ready-to-use code snippets with syntax highlighting in multiple languages.',
-      color: 'from-purple-500 to-purple-600',
+      accentColor: COLORS.accent.primary,
       path: '/development/code-examples'
     },
     {
@@ -28,7 +51,7 @@ export default function Development() {
       label: 'Video Courses',
       icon: FaVideo,
       description: 'Curated video courses from top platforms for visual learners.',
-      color: 'from-red-500 to-red-600',
+      accentColor: COLORS.accent.primary,
       path: '/development/videos'
     },
     {
@@ -36,7 +59,7 @@ export default function Development() {
       label: 'Documentation',
       icon: FaFileAlt,
       description: 'Official documentation and reference guides for popular technologies.',
-      color: 'from-amber-500 to-amber-600',
+      accentColor: COLORS.accent.primary,
       path: '/development/documentation'
     },
     {
@@ -44,7 +67,7 @@ export default function Development() {
       label: 'Community',
       icon: FaUsers,
       description: 'Connect with developers on Discord, Telegram, Reddit, and GitHub.',
-      color: 'from-green-500 to-green-600',
+      accentColor: COLORS.accent.primary,
       path: '/development/community'
     },
     {
@@ -52,23 +75,24 @@ export default function Development() {
       label: 'Q&A Forum',
       icon: FaQuestionCircle,
       description: 'Popular questions and answers from the community.',
-      color: 'from-indigo-500 to-indigo-600',
+      accentColor: COLORS.accent.primary,
       path: '/development/qa'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div style={{ backgroundColor: COLORS.bg.primary }}>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 py-12"
+        style={{ backgroundColor: COLORS.bg.primary, borderBottomColor: COLORS.border.light }}
+        className="bg-white border-b py-12"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Development Hub</h1>
-          <p className="text-lg text-gray-600 max-w-3xl">
-            Master DSA, Web Development, DevOps, and more with tutorials, code examples, video courses, and community resources.
+          <h1 className="text-4xl font-bold mb-2" style={{ color: COLORS.text.primary }}>Development Hub</h1>
+          <p className="text-lg max-w-3xl" style={{ color: COLORS.text.secondary }}>
+            Master Web Development, DevOps, and more with tutorials, code examples, video courses, and community resources.
           </p>
         </div>
       </motion.div>
@@ -91,20 +115,18 @@ export default function Development() {
                 transition={{ delay: index * 0.1 }}
                 className="group"
               >
-                <div className="h-full bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300">
+                <div style={{ backgroundColor: COLORS.bg.primary, borderColor: COLORS.border.light }} className="h-full rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300">
                   {/* Color Header */}
-                  <div className={`h-24 bg-gradient-to-r ${section.color} relative`}>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Icon className="text-white text-4xl" />
-                    </div>
+                  <div style={{ backgroundColor: COLORS.bg.secondary }} className="h-24 flex items-center justify-center">
+                    <Icon className="text-4xl" style={{ color: section.accentColor }} />
                   </div>
 
                   {/* Content */}
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    <h3 className="text-xl font-bold mb-2" style={{ color: COLORS.text.primary }}>
                       {section.label}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-6 line-clamp-3">
+                    <p className="text-sm mb-6 line-clamp-3" style={{ color: COLORS.text.secondary }}>
                       {section.description}
                     </p>
 
@@ -113,7 +135,8 @@ export default function Development() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => navigate(section.path)}
-                      className={`w-full py-3 rounded-lg font-semibold text-white bg-gradient-to-r ${section.color} hover:shadow-lg transition-all duration-300`}
+                      style={{ backgroundColor: section.accentColor, color: COLORS.bg.primary }}
+                      className="w-full py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
                     >
                       Explore
                     </motion.button>
@@ -130,14 +153,15 @@ export default function Development() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="bg-gradient-to-r from-blue-50 to-indigo-50 border-t border-gray-200 py-12"
+        style={{ backgroundColor: COLORS.bg.primary, borderTopColor: COLORS.border.light }}
+        className="border-t py-12"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <StatCard icon={FaBook} label="Tutorials" value="50+" />
-            <StatCard icon={FaCode} label="Code Examples" value="100+" />
-            <StatCard icon={FaVideo} label="Video Courses" value="200+" />
-            <StatCard icon={FaUsers} label="Community Members" value="10K+" />
+            <StatCard icon={FaBook} label="Tutorials" value="50+" accentColor={COLORS.accent.primary} />
+            <StatCard icon={FaCode} label="Code Examples" value="100+" accentColor={COLORS.accent.secondary} />
+            <StatCard icon={FaVideo} label="Video Courses" value="200+" accentColor={COLORS.accent.primary} />
+            <StatCard icon={FaUsers} label="Community Members" value="10K+" accentColor={COLORS.accent.primary} />
           </div>
         </div>
       </motion.div>
@@ -145,15 +169,16 @@ export default function Development() {
   );
 }
 
-function StatCard({ icon: Icon, label, value }) {
+function StatCard({ icon: Icon, label, value, accentColor }) {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className="bg-white rounded-lg p-6 border border-gray-200 text-center"
+      style={{ backgroundColor: COLORS.bg.primary, borderColor: COLORS.border.light }}
+      className="rounded-lg p-6 border text-center"
     >
-      <Icon className="text-blue-600 text-3xl mx-auto mb-3" />
-      <div className="text-2xl font-bold text-gray-900">{value}</div>
-      <div className="text-sm text-gray-600 mt-1">{label}</div>
+      <Icon className="text-3xl mx-auto mb-3" style={{ color: accentColor }} />
+      <div className="text-2xl font-bold" style={{ color: COLORS.text.primary }}>{value}</div>
+      <div className="text-sm mt-1" style={{ color: COLORS.text.secondary }}>{label}</div>
     </motion.div>
   );
 }
