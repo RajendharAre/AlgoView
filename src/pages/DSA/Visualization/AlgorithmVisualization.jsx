@@ -16,6 +16,9 @@ import DijkstraVisualization from './Graph/Dijkstra';
 import BellmanFordVisualization from './Graph/BellmanFord';
 import FloydWarshallVisualization from './Graph/FloydWarshall';
 import KruskalVisualization from './Graph/Kruskal';
+import PrimVisualization from './Graph/Prim';
+import TopologicalSortVisualization from './Graph/TopologicalSort';
+import KosarajuVisualization from './Graph/Kosaraju';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -42,6 +45,9 @@ const AlgorithmVisualization = () => {
     'bellmanFord': BellmanFordVisualization,
     'floydWarshall': FloydWarshallVisualization,
     'kruskal': KruskalVisualization,
+    'prim': PrimVisualization,
+    'topologicalSort': TopologicalSortVisualization,
+    'kosaraju': KosarajuVisualization,
     // Add more algorithms here as they are implemented
   };
 

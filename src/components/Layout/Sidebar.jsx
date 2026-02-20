@@ -43,6 +43,9 @@ const Sidebar = () => {
                                location.pathname.includes('bellmanFord') ||
                                location.pathname.includes('floydWarshall') ||
                                location.pathname.includes('kruskal') ||
+                               location.pathname.includes('prim') ||
+                               location.pathname.includes('topologicalSort') ||
+                               location.pathname.includes('kosaraju') ||
                                location.pathname.includes('fibonacci') ||
                                location.pathname.includes('coinChange') ||
                                location.pathname.includes('knapsack') ||
@@ -86,7 +89,10 @@ const Sidebar = () => {
                  location.pathname.includes('dijkstra') ||
                  location.pathname.includes('bellmanFord') ||
                  location.pathname.includes('floydWarshall') ||
-                 location.pathname.includes('kruskal')) {
+                 location.pathname.includes('kruskal') ||
+                 location.pathname.includes('prim') ||
+                 location.pathname.includes('topologicalSort') ||
+                 location.pathname.includes('kosaraju')) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -152,12 +158,12 @@ const Sidebar = () => {
       icon: Shuffle,
       algorithms: [
         { id: 'bubbleSort', name: 'Bubble Sort' },
-        { id: 'selectionSort', name: 'Selection Sort' },
+        { id: 'bucketSort', name: 'Bucket Sort' },
+        { id: 'heapSort', name: 'Heap Sort' },
         { id: 'insertionSort', name: 'Insertion Sort' },
         { id: 'mergeSort', name: 'Merge Sort' },
         { id: 'quickSort', name: 'Quick Sort' },
-        { id: 'heapSort', name: 'Heap Sort' },
-        { id: 'bucketSort', name: 'Bucket Sort' }
+        { id: 'selectionSort', name: 'Selection Sort' }
       ]
     },
     {
@@ -165,9 +171,9 @@ const Sidebar = () => {
       name: 'Searching Algorithms',
       icon: SearchIcon,
       algorithms: [
-        { id: 'linearSearch', name: 'Linear Search' },
+        { id: 'aStar', name: 'A* Pathfinding' },
         { id: 'binarySearch', name: 'Binary Search' },
-        { id: 'aStar', name: 'A* Pathfinding' }
+        { id: 'linearSearch', name: 'Linear Search' }
       ]
     },
     {
@@ -175,12 +181,15 @@ const Sidebar = () => {
       name: 'Graph Algorithms',
       icon: GitBranch,
       algorithms: [
-        { id: 'dfs', name: 'Depth First Search' },
-        { id: 'bfs', name: 'Breadth First Search' },
-        { id: 'dijkstra', name: 'Dijkstra Algorithm' },
         { id: 'bellmanFord', name: 'Bellman-Ford Algorithm' },
+        { id: 'bfs', name: 'Breadth First Search' },
+        { id: 'dfs', name: 'Depth First Search' },
+        { id: 'dijkstra', name: 'Dijkstra Algorithm' },
         { id: 'floydWarshall', name: 'Floyd-Warshall Algorithm' },
-        { id: 'kruskal', name: 'Kruskal\'s Algorithm' }
+        { id: 'kosaraju', name: 'Kosaraju\'s Algorithm' },
+        { id: 'kruskal', name: 'Kruskal\'s Algorithm' },
+        { id: 'prim', name: 'Prim\'s Algorithm' },
+        { id: 'topologicalSort', name: 'Topological Sort' }
       ]
     },
     {
@@ -188,19 +197,21 @@ const Sidebar = () => {
       name: 'DP Algorithms',
       icon: BarChart,
       algorithms: [
-        { id: 'fibonacci', name: 'Fibonacci' },
-        { id: 'coinChange', name: 'Coin Change' },
         { id: 'knapsack', name: '0/1 Knapsack' },
-        { id: 'longestCommonSubsequence', name: 'Longest Common Subsequence' },
-        { id: 'editDistance', name: 'Edit Distance' }
+        { id: 'coinChange', name: 'Coin Change' },
+        { id: 'editDistance', name: 'Edit Distance' },
+        { id: 'fibonacci', name: 'Fibonacci' },
+        { id: 'longestCommonSubsequence', name: 'Longest Common Subsequence' }
       ]
     }
   ]
 
   const filteredCategories = categories.map(category => {
-    const filteredAlgorithms = category.algorithms.filter(algorithm =>
-      algorithm.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    const filteredAlgorithms = category.algorithms
+      .filter(algorithm =>
+        algorithm.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
     return {
       ...category,
       algorithms: filteredAlgorithms

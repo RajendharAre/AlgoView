@@ -17,6 +17,9 @@ import { bellmanFordInfo } from '../algorithms/Graph/bellmanFord'
 import { floydWarshallInfo } from '../algorithms/Graph/floydWarshall'
 import { astarInfo } from '../pages/DSA/Visualization/Searching/utils/astarInfo'
 import { kruskalInfo } from '../pages/DSA/Visualization/Graph/utils/kruskalInfo'
+import { primInfo } from '../pages/DSA/Visualization/Graph/utils/primInfo'
+import topSortInfo from '../pages/DSA/Visualization/Graph/topSortInfo'
+import kosarajuInfo from '../pages/DSA/Visualization/Graph/kosarajuInfo'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -155,6 +158,30 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.GRAPH,
     simpleVisualization: true,
     ...kruskalInfo
+  },
+
+  prim: {
+    id: 'prim',
+    name: 'Prim\'s Algorithm',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    simpleVisualization: true,
+    ...primInfo
+  },
+
+  topologicalSort: {
+    id: 'topologicalSort',
+    name: 'Topological Sort',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    simpleVisualization: true,
+    ...topSortInfo
+  },
+
+  kosaraju: {
+    id: 'kosaraju',
+    name: 'Kosaraju\'s Algorithm',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    simpleVisualization: true,
+    ...kosarajuInfo
   },
 }
 

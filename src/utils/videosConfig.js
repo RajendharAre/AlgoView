@@ -12,8 +12,8 @@ export const videosConfig = [
     topic: 'Frontend',
     description: 'Learn React from scratch with this comprehensive beginner course. Covers components, JSX, state, props, hooks, and building real applications.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/iZiZjKwich0/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/iZiZjKwich0'
+    thumbnail: 'https://img.youtube.com/vi/x4rFhThSX04/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/x4rFhThSX04'
   },
   {
     id: 'fcc-react-002',
@@ -21,8 +21,8 @@ export const videosConfig = [
     topic: 'Frontend',
     description: 'Master state management with Redux in React. Learn actions, reducers, store, and middleware for building scalable applications.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/-X8XOH45LdY/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/-X8XOH45LdY'
+    thumbnail: 'https://img.youtube.com/vi/zrs7u6bdbUw/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/zrs7u6bdbUw'
   },
   {
     id: 'fcc-vue-001',
@@ -39,8 +39,8 @@ export const videosConfig = [
     topic: 'Frontend',
     description: 'Complete Angular tutorial covering components, services, routing, forms, HTTP requests, and RxJS for building enterprise applications.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/2OHbjep_FSA/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/2OHbjep_FSA'
+    thumbnail: 'https://img.youtube.com/vi/3qBXWUpoPHo/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/3qBXWUpoPHo'
   },
   {
     id: 'fcc-js-001',
@@ -68,8 +68,8 @@ export const videosConfig = [
     topic: 'Backend',
     description: 'Build server-side applications with Node.js and Express. Learn routing, middleware, databases, authentication, and REST APIs.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/TNV0_7QwUN8/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/TNV0_7QwUN8'
+    thumbnail: 'https://img.youtube.com/vi/Oe421EPjeBE/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/Oe421EPjeBE'
   },
   {
     id: 'fcc-python-001',
@@ -77,8 +77,8 @@ export const videosConfig = [
     topic: 'Backend',
     description: 'Complete Python tutorial for beginners. Learn data types, functions, loops, file handling, databases, and API development with Django.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/8DvO9XspHc0/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/8DvO9XspHc0'
+    thumbnail: 'https://img.youtube.com/vi/8DvywoWv6fI/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/8DvywoWv6fI'
   },
   {
     id: 'fcc-django-001',
@@ -104,8 +104,8 @@ export const videosConfig = [
     topic: 'Backend',
     description: 'Complete Java tutorial covering object-oriented programming, data structures, error handling, and building applications with Java.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/eIrMbAQSU34/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/eIrMbAQSU34'
+    thumbnail: 'https://img.youtube.com/vi/xk4_1vDrzzo/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/xk4_1vDrzzo'
   },
   {
     id: 'fcc-spring-001',
@@ -113,8 +113,8 @@ export const videosConfig = [
     topic: 'Backend',
     description: 'Learn Spring Boot for building production-ready REST APIs. Cover dependency injection, JPA, authentication, and microservices architecture.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/9SGDpanBqAQ/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/9SGDpanBqAQ'
+    thumbnail: 'https://img.youtube.com/vi/EWd3_I4X32g/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/EWd3_I4X32g'
   },
 
   // Data Structures
@@ -124,8 +124,8 @@ export const videosConfig = [
     topic: 'Data Structures',
     description: 'Master fundamental data structures including arrays, linked lists, stacks, queues, trees, graphs, and understand their applications.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/RBSGKlAvoiM/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/RBSGKlAvoiM'
+    thumbnail: 'https://img.youtube.com/vi/8hly31xKli0/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/8hly31xKli0'
   },
   {
     id: 'fcc-dsa-002',
@@ -133,8 +133,8 @@ export const videosConfig = [
     topic: 'Data Structures',
     description: 'Comprehensive data structures course from basics to advanced topics. Includes arrays, linked lists, hash tables, heaps, tries, and more.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/pkYVOmU3MgA/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/pkYVOmU3MgA'
+    thumbnail: 'https://img.youtube.com/vi/Z_c4byLrNBU/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/Z_c4byLrNBU'
   },
   {
     id: 'fcc-graph-001',
@@ -142,28 +142,19 @@ export const videosConfig = [
     topic: 'Data Structures',
     description: 'Deep dive into graph data structures and algorithms. Learn BFS, DFS, Dijkstra\'s algorithm, and applications in real-world problems.',
     difficulty: 'Advanced',
-    thumbnail: 'https://img.youtube.com/vi/tWVWeAqZ0WU/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/tWVWeAqZ0WU'
+    thumbnail: 'https://img.youtube.com/vi/dS44jZyj5gU/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/dS44jZyj5gU'
   },
 
   // Algorithms
-  {
-    id: 'fcc-algo-001',
-    title: 'Algorithms Course - Graph and Tree Algorithms',
-    topic: 'Algorithms',
-    description: 'Master algorithm design and analysis. Learn sorting, searching, dynamic programming, graph algorithms, and complexity analysis.',
-    difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/fSymbchE8A4/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/fSymbchE8A4'
-  },
   {
     id: 'fcc-algo-002',
     title: 'Dynamic Programming - 12 Steps to Solve Any DP Interview Problem',
     topic: 'Algorithms',
     description: 'Master dynamic programming with a step-by-step approach. Learn memoization, tabulation, and solve complex DP problems.',
     difficulty: 'Advanced',
-    thumbnail: 'https://img.youtube.com/vi/aPQY-AwMOkU/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/aPQY-AwMOkU'
+    thumbnail: 'https://img.youtube.com/vi/oBt53YbR9Kk/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/oBt53YbR9Kk'
   },
   {
     id: 'fcc-sorting-001',
@@ -171,8 +162,8 @@ export const videosConfig = [
     topic: 'Algorithms',
     description: 'Understand sorting algorithms including bubble sort, merge sort, quick sort, heap sort with visual explanations and complexity analysis.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/pFQ_DwrIeMz/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/pFQ_DwrIeMz'
+    thumbnail: 'https://img.youtube.com/vi/kPRA0W1kECg/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/kPRA0W1kECg'
   },
 
   // System Design
@@ -182,8 +173,8 @@ export const videosConfig = [
     topic: 'System Design',
     description: 'Learn system design principles for interviews and real-world applications. Cover scalability, load balancing, caching, databases, and microservices.',
     difficulty: 'Advanced',
-    thumbnail: 'https://img.youtube.com/vi/ZgdS0EUmn70/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/ZgdS0EUmn70'
+    thumbnail: 'https://img.youtube.com/vi/MbjObHmDbZo/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/MbjObHmDbZo'
   },
   {
     id: 'fcc-sysdes-002',
@@ -191,8 +182,8 @@ export const videosConfig = [
     topic: 'System Design',
     description: 'Learn to design scalable distributed systems. Understand databases, caching, messaging queues, API design, and deployment strategies.',
     difficulty: 'Advanced',
-    thumbnail: 'https://img.youtube.com/vi/SGYY3i_sDUY/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/SGYY3i_sDUY'
+    thumbnail: 'https://img.youtube.com/vi/m8Icp_Cid5o/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/m8Icp_Cid5o'
   },
 
   // Web Development (Full Stack)
@@ -202,8 +193,8 @@ export const videosConfig = [
     topic: 'Web Development',
     description: 'Complete full-stack web development course. Learn HTML, CSS, JavaScript, React, Node.js, databases, and deployment.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/CdAZ9dh8luY/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/CdAZ9dh8luY'
+    thumbnail: 'https://img.youtube.com/vi/Sxxw3qtb3_g/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/Sxxw3qtb3_g'
   },
   {
     id: 'fcc-html-css-001',
@@ -211,8 +202,8 @@ export const videosConfig = [
     topic: 'Web Development',
     description: 'Master HTML5 and CSS3 for building responsive websites. Learn semantic HTML, Flexbox, CSS Grid, and modern CSS techniques.',
     difficulty: 'Beginner',
-    thumbnail: 'https://img.youtube.com/vi/X1mnO3gVQOo/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/X1mnO3gVQOo'
+    thumbnail: 'https://img.youtube.com/vi/kUMe1FH4CHE/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/kUMe1FH4CHE'
   },
   {
     id: 'fcc-responsive-001',
@@ -229,8 +220,8 @@ export const videosConfig = [
     topic: 'Web Development',
     description: 'Master Next.js for building modern React applications. Learn SSR, static generation, API routes, authentication, and deployment.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/A63UxsQsEbU/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/A63UxsQsEbU'
+    thumbnail: 'https://img.youtube.com/vi/KjY94sAKLlw/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/KjY94sAKLlw'
   },
 
   // DevOps
@@ -240,8 +231,8 @@ export const videosConfig = [
     topic: 'DevOps',
     description: 'Learn Docker containerization. Understand images, containers, Docker Compose, networking, and deploying applications with Docker.',
     difficulty: 'Intermediate',
-    thumbnail: 'https://img.youtube.com/vi/fqMOX6JJhGo/maxresdefault.jpg',
-    videoUrl: 'https://www.youtube.com/embed/fqMOX6JJhGo'
+    thumbnail: 'https://img.youtube.com/vi/3c-iBn73dDE/maxresdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/3c-iBn73dDE'
   },
   {
     id: 'fcc-kubernetes-001',

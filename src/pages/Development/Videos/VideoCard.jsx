@@ -15,6 +15,7 @@ const VideoCard = memo(({
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [currentThumbnailIndex, setCurrentThumbnailIndex] = useState(0);
 
   const {
     id,
@@ -23,10 +24,28 @@ const VideoCard = memo(({
     description
   } = video;
 
-  // Validate thumbnail URL
-  const validThumbnail = thumbnail && thumbnail.startsWith('http') 
-    ? thumbnail 
-    : 'https://via.placeholder.com/400x225?text=Video';
+  // Build fallback thumbnail URLs for YouTube
+  const generateThumbnailUrls = () => {
+    if (!thumbnail || !thumbnail.includes('youtube.com')) {
+      return ['https://via.placeholder.com/400x225?text=Video'];
+    }
+    
+    // Extract video ID from YouTube URL
+    const videoIdMatch = thumbnail.match(/\/vi\/([a-zA-Z0-9_-]{11})\//);
+    if (!videoIdMatch) {
+      return ['https://via.placeholder.com/400x225?text=Video'];
+    }
+    
+    const videoId = videoIdMatch[1];
+    return [
+      `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+      `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      `https://img.youtube.com/vi/${videoId}/sddefault.jpg`,
+      'https://via.placeholder.com/400x225?text=Video'
+    ];
+  };
+
+  const thumbnailUrls = generateThumbnailUrls();
 
   // Handle image load success
   const handleImageLoad = () => {
@@ -36,18 +55,15 @@ const VideoCard = memo(({
 
   // Handle image load error with fallback
   const handleImageError = (e) => {
-    setImageError(true);
-    setImageLoaded(true);
-    // Try lower quality thumbnail if maxresdefault fails
-    if (e.target.src.includes('maxresdefault')) {
-      const fallbackUrl = thumbnail.replace('maxresdefault', 'hqdefault');
-      e.target.src = fallbackUrl;
-    } else if (e.target.src.includes('hqdefault')) {
-      const fallbackUrl = thumbnail.replace('hqdefault', 'sddefault');
-      e.target.src = fallbackUrl;
+    const nextIndex = currentThumbnailIndex + 1;
+    if (nextIndex < thumbnailUrls.length) {
+      setCurrentThumbnailIndex(nextIndex);
+      e.target.src = thumbnailUrls[nextIndex];
     } else {
-      // Use placeholder as last resort
-      e.target.src = 'https://via.placeholder.com/400x225?text=Video';
+      // All fallbacks exhausted, use placeholder
+      setImageLoaded(true);
+      setImageError(true);
+      e.target.src = 'https://via.placeholder.com/400x225?text=Video+Unavailable';
     }
   };
 
@@ -70,7 +86,7 @@ const VideoCard = memo(({
 
           {/* Image */}
           <img
-            src={validThumbnail}
+            src={thumbnailUrls[currentThumbnailIndex]}
             alt={title}
             className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             loading="lazy"
