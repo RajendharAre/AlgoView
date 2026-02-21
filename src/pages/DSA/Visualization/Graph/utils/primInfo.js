@@ -14,6 +14,16 @@ export const primInfo = {
     },
     space: 'O(V)'
   },
+  timeComplexity: {
+    best: 'O(V²)',
+    average: 'O(V²)',
+    worst: 'O(V²)',
+    explanation: 'Find minimum cost unvisited vertex V times: O(V²). Update costs: O(E). Total: O(V²) for dense graphs.'
+  },
+  spaceComplexity: {
+    value: 'O(V)',
+    explanation: 'Stores visited set, min cost array, and parent pointers for each vertex.'
+  },
   stable: false,
   inPlace: false,
   description: 'Prim\'s algorithm is a greedy algorithm that finds a minimum spanning tree (MST) for a weighted undirected graph. Starting from a root node, it repeatedly adds the minimum weight edge that connects a vertex in the MST to a vertex outside the MST.',

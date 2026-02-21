@@ -162,6 +162,16 @@ export const dfsInfo = {
     },
     space: 'O(V)'
   },
+  timeComplexity: {
+    best: 'O(V + E)',
+    average: 'O(V + E)',
+    worst: 'O(V + E)',
+    explanation: 'Visit each vertex once: O(V). Explore each edge once: O(E). Recursion stack: O(V) in worst case. Total: O(V+E).'
+  },
+  spaceComplexity: {
+    value: 'O(V)',
+    explanation: 'Call stack for recursion and visited set, both containing at most V vertices.'
+  },
   description: 'Depth-First Search is an algorithm for traversing graph data structures.',
   explanation: 'DFS explores as far as possible along each branch before backtracking, using a stack data structure.',
   steps: [

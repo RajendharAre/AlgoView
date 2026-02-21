@@ -163,6 +163,16 @@ export const dijkstraInfo = {
     },
     space: 'O(V)'
   },
+  timeComplexity: {
+    best: 'O(E + V log V)',
+    average: 'O(E + V log V)',
+    worst: 'O(E + V log V)',
+    explanation: 'Using min-heap priority queue: Extract-min V times: O(V log V). Update-key up to E times: O(E log V). Total: O((V+E) log V).'
+  },
+  spaceComplexity: {
+    value: 'O(V)',
+    explanation: 'Stores distances, previous nodes, priority queue, and visited set all of size V.'
+  },
   stable: true,
   inPlace: false,
   description: 'An algorithm for finding the shortest paths between nodes in a weighted graph with non-negative edge weights.',

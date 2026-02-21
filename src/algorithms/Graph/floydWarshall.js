@@ -113,6 +113,16 @@ export const floydWarshallInfo = {
     },
     space: "O(V²)"
   },
+  timeComplexity: {
+    best: 'O(V³)',
+    average: 'O(V³)',
+    worst: 'O(V³)',
+    explanation: 'Three nested loops over V vertices for each intermediate vertex. Must check all paths: O(V³) regardless of input.'
+  },
+  spaceComplexity: {
+    value: 'O(V²)',
+    explanation: 'Stores distance matrix of size V×V containing shortest path distances between all pairs.'
+  },
   applications: [
     "Finding shortest paths in dense graphs",
     "Detecting negative cycles",

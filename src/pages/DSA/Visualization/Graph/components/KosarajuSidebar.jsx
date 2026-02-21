@@ -11,6 +11,8 @@ import {
   ArrowLeft,
 } from 'lucide-react'
 import { COLORS, SPEEDS } from '../utils/kosarajuUtils'
+import kosarajuInfo from '../kosarajuInfo'
+import TimeComplexitySection from '../../../../../components/Visualisation/TimeComplexitySection'
 
 /**
  * Kosaraju Sidebar Component
@@ -226,6 +228,8 @@ const KosarajuSidebar = ({
             </div>
           ))}
         </div>
+
+        <TimeComplexitySection complexityInfo={kosarajuInfo} />
       </div>
     </aside>
   )

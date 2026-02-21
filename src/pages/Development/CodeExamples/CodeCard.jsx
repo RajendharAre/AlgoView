@@ -34,7 +34,6 @@ const LANG_COLORS = {
   cpp: { dot: '#00599c', name: 'C++' },
   go: { dot: '#00add8', name: 'Go' },
   typescript: { dot: '#3178c6', name: 'TypeScript' },
-  sql: { dot: '#cc2927', name: 'SQL' },
 };
 
 // VS Code Dark+ inspired syntax colors
@@ -57,18 +56,6 @@ const ALL_KEYWORDS = new Set([
   'def', 'elif', 'except', 'finally', 'with', 'as', 'lambda', 'pass',
   'raise', 'self', 'global', 'nonlocal', 'del', 'assert', 'not', 'and',
   'or', 'is', 'None', 'True', 'False', 'print',
-  // SQL keywords
-  'SELECT', 'FROM', 'WHERE', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP',
-  'ALTER', 'TABLE', 'VIEW', 'INDEX', 'DATABASE', 'SCHEMA', 'INTO', 'VALUES',
-  'SET', 'JOIN', 'INNER', 'LEFT', 'RIGHT', 'FULL', 'OUTER', 'ON', 'USING',
-  'GROUP', 'BY', 'ORDER', 'ASC', 'DESC', 'HAVING', 'LIMIT', 'OFFSET',
-  'WITH', 'UNION', 'INTERSECT', 'EXCEPT', 'DISTINCT', 'ALL', 'CASE', 'WHEN',
-  'THEN', 'ELSE', 'END', 'AND', 'OR', 'NOT', 'IN', 'LIKE', 'BETWEEN',
-  'IS', 'NULL', 'EXISTS', 'GRANT', 'REVOKE', 'COMMIT', 'ROLLBACK',
-  'TRANSACTION', 'BEGIN', 'START', 'SAVEPOINT', 'TRUNCATE', 'EXPLAIN',
-  'ANALYZE', 'WINDOW', 'PARTITION', 'ROW_NUMBER', 'RANK', 'DENSE_RANK',
-  'LAG', 'LEAD', 'FIRST_VALUE', 'LAST_VALUE', 'SUM', 'COUNT', 'AVG',
-  'MIN', 'MAX', 'DISTINCT', 'CAST', 'COALESCE', 'NULLIF',
 ]);
 
 function highlightCode(code) {

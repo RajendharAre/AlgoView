@@ -114,6 +114,16 @@ export const bellmanFordInfo = {
     },
     space: "O(V)"
   },
+  timeComplexity: {
+    best: 'O(E)',
+    average: 'O(VE)',
+    worst: 'O(VE)',
+    explanation: 'Relaxes edges V-1 times to find shortest paths. Each relaxation pass: O(E). Total: O(VE). Best case: no updates needed after first pass.'
+  },
+  spaceComplexity: {
+    value: 'O(V)',
+    explanation: 'Stores distances and previous nodes for each vertex. Can detect negative cycles.'
+  },
   applications: [
     "Network routing protocols",
     "Currency arbitrage detection",

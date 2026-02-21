@@ -1,70 +1,67 @@
-import React, { memo } from 'react'
+import React from 'react'
 import {
-  Activity,
   Play,
   RotateCcw,
-  Lock,
-  MousePointer2,
   Plus,
   Link as LinkIcon,
   Trash2,
-  ListOrdered,
-  GitBranch,
-  ArrowLeft
+  Activity,
+  Info,
+  MousePointer2,
+  Lock,
+  ChevronRight,
+  ArrowLeft,
 } from 'lucide-react'
-import { SPEEDS, COLORS } from '../utils/kruskalUtils'
-import { kruskalInfo } from '../utils/kruskalInfo'
+import { SPEEDS, COLORS, NODE_PALETTE } from '../utils/graphColoringUtils'
+import graphColoringInfo from '../graphColoringInfo'
 import TimeComplexitySection from '../../../../../components/Visualisation/TimeComplexitySection'
 
 /**
- * Kruskal Sidebar Component
- * Contains controls, speed settings, and statistics
+ * Graph Coloring Sidebar
+ * Control panel for graph creation and algorithm execution
  */
-const KruskalSidebar = memo(({
+const GraphColoringSidebar = ({
   isRunning,
   mode,
+  setMode,
   speedIndex,
-  onSpeedChange,
-  onModeChange,
-  onRunAlgorithm,
-  onReset,
+  setSpeedIndex,
+  runColoring,
   onSample,
   onClear,
   currentStep,
-  mstEdges,
-  totalWeight,
-  sortedEdges,
-  rejectedEdges,
+  chromaticNumber,
   nodes,
-  edges
 }) => {
   return (
     <aside className="w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
       {/* Header */}
       <div className="p-6 border-b border-[#f1f3f5]">
         <div className="flex items-center gap-3 mb-1">
-          <button 
-            onClick={() => window.history.back()} 
+          <button
+            onClick={() => window.history.back()}
             className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center text-white hover:bg-gray-800 transition-colors"
             aria-label="Go back to algorithms"
           >
             <ArrowLeft size={18} />
           </button>
-          <h1 className="text-base font-bold tracking-tight">Kruskal's Visualizer</h1>
+          <h1 className="text-base font-bold tracking-tight">Graph Coloring</h1>
         </div>
-        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">Minimum Spanning Tree</p>
+        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
+          Vibrant Constraints
+        </p>
       </div>
 
-      {/* Animation Speed */}
+      {/* Speed Controls */}
       <div className="p-6 border-b border-[#f1f3f5]">
         <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider mb-3 flex items-center gap-2">
-          <Activity size={12} /> Search Speed
+          <Activity size={12} /> Execution Speed
         </h3>
         <div className="grid grid-cols-5 gap-1 p-1 bg-[#f8f9faff] rounded-xl border border-[#dee2e6]">
           {SPEEDS.map((s, idx) => (
             <button
               key={s.label}
-              onClick={() => onSpeedChange(idx)}
+              onClick={() => setSpeedIndex(idx)}
               className={`py-1.5 text-[10px] font-bold rounded-lg transition-all ${
                 speedIndex === idx
                   ? 'bg-[#212529] text-white shadow-md'
@@ -77,49 +74,51 @@ const KruskalSidebar = memo(({
         </div>
       </div>
 
-      {/* Graph Editor */}
+      {/* Tools */}
       <div className="p-6 border-b border-[#f1f3f5]">
         <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider mb-4 flex items-center justify-between">
-          <span className="flex items-center gap-2"><MousePointer2 size={12} /> Graph Tools</span>
+          <span className="flex items-center gap-2">
+            <MousePointer2 size={12} /> Graph Tools
+          </span>
           {isRunning && <Lock size={10} className="text-amber-600" />}
         </h3>
         <div className="space-y-1.5">
           <ToolButton
             active={mode === 'ADD'}
-            onClick={() => onModeChange('ADD')}
+            onClick={() => setMode('ADD')}
             disabled={isRunning}
             icon={<Plus size={16} />}
             label="Add Node"
-            desc="Place new vertices"
+            desc="Create new vertices"
           />
           <ToolButton
             active={mode === 'LINK'}
-            onClick={() => onModeChange('LINK')}
+            onClick={() => setMode('LINK')}
             disabled={isRunning}
             icon={<LinkIcon size={16} />}
-            label="Weighted Edge"
-            desc="Connect two nodes"
+            label="Connect"
+            desc="Create adjacencies"
           />
           <ToolButton
             active={mode === 'DELETE'}
-            onClick={() => onModeChange('DELETE')}
+            onClick={() => setMode('DELETE')}
             disabled={isRunning}
             icon={<Trash2 size={16} />}
             label="Delete"
-            desc="Remove graph items"
+            desc="Remove elements"
             danger
           />
         </div>
       </div>
 
-      {/* Control Actions */}
+      {/* Actions */}
       <div className="p-6 border-b border-[#f1f3f5] space-y-2">
         <button
-          onClick={onRunAlgorithm}
-          disabled={isRunning || edges.length === 0}
-          className="w-full py-3 bg-[#212529] text-white rounded-xl flex items-center justify-center gap-2 font-bold text-xs disabled:opacity-50 shadow-md active:scale-95 transition-transform"
+          onClick={runColoring}
+          disabled={isRunning || nodes.length === 0}
+          className="w-full py-3 bg-[#212529] text-white rounded-xl flex items-center justify-center gap-2 font-bold text-xs shadow-md active:scale-95 transition-transform disabled:opacity-50"
         >
-          <Play size={14} fill="white" /> Find MST
+          <Play size={14} fill="white" /> Start Coloring
         </button>
         <div className="flex gap-2">
           <button
@@ -139,7 +138,7 @@ const KruskalSidebar = memo(({
         </div>
       </div>
 
-      {/* Statistics */}
+      {/* Metrics */}
       <div className="flex-1 p-6 space-y-6">
         <div
           className={`p-4 rounded-xl border-l-4 transition-all ${
@@ -148,73 +147,45 @@ const KruskalSidebar = memo(({
               : 'bg-[#f8f9faff] border-[#dee2e6]'
           }`}
         >
-          <p className="text-[9px] font-black uppercase opacity-60 mb-1">Status Report</p>
+          <p className="text-[9px] font-black uppercase opacity-60 mb-1">Process Status</p>
           <p className="text-xs font-bold leading-tight h-10 overflow-hidden">{currentStep}</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 text-center">
-          <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">
-            <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">MST Edges</p>
-            <p className="text-lg font-bold font-mono text-[#212529]">{mstEdges.length}</p>
+        <div className="p-4 bg-white border border-[#dee2e6] rounded-xl text-center shadow-sm">
+          <p className="text-[9px] font-black text-[#adb5bd] uppercase mb-2">
+            <ChevronRight size={12} className="inline mr-1" /> Chromatic Number
+          </p>
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-red-500 via-blue-500 to-green-500 animate-spin-slow"></div>
+            <span className="text-3xl font-black font-mono">{chromaticNumber || '-'}</span>
           </div>
-          <div className="p-3 bg-white border border-[#dee2e6] rounded-xl">
-            <p className="text-[8px] font-black text-[#adb5bd] uppercase mb-1">Total Weight</p>
-            <p className="text-lg font-bold font-mono text-[#212529]">{totalWeight}</p>
-          </div>
+          <p className="text-[8px] text-[#adb5bd] mt-2 font-medium">Distinct colors currently assigned.</p>
         </div>
 
-        {/* Edge Processing Queue */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <h4 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-widest flex items-center gap-2">
-            <ListOrdered size={12} /> Edge Processing Queue
+            <ChevronRight size={12} /> Available Palette
           </h4>
-          <div className="bg-white border border-[#dee2e6] rounded-xl overflow-hidden shadow-sm">
-            <div className="max-h-60 overflow-y-auto">
-              <table className="w-full text-center text-[10px]">
-                <thead className="bg-[#f8f9faff] border-b border-[#dee2e6] sticky top-0">
-                  <tr>
-                    <th className="p-2 font-black">Edge</th>
-                    <th className="p-2 font-black">Weight</th>
-                    <th className="p-2 font-black">Result</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedEdges.map((edge, i) => {
-                    const inMst = mstEdges.includes(i)
-                    const isRejected = rejectedEdges.includes(i)
-
-                    return (
-                      <tr key={i} className="border-b border-[#f1f3f5] transition-colors">
-                        <td className="p-2">
-                          {nodes.find(n => n.id === edge.u)?.label}-
-                          {nodes.find(n => n.id === edge.v)?.label}
-                        </td>
-                        <td className="p-2 font-mono">{edge.weight}</td>
-                        <td
-                          className={`p-2 font-black uppercase text-[8px] ${
-                            inMst
-                              ? 'text-green-600'
-                              : isRejected
-                              ? 'text-red-400 opacity-50'
-                              : 'text-[#adb5bd]'
-                          }`}
-                        >
-                          {inMst ? 'Added' : isRejected ? 'Cycle' : 'Waiting'}
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
+          <div className="grid grid-cols-5 gap-1.5">
+            {NODE_PALETTE.map((p, i) => (
+              <div key={i} className="group relative">
+                <div
+                  className="w-full h-8 rounded-lg border border-[#dee2e6] shadow-sm transition-transform group-hover:scale-110"
+                  style={{ backgroundColor: p.bg }}
+                ></div>
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-white text-[6px] px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {p.name}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <TimeComplexitySection complexityInfo={kruskalInfo} />
+        <TimeComplexitySection complexityInfo={graphColoringInfo} />
       </div>
     </aside>
   )
-})
+}
 
 const ToolButton = ({ active, onClick, disabled, icon, label, desc, danger }) => (
   <button
@@ -252,6 +223,4 @@ const ToolButton = ({ active, onClick, disabled, icon, label, desc, danger }) =>
   </button>
 )
 
-KruskalSidebar.displayName = 'KruskalSidebar'
-
-export default KruskalSidebar
+export default GraphColoringSidebar

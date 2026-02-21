@@ -148,6 +148,16 @@ export const bfsInfo = {
     },
     space: 'O(V)'
   },
+  timeComplexity: {
+    best: 'O(V + E)',
+    average: 'O(V + E)',
+    worst: 'O(V + E)',
+    explanation: 'Initialize: O(V). Enqueue/dequeue each vertex once: O(V). Process each edge once: O(E). Total: O(V+E).'
+  },
+  spaceComplexity: {
+    value: 'O(V)',
+    explanation: 'Stores visited set and queue containing at most V vertices.'
+  },
   description: 'Breadth-First Search is an algorithm for traversing graph data structures.',
   explanation: 'BFS explores all vertices at the present depth level before moving on to vertices at the next depth level, using a queue data structure.',
   steps: [

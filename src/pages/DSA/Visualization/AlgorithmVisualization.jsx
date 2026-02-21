@@ -19,6 +19,7 @@ import KruskalVisualization from './Graph/Kruskal';
 import PrimVisualization from './Graph/Prim';
 import TopologicalSortVisualization from './Graph/TopologicalSort';
 import KosarajuVisualization from './Graph/Kosaraju';
+import GraphColoringVisualization from './Graph/GraphColoring';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -48,6 +49,7 @@ const AlgorithmVisualization = () => {
     'prim': PrimVisualization,
     'topologicalSort': TopologicalSortVisualization,
     'kosaraju': KosarajuVisualization,
+    'graphColoring': GraphColoringVisualization,
     // Add more algorithms here as they are implemented
   };
 

@@ -20,6 +20,7 @@ import { kruskalInfo } from '../pages/DSA/Visualization/Graph/utils/kruskalInfo'
 import { primInfo } from '../pages/DSA/Visualization/Graph/utils/primInfo'
 import topSortInfo from '../pages/DSA/Visualization/Graph/topSortInfo'
 import kosarajuInfo from '../pages/DSA/Visualization/Graph/kosarajuInfo'
+import graphColoringInfo from '../pages/DSA/Visualization/Graph/graphColoringInfo'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -150,6 +151,14 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/floydWarshall').then(m => m.floydWarshall),
     ...floydWarshallInfo
+  },
+
+  graphColoring: {
+    id: 'graphColoring',
+    name: 'Graph Coloring',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../pages/DSA/Visualization/Graph/GraphColoring').then(m => m.default),
+    ...graphColoringInfo
   },
 
   kruskal: {

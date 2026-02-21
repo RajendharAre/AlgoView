@@ -13,6 +13,8 @@ import {
   ArrowLeft
 } from 'lucide-react'
 import { SPEEDS, COLORS } from '../utils/primUtils'
+import { primInfo } from '../utils/primInfo'
+import TimeComplexitySection from '../../../../../components/Visualisation/TimeComplexitySection'
 
 /**
  * Prim Sidebar Component
@@ -210,6 +212,8 @@ const PrimSidebar = memo(({
             </div>
           </div>
         </div>
+
+        <TimeComplexitySection complexityInfo={primInfo} />
       </div>
     </aside>
   )

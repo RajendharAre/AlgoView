@@ -89,6 +89,7 @@ const Sidebar = () => {
                  location.pathname.includes('dijkstra') ||
                  location.pathname.includes('bellmanFord') ||
                  location.pathname.includes('floydWarshall') ||
+                 location.pathname.includes('graphColoring') ||
                  location.pathname.includes('kruskal') ||
                  location.pathname.includes('prim') ||
                  location.pathname.includes('topologicalSort') ||
@@ -186,6 +187,7 @@ const Sidebar = () => {
         { id: 'dfs', name: 'Depth First Search' },
         { id: 'dijkstra', name: 'Dijkstra Algorithm' },
         { id: 'floydWarshall', name: 'Floyd-Warshall Algorithm' },
+        { id: 'graphColoring', name: 'Graph Coloring' },
         { id: 'kosaraju', name: 'Kosaraju\'s Algorithm' },
         { id: 'kruskal', name: 'Kruskal\'s Algorithm' },
         { id: 'prim', name: 'Prim\'s Algorithm' },

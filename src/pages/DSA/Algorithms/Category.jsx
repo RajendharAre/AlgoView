@@ -46,6 +46,7 @@ const DSAAlgorithmCategory = () => {
       { id: 'dfs', name: 'Depth First Search', difficulty: 'Medium', description: 'Graph traversal algorithm exploring as far as possible' },
       { id: 'dijkstra', name: 'Dijkstra Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
       { id: 'floydWarshall', name: 'Floyd Warshall Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
+      { id: 'graphColoring', name: 'Graph Coloring', difficulty: 'Medium', description: 'Greedy algorithm for assigning colors to vertices ensuring no adjacent vertices share the same color' },
       { id: 'kosaraju', name: 'Kosaraju\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding all strongly connected components in directed graphs' },
       { id: 'kruskal', name: 'Kruskal Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
       { id: 'prim', name: 'Prim\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },

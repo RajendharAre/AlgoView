@@ -14,6 +14,16 @@ export const kruskalInfo = {
     },
     space: 'O(V + E)'
   },
+  timeComplexity: {
+    best: 'O(E log E)',
+    average: 'O(E log E)',
+    worst: 'O(E log E)',
+    explanation: 'Sort edges: O(E log E). Process each edge once with union-find: O(E α(V)). Total: O(E log E).'
+  },
+  spaceComplexity: {
+    value: 'O(V + E)',
+    explanation: 'Stores adjacency list and union-find parent/rank arrays.'
+  },
   stable: false,
   inPlace: false,
   description: 'Kruskal\'s algorithm is a greedy algorithm that finds a minimum spanning tree (MST) for a weighted undirected graph. It sorts all edges by weight and adds them to the MST if they don\'t form a cycle, using a Disjoint Set Union (DSU) data structure to detect cycles.',

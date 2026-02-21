@@ -13,6 +13,8 @@ import {
   ArrowLeft,
 } from 'lucide-react'
 import { COLORS, SPEEDS } from '../utils/topSortUtils'
+import topSortInfo from '../topSortInfo'
+import TimeComplexitySection from '../../../../../components/Visualisation/TimeComplexitySection'
 
 /**
  * TopSort Sidebar Component
@@ -235,6 +237,8 @@ const TopSortSidebar = ({
             ))}
           </div>
         </div>
+
+        <TimeComplexitySection complexityInfo={topSortInfo} />
       </div>
     </aside>
   )
