@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { db } from '../../../lib/firebase'
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
+import Loader from '../../../components/Common/Loader'
 
 const DSADiscussions = () => {
   const [activeTab, setActiveTab] = useState('trending')
@@ -120,7 +121,12 @@ const DSADiscussions = () => {
           <div className="divide-y divide-gray-200">
             {loading ? (
               <div className="p-12 text-center">
-                <div className="w-8 h-8 border-t-2 border-blue-600 border-solid rounded-full animate-spin mx-auto"></div>
+                <div className="inline-flex items-center justify-center">
+                  <div className="relative w-8 h-8">
+                    <div className="absolute inset-0 rounded-full border-2 border-gray-200"></div>
+                    <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
+                  </div>
+                </div>
                 <p className="mt-4 text-gray-600">Loading discussions...</p>
               </div>
             ) : filteredDiscussions.length === 0 ? (

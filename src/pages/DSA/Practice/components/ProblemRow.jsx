@@ -25,7 +25,7 @@ const ProblemRow = ({
       <div className="col-span-1 flex justify-center">
         {isAutoChecking ? (
           <div className="animate-spin">
-            <div className="h-5 w-5 rounded-full border-2 border-blue-300 border-t-blue-600"></div>
+            <div className="h-5 w-5 rounded-full border-2 border-[#a7d1d9] border-t-[#c3e6ec]"></div>
           </div>
         ) : isCompleted ? (
           <CheckCircle className="h-5 w-5 text-green-600" />

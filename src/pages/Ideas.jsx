@@ -5,6 +5,7 @@ import { addNotification } from '../store/slices/uiSlice';
 import { useAuth } from '../hooks/useAuth';
 import { getIdeasListener, likeIdea, checkUserLike, getUserLikesListener } from '../services/ideasService';
 import { Lightbulb, Plus, MessageCircle, Heart, Share2, Filter, Search, User, Clock, X } from 'lucide-react';
+import Loader from '../components/Common/Loader';
 
 const Ideas = () => {
   const { user } = useAuth();
@@ -231,7 +232,12 @@ const Ideas = () => {
           {/* Loading indicator */}
           {loading && (
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <div className="inline-flex items-center justify-center">
+                <div className="relative w-12 h-12">
+                  <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+                  <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
+                </div>
+              </div>
               <p className="mt-4 text-gray-600">Loading ideas...</p>
             </div>
           )}

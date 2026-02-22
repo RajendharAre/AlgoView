@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import ProtectedRoute from './components/Layout/ProtectedRoute'
 import MainApp from './components/MainApp'
+import Loader from './components/Common/Loader'
 
 // Lazy load all route components
 const Home = lazy(() => import('./pages/Home'))
@@ -29,6 +30,7 @@ const Development = lazy(() => import('./pages/Development'))
 const TutorialsList = lazy(() => import('./pages/Development/Tutorials/TutorialsList'))
 const CodeExamplesList = lazy(() => import('./pages/Development/CodeExamples/CodeExamplesList'))
 const VideosPage = lazy(() => import('./pages/Development/Videos/VideosPage'))
+const DocumentationPage = lazy(() => import('./pages/Development/Documentation/DocumentationPage'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
@@ -41,20 +43,13 @@ const Payment = lazy(() => import('./pages/Payment'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
 
-// Loading component for Suspense
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-  </div>
-)
-
 // Public route wrapper
 const PublicRoute = ({ children }) => {
   const { currentUser, loading } = useSelector((state) => state.user)
   
   // Show loading spinner while checking auth status
   if (loading) {
-    return <LoadingSpinner />
+    return <Loader />
   }
   
   // If user is authenticated, redirect to dashboard
@@ -75,7 +70,7 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<Loader />}>
             <Home />
           </Suspense>
         )
@@ -83,7 +78,7 @@ export const router = createBrowserRouter([
       {
         path: 'about',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<Loader />}>
             <About />
           </Suspense>
         )
@@ -92,7 +87,7 @@ export const router = createBrowserRouter([
         path: 'login',
         element: (
           <PublicRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Auth />
             </Suspense>
           </PublicRoute>
@@ -102,7 +97,7 @@ export const router = createBrowserRouter([
         path: 'register',
         element: (
           <PublicRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Auth />
             </Suspense>
           </PublicRoute>
@@ -112,7 +107,7 @@ export const router = createBrowserRouter([
         path: 'forgot-password',
         element: (
           <PublicRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <ForgotPassword />
             </Suspense>
           </PublicRoute>
@@ -124,7 +119,7 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Dashboard />
             </Suspense>
           </ProtectedRoute>
@@ -134,7 +129,7 @@ export const router = createBrowserRouter([
         path: 'dsa',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <DSA />
             </Suspense>
           </ProtectedRoute>
@@ -143,7 +138,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 {/* Empty element for the main DSA page */}
                 <div></div>
               </Suspense>
@@ -152,7 +147,7 @@ export const router = createBrowserRouter([
           {
             path: 'algorithms',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAAlgorithms />
               </Suspense>
             )
@@ -160,7 +155,7 @@ export const router = createBrowserRouter([
           {
             path: 'algorithms/:category',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAAlgorithmCategory />
               </Suspense>
             )
@@ -168,7 +163,7 @@ export const router = createBrowserRouter([
           {
             path: 'problems',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAProblems />
               </Suspense>
             )
@@ -176,7 +171,7 @@ export const router = createBrowserRouter([
           {
             path: 'problems/:sheetId',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAProblemSheet />
               </Suspense>
             )
@@ -184,7 +179,7 @@ export const router = createBrowserRouter([
           {
             path: 'practice',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAPractice />
               </Suspense>
             )
@@ -192,7 +187,7 @@ export const router = createBrowserRouter([
           {
             path: 'practice/:problemId',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAProblemPractice />
               </Suspense>
             )
@@ -200,7 +195,7 @@ export const router = createBrowserRouter([
           {
             path: 'contribute',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAContribute />
               </Suspense>
             )
@@ -208,7 +203,7 @@ export const router = createBrowserRouter([
           {
             path: 'contribute/new',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSAContributeNew />
               </Suspense>
             )
@@ -216,7 +211,7 @@ export const router = createBrowserRouter([
           {
             path: 'discussions',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSADiscussions />
               </Suspense>
             )
@@ -224,7 +219,7 @@ export const router = createBrowserRouter([
           {
             path: 'discussions/:discussionId',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSADiscussionDetail />
               </Suspense>
             )
@@ -232,7 +227,7 @@ export const router = createBrowserRouter([
           {
             path: 'discussions/new',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <DSADiscussionNew />
               </Suspense>
             )
@@ -240,7 +235,7 @@ export const router = createBrowserRouter([
           {
             path: 'visualization/:algorithmId',
             element: (
-              <Suspense fallback={<LoadingSpinner />}>
+              <Suspense fallback={<Loader />}>
                 <AlgorithmVisualization />
               </Suspense>
             )
@@ -252,7 +247,7 @@ export const router = createBrowserRouter([
         path: 'development',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Development />
             </Suspense>
           </ProtectedRoute>
@@ -262,7 +257,7 @@ export const router = createBrowserRouter([
         path: 'development/tutorials',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <TutorialsList />
             </Suspense>
           </ProtectedRoute>
@@ -272,7 +267,7 @@ export const router = createBrowserRouter([
         path: 'development/code-examples',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <CodeExamplesList />
             </Suspense>
           </ProtectedRoute>
@@ -282,8 +277,18 @@ export const router = createBrowserRouter([
         path: 'development/videos',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <VideosPage />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'development/documentation',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <DocumentationPage />
             </Suspense>
           </ProtectedRoute>
         )
@@ -292,7 +297,7 @@ export const router = createBrowserRouter([
         path: 'ideas',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Ideas />
             </Suspense>
           </ProtectedRoute>
@@ -302,7 +307,7 @@ export const router = createBrowserRouter([
         path: 'ai',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <AI />
             </Suspense>
           </ProtectedRoute>
@@ -312,7 +317,7 @@ export const router = createBrowserRouter([
         path: 'ideas/:ideaId',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <IdeaDetail />
             </Suspense>
           </ProtectedRoute>
@@ -322,7 +327,7 @@ export const router = createBrowserRouter([
         path: 'ideas/new',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <NewIdea />
             </Suspense>
           </ProtectedRoute>
@@ -332,7 +337,7 @@ export const router = createBrowserRouter([
         path: 'references',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <References />
             </Suspense>
           </ProtectedRoute>
@@ -342,7 +347,7 @@ export const router = createBrowserRouter([
         path: 'profile',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Profile />
             </Suspense>
           </ProtectedRoute>
@@ -352,7 +357,7 @@ export const router = createBrowserRouter([
         path: 'profile/:userId',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <UserProfile />
             </Suspense>
           </ProtectedRoute>
@@ -362,7 +367,7 @@ export const router = createBrowserRouter([
         path: 'settings',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Settings />
             </Suspense>
           </ProtectedRoute>
@@ -372,7 +377,7 @@ export const router = createBrowserRouter([
         path: 'payment',
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<Loader />}>
               <Payment />
             </Suspense>
           </ProtectedRoute>
@@ -383,7 +388,7 @@ export const router = createBrowserRouter([
       {
         path: '404',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<Loader />}>
             <NotFound />
           </Suspense>
         )
@@ -391,7 +396,7 @@ export const router = createBrowserRouter([
       {
         path: 'unauthorized',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<Loader />}>
             <Unauthorized />
           </Suspense>
         )
@@ -401,7 +406,7 @@ export const router = createBrowserRouter([
       {
         path: '*',
         element: (
-          <Suspense fallback={<LoadingSpinner />}>
+          <Suspense fallback={<Loader />}>
             <NotFound />
           </Suspense>
         )

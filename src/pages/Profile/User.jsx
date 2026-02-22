@@ -5,6 +5,7 @@ import { User, Calendar, MapPin, Link as LinkIcon, Mail, Trophy, TrendingUp, Edi
 import { useAuth } from '../../hooks/useAuth'
 import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
+import Loader from '../../components/Common/Loader'
 
 const UserProfile = () => {
   const { userId } = useParams()
@@ -234,7 +235,7 @@ const UserProfile = () => {
   if (!user) {
     return (
       <div className="min-h-screen bg-gray-50 p-6 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <Loader />
       </div>
     )
   }

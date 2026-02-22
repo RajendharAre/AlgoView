@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SortingVisualization from '../../../components/Visualisation/SortingVisualization';
 import { ALGORITHMS } from '../../../utils/algorithmConstants';
+import Loader from '../../../components/Common/Loader';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -91,10 +92,7 @@ const DynamicAlgorithmVisualization = () => {
   if (loading) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading {algorithmId} visualization...</p>
-        </div>
+        <Loader />
       </div>
     );
   }

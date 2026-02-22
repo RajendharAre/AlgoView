@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { getIdea, getCommentsListener, likeIdea, addComment, checkUserLike } from '../../services/ideasService';
 import { Lightbulb, Heart, MessageCircle, Share2, User, Clock, ArrowLeft, Github, FileText, BookOpen, Link as LinkIcon } from 'lucide-react';
+import Loader from '../../components/Common/Loader';
 
 const IdeaDetail = () => {
   const { ideaId } = useParams();
@@ -111,7 +112,7 @@ const IdeaDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <Loader />
       </div>
     );
   }
@@ -317,7 +318,12 @@ const IdeaDetail = () => {
 
           {loadingComments ? (
             <div className="text-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+              <div className="inline-flex items-center justify-center">
+                <div className="relative w-6 h-6">
+                  <div className="absolute inset-0 rounded-full border-2 border-gray-200"></div>
+                  <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">

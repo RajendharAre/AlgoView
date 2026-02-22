@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Loader from '../Common/Loader'
 
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useSelector((state) => state.user)
@@ -21,11 +22,7 @@ const ProtectedRoute = ({ children }) => {
   // Show loading state while checking auth
   if (loading) {
     console.log('Still loading user auth state');
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" aria-label="Loading"></div>
-      </div>
-    )
+    return <Loader />
   }
 
   // If user exists, render children

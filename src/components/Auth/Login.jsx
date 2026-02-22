@@ -95,9 +95,6 @@ const Login = ({ onSwitchToRegister }) => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Mail className="h-5 w-5 text-gray-400" />
-            </div>
             <input
               type="email"
               value={email}
@@ -113,9 +110,6 @@ const Login = ({ onSwitchToRegister }) => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Lock className="h-5 w-5 text-gray-400" />
-            </div>
             <input
               type={showPassword ? 'text' : 'password'}
               value={password}
