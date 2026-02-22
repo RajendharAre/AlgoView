@@ -20,6 +20,7 @@ import PrimVisualization from './Graph/Prim';
 import TopologicalSortVisualization from './Graph/TopologicalSort';
 import KosarajuVisualization from './Graph/Kosaraju';
 import GraphColoringVisualization from './Graph/GraphColoring';
+import PageRankVisualization from './Graph/PageRank';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -50,6 +51,7 @@ const AlgorithmVisualization = () => {
     'topologicalSort': TopologicalSortVisualization,
     'kosaraju': KosarajuVisualization,
     'graphColoring': GraphColoringVisualization,
+    'pagerank': PageRankVisualization,
     // Add more algorithms here as they are implemented
   };
 

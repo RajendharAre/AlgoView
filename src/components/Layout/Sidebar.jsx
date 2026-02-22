@@ -46,6 +46,8 @@ const Sidebar = () => {
                                location.pathname.includes('prim') ||
                                location.pathname.includes('topologicalSort') ||
                                location.pathname.includes('kosaraju') ||
+                               location.pathname.includes('graphColoring') ||
+                               location.pathname.includes('pagerank') ||
                                location.pathname.includes('fibonacci') ||
                                location.pathname.includes('coinChange') ||
                                location.pathname.includes('knapsack') ||
@@ -190,6 +192,7 @@ const Sidebar = () => {
         { id: 'graphColoring', name: 'Graph Coloring' },
         { id: 'kosaraju', name: 'Kosaraju\'s Algorithm' },
         { id: 'kruskal', name: 'Kruskal\'s Algorithm' },
+        { id: 'pagerank', name: 'PageRank' },
         { id: 'prim', name: 'Prim\'s Algorithm' },
         { id: 'topologicalSort', name: 'Topological Sort' }
       ]

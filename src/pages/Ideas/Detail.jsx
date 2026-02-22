@@ -317,12 +317,10 @@ const IdeaDetail = () => {
           )}
 
           {loadingComments ? (
-            <div className="text-center py-4">
-              <div className="inline-flex items-center justify-center">
-                <div className="relative w-6 h-6">
-                  <div className="absolute inset-0 rounded-full border-2 border-gray-200"></div>
-                  <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
-                </div>
+            <div className="flex justify-center py-4">
+              <div className="relative w-6 h-6">
+                <div className="absolute inset-0 rounded-full border-2 border-gray-200"></div>
+                <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
               </div>
             </div>
           ) : (

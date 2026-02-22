@@ -621,9 +621,8 @@ const Home = () => {
                 className="h-full rounded-full"
                 style={{ backgroundColor: COLORS.text.primary }}
                 initial={{ width: 0 }}
-                whileInView={{ width: '100%' }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 2, ease: 'easeOut' }}
+                animate={{ width: '100%' }}
+                transition={{ duration: 2, ease: 'easeOut', delay: 0.3 }}
               />
             </div>
           </div>

@@ -21,6 +21,7 @@ import { primInfo } from '../pages/DSA/Visualization/Graph/utils/primInfo'
 import topSortInfo from '../pages/DSA/Visualization/Graph/topSortInfo'
 import kosarajuInfo from '../pages/DSA/Visualization/Graph/kosarajuInfo'
 import graphColoringInfo from '../pages/DSA/Visualization/Graph/graphColoringInfo'
+import pageRankInfo from '../pages/DSA/Visualization/Graph/pageRankInfo'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -191,6 +192,14 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.GRAPH,
     simpleVisualization: true,
     ...kosarajuInfo
+  },
+
+  pagerank: {
+    id: 'pagerank',
+    name: 'PageRank',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../pages/DSA/Visualization/Graph/PageRank').then(m => m.default),
+    ...pageRankInfo
   },
 }
 

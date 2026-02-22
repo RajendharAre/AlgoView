@@ -231,14 +231,11 @@ const Ideas = () => {
 
           {/* Loading indicator */}
           {loading && (
-            <div className="text-center py-12">
-              <div className="inline-flex items-center justify-center">
-                <div className="relative w-12 h-12">
-                  <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
-                  <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
-                </div>
+            <div className="flex justify-center items-center py-12">
+              <div className="relative w-12 h-12">
+                <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#c3e6ec] border-r-[#a7d1d9] animate-spin"></div>
               </div>
-              <p className="mt-4 text-gray-600">Loading ideas...</p>
             </div>
           )}
 

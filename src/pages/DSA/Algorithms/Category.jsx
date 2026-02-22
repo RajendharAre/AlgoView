@@ -49,6 +49,7 @@ const DSAAlgorithmCategory = () => {
       { id: 'graphColoring', name: 'Graph Coloring', difficulty: 'Medium', description: 'Greedy algorithm for assigning colors to vertices ensuring no adjacent vertices share the same color' },
       { id: 'kosaraju', name: 'Kosaraju\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding all strongly connected components in directed graphs' },
       { id: 'kruskal', name: 'Kruskal Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
+      { id: 'pagerank', name: 'PageRank', difficulty: 'Medium', description: 'Link analysis algorithm that evaluates node importance based on incoming links' },
       { id: 'prim', name: 'Prim\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
       { id: 'topologicalSort', name: 'Topological Sort', difficulty: 'Medium', description: 'Algorithm for linear ordering of vertices in directed acyclic graphs' }
     ]
