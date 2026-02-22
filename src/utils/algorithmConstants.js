@@ -22,6 +22,7 @@ import topSortInfo from '../pages/DSA/Visualization/Graph/topSortInfo'
 import kosarajuInfo from '../pages/DSA/Visualization/Graph/kosarajuInfo'
 import graphColoringInfo from '../pages/DSA/Visualization/Graph/graphColoringInfo'
 import pageRankInfo from '../pages/DSA/Visualization/Graph/pageRankInfo'
+import climbingStairsInfo from '../pages/DSA/Visualization/DP/climbingStairsInfo'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -200,6 +201,14 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../pages/DSA/Visualization/Graph/PageRank').then(m => m.default),
     ...pageRankInfo
+  },
+
+  climbingStairs: {
+    id: 'climbingStairs',
+    name: 'Climbing Stairs',
+    category: ALGORITHM_CATEGORIES.DYNAMIC_PROGRAMMING,
+    importFn: () => import('../pages/DSA/Visualization/DP/ClimbingStairs').then(m => m.default),
+    ...climbingStairsInfo
   },
 }
 

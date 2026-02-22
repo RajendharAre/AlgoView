@@ -21,6 +21,7 @@ import TopologicalSortVisualization from './Graph/TopologicalSort';
 import KosarajuVisualization from './Graph/Kosaraju';
 import GraphColoringVisualization from './Graph/GraphColoring';
 import PageRankVisualization from './Graph/PageRank';
+import ClimbingStairsVisualization from './DP/ClimbingStairs';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -52,6 +53,7 @@ const AlgorithmVisualization = () => {
     'kosaraju': KosarajuVisualization,
     'graphColoring': GraphColoringVisualization,
     'pagerank': PageRankVisualization,
+    'climbingStairs': ClimbingStairsVisualization,
     // Add more algorithms here as they are implemented
   };
 

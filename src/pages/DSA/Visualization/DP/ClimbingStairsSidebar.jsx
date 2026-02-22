@@ -6,10 +6,10 @@ import {
   Layers,
   Hash,
   TrendingUp,
-  Footprints,
+  ArrowLeft,
   ChevronUp
 } from 'lucide-react';
-import TimeComplexitySection from '../../../components/Common/TimeComplexitySection';
+import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection';
 
 const ClimbingStairsSidebar = ({
   n,
@@ -31,9 +31,13 @@ const ClimbingStairsSidebar = ({
       {/* Header */}
       <div className="p-6 border-b border-[#f1f3f5]">
         <div className="flex items-center gap-3 mb-1">
-          <div className="w-8 h-8 bg-[#212529] rounded flex items-center justify-center text-white">
-            <Footprints size={18} />
-          </div>
+          <button
+            onClick={() => window.history.back()}
+            className="w-8 h-8 bg-[#212529] rounded flex items-center justify-center text-white hover:bg-gray-800 transition-colors"
+            aria-label="Go back to algorithms"
+          >
+            <ArrowLeft size={18} />
+          </button>
           <h1 className="text-base font-bold tracking-tight">Climbing Stairs</h1>
         </div>
         <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">DP Visualizer</p>

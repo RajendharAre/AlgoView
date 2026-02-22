@@ -52,6 +52,9 @@ const DSAAlgorithmCategory = () => {
       { id: 'pagerank', name: 'PageRank', difficulty: 'Medium', description: 'Link analysis algorithm that evaluates node importance based on incoming links' },
       { id: 'prim', name: 'Prim\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
       { id: 'topologicalSort', name: 'Topological Sort', difficulty: 'Medium', description: 'Algorithm for linear ordering of vertices in directed acyclic graphs' }
+    ],
+    dynamic: [
+      { id: 'climbingStairs', name: 'Climbing Stairs', difficulty: 'Easy', description: 'DP algorithm that counts the number of ways to climb stairs with 1 or 2 steps at a time' }
     ]
   }
 

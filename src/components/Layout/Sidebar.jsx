@@ -48,6 +48,7 @@ const Sidebar = () => {
                                location.pathname.includes('kosaraju') ||
                                location.pathname.includes('graphColoring') ||
                                location.pathname.includes('pagerank') ||
+                               location.pathname.includes('climbingStairs') ||
                                location.pathname.includes('fibonacci') ||
                                location.pathname.includes('coinChange') ||
                                location.pathname.includes('knapsack') ||
@@ -108,6 +109,7 @@ const Sidebar = () => {
         }));
       } else if (location.pathname.includes('fibonacci') ||
                  location.pathname.includes('coinChange') ||
+                 location.pathname.includes('climbingStairs') ||
                  location.pathname.includes('knapsack') ||
                  location.pathname.includes('longestCommonSubsequence') ||
                  location.pathname.includes('editDistance')) {
@@ -202,10 +204,11 @@ const Sidebar = () => {
       name: 'DP Algorithms',
       icon: BarChart,
       algorithms: [
-        { id: 'knapsack', name: '0/1 Knapsack' },
+        { id: 'climbingStairs', name: 'Climbing Stairs' },
         { id: 'coinChange', name: 'Coin Change' },
         { id: 'editDistance', name: 'Edit Distance' },
         { id: 'fibonacci', name: 'Fibonacci' },
+        { id: 'knapsack', name: '0/1 Knapsack' },
         { id: 'longestCommonSubsequence', name: 'Longest Common Subsequence' }
       ]
     }

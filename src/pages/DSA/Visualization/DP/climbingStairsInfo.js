@@ -4,6 +4,7 @@
  */
 
 const climbingStairsInfo = {
+  description: 'Dynamic programming algorithm that counts the number of distinct ways to climb n stairs when you can take 1 or 2 steps at a time',
   timeComplexity: {
     best: 'O(n)',
     average: 'O(n)',
