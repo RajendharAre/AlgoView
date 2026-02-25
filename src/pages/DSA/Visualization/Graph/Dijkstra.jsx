@@ -267,7 +267,7 @@ const DijkstraVisualization = () => {
   useEffect(() => {
     if (unreachableNodes.length > 0 && !isRunning) {
       const unreachableLabels = unreachableNodes.map(n => n.label).join(', ');
-      setCurrentStep(`⚠️ Unreachable nodes: ${unreachableLabels}. Connect them to the main graph to include in traversal.`);
+      setCurrentStep(`Unreachable nodes: ${unreachableLabels}. Connect them to the main graph to include in traversal.`);
     }
   }, [unreachableNodes, isRunning]);
   

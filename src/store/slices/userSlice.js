@@ -73,10 +73,49 @@ export const registerUser = createAsyncThunk(
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       return extractUserData(userCredential.user)
     } catch (error) {
-      return rejectWithValue(error.message)
+      return rejectWithValue(getFriendlyErrorMessage(error))
     }
   }
 )
+
+// Maps Firebase error codes to user-friendly messages
+const getFriendlyErrorMessage = (error) => {
+  const code = error.code || ''
+  switch (code) {
+    case 'auth/email-already-in-use':
+      return 'An account with this email already exists. Please sign in instead.'
+    case 'auth/invalid-email':
+      return 'Please enter a valid email address.'
+    case 'auth/user-not-found':
+      return 'No account found with this email. Please check your email or create a new account.'
+    case 'auth/wrong-password':
+      return 'Incorrect password. Please try again or reset your password.'
+    case 'auth/invalid-credential':
+      return 'Invalid email or password. Please check your credentials and try again.'
+    case 'auth/too-many-requests':
+      return 'Too many failed attempts. Please wait a moment and try again.'
+    case 'auth/weak-password':
+      return 'Password is too weak. Please use at least 6 characters.'
+    case 'auth/network-request-failed':
+      return 'Network error. Please check your internet connection and try again.'
+    case 'auth/popup-closed-by-user':
+      return 'Sign-in was cancelled. You can try again when ready.'
+    case 'auth/cancelled-popup-request':
+      return 'Sign-in was cancelled. You can try again when ready.'
+    case 'auth/account-exists-with-different-credential':
+      return 'An account already exists with this email using a different sign-in method.'
+    case 'auth/unauthorized-domain':
+      return 'This domain is not authorized. Please contact support.'
+    case 'auth/operation-not-allowed':
+      return 'This sign-in method is not enabled. Please contact support.'
+    default:
+      // Catch any raw Firebase error string and replace with friendly text
+      if (error.message?.startsWith('Firebase:') || error.message?.includes('auth/')) {
+        return 'Authentication failed. Please try again.'
+      }
+      return error.message || 'Something went wrong. Please try again.'
+  }
+}
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
@@ -85,7 +124,7 @@ export const loginUser = createAsyncThunk(
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       return extractUserData(userCredential.user)
     } catch (error) {
-      return rejectWithValue(error.message)
+      return rejectWithValue(getFriendlyErrorMessage(error))
     }
   }
 )
@@ -98,7 +137,7 @@ export const loginWithGoogle = createAsyncThunk(
       const userCredential = await signInWithPopup(auth, provider)
       return extractUserData(userCredential.user)
     } catch (error) {
-      return rejectWithValue(error.message)
+      return rejectWithValue(getFriendlyErrorMessage(error))
     }
   }
 )
@@ -111,7 +150,7 @@ export const loginWithGitHub = createAsyncThunk(
       const userCredential = await signInWithPopup(auth, provider)
       return extractUserData(userCredential.user)
     } catch (error) {
-      return rejectWithValue(error.message)
+      return rejectWithValue(getFriendlyErrorMessage(error))
     }
   }
 )
@@ -121,7 +160,7 @@ export const signOut = createAsyncThunk('user/signOut', async (_, { rejectWithVa
     await firebaseSignOut(auth)
     return null
   } catch (error) {
-    return rejectWithValue(error.message)
+    return rejectWithValue(getFriendlyErrorMessage(error))
   }
 })
 

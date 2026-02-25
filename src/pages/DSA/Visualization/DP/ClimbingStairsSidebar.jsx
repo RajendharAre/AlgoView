@@ -121,7 +121,7 @@ const ClimbingStairsSidebar = ({
           <h4 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-widest flex items-center gap-2">
             <Layers size={12} /> DP Array [Ways]
           </h4>
-          <div className="flex flex-col gap-1 max-h-[300px] overflow-y-auto">
+          <div className="flex flex-col gap-1">
             {dp.map((val, idx) => (
               <div
                 key={idx}

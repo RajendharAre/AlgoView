@@ -44,8 +44,9 @@ const DocumentationList = memo(({
           <p style={{ color: colors?.text.secondary || '#495057' }} className="mb-4">
             Try adjusting your filters or search query.
           </p>
-          <div style={{ backgroundColor: colors?.bg.secondary || '#e9ecef', color: colors?.text.secondary || '#495057' }} className="inline-block px-4 py-2 rounded-lg text-sm">
-            💡 Tip: Clear filters to see all documentation
+          <div style={{ backgroundColor: colors?.bg.secondary || '#e9ecef', color: colors?.text.secondary || '#495057' }} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Tip: Clear filters to see all documentation
           </div>
         </div>
       </motion.div>

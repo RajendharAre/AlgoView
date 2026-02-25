@@ -247,10 +247,10 @@ const PracticeRefactored = () => {
         setCheckedProblems(prev => new Set([...prev, problem.id]));
 
         if (!isAutoCheck) {
-          alert('🎉 Problem verified successfully!');
+          alert('Problem verified successfully!');
         }
       } else if (!isAutoCheck) {
-        alert('❌ Problem not solved yet. Please complete it on LeetCode.');
+        alert('Problem not solved yet. Please complete it on LeetCode.');
       }
     } catch (error) {
       console.error('Verification error:', error);

@@ -18,15 +18,11 @@ const Auth = () => {
     }
   }, [location.pathname])
   
-  // console.log('Auth component rendered, isLogin:', isLogin)
-  
   const handleSwitchToRegister = () => {
-    console.log('Switching to register form')
     setIsLogin(false)
   }
   
   const handleSwitchToLogin = () => {
-    console.log('Switching to login form')
     setIsLogin(true)
   }
 
@@ -105,35 +101,29 @@ const Auth = () => {
             {/* Tabs */}
             <div className="flex border-b border-gray-200">
               <button
-                onClick={() => {
-                  console.log('Sign In tab clicked, setting isLogin to true')
-                  setIsLogin(true)
-                }}
+                onClick={() => setIsLogin(true)}
                 className={`flex-1 py-4 px-6 text-center font-semibold transition-all duration-200 relative ${
-                  isLogin ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+                  isLogin ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
                 Sign In
                 {isLogin && (
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500"
                     layoutId="tabIndicator"
                   />
                 )}
               </button>
               <button
-                onClick={() => {
-                  console.log('Sign Up tab clicked, setting isLogin to false')
-                  setIsLogin(false)
-                }}
+                onClick={() => setIsLogin(false)}
                 className={`flex-1 py-4 px-6 text-center font-semibold transition-all duration-200 relative ${
-                  !isLogin ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'
+                  !isLogin ? 'text-blue-600' : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
                 Sign Up
                 {!isLogin && (
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500"
                     layoutId="tabIndicator"
                   />
                 )}

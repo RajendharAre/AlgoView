@@ -53,6 +53,19 @@ service cloud.firestore {
       }
     }
     
+    // pendingVerifications collection - used during email verification signup flow
+    // Users are unauthenticated at this stage, allow access with basic field validation
+    match /pendingVerifications/{docId} {
+      // Anyone can create a pending verification (unauthenticated signup flow)
+      allow create: if request.resource.data.keys().hasAll(['email', 'codeHash', 'expiryTime', 'createdAt']);
+      // Anyone can read (needed to verify the code before user account exists)
+      allow read: if true;
+      // Allow update to increment attempts or resend count
+      allow update: if true;
+      // Allow delete after successful verification or too many attempts
+      allow delete: if true;
+    }
+
     // Discussions collection
     match /discussions/{discussionId} {
       allow read: if true;

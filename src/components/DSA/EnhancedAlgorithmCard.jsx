@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronRight, Zap, BarChart3, Clock } from 'lucide-react'
+import { ChevronRight, Zap, BarChart3, Clock, Search, GitBranch, Database, Settings, Sparkles, Heart } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 /**
@@ -22,20 +22,20 @@ const AlgorithmCard = ({
   actionUrl = '#',
 }) => {
   const difficultyConfig = {
-    Easy: { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200', badge: '🟢' },
-    Medium: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200', badge: '🟡' },
-    Hard: { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200', badge: '🔴' },
+    Easy: { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200', dotColor: 'bg-green-500' },
+    Medium: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200', dotColor: 'bg-yellow-500' },
+    Hard: { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200', dotColor: 'bg-red-500' },
   }
 
   const categoryConfig = {
-    Sorting: { icon: '📊', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' },
-    Searching: { icon: '🔍', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' },
-    Graph: { icon: '🔗', color: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300' },
-    'Dynamic Programming': { icon: '💾', color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300' },
+    Sorting: { icon: <BarChart3 size={20} />, color: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' },
+    Searching: { icon: <Search size={20} />, color: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' },
+    Graph: { icon: <GitBranch size={20} />, color: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300' },
+    'Dynamic Programming': { icon: <Database size={20} />, color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300' },
   }
 
   const diffConfig = difficultyConfig[difficulty] || difficultyConfig.Medium
-  const catConfig = categoryConfig[category] || { icon: '⚙️', color: 'bg-gray-100 text-gray-700' }
+  const catConfig = categoryConfig[category] || { icon: <Settings size={20} />, color: 'bg-gray-100 text-gray-700' }
 
   return (
     <motion.div
@@ -54,8 +54,8 @@ const AlgorithmCard = ({
           {/* New Badge */}
           {isNew && (
             <div className="absolute top-4 right-4 z-10">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-white">
-                ✨ New
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                <Sparkles size={12} /> New
               </span>
             </div>
           )}
@@ -103,7 +103,7 @@ const AlgorithmCard = ({
             {/* Difficulty & Tags */}
             <div className="flex flex-wrap gap-2 mb-4">
               <span className={`inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full ${diffConfig.color}`}>
-                {diffConfig.badge} {difficulty}
+                <span className={`w-2 h-2 rounded-full ${diffConfig.dotColor}`}></span> {difficulty}
               </span>
               {tags.slice(0, 2).map((tag, idx) => (
                 <span key={idx} className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300">
@@ -119,11 +119,11 @@ const AlgorithmCard = ({
                   e.preventDefault()
                   onFavoriteClick?.()
                 }}
-                className={`text-lg transition-transform hover:scale-125 ${
+                className={`transition-transform hover:scale-125 ${
                   isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-400'
                 }`}
               >
-                {isFavorite ? '❤️' : '🤍'}
+                <Heart size={20} fill={isFavorite ? 'currentColor' : 'none'} />
               </button>
               <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm group-hover:gap-2 transition-all">
                 <span>Visualize</span>

@@ -158,7 +158,7 @@ const favObj = {};
         ssRemove(SS_LAST_CLICKED);
         currentProblemRef.current = null;
 
-        showPopup('success', '🎉 Problem Verified!',
+        showPopup('success', 'Problem Verified!',
           'Great job! Your solution has been accepted on LeetCode.',
           problem.title, 5000);
       } else {

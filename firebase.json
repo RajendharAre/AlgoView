@@ -8,6 +8,36 @@
   "storage": {
     "rules": "storage.rules"
   },
+  "hosting": {
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "/cf/sendVerificationEmail",
+        "function": "sendVerificationEmail",
+        "region": "us-central1"
+      },
+      {
+        "source": "/cf/sendEmail",
+        "function": "sendEmail",
+        "region": "us-central1"
+      },
+      {
+        "source": "/cf/sendWelcomeEmail",
+        "function": "sendWelcomeEmail",
+        "region": "us-central1"
+      },
+      {
+        "source": "/cf/sendContactEmail",
+        "function": "sendContactEmail",
+        "region": "us-central1"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
   "functions": [
     {
       "source": "functions",

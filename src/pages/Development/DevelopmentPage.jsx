@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { BookOpen, Code2, Video, FileText, Users, HelpCircle } from 'lucide-react';
 import TutorialsSection from './Tutorials/TutorialsSection';
 import CodeExamplesSection from './CodeExamples/CodeExamplesSection';
 
@@ -14,12 +15,12 @@ export default function DevelopmentPage() {
   const [activeSection, setActiveSection] = useState('tutorials');
 
   const sections = [
-    { id: 'tutorials', label: 'Tutorials', icon: '📚' },
-    { id: 'codes', label: 'Code Examples', icon: '💻' },
-    { id: 'videos', label: 'Videos', icon: '🎥' },
-    { id: 'docs', label: 'Documentation', icon: '📖' },
-    { id: 'community', label: 'Community', icon: '👥' },
-    { id: 'qa', label: 'Q&A', icon: '❓' }
+    { id: 'tutorials', label: 'Tutorials', icon: <BookOpen size={16} /> },
+    { id: 'codes', label: 'Code Examples', icon: <Code2 size={16} /> },
+    { id: 'videos', label: 'Videos', icon: <Video size={16} /> },
+    { id: 'docs', label: 'Documentation', icon: <FileText size={16} /> },
+    { id: 'community', label: 'Community', icon: <Users size={16} /> },
+    { id: 'qa', label: 'Q&A', icon: <HelpCircle size={16} /> }
   ];
 
   const renderSection = () => {

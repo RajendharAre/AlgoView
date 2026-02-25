@@ -280,7 +280,7 @@ function getDefaultResponse(input) {
   if (isOffTopic && !text.includes('algorithm') && !text.includes('code') && !text.includes('development') && !text.includes('learn')) {
     return `I appreciate the question, but I'm specifically designed to help with:
 
-### 📚 What I Can Help With:
+### What I Can Help With:
 - **Algorithms & Data Structures** (Sorting, Searching, Graph algorithms, etc.)
 - **Web Development** (HTML, CSS, JavaScript, React, Node.js, etc.)
 - **Learning Roadmaps** (DSA paths, Web dev paths, career guidance)
@@ -288,12 +288,12 @@ function getDefaultResponse(input) {
 - **Code Explanations** (How does this code work?)
 - **Interview Prep** (Algorithm problems, coding questions)
 
-### ❌ What I Can't Help With:
+### What I Can't Help With:
 - Movies, music, entertainment
 - Sports, celebrities, current events
 - General trivia or non-educational topics
 
-**Feel free to ask me about algorithms, web development, or learning paths!** 🚀`;
+**Feel free to ask me about algorithms, web development, or learning paths!**`;
   }
 
   // ============================================
@@ -902,11 +902,11 @@ Dijkstra finds shortest path from a source to all other vertices.
   }
 
   // Default welcome message (only if nothing matched)
-  return `### 👋 Welcome to AlgoView AI
+  return `### Welcome to AlgoView AI
 
 I'm your AI assistant for **Algorithms**, **Data Structures**, and **Web Development**!
 
-**📚 I can help with:**
+**I can help with:**
 
 **Algorithms & DSA:**
 - Sorting: QuickSort, MergeSort, BubbleSort, etc.
@@ -915,20 +915,20 @@ I'm your AI assistant for **Algorithms**, **Data Structures**, and **Web Develop
 - Data Structures: Trees, Linked Lists, Hash Maps, Heaps
 - Complexity: Big O notation, Time/Space analysis
 
-**💻 Web Development:**
+**Web Development:**
 - HTML/CSS fundamentals
 - JavaScript (ES6+, async programming)
 - React.js (components, hooks, state)
 - Node.js backend development
 - Databases (SQL, NoSQL)
 
-**🗺️ Learning Paths:**
+**Learning Paths:**
 - DSA learning roadmap
 - Web development roadmap
 - Interview preparation guide
 - Career guidance
 
-**📖 Resources:**
+**Resources:**
 - Books, courses, and tutorials
 - Best learning platforms
 - Practice websites

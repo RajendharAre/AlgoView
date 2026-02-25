@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Check } from 'lucide-react';
 
 export default function StyledDropdown({
   label,
@@ -121,7 +121,7 @@ export default function StyledDropdown({
               >
                 <span>{option.label}</span>
                 {value === option.value && (
-                  <span className="text-lg" style={{ color: accentColor }}>✓</span>
+                  <Check size={16} style={{ color: accentColor }} />
                 )}
               </button>
             ))
