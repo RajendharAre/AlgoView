@@ -95,6 +95,12 @@ const Navbar = () => {
     // When on DSA sub-pages, don't interfere with user's choice
   }, [location.pathname])
 
+  // Check if current route matches nav item
+  const isActive = (path) => {
+    if (path === '/') return location.pathname === '/'
+    return location.pathname === path || location.pathname.startsWith(path + '/')
+  }
+
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
     { 
@@ -140,7 +146,11 @@ const Navbar = () => {
                     <div ref={dsaDropdownRef} className="relative">
                       <Link
                         to={item.path}
-                        className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                        className={`flex items-center px-3 py-2 rounded-md transition-colors ${
+                          isActive(item.path)
+                            ? 'text-gray-900 bg-gray-200 font-semibold'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                        }`}
                         onClick={(e) => {
                           e.preventDefault();
                           setDsaDropdownOpen(!dsaDropdownOpen);
@@ -169,7 +179,11 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to={item.path}
-                      className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+                      className={`flex items-center px-3 py-2 rounded-md transition-colors ${
+                        isActive(item.path)
+                          ? 'text-gray-900 bg-gray-200 font-semibold'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      }`}
                     >
                       <Icon className="h-4 w-4 mr-2" />
                       <span className="text-sm font-medium">{item.name}</span>
@@ -296,7 +310,11 @@ const Navbar = () => {
                       <div ref={dsaDropdownRef} className="space-y-1">
                         <Link
                           to={item.path}
-                          className="flex items-center w-full px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                          className={`flex items-center w-full px-3 py-2 text-base font-medium rounded-md ${
+                            isActive(item.path)
+                              ? 'text-gray-900 bg-gray-200'
+                              : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                          }`}
                           onClick={(e) => {
                             e.preventDefault();
                             setDsaDropdownOpen(!dsaDropdownOpen);
@@ -329,7 +347,11 @@ const Navbar = () => {
                       <Link
                         key={item.name}
                         to={item.path}
-                        className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                        className={`flex items-center px-3 py-2 text-base font-medium rounded-md ${
+                          isActive(item.path)
+                            ? 'text-gray-900 bg-gray-200'
+                            : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                        }`}
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         <Icon className="h-5 w-5 mr-3" />

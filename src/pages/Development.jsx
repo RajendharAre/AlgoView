@@ -90,7 +90,7 @@ export default function Development() {
         className="bg-white border-b py-12"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-2" style={{ color: COLORS.text.primary }}>Development Hub</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold mb-2" style={{ color: COLORS.text.primary }}>Development Hub</h1>
           <p className="text-lg max-w-3xl" style={{ color: COLORS.text.secondary }}>
             Master Web Development, DevOps, and more with tutorials, code examples, video courses, and community resources.
           </p>

@@ -10,6 +10,16 @@
   --error: #ff4d4f;
   --warning: #faad14;
   --info: #1890ff;
+  /* ChatGPT-like palette for AI experience */
+  --bg-primary: #343541;
+  --bg-sidebar: #202123;
+  --bg-user-msg: #2b2f36;
+  --bg-assistant-msg: #444654;
+  --text-primary: #ececf1;
+  --text-secondary: #8e8ea0;
+  --input-bg: #40414f;
+  --input-border: #2b2f36;
+  --accent: #10a37f;
 }
 
 body {

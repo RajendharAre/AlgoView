@@ -33,6 +33,16 @@
         "region": "us-central1"
       },
       {
+        "source": "/cf/sendPasswordResetCode",
+        "function": "sendPasswordResetCode",
+        "region": "us-central1"
+      },
+      {
+        "source": "/cf/resetUserPassword",
+        "function": "resetUserPassword",
+        "region": "us-central1"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

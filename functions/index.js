@@ -1,5 +1,9 @@
 import functions from "firebase-functions";
+import admin from "firebase-admin";
 import sgMail from "@sendgrid/mail";
+
+// Initialize Firebase Admin SDK (needed for password reset)
+admin.initializeApp();
 
 // Set CORS headers on every response
 function setCors(res) {
@@ -272,4 +276,136 @@ export const sendVerificationEmail = functions.https.onRequest(async (req, res) 
         error: error.message || "Failed to send verification email",
       });
     }
+});
+
+/**
+ * Send password reset code email
+ * Sends a 6-digit code to the user's email for password reset
+ * Endpoint: /sendPasswordResetCode
+ */
+export const sendPasswordResetCode = functions.https.onRequest(async (req, res) => {
+  setCors(res);
+  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  try {
+    ensureSendgridConfigured();
+    const { email, resetCode } = req.body;
+
+    if (!email || !resetCode) {
+      res.status(400).json({
+        success: false,
+        error: "Missing required fields: email, resetCode",
+      });
+      return;
+    }
+
+    const msg = {
+      to: email,
+      from: "hello@algovieww.me",
+      subject: "Reset Your AlgoView Password",
+      html: `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #1f2937; font-size: 28px; margin: 0;">Password Reset Request</h1>
+          </div>
+          
+          <div style="background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <p style="color: #4b5563; font-size: 16px; margin-bottom: 20px;">Hi there,</p>
+            
+            <p style="color: #4b5563; font-size: 16px; margin-bottom: 30px;">We received a request to reset the password for your AlgoView account. Use the code below to proceed with resetting your password.</p>
+            
+            <div style="text-align: center; margin: 30px 0;">
+              <div style="background: linear-gradient(135deg, #f97316 0%, #ef4444 100%); padding: 30px; border-radius: 8px; display: inline-block;">
+                <p style="font-size: 12px; color: rgba(255,255,255,0.8); margin: 0; text-transform: uppercase; letter-spacing: 2px;">Your Reset Code</p>
+                <p style="font-size: 48px; font-weight: bold; color: white; margin: 20px 0; letter-spacing: 8px; font-family: 'Courier New', monospace;">${resetCode}</p>
+              </div>
+            </div>
+            
+            <p style="color: #75838d; font-size: 14px; text-align: center; margin: 30px 0;">This code will expire in <strong>10 minutes</strong></p>
+            
+            <div style="background-color: #fff7ed; border-left: 4px solid #f97316; padding: 15px; margin: 20px 0; border-radius: 4px;">
+              <p style="color: #4b5563; font-size: 13px; margin: 0;"><strong>Security tip:</strong> If you did not request a password reset, please ignore this email. Your account is safe.</p>
+            </div>
+            
+            <div style="border-top: 1px solid #e5e7eb; margin-top: 30px; padding-top: 30px; text-align: center;">
+              <p style="color: #75838d; font-size: 12px; margin: 0;">If you didn't request this, you can safely ignore this email.</p>
+              <p style="color: #75838d; font-size: 12px; margin: 10px 0;">Questions? Contact us at support@algovieww.me</p>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 20px;">
+            <p style="color: #75838d; font-size: 12px; margin: 0;">&copy; 2026 AlgoView. All rights reserved.</p>
+          </div>
+        </div>
+      `,
+    };
+
+    await sgMail.send(msg);
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset code sent successfully!",
+      email: email,
+    });
+  } catch (error) {
+    console.error("SendGrid error:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message || "Failed to send password reset email",
+    });
+  }
+});
+
+/**
+ * Reset user password using Firebase Admin SDK
+ * Called after the user successfully verifies the 6-digit code
+ * Endpoint: /resetUserPassword
+ */
+export const resetUserPassword = functions.https.onRequest(async (req, res) => {
+  setCors(res);
+  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      res.status(400).json({
+        success: false,
+        error: "Missing required fields: email, newPassword",
+      });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      res.status(400).json({
+        success: false,
+        error: "Password must be at least 6 characters long",
+      });
+      return;
+    }
+
+    // Look up the user by email
+    const userRecord = await admin.auth().getUserByEmail(email);
+
+    // Update the password
+    await admin.auth().updateUser(userRecord.uid, {
+      password: newPassword,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully!",
+    });
+  } catch (error) {
+    console.error("Password reset error:", error);
+    if (error.code === "auth/user-not-found") {
+      res.status(404).json({
+        success: false,
+        error: "No account found with this email address.",
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: error.message || "Failed to reset password",
+      });
+    }
+  }
 });

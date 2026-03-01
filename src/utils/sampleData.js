@@ -14,7 +14,7 @@ export const sampleTutorials = [
     rating: 4.9,
     ratingCount: 312,
     isPremium: false,
-    imageUrl: "https://via.placeholder.com/300x200?text=React+Hooks"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FReactJS.webp?alt=media"
   },
   {
     title: "Node.js REST API Development",
@@ -28,7 +28,7 @@ export const sampleTutorials = [
     rating: 4.8,
     ratingCount: 245,
     isPremium: false,
-    imageUrl: "https://via.placeholder.com/300x200?text=Node.js+API"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FNodeJS.webp?alt=media"
   },
   {
     title: "CSS Grid & Flexbox Mastery",
@@ -42,7 +42,7 @@ export const sampleTutorials = [
     rating: 4.7,
     ratingCount: 198,
     isPremium: false,
-    imageUrl: "https://via.placeholder.com/300x200?text=CSS+Layout"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FCSSFlexBox.webp?alt=media"
   },
   {
     title: "TypeScript for React Developers",
@@ -56,7 +56,7 @@ export const sampleTutorials = [
     rating: 4.8,
     ratingCount: 189,
     isPremium: false,
-    imageUrl: "https://via.placeholder.com/300x200?text=TypeScript"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FTypeScript.webp?alt=media"
   },
   {
     title: "Docker & Containerization",
@@ -70,7 +70,7 @@ export const sampleTutorials = [
     rating: 4.6,
     ratingCount: 167,
     isPremium: false,
-    imageUrl: "https://via.placeholder.com/300x200?text=Docker"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FDockerContainer.webp?alt=media"
   },
   {
     title: "Next.js Full-Stack Development",
@@ -84,7 +84,7 @@ export const sampleTutorials = [
     rating: 4.9,
     ratingCount: 287,
     isPremium: true,
-    imageUrl: "https://via.placeholder.com/300x200?text=Next.js"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FNextJS.webp?alt=media"
   },
   {
     title: "Tailwind CSS Advanced Techniques",
@@ -98,7 +98,7 @@ export const sampleTutorials = [
     rating: 4.8,
     ratingCount: 143,
     isPremium: false,
-    imageUrl: "https://via.placeholder.com/300x200?text=Tailwind+CSS"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FTailWindCSS.webp?alt=media"
   },
   {
     title: "CI/CD Pipeline with GitHub Actions",
@@ -112,7 +112,7 @@ export const sampleTutorials = [
     rating: 4.7,
     ratingCount: 156,
     isPremium: true,
-    imageUrl: "https://via.placeholder.com/300x200?text=CI+CD"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FDockerContainer.webp?alt=media"
   },
   {
     title: "MongoDB & Mongoose Complete Guide",
@@ -126,7 +126,7 @@ export const sampleTutorials = [
     rating: 4.8,
     ratingCount: 203,
     isPremium: true,
-    imageUrl: "https://via.placeholder.com/300x200?text=MongoDB"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FMongoDB.webp?alt=media"
   },
   {
     title: "AWS Cloud Deployment Guide",
@@ -140,7 +140,7 @@ export const sampleTutorials = [
     rating: 4.7,
     ratingCount: 267,
     isPremium: true,
-    imageUrl: "https://via.placeholder.com/300x200?text=AWS+Cloud"
+    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FAWSCloud.webp?alt=media"
   }
 ];
 

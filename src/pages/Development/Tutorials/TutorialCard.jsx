@@ -44,6 +44,7 @@ const PREMIUM_COLORS = { bg: '#fef3c7', text: '#92400e', icon: '#d97706' };
 export default function TutorialCard({ tutorial }) {
   const [isHovered, setIsHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const catColor = CATEGORY_COLORS[tutorial.category] || { bg: COLORS.bg.tertiary, text: COLORS.text.secondary };
   const diffColor = DIFFICULTY_COLORS[tutorial.difficulty] || { bg: COLORS.bg.tertiary, text: COLORS.text.secondary };
@@ -86,11 +87,24 @@ export default function TutorialCard({ tutorial }) {
       >
         {/* Image */}
         <div style={{ backgroundColor: COLORS.bg.secondary }} className="relative h-48 overflow-hidden">
-          <img
-            src={tutorial.imageUrl}
-            alt={tutorial.title}
-            className="w-full h-full object-cover"
-          />
+          {imgError || !tutorial.imageUrl ? (
+            <div
+              className="w-full h-full flex flex-col items-center justify-center gap-2"
+              style={{ background: `linear-gradient(135deg, ${catColor.bg} 0%, #e2e8f0 100%)` }}
+            >
+              <span style={{ fontSize: 36 }}>
+                {tutorial.category === 'Web' ? '🌐' : tutorial.category === 'DevOps' ? '⚙️' : tutorial.category === 'Cloud' ? '☁️' : tutorial.category === 'AI' ? '🤖' : '📚'}
+              </span>
+              <span style={{ color: catColor.text, fontWeight: 600, fontSize: 13 }}>{tutorial.category}</span>
+            </div>
+          ) : (
+            <img
+              src={tutorial.imageUrl}
+              alt={tutorial.title}
+              className="w-full h-full object-cover"
+              onError={() => setImgError(true)}
+            />
+          )}
           {tutorial.isPremium && (
             <div style={{ backgroundColor: PREMIUM_COLORS.bg, color: PREMIUM_COLORS.text }} className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
               <FaCrown size={12} style={{ color: PREMIUM_COLORS.icon }} />

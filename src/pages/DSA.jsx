@@ -115,10 +115,10 @@ const DSA = () => {
               initial={{ x: -320 }}
               animate={{ x: 0 }}
               exit={{ x: -320 }}
-              className="md:hidden fixed inset-y-0 left-0 z-50 w-80 pt-16"
+              className="md:hidden fixed inset-0 z-50 pt-16"
             >
-              <div className="absolute inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)}></div>
-              <div className="relative flex-1 flex flex-col w-80 bg-white">
+              <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)}></div>
+              <div className="relative flex-1 flex flex-col w-80 bg-white h-full">
                 <div className="flex items-center justify-between p-4 border-b border-gray-200">
                   <h2 className="text-lg font-semibold text-gray-900">Algorithms</h2>
                   <button 

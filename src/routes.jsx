@@ -31,6 +31,7 @@ const TutorialsList = lazy(() => import('./pages/Development/Tutorials/Tutorials
 const CodeExamplesList = lazy(() => import('./pages/Development/CodeExamples/CodeExamplesList'))
 const VideosPage = lazy(() => import('./pages/Development/Videos/VideosPage'))
 const DocumentationPage = lazy(() => import('./pages/Development/Documentation/DocumentationPage'))
+const CommunityPage = lazy(() => import('./pages/Development/Community/CommunityPage'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
@@ -289,6 +290,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<Loader />}>
               <DocumentationPage />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'development/community',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <CommunityPage />
             </Suspense>
           </ProtectedRoute>
         )

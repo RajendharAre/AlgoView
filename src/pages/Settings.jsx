@@ -101,7 +101,7 @@ const Settings = () => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Settings</h1>
           <p className="text-gray-600 mt-2">Manage your account preferences and preferences</p>
         </motion.div>
 
@@ -110,7 +110,7 @@ const Settings = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-0 md:gap-0">
             {/* Sidebar Navigation */}
             <div className="md:col-span-1 bg-gray-50 border-b md:border-b-0 md:border-r border-gray-200">
-              <nav className="flex md:flex-col p-4 md:p-0">
+              <nav className="flex md:flex-col overflow-x-auto p-2 sm:p-4 md:p-0 gap-1 md:gap-0">
                 {[
                   { id: 'notifications', label: 'Notifications', icon: Bell },
                   { id: 'security', label: 'Security', icon: Lock },

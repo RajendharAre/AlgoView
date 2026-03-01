@@ -234,6 +234,9 @@ const userSlice = createSlice({
         state.error = action.payload
       })
       // Sign out
+      .addCase(signOut.pending, state => {
+        state.currentUser = null
+      })
       .addCase(signOut.fulfilled, state => {
         state.currentUser = null
         state.loading = false

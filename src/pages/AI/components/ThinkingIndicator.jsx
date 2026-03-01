@@ -1,50 +1,38 @@
 /**
- * Thinking Indicator Component
- * Shows AI is generating a response with animated typing effect
+ * Thinking Indicator — ChatGPT-style three-dot bounce animation
  */
 
 import { Bot } from 'lucide-react';
 
 export function ThinkingIndicator() {
   return (
-    <div className="flex items-start gap-3 mb-4">
-      {/* Bot Avatar */}
-      <div 
-        className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+    <div className="flex items-start gap-3 py-3">
+      {/* Bot Avatar — matches MessageBubble */}
+      <div
+        className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-[var(--accent,#10a37f)] text-white mt-0.5"
         role="img"
-        aria-label="AI Assistant"
+        aria-label="AI Assistant is thinking"
       >
         <Bot className="w-4 h-4" />
       </div>
 
-      {/* Thinking Message */}
-      <div className="bg-transparent text-gray-900 dark:text-gray-100 rounded-lg px-0 py-2 rounded-bl-none">
-        <div className="flex items-center gap-2">
-          <span className="text-sm">AlgoView is thinking</span>
-          
-          {/* Animated dots */}
-          <div className="flex gap-1">
-            <span className="w-2 h-2 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" 
-              style={{ animation: 'pulse 1.4s infinite' }}>
-            </span>
-            <span className="w-2 h-2 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" 
-              style={{ animation: 'pulse 1.4s infinite 0.2s' }}>
-            </span>
-            <span className="w-2 h-2 bg-gray-500 dark:bg-gray-400 rounded-full animate-pulse" 
-              style={{ animation: 'pulse 1.4s infinite 0.4s' }}>
-            </span>
-          </div>
+      {/* Thinking bubble */}
+      <div className="bg-[var(--bg-assistant-msg,#444654)] rounded-2xl rounded-bl-sm px-4 py-3">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot" />
+          <span className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot" style={{ animationDelay: '0.15s' }} />
+          <span className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot" style={{ animationDelay: '0.3s' }} />
         </div>
       </div>
 
+      {/* Bounce keyframes */}
       <style>{`
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 0.6;
-          }
-          50% {
-            opacity: 1;
-          }
+        .thinking-dot {
+          animation: thinking-bounce 1.4s ease-in-out infinite;
+        }
+        @keyframes thinking-bounce {
+          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+          40% { transform: translateY(-4px); opacity: 1; }
         }
       `}</style>
     </div>

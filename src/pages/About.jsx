@@ -98,8 +98,8 @@ const About = () => {
       <div className="py-16" style={{ backgroundColor: COLORS.bg.surface }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: COLORS.text.primary }}>About AlgoView</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto" style={{ color: COLORS.text.secondary }}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6" style={{ color: COLORS.text.primary }}>About AlgoView</h1>
+            <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto" style={{ color: COLORS.text.secondary }}>
               Empowering developers and students to master algorithms through interactive visualization and hands-on practice
             </p>
           </div>
@@ -127,7 +127,7 @@ const About = () => {
       <div className="py-16" style={{ backgroundColor: COLORS.bg.primary }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.text.primary }}>Why Choose Us?</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ color: COLORS.text.primary }}>Why Choose Us?</h2>
             <p className="text-lg max-w-2xl mx-auto" style={{ color: COLORS.text.secondary }}>
               Our platform offers unique features designed to enhance your learning experience
             </p>
@@ -149,10 +149,10 @@ const About = () => {
       <div className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center mb-8">
-            <div className="p-1 rounded-lg" style={{ backgroundColor: COLORS.bg.secondary }}>
+            <div className="p-1 rounded-lg flex flex-wrap justify-center gap-1" style={{ backgroundColor: COLORS.bg.secondary }}>
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors`}
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-md text-xs sm:text-sm font-medium transition-colors`}
                 style={{
                   backgroundColor: activeTab === 'overview' ? COLORS.bg.surface : 'transparent',
                   color: activeTab === 'overview' ? COLORS.text.primary : COLORS.text.secondary,
@@ -163,7 +163,7 @@ const About = () => {
               </button>
               <button
                 onClick={() => setActiveTab('mission')}
-                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors`}
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-md text-xs sm:text-sm font-medium transition-colors`}
                 style={{
                   backgroundColor: activeTab === 'mission' ? COLORS.bg.surface : 'transparent',
                   color: activeTab === 'mission' ? COLORS.text.primary : COLORS.text.secondary,
@@ -174,7 +174,7 @@ const About = () => {
               </button>
               <button
                 onClick={() => setActiveTab('team')}
-                className={`px-6 py-3 rounded-md text-sm font-medium transition-colors`}
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-md text-xs sm:text-sm font-medium transition-colors`}
                 style={{
                   backgroundColor: activeTab === 'team' ? COLORS.bg.surface : 'transparent',
                   color: activeTab === 'team' ? COLORS.text.primary : COLORS.text.secondary,
@@ -190,7 +190,7 @@ const About = () => {
           <div className="rounded-lg p-8 border" style={{ backgroundColor: COLORS.bg.surface, borderColor: COLORS.border.light, boxShadow: SHADOWS.sm }}>
             {activeTab === 'overview' && (
               <div className="space-y-6">
-                <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Our Story</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Our Story</h2>
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <p className="mb-4" style={{ color: COLORS.text.secondary }}>
@@ -230,7 +230,7 @@ const About = () => {
 
             {activeTab === 'mission' && (
               <div className="space-y-6">
-                <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Our Mission</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Our Mission</h2>
                 <div className="prose max-w-none">
                   <p className="mb-4" style={{ color: COLORS.text.secondary }}>
                     At AlgoView, we believe that understanding algorithms shouldn't be a barrier to 
@@ -255,7 +255,7 @@ const About = () => {
 
             {activeTab === 'team' && (
               <div className="space-y-6">
-                <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Meet Our Team</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Meet Our Team</h2>
                 <p className="mb-8" style={{ color: COLORS.text.secondary }}>
                   A diverse group of passionate individuals dedicated to revolutionizing how people learn algorithms.
                 </p>
@@ -301,7 +301,7 @@ const About = () => {
       <div className="py-16 text-white" style={{ backgroundColor: COLORS.text.primary }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.bg.surface }}>Get In Touch</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ color: COLORS.bg.surface }}>Get In Touch</h2>
             <p className="max-w-2xl mx-auto" style={{ color: COLORS.bg.secondary }}>
               Have questions or feedback? We'd love to hear from you and help improve your learning experience.
             </p>

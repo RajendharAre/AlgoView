@@ -14,6 +14,7 @@ import ChatDeletePopup from './components/ChatDeletePopup';
 import { useChatHistoryFirebase } from './hooks/useChatHistoryFirebase';
 import { useChatInput } from './hooks/useChatInput';
 import { generateResponse } from './utils/responseGenerator';
+import { Menu } from 'lucide-react';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -24,6 +25,7 @@ import { useAuth } from '../../hooks/useAuth';
 export default function AI() {
   const { user: currentUser } = useAuth();
   const [isShowingDeletePopup, setIsShowingDeletePopup] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const {
     chats,
@@ -115,39 +117,81 @@ Please try again, or make sure your API key is properly configured for better re
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Chat Sidebar */}
-      <ChatSidebar
-        chats={chats}
-        activeChatId={activeChatId}
-        onSelectChat={selectChat}
-        onCreateChat={createNewChat}
-        onDeleteChat={deleteChat}
-        loading={isLoading}
-        error={error}
-      />
+    <div
+      className="flex h-[calc(100vh-4rem)] min-h-[500px] bg-[var(--bg-primary,#343541)] text-[var(--text-primary,#ececf1)] relative"
+      style={{
+        /* ChatGPT palette — single source of truth for all child components */
+        '--bg-primary': '#343541',
+        '--bg-sidebar': '#202123',
+        '--bg-user-msg': '#2b2f36',
+        '--bg-assistant-msg': '#444654',
+        '--text-primary': '#ececf1',
+        '--text-secondary': '#8e8ea0',
+        '--accent': '#10a37f',
+        '--input-bg': '#40414f',
+        '--input-border': '#2b2f36'
+      }}
+    >
+      {/* Mobile sidebar overlay — covers full viewport */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar — slides in on mobile, static on desktop (~260 px) */}
+      <div className={`
+        fixed md:relative inset-y-0 left-0 z-50 md:z-auto
+        transform transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+        <ChatSidebar
+          chats={chats}
+          activeChatId={activeChatId}
+          onSelectChat={(id) => { selectChat(id); setSidebarOpen(false); }}
+          onCreateChat={(title) => { createNewChat(title); setSidebarOpen(false); }}
+          onDeleteChat={deleteChat}
+          loading={isLoading}
+          error={error}
+        />
+      </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-screen">
-        {/* Header */}
-        <Header 
-          title="AlgoView AI"
-          subtitle="Algorithm Assistant"
-          isOnline={true}
-          onClear={handleClear}
-          disabled={isLoading || isSending}
-        />
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Header — compact on mobile */}
+        <header
+          className="border-b border-[var(--bg-sidebar,#202123)] bg-[var(--bg-primary,#343541)] py-2 px-3 sm:px-4 flex items-center flex-shrink-0"
+          role="banner"
+        >
+          {/* Hamburger — mobile only */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="md:hidden p-2 -ml-1 mr-2 rounded-lg text-[var(--text-primary,#ececf1)] hover:bg-[var(--bg-user-msg,#2b2f36)] transition-colors"
+            aria-label="Open chat history"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
 
-        {/* Chat Window - Takes remaining space */}
+          <Header
+            title="AlgoView AI"
+            subtitle="Algorithm Assistant"
+            isOnline={true}
+            onClear={handleClear}
+            disabled={isLoading || isSending}
+          />
+        </header>
+
+        {/* Chat Window — fills remaining space */}
         <ChatWindow
           messages={chatMessages}
           isLoading={isSending}
           onCopy={handleCopy}
         />
 
-        {/* Fixed Input Area at Bottom */}
-        <div className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-          <div className="w-full max-w-3xl mx-auto px-4 py-4">
+        {/* Input bar — sticks to bottom */}
+        <div className="border-t border-[var(--bg-sidebar,#202123)] bg-[var(--bg-primary,#343541)] flex-shrink-0 sticky bottom-0">
+          <div className="w-full max-w-3xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
             <ChatInput
               value={input}
               onChange={setInput}
@@ -162,11 +206,11 @@ Please try again, or make sure your API key is properly configured for better re
 
         {/* Error Toast */}
         {error && (
-          <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 max-w-sm">
+          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[var(--bg-assistant-msg,#444654)] text-[var(--text-primary,#ececf1)] px-4 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 max-w-sm mx-4 border border-red-500/40">
             <span className="text-sm flex-1">{error.message || 'An error occurred'}</span>
-            <button 
+            <button
               onClick={handleErrorClear}
-              className="text-white hover:text-gray-200 font-bold text-lg"
+              className="text-[var(--text-secondary,#8e8ea0)] hover:text-[var(--text-primary,#ececf1)] font-bold text-lg flex-shrink-0 leading-none"
               aria-label="Close error"
             >
               ×

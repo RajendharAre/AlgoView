@@ -53,28 +53,28 @@ export function ChatWindow({
     <main 
       ref={scrollContainerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto h-full bg-white dark:bg-gray-800"
+      className="flex-1 overflow-y-auto overflow-x-hidden h-full bg-[var(--bg-primary,#343541)]"
     >
-      <div className="w-full max-w-3xl mx-auto px-4 py-6">
-        {/* Empty state */}
+      <div className="w-full max-w-3xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
+        {/* Empty state — ChatGPT-style centered prompt */}
         {messages.length === 0 && (
-          <div className="text-center py-20">
-            <div className="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-full flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-indigo-500 dark:text-indigo-400" viewBox="0 0 24 24" fill="currentColor">
+          <div className="flex flex-col items-center justify-center py-24 sm:py-32">
+            <div className="w-14 h-14 mb-5 rounded-full bg-[var(--bg-assistant-msg,#444654)] flex items-center justify-center">
+              <svg className="w-7 h-7 text-[var(--accent,#10a37f)]" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Welcome to AlgoView AI
+            <h3 className="text-xl font-semibold text-[var(--text-primary,#ececf1)] mb-2 text-center">
+              How can I help you today?
             </h3>
-            <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
-              Ask me about algorithms, data structures, or paste code for analysis. I'm here to help you understand computer science concepts.
+            <p className="text-sm text-[var(--text-secondary,#8e8ea0)] max-w-sm mx-auto text-center leading-relaxed">
+              Ask about algorithms, data structures, or paste code for analysis.
             </p>
           </div>
         )}
 
         {/* Messages list */}
-        <div className="space-y-2">
+        <div className="space-y-1">
           {messages.map((message) => (
             <MessageBubble
               key={message.id}

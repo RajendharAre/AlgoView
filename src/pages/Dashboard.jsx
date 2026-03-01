@@ -108,7 +108,7 @@ const Dashboard = () => {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-bold text-gray-900"
+          className="text-2xl sm:text-3xl font-bold text-gray-900"
         >
           Welcome back, {currentUser?.displayName || currentUser?.email?.split('@')[0] || 'User'}!
         </motion.h1>

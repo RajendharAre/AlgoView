@@ -31,7 +31,8 @@ function parseMarkdownTables(text) {
     
     if (colCount === 0 || separatorLine.length !== colCount) return match;
 
-    let table = '<table class="markdown-table"><thead><tr>';
+    // Wrap in a scrollable div — the CSS .markdown-table handles overflow-x
+    let table = '<div class="markdown-table"><table><thead><tr>';
     
     headerCells.forEach(cell => {
       table += `<th>${cell}</th>`;
@@ -80,7 +81,7 @@ function parseMarkdownTables(text) {
       table += '</tr>';
     }
     
-    table += '</tbody></table>';
+    table += '</tbody></table></div>';
     return table;
   });
 }

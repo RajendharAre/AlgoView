@@ -1,23 +1,11 @@
 /**
- * Chat input component with auto-resizing textarea and smart submit handling
- * Handles user input, auto-resizing, and proper keyboard interactions
+ * Chat input — ChatGPT-style dark auto-resizing textarea with send button
  */
 
 import { useEffect, useRef } from 'react';
 import { Copy, Send, RefreshCw } from 'lucide-react';
 
-/**
- * Chat input component
- * @param {Object} props
- * @param {string} props.value - Input value
- * @param {Function} props.onChange - Input change handler
- * @param {Function} props.onSubmit - Submit handler
- * @param {Function} props.onCopy - Copy input handler
- * @param {boolean} props.isLoading - Loading state
- * @param {boolean} props.disabled - Disabled state
- * @param {string} props.placeholder - Input placeholder
- */
-export function ChatInput({ 
+export function ChatInput({
   value = '',
   onChange,
   onSubmit,
@@ -32,8 +20,7 @@ export function ChatInput({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      const scrollHeight = textareaRef.current.scrollHeight;
-      textareaRef.current.style.height = `${Math.min(scrollHeight, 120)}px`;
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
     }
   }, [value]);
 
@@ -45,7 +32,6 @@ export function ChatInput({
   };
 
   const handleKeyDown = (e) => {
-    // Submit on Enter, but allow Shift+Enter for new lines
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit(e);
@@ -55,74 +41,65 @@ export function ChatInput({
   const canSubmit = !disabled && !isLoading && value.trim();
 
   return (
-    <div className="flex items-end gap-3">
-      {/* Textarea */}
+    <div className="flex items-end gap-2 sm:gap-3">
+      {/* Textarea wrapper */}
       <div className="flex-1 relative">
         <textarea
           ref={textareaRef}
           value={value}
-          onChange={(e) => onChange && onChange(e.target.value)}
+          onChange={(e) => onChange?.(e.target.value)}
           placeholder={placeholder}
           rows={1}
           disabled={disabled || isLoading}
           onKeyDown={handleKeyDown}
           className={`
-            w-full px-4 py-3 pl-4 pr-12 rounded-xl border border-gray-300 dark:border-gray-600
-            bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-            resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+            w-full px-3 sm:px-4 py-3 rounded-xl
+            border border-[var(--input-border,#2b2f36)]
+            bg-[var(--input-bg,#40414f)]
+            text-[var(--text-primary,#ececf1)]
+            placeholder:text-[var(--text-secondary,#8e8ea0)]
+            text-sm sm:text-base
+            resize-none
+            focus:outline-none focus:ring-2 focus:ring-[var(--accent,#10a37f)] focus:border-transparent
             ${disabled || isLoading
-              ? 'opacity-70 cursor-not-allowed bg-gray-100 dark:bg-gray-800'
-              : 'hover:border-gray-400 dark:hover:border-gray-500'
+              ? 'opacity-60 cursor-not-allowed'
+              : 'hover:border-[#565869]'
             }
           `}
-          style={{
-            minHeight: '44px',
-            maxHeight: '200px',
-            height: 'auto',
-            overflow: 'hidden'
-          }}
+          style={{ minHeight: '44px', maxHeight: '200px', overflow: 'hidden' }}
         />
-        
-
       </div>
 
       {/* Action buttons */}
-      <div className="flex gap-1 flex-shrink-0">
-        {/* Copy button */}
+      <div className="flex gap-1 flex-shrink-0 pb-0.5">
+        {/* Copy */}
         {onCopy && value.trim() && (
           <button
             type="button"
             onClick={() => onCopy(value)}
             disabled={disabled}
-            className="
-              p-3 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-500 
-              text-gray-600 dark:text-gray-300
-            "
+            className="p-2.5 sm:p-3 rounded-lg bg-[var(--bg-user-msg,#2b2f36)] hover:bg-[#3a3f46] text-[var(--text-primary,#ececf1)] transition-colors"
             aria-label="Copy input"
           >
             <Copy className="w-4 h-4" />
           </button>
         )}
 
-        {/* Send button */}
+        {/* Send */}
         <button
           type="submit"
           onClick={handleSubmit}
           disabled={!canSubmit}
           className={`
-            p-3 rounded-lg flex items-center justify-center
+            p-2.5 sm:p-3 rounded-lg flex items-center justify-center transition-colors
             ${canSubmit
-              ? 'bg-blue-500 hover:bg-blue-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-600 text-gray-400 dark:text-gray-400 cursor-not-allowed'
+              ? 'bg-[var(--accent,#10a37f)] hover:brightness-110 text-white'
+              : 'bg-[var(--bg-user-msg,#2b2f36)] text-[var(--text-secondary,#8e8ea0)] cursor-not-allowed'
             }
           `}
           aria-label={isLoading ? 'Sending message' : 'Send message'}
         >
-          {isLoading ? (
-            <RefreshCw className="w-4 h-4" />
-          ) : (
-            <Send className="w-4 h-4" />
-          )}
+          {isLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
         </button>
       </div>
     </div>

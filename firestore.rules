@@ -66,6 +66,15 @@ service cloud.firestore {
       allow delete: if true;
     }
 
+    // pendingPasswordResets collection - used during password reset flow
+    // Users are unauthenticated at this stage (forgot password), allow access with field validation
+    match /pendingPasswordResets/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['email', 'codeHash', 'expiryTime', 'createdAt']);
+      allow read: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
     // Discussions collection
     match /discussions/{discussionId} {
       allow read: if true;

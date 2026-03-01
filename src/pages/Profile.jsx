@@ -328,7 +328,7 @@ const Profile = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden animate-pulse">
           <div className="h-32 bg-gradient-to-r from-gray-200 to-gray-300"></div>
-          <div className="pt-20 pb-8 px-8">
+          <div className="pt-20 pb-8 px-4 sm:px-8">
             <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
             <div className="h-4 bg-gray-200 rounded w-1/4 mb-8"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -386,7 +386,7 @@ const Profile = () => {
 
           
           {/* Profile Picture Area with Initials */}
-          <div className="absolute -bottom-16 left-8">
+          <div className="absolute -bottom-16 left-4 sm:left-8">
             <div className="relative">
               <div className="h-32 w-32 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 border-4 border-white flex items-center justify-center">
                 <span className="text-white text-2xl font-bold">{userInitials}</span>
@@ -448,7 +448,7 @@ const Profile = () => {
         </div>
 
         {/* Profile Content */}
-        <div className="pt-20 pb-8 px-8">
+        <div className="pt-20 pb-8 px-4 sm:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <div>
               {isEditing ? (

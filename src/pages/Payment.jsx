@@ -142,7 +142,7 @@ const Payment = () => {
 
       {/* Benefits */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Why Choose Premium?</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-12">Why Choose Premium?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon

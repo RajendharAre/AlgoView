@@ -29,9 +29,9 @@ const Auth = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
       <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center gap-12">
-        {/* Left Side - Branding */}
+        {/* Left Side - Branding (hidden on mobile) */}
         <motion.div
-          className="flex-1 text-center lg:text-left"
+          className="flex-1 text-center lg:text-left hidden lg:block"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -92,12 +92,12 @@ const Auth = () => {
 
         {/* Right Side - Auth Form */}
         <motion.div
-          className="w-full max-w-md flex-shrink-0"
+          className="w-full max-w-md flex-shrink-0 mx-auto"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-2xl max-h-[90vh] overflow-y-auto">
             {/* Tabs */}
             <div className="flex border-b border-gray-200">
               <button
@@ -131,7 +131,7 @@ const Auth = () => {
             </div>
 
             {/* Auth Form Container - Single container for both forms */}
-            <div className="p-6 md:p-8">
+            <div className="p-5 sm:p-6 md:p-8">
               <div className="w-full">
                 {/* Login Form */}
                 <motion.div
