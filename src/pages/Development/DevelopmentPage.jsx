@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 import { BookOpen, Code2, Video, FileText, Users, HelpCircle } from 'lucide-react';
 import TutorialsSection from './Tutorials/TutorialsSection';
 import CodeExamplesSection from './CodeExamples/CodeExamplesSection';
+import QASection from './QA/QASection';
 
 // Placeholder components (will build others next)
 const CodeExamplesPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Code Examples</div>;
 const VideosPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Video Courses</div>;
 const DocsPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Documentation</div>;
 const CommunityPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Community</div>;
-const QAPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Q&A Forum</div>;
 
 export default function DevelopmentPage() {
   const [activeSection, setActiveSection] = useState('tutorials');
@@ -36,7 +36,7 @@ export default function DevelopmentPage() {
       case 'community':
         return <CommunityPlaceholder />;
       case 'qa':
-        return <QAPlaceholder />;
+        return <QASection />;
       default:
         return <TutorialsSection />;
     }

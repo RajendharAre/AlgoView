@@ -1,0 +1,217 @@
+/*
+ * Q&A Knowledge Base — light-theme markdown
+ * Grayscale palette matching the Development Hub pages:
+ *   bg.primary:    #f8f9fa
+ *   bg.secondary:  #e9ecef
+ *   text.primary:  #212529
+ *   text.secondary:#495057
+ *   text.tertiary: #6c757d
+ *   accent:        #343a40
+ */
+
+/* ── Base ──────────────────────────────────────────────── */
+.qa-markdown-content {
+  line-height: 1.75;
+  color: #495057;
+  font-size: 0.925rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ── Headings ──────────────────────────────────────────── */
+.qa-markdown-content h1 {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin: 1.4em 0 0.5em;
+  color: #212529;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.3em;
+}
+.qa-markdown-content h2 {
+  font-size: 1.3em;
+  font-weight: 700;
+  margin: 1.2em 0 0.4em;
+  color: #212529;
+}
+.qa-markdown-content h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 1em 0 0.35em;
+  color: #212529;
+}
+.qa-markdown-content h4,
+.qa-markdown-content h5,
+.qa-markdown-content h6 {
+  font-size: 1em;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  color: #343a40;
+}
+
+/* ── Paragraphs ────────────────────────────────────────── */
+.qa-markdown-content p {
+  margin: 0.65em 0;
+  line-height: 1.75;
+  color: #495057;
+}
+
+/* ── Lists ─────────────────────────────────────────────── */
+.qa-markdown-content ul,
+.qa-markdown-content ol {
+  margin: 0.65em 0;
+  padding-left: 1.8em;
+}
+.qa-markdown-content li {
+  margin: 0.3em 0;
+  line-height: 1.65;
+  color: #495057;
+}
+.qa-markdown-content ul li::marker { color: #343a40; }
+.qa-markdown-content ol li::marker { color: #343a40; font-weight: 600; }
+
+/* ── Inline code ───────────────────────────────────────── */
+.qa-markdown-content code {
+  font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.88em;
+}
+.qa-markdown-content code.inline-code {
+  background-color: #f1f3f5;
+  color: #c92a2a;
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* ── Code blocks ───────────────────────────────────────── */
+.qa-code-block-container {
+  background-color: #1e1e2e;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin: 1em 0;
+  overflow: hidden;
+}
+.qa-code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2b2d3a;
+  color: #d1d5db;
+  padding: 0.45em 1em;
+  font-size: 0.82em;
+  font-weight: 600;
+  border-bottom: 1px solid #3a3d4e;
+  font-family: 'Fira Code', monospace;
+}
+.qa-code-language {
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+.qa-code-copy-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.25em 0.7em;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: #d1d5db;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.qa-code-copy-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.qa-code-block-container pre {
+  margin: 0 !important;
+  padding: 1em !important;
+  background-color: #1e1e2e !important;
+  border-radius: 0;
+}
+.qa-code-block-container code {
+  font-family: 'Fira Code', 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  background-color: transparent !important;
+}
+
+/* ── Links ─────────────────────────────────────────────── */
+.qa-markdown-content a {
+  color: #1971c2;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(25, 113, 194, 0.3);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.qa-markdown-content a:hover {
+  color: #1864ab;
+  border-bottom-color: #1864ab;
+}
+
+/* ── Strong / emphasis ─────────────────────────────────── */
+.qa-markdown-content strong { font-weight: 700; color: #212529; }
+.qa-markdown-content em     { font-style: italic; color: #6c757d; }
+
+/* ── Tables ────────────────────────────────────────────── */
+.qa-markdown-content .qa-markdown-table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0.8rem 0;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+.qa-markdown-content .qa-markdown-table table,
+.qa-markdown-content table {
+  width: 100%;
+  min-width: 400px;
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+.qa-markdown-content table th,
+.qa-markdown-content table td {
+  border: 1px solid #dee2e6;
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  color: #495057;
+  font-size: 0.9em;
+  word-break: break-word;
+}
+.qa-markdown-content table th {
+  background-color: #f1f3f5;
+  font-weight: 600;
+  color: #212529;
+  white-space: nowrap;
+}
+.qa-markdown-content table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+.qa-markdown-content table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+/* ── Blockquote ────────────────────────────────────────── */
+.qa-markdown-content blockquote {
+  border-left: 4px solid #343a40;
+  padding: 0.5em 0 0.5em 1em;
+  margin: 1em 0;
+  background-color: #f8f9fa;
+  font-style: italic;
+  color: #495057;
+  border-radius: 0 4px 4px 0;
+}
+.qa-markdown-content blockquote p {
+  margin: 0.4em 0;
+}
+
+/* ── Horizontal rule ───────────────────────────────────── */
+.qa-markdown-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #ced4da, transparent);
+  margin: 1.5em 0;
+}

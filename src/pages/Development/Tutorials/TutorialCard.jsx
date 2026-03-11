@@ -44,7 +44,8 @@ const PREMIUM_COLORS = { bg: '#fef3c7', text: '#92400e', icon: '#d97706' };
 export default function TutorialCard({ tutorial }) {
   const [isHovered, setIsHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const [imgError, setImgError] = useState(false);
+  const [imgSrc, setImgSrc] = useState(tutorial.imageUrl);
+  const [imgFailed, setImgFailed] = useState(false);
 
   const catColor = CATEGORY_COLORS[tutorial.category] || { bg: COLORS.bg.tertiary, text: COLORS.text.secondary };
   const diffColor = DIFFICULTY_COLORS[tutorial.difficulty] || { bg: COLORS.bg.tertiary, text: COLORS.text.secondary };
@@ -87,7 +88,7 @@ export default function TutorialCard({ tutorial }) {
       >
         {/* Image */}
         <div style={{ backgroundColor: COLORS.bg.secondary }} className="relative h-48 overflow-hidden">
-          {imgError || !tutorial.imageUrl ? (
+          {imgFailed || !imgSrc ? (
             <div
               className="w-full h-full flex flex-col items-center justify-center gap-2"
               style={{ background: `linear-gradient(135deg, ${catColor.bg} 0%, #e2e8f0 100%)` }}
@@ -99,10 +100,16 @@ export default function TutorialCard({ tutorial }) {
             </div>
           ) : (
             <img
-              src={tutorial.imageUrl}
+              src={imgSrc}
               alt={tutorial.title}
               className="w-full h-full object-cover"
-              onError={() => setImgError(true)}
+              onError={() => {
+                if (imgSrc === tutorial.imageUrl && tutorial.localImageUrl) {
+                  setImgSrc(tutorial.localImageUrl);
+                } else {
+                  setImgFailed(true);
+                }
+              }}
             />
           )}
           {tutorial.isPremium && (

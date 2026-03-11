@@ -32,6 +32,7 @@ const CodeExamplesList = lazy(() => import('./pages/Development/CodeExamples/Cod
 const VideosPage = lazy(() => import('./pages/Development/Videos/VideosPage'))
 const DocumentationPage = lazy(() => import('./pages/Development/Documentation/DocumentationPage'))
 const CommunityPage = lazy(() => import('./pages/Development/Community/CommunityPage'))
+const QAPage = lazy(() => import('./pages/Development/QA/QAPage'))
 const Ideas = lazy(() => import('./pages/Ideas'))
 const AI = lazy(() => import('./pages/AI/AI'))
 const IdeaDetail = lazy(() => import('./pages/Ideas/Detail'))
@@ -300,6 +301,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<Loader />}>
               <CommunityPage />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'development/qa',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <QAPage />
             </Suspense>
           </ProtectedRoute>
         )
