@@ -3,6 +3,7 @@
 
 export const sampleTutorials = [
   {
+    id: "react-hooks",
     title: "React Hooks - Complete Guide",
     description: "Learn useState, useEffect, useContext, useRef and custom hooks with practical examples for modern React development.",
     category: "Web",
@@ -11,6 +12,166 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["react", "hooks", "frontend"],
     content: `<h2>React Hooks</h2><p>Master modern React development with hooks...</p>`,
+    fullContent: `## Introduction to React Hooks
+
+React Hooks were introduced in **React 16.8** and have fundamentally changed how we write React components. They allow you to use state and lifecycle features in functional components.
+
+### Why Hooks?
+
+- **Simpler code** — No need for class components
+- **Reusable logic** — Custom hooks share stateful logic between components
+- **Better composition** — Hooks compose naturally without wrapper hell
+
+---
+
+## 1. useState — Managing State
+
+\`useState\` is the most basic hook. It returns a state variable and a setter function.
+
+\`\`\`jsx
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(prev => prev - 1)}>Decrement</button>
+    </div>
+  );
+}
+\`\`\`
+
+> **Tip:** Use the callback form \`setCount(prev => prev + 1)\` when the new state depends on the previous state.
+
+---
+
+## 2. useEffect — Side Effects
+
+\`useEffect\` runs after the component renders. It replaces \`componentDidMount\`, \`componentDidUpdate\`, and \`componentWillUnmount\`.
+
+\`\`\`jsx
+import { useState, useEffect } from 'react';
+
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch(\\\`/api/users/\\\${userId}\\\`)
+      .then(res => res.json())
+      .then(data => setUser(data));
+
+    // Cleanup function (optional)
+    return () => console.log('Component unmounted or userId changed');
+  }, [userId]); // Dependency array
+
+  if (!user) return <p>Loading...</p>;
+  return <h1>{user.name}</h1>;
+}
+\`\`\`
+
+### Dependency Array Rules
+| Pattern | Behavior |
+|---------|----------|
+| \`useEffect(fn)\` | Runs after every render |
+| \`useEffect(fn, [])\` | Runs once on mount |
+| \`useEffect(fn, [dep])\` | Runs when \`dep\` changes |
+
+---
+
+## 3. useContext — Sharing State
+
+\`useContext\` lets you consume context without wrapping components.
+
+\`\`\`jsx
+import { createContext, useContext, useState } from 'react';
+
+const ThemeContext = createContext();
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+function Header() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  return (
+    <header style={{ background: theme === 'dark' ? '#333' : '#fff' }}>
+      <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+        Toggle Theme
+      </button>
+    </header>
+  );
+}
+\`\`\`
+
+---
+
+## 4. useRef — References & Persistence
+
+\`useRef\` creates a mutable reference that persists across renders.
+
+\`\`\`jsx
+import { useRef, useEffect } from 'react';
+
+function AutoFocusInput() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  return <input ref={inputRef} placeholder="I auto-focus!" />;
+}
+\`\`\`
+
+---
+
+## 5. Custom Hooks
+
+Custom hooks let you extract and reuse component logic.
+
+\`\`\`jsx
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : initialValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
+
+// Usage
+function App() {
+  const [name, setName] = useLocalStorage('username', '');
+  return <input value={name} onChange={e => setName(e.target.value)} />;
+}
+\`\`\`
+
+---
+
+## Summary
+
+| Hook | Purpose |
+|------|---------|
+| \`useState\` | Local component state |
+| \`useEffect\` | Side effects & lifecycle |
+| \`useContext\` | Consume context values |
+| \`useRef\` | DOM refs & persistent values |
+| \`useMemo\` | Memoize expensive computations |
+| \`useCallback\` | Memoize functions |
+
+Hooks make React development more intuitive and composable. Practice building custom hooks to share logic across your application!`,
     rating: 4.9,
     ratingCount: 312,
     isPremium: false,
@@ -18,6 +179,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/ReactJS.webp"
   },
   {
+    id: "nodejs-rest-api",
     title: "Node.js REST API Development",
     description: "Build production-ready REST APIs with Node.js, Express, and MongoDB. Covers authentication, validation, and deployment.",
     category: "Web",
@@ -26,6 +188,137 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["nodejs", "express", "api", "backend"],
     content: `<h2>REST API with Node.js</h2><p>Build robust APIs with Express...</p>`,
+    fullContent: `## Building REST APIs with Node.js & Express
+
+Learn to build production-ready RESTful APIs from scratch using Node.js and Express.
+
+---
+
+## 1. Project Setup
+
+\`\`\`bash
+mkdir my-api && cd my-api
+npm init -y
+npm install express mongoose dotenv cors helmet
+npm install -D nodemon
+\`\`\`
+
+\`\`\`json
+// package.json scripts
+{
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  }
+}
+\`\`\`
+
+---
+
+## 2. Express Server
+
+\`\`\`javascript
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+
+const app = express();
+
+// Middleware
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(\\\`Server running on port \\\${PORT}\\\`));
+\`\`\`
+
+---
+
+## 3. MongoDB with Mongoose
+
+\`\`\`javascript
+const mongoose = require('mongoose');
+
+// User Schema
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  password: { type: String, required: true, minlength: 6 },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }
+}, { timestamps: true });
+
+const User = mongoose.model('User', userSchema);
+\`\`\`
+
+---
+
+## 4. CRUD Routes
+
+\`\`\`javascript
+const router = express.Router();
+
+// GET all users
+router.get('/users', async (req, res) => {
+  const users = await User.find().select('-password');
+  res.json(users);
+});
+
+// POST create user
+router.post('/users', async (req, res) => {
+  const user = new User(req.body);
+  await user.save();
+  res.status(201).json(user);
+});
+
+// PUT update user
+router.put('/users/:id', async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  if (!user) return res.status(404).json({ error: 'User not found' });
+  res.json(user);
+});
+
+// DELETE user
+router.delete('/users/:id', async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.status(204).send();
+});
+\`\`\`
+
+---
+
+## 5. Error Handling Middleware
+
+\`\`\`javascript
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message || 'Internal Server Error'
+    }
+  });
+});
+\`\`\`
+
+---
+
+## Summary
+
+| Concept | Tool |
+|---------|------|
+| Server | Express.js |
+| Database | MongoDB + Mongoose |
+| Security | Helmet, CORS |
+| Validation | express-validator |
+| Auth | JWT + bcrypt |
+
+Build on these foundations to create scalable, production-ready APIs!`,
     rating: 4.8,
     ratingCount: 245,
     isPremium: false,
@@ -33,6 +326,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/NodeJS.webp"
   },
   {
+    id: "css-grid-flexbox",
     title: "CSS Grid & Flexbox Mastery",
     description: "Master modern CSS layout techniques with Grid and Flexbox. Build responsive layouts for any screen size.",
     category: "Web",
@@ -41,6 +335,116 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["css", "grid", "flexbox", "responsive"],
     content: `<h2>CSS Grid & Flexbox</h2><p>Modern layout techniques...</p>`,
+    fullContent: `## CSS Grid & Flexbox — Modern Layout Mastery
+
+Two powerful layout systems that solve different problems. Learn when and how to use each.
+
+---
+
+## Flexbox — One Dimensional Layout
+
+Flexbox works along a **single axis** (row or column).
+
+\`\`\`css
+.container {
+  display: flex;
+  justify-content: space-between; /* Main axis */
+  align-items: center;            /* Cross axis */
+  gap: 1rem;
+}
+
+.item {
+  flex: 1;          /* Grow equally */
+  min-width: 200px; /* Don't shrink too much */
+}
+\`\`\`
+
+### Common Flexbox Patterns
+
+\`\`\`css
+/* Center anything */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Navbar layout */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+/* Card row with wrapping */
+.card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+\`\`\`
+
+---
+
+## CSS Grid — Two Dimensional Layout
+
+Grid handles **rows AND columns** simultaneously.
+
+\`\`\`css
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 1.5rem;
+}
+
+/* Responsive without media queries! */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+\`\`\`
+
+### Grid Areas — Named Layout
+
+\`\`\`css
+.layout {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "sidebar main aside"
+    "footer footer footer";
+  grid-template-columns: 200px 1fr 200px;
+  gap: 1rem;
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.aside   { grid-area: aside; }
+.footer  { grid-area: footer; }
+\`\`\`
+
+---
+
+## When to Use Which?
+
+| Scenario | Use |
+|----------|-----|
+| Navigation bar | Flexbox |
+| Card grid | Grid |
+| Centering content | Flexbox |
+| Full page layout | Grid |
+| Inline elements | Flexbox |
+| Dashboard | Grid |
+
+---
+
+## Summary
+
+Both Flexbox and Grid are essential tools. Use **Flexbox** for components and one-directional flow, and **Grid** for page-level two-dimensional layouts. They work beautifully together!`,
     rating: 4.7,
     ratingCount: 198,
     isPremium: false,
@@ -48,6 +452,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/CSSFlexBox.webp"
   },
   {
+    id: "typescript-react",
     title: "TypeScript for React Developers",
     description: "Add type safety to your React projects with TypeScript. Covers generics, interfaces, and advanced patterns.",
     category: "Web",
@@ -56,6 +461,95 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["typescript", "react", "types"],
     content: `<h2>TypeScript with React</h2><p>Type-safe React development...</p>`,
+    fullContent: `## TypeScript for React — Type-Safe Development
+
+TypeScript adds static typing to JavaScript, catching bugs at compile time instead of runtime.
+
+---
+
+## 1. Basic Types in React
+
+\`\`\`tsx
+// Props interface
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary'; // Optional with union type
+  disabled?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ label, onClick, variant = 'primary', disabled }) => (
+  <button onClick={onClick} disabled={disabled} className={variant}>
+    {label}
+  </button>
+);
+\`\`\`
+
+---
+
+## 2. useState with Types
+
+\`\`\`tsx
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const [user, setUser] = useState<User | null>(null);
+const [items, setItems] = useState<string[]>([]);
+const [count, setCount] = useState<number>(0); // Inferred automatically
+\`\`\`
+
+---
+
+## 3. Event Types
+
+\`\`\`tsx
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  console.log(e.target.value);
+};
+
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+};
+
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  console.log('Clicked!');
+};
+\`\`\`
+
+---
+
+## 4. Generics
+
+\`\`\`tsx
+// Generic list component
+interface ListProps<T> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
+}
+
+function List<T>({ items, renderItem }: ListProps<T>) {
+  return <ul>{items.map((item, i) => <li key={i}>{renderItem(item)}</li>)}</ul>;
+}
+
+// Usage
+<List items={users} renderItem={(user) => <span>{user.name}</span>} />
+\`\`\`
+
+---
+
+## Summary
+
+| Feature | Benefit |
+|---------|---------|
+| Interfaces | Define component prop shapes |
+| Generics | Reusable typed components |
+| Union types | Restrict prop values |
+| Type inference | Less boilerplate |
+
+TypeScript catches errors early and makes refactoring safe. Start with strict mode for best results!`,
     rating: 4.8,
     ratingCount: 189,
     isPremium: false,
@@ -63,6 +557,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/TypeScript.webp"
   },
   {
+    id: "docker-containerization",
     title: "Docker & Containerization",
     description: "Learn Docker from scratch. Build, ship, and run applications in containers with Docker Compose and best practices.",
     category: "DevOps",
@@ -71,6 +566,114 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["docker", "containers", "devops"],
     content: `<h2>Docker Essentials</h2><p>Containerize your applications...</p>`,
+    fullContent: `## Docker & Containerization
+
+Docker packages applications with all their dependencies into standardized units called **containers**.
+
+---
+
+## 1. Core Concepts
+
+| Term | Meaning |
+|------|---------|
+| **Image** | Blueprint/template for a container |
+| **Container** | Running instance of an image |
+| **Dockerfile** | Instructions to build an image |
+| **Registry** | Storage for images (Docker Hub) |
+
+---
+
+## 2. Dockerfile
+
+\`\`\`dockerfile
+# Use official Node.js image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy dependency files first (caching)
+COPY package*.json ./
+RUN npm ci --production
+
+# Copy application code
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start command
+CMD ["node", "server.js"]
+\`\`\`
+
+---
+
+## 3. Docker Commands
+
+\`\`\`bash
+# Build an image
+docker build -t my-app:1.0 .
+
+# Run a container
+docker run -d -p 3000:3000 --name my-app my-app:1.0
+
+# List running containers
+docker ps
+
+# View logs
+docker logs my-app
+
+# Stop & remove
+docker stop my-app
+docker rm my-app
+\`\`\`
+
+---
+
+## 4. Docker Compose
+
+\`\`\`yaml
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_URL=mongodb://db:27017/myapp
+    depends_on:
+      - db
+
+  db:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+\`\`\`
+
+\`\`\`bash
+# Start all services
+docker compose up -d
+
+# Stop all
+docker compose down
+\`\`\`
+
+---
+
+## Best Practices
+
+- Use **multi-stage builds** for smaller images
+- Don't run as root — use \`USER node\`
+- Use \`.dockerignore\` to exclude node_modules
+- Pin image versions (e.g., \`node:18-alpine\`, not \`node:latest\`)
+
+Docker simplifies deployment and ensures consistency across environments!`,
     rating: 4.6,
     ratingCount: 167,
     isPremium: false,
@@ -78,6 +681,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/DockerContainer.webp"
   },
   {
+    id: "nextjs-fullstack",
     title: "Next.js Full-Stack Development",
     description: "Build full-stack web applications with Next.js 14. Server components, API routes, and deployment strategies.",
     category: "Web",
@@ -86,6 +690,96 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["nextjs", "react", "fullstack", "ssr"],
     content: `<h2>Next.js Full-Stack</h2><p>Modern full-stack development...</p>`,
+    fullContent: `## Next.js 14 — Full-Stack React Framework
+
+Next.js extends React with server-side rendering, file-based routing, and API routes.
+
+---
+
+## 1. App Router (Next.js 14)
+
+\`\`\`
+app/
+├── layout.jsx        # Root layout
+├── page.jsx          # Home page (/)
+├── about/
+│   └── page.jsx      # /about
+├── blog/
+│   ├── page.jsx      # /blog
+│   └── [slug]/
+│       └── page.jsx  # /blog/:slug
+└── api/
+    └── users/
+        └── route.js  # API: /api/users
+\`\`\`
+
+---
+
+## 2. Server Components (Default)
+
+\`\`\`jsx
+// This runs on the server — no client JS shipped
+async function BlogPage() {
+  const posts = await fetch('https://api.example.com/posts').then(r => r.json());
+
+  return (
+    <div>
+      <h1>Blog</h1>
+      {posts.map(post => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+\`\`\`
+
+---
+
+## 3. Client Components
+
+\`\`\`jsx
+'use client'; // Opt into client-side rendering
+
+import { useState } from 'react';
+
+export default function LikeButton() {
+  const [likes, setLikes] = useState(0);
+  return <button onClick={() => setLikes(likes + 1)}>❤️ {likes}</button>;
+}
+\`\`\`
+
+---
+
+## 4. API Routes
+
+\`\`\`javascript
+// app/api/users/route.js
+import { NextResponse } from 'next/server';
+
+export async function GET() {
+  const users = await db.user.findMany();
+  return NextResponse.json(users);
+}
+
+export async function POST(request) {
+  const body = await request.json();
+  const user = await db.user.create({ data: body });
+  return NextResponse.json(user, { status: 201 });
+}
+\`\`\`
+
+---
+
+## 5. Deployment
+
+Next.js deploys seamlessly on **Vercel** (zero-config) or self-hosted with \`next start\`.
+
+> **Pro tip:** Use \`next/image\` for automatic image optimization and \`next/font\` for zero-layout-shift fonts.
+
+Next.js is the go-to framework for full-stack React applications!`,
     rating: 4.9,
     ratingCount: 287,
     isPremium: true,
@@ -93,6 +787,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/NextJS.webp"
   },
   {
+    id: "tailwind-css",
     title: "Tailwind CSS Advanced Techniques",
     description: "Go beyond basics with Tailwind CSS. Custom plugins, design systems, dark mode, and animation patterns.",
     category: "Web",
@@ -101,6 +796,115 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["tailwind", "css", "design-system"],
     content: `<h2>Tailwind CSS Advanced</h2><p>Master utility-first CSS...</p>`,
+    fullContent: `## Tailwind CSS — Utility-First Mastery
+
+Tailwind CSS provides low-level utility classes to build custom designs without writing CSS.
+
+---
+
+## 1. Core Concepts
+
+\`\`\`html
+<!-- Traditional CSS -->
+<div class="card">
+  <h2 class="card-title">Hello</h2>
+</div>
+
+<!-- Tailwind approach -->
+<div class="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition">
+  <h2 class="text-xl font-bold text-gray-800">Hello</h2>
+</div>
+\`\`\`
+
+---
+
+## 2. Responsive Design
+
+Tailwind uses **mobile-first** breakpoints:
+
+\`\`\`html
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="p-4 bg-blue-100 rounded">Card 1</div>
+  <div class="p-4 bg-blue-100 rounded">Card 2</div>
+  <div class="p-4 bg-blue-100 rounded">Card 3</div>
+</div>
+\`\`\`
+
+| Prefix | Min Width |
+|--------|-----------|
+| \`sm:\` | 640px |
+| \`md:\` | 768px |
+| \`lg:\` | 1024px |
+| \`xl:\` | 1280px |
+| \`2xl:\` | 1536px |
+
+---
+
+## 3. Dark Mode
+
+\`\`\`html
+<div class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+  <h1 class="text-2xl font-bold">Supports Dark Mode!</h1>
+  <p class="text-gray-600 dark:text-gray-400">Automatic switching</p>
+</div>
+\`\`\`
+
+\`\`\`javascript
+// tailwind.config.js
+module.exports = {
+  darkMode: 'class', // or 'media'
+}
+\`\`\`
+
+---
+
+## 4. Custom Configuration
+
+\`\`\`javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          900: '#1e3a8a',
+        }
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        }
+      }
+    }
+  }
+}
+\`\`\`
+
+---
+
+## 5. Component Patterns
+
+\`\`\`html
+<!-- Button variants with @apply -->
+<style>
+  .btn-primary {
+    @apply px-4 py-2 bg-blue-600 text-white rounded-lg 
+           hover:bg-blue-700 transition font-semibold;
+  }
+  .btn-outline {
+    @apply px-4 py-2 border-2 border-gray-300 rounded-lg
+           hover:border-gray-400 transition font-semibold;
+  }
+</style>
+\`\`\`
+
+Tailwind CSS accelerates UI development while maintaining full design control!`,
     rating: 4.8,
     ratingCount: 143,
     isPremium: false,
@@ -108,6 +912,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/TailWindCSS.webp"
   },
   {
+    id: "cicd-github-actions",
     title: "CI/CD Pipeline with GitHub Actions",
     description: "Automate testing, building, and deployment with GitHub Actions. Covers workflows, secrets, and deployment strategies.",
     category: "DevOps",
@@ -116,6 +921,119 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["ci-cd", "github-actions", "automation"],
     content: `<h2>CI/CD with GitHub Actions</h2><p>Automate your deployment pipeline...</p>`,
+    fullContent: `## CI/CD with GitHub Actions
+
+Automate your software delivery pipeline with GitHub Actions — from testing to deployment.
+
+---
+
+## 1. Workflow Basics
+
+Create \`.github/workflows/ci.yml\`:
+
+\`\`\`yaml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+\`\`\`
+
+---
+
+## 2. Environment Variables & Secrets
+
+\`\`\`yaml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+    steps:
+      - name: Deploy to production
+        env:
+          API_KEY: \${{ secrets.API_KEY }}
+          DEPLOY_TOKEN: \${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "Deploying with secure credentials..."
+\`\`\`
+
+> **Never** hardcode secrets. Use **Settings → Secrets → Actions** in your repo.
+
+---
+
+## 3. Multi-Job Pipeline
+
+\`\`\`yaml
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm test
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm run build
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: \${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: \${{ secrets.FIREBASE_SA }}
+          channelId: live
+\`\`\`
+
+---
+
+## 4. Caching & Optimization
+
+\`\`\`yaml
+- uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: \${{ runner.os }}-node-\${{ hashFiles('**/package-lock.json') }}
+\`\`\`
+
+---
+
+## Summary
+
+| Feature | Purpose |
+|---------|---------|
+| \`on: push\` | Trigger on code push |
+| \`needs:\` | Job dependencies |
+| \`secrets\` | Secure credentials |
+| \`cache\` | Speed up builds |
+
+GitHub Actions makes CI/CD accessible and integrated with your code!`,
     rating: 4.7,
     ratingCount: 156,
     isPremium: true,
@@ -123,6 +1041,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/DockerContainer.webp"
   },
   {
+    id: "mongodb-mongoose",
     title: "MongoDB & Mongoose Complete Guide",
     description: "Learn MongoDB with Mongoose ODM. Schema design, queries, aggregation pipeline, and performance optimization.",
     category: "Web",
@@ -131,6 +1050,105 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["mongodb", "mongoose", "database", "backend"],
     content: `<h2>MongoDB & Mongoose</h2><p>Master NoSQL database development...</p>`,
+    fullContent: `## MongoDB & Mongoose — NoSQL Database Guide
+
+MongoDB stores data in flexible JSON-like documents. Mongoose provides schema validation on top.
+
+---
+
+## 1. Connection Setup
+
+\`\`\`javascript
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('Connection error:', err));
+\`\`\`
+
+---
+
+## 2. Schema & Model
+
+\`\`\`javascript
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  price: { type: Number, required: true, min: 0 },
+  category: { type: String, enum: ['electronics', 'clothing', 'books'] },
+  inStock: { type: Boolean, default: true },
+  tags: [String],
+  reviews: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    rating: { type: Number, min: 1, max: 5 },
+    comment: String
+  }]
+}, { timestamps: true });
+
+// Virtual field
+productSchema.virtual('isExpensive').get(function() {
+  return this.price > 100;
+});
+
+const Product = mongoose.model('Product', productSchema);
+\`\`\`
+
+---
+
+## 3. CRUD Operations
+
+\`\`\`javascript
+// Create
+const product = await Product.create({ name: 'Laptop', price: 999, category: 'electronics' });
+
+// Read
+const all = await Product.find({ category: 'electronics' });
+const one = await Product.findById(id);
+const filtered = await Product.find({ price: { $gte: 50, $lte: 500 } }).sort('-price').limit(10);
+
+// Update
+await Product.findByIdAndUpdate(id, { price: 899 }, { new: true });
+
+// Delete
+await Product.findByIdAndDelete(id);
+\`\`\`
+
+---
+
+## 4. Aggregation Pipeline
+
+\`\`\`javascript
+const stats = await Product.aggregate([
+  { $match: { inStock: true } },
+  { $group: {
+    _id: '$category',
+    avgPrice: { $avg: '$price' },
+    count: { $sum: 1 }
+  }},
+  { $sort: { avgPrice: -1 } }
+]);
+\`\`\`
+
+---
+
+## 5. Population (Joins)
+
+\`\`\`javascript
+const product = await Product.findById(id).populate('reviews.user', 'name email');
+\`\`\`
+
+---
+
+## Summary
+
+| Operation | Method |
+|-----------|--------|
+| Create | \`Model.create()\` |
+| Find | \`Model.find()\`, \`findById()\` |
+| Update | \`findByIdAndUpdate()\` |
+| Delete | \`findByIdAndDelete()\` |
+| Aggregate | \`Model.aggregate()\` |
+
+MongoDB + Mongoose gives you flexible schema design with powerful querying!`,
     rating: 4.8,
     ratingCount: 203,
     isPremium: true,
@@ -138,6 +1156,7 @@ export const sampleTutorials = [
     localImageUrl: "/images/tutorials/MongoDB.webp"
   },
   {
+    id: "aws-cloud-deployment",
     title: "AWS Cloud Deployment Guide",
     description: "Deploy web applications on AWS. EC2, S3, Lambda, CloudFront, and infrastructure as code with Terraform.",
     category: "Cloud",
@@ -146,6 +1165,107 @@ export const sampleTutorials = [
     author: "AlgoView Team",
     tags: ["aws", "cloud", "deployment", "terraform"],
     content: `<h2>AWS Deployment</h2><p>Cloud infrastructure for developers...</p>`,
+    fullContent: `## AWS Cloud Deployment Guide
+
+Learn to deploy and scale web applications on Amazon Web Services.
+
+---
+
+## 1. AWS Core Services
+
+| Service | Purpose |
+|---------|---------|
+| **EC2** | Virtual servers |
+| **S3** | Object storage |
+| **Lambda** | Serverless functions |
+| **CloudFront** | CDN |
+| **RDS** | Managed databases |
+| **Route 53** | DNS management |
+
+---
+
+## 2. Deploy Static Site to S3 + CloudFront
+
+\`\`\`bash
+# Build your React app
+npm run build
+
+# Sync to S3 bucket
+aws s3 sync dist/ s3://my-website-bucket --delete
+
+# Invalidate CloudFront cache
+aws cloudfront create-invalidation \\
+  --distribution-id E1234567890 \\
+  --paths "/*"
+\`\`\`
+
+---
+
+## 3. EC2 — Virtual Server Setup
+
+\`\`\`bash
+# SSH into your instance
+ssh -i my-key.pem ec2-user@your-ip
+
+# Install Node.js
+curl -fsSL https://rpm.nodesource.com/setup_18.x | sudo bash -
+sudo yum install -y nodejs
+
+# Clone & run your app
+git clone https://github.com/user/my-app.git
+cd my-app
+npm install
+npm start
+\`\`\`
+
+---
+
+## 4. AWS Lambda — Serverless
+
+\`\`\`javascript
+// handler.js
+exports.handler = async (event) => {
+  const name = event.queryStringParameters?.name || 'World';
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: \\\`Hello, \\\${name}!\\\` })
+  };
+};
+\`\`\`
+
+---
+
+## 5. Infrastructure as Code (Terraform)
+
+\`\`\`hcl
+resource "aws_s3_bucket" "website" {
+  bucket = "my-app-website"
+}
+
+resource "aws_cloudfront_distribution" "cdn" {
+  origin {
+    domain_name = aws_s3_bucket.website.bucket_regional_domain_name
+    origin_id   = "S3Origin"
+  }
+
+  enabled             = true
+  default_root_object = "index.html"
+
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "S3Origin"
+    viewer_protocol_policy = "redirect-to-https"
+  }
+}
+\`\`\`
+
+---
+
+## Summary
+
+Start with S3 + CloudFront for static sites, EC2 for full control, and Lambda for serverless APIs. Use Terraform to version-control your infrastructure!`,
     rating: 4.7,
     ratingCount: 267,
     isPremium: true,
