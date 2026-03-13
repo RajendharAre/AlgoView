@@ -94,7 +94,7 @@ const ClimbingStairs = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       {/* Sidebar */}
       <ClimbingStairsSidebar
         n={n}
@@ -113,7 +113,7 @@ const ClimbingStairs = () => {
       />
 
       {/* Main Workspace */}
-      <main className="flex-1 relative flex flex-col items-center justify-center p-8 bg-[#f8f9faff]">
+      <main className="flex-1 relative flex flex-col items-center justify-center p-4 md:p-8 bg-[#f8f9faff] min-h-[300px] md:min-h-0">
         <div
           className="relative flex items-end justify-center h-[600px] w-full max-w-5xl"
           ref={containerRef}

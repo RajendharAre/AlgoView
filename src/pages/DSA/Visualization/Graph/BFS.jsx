@@ -166,7 +166,7 @@ const BFSVisualization = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       <CommonSidebar
         algorithmTitle="BFS Visualizer"
         algorithmSubtitle="Breadth-First Search"
@@ -237,7 +237,7 @@ const BFSVisualization = () => {
       </CommonSidebar>
 
       {/* Workspace */}
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden" onClick={handleCanvasClick}>
+      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
         <svg ref={svgRef} className="w-full h-full cursor-crosshair">
           {edges.map((edge, i) => {
             const u = nodes.find(n => n.id === edge.u); 

@@ -38,7 +38,7 @@ const ArrayVisualizer = ({
 
   if (array.length === 0) {
     return (
-      <div className={`w-full h-96 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-3xl ${className}`}>
+      <div className={`w-full h-44 sm:h-64 md:h-96 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-3xl ${className}`}>
         <div className="text-gray-400">
           <div className="w-8 h-8 mx-auto mb-2 opacity-20">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -52,7 +52,7 @@ const ArrayVisualizer = ({
   }
 
   return (
-    <div className={`w-full max-w-5xl h-96 flex items-end gap-1.5 px-8 ${className}`}>
+    <div className={`w-full max-w-5xl h-44 sm:h-64 md:h-96 flex items-end gap-0.5 sm:gap-1 md:gap-1.5 px-2 sm:px-4 md:px-8 ${className}`}>
       {array.map((value, idx) => {
         const isSorted = Array.isArray(sorted) ? sorted.includes(idx) : false;
         const isComparing = Array.isArray(comparing) ? comparing.includes(idx) : false;

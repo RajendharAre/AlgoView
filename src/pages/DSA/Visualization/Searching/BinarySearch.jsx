@@ -116,7 +116,7 @@ const BinarySearchVisualization = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       <CommonSidebar
         algorithmTitle="Binary Search"
         algorithmSubtitle="Logarithmic Visualization"
@@ -138,7 +138,7 @@ const BinarySearchVisualization = () => {
 
 
       {/* Main Workspace */}
-      <main className="flex-1 flex flex-col bg-[#f8f9faff] relative overflow-hidden">
+      <main className="flex-1 flex flex-col bg-[#f8f9faff] relative overflow-hidden min-h-[300px] md:min-h-0">
         
         {/* Target Overlay */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2 text-center z-10">

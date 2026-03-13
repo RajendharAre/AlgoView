@@ -361,7 +361,7 @@ const DijkstraVisualization = () => {
   }
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       <CommonSidebar
         algorithmTitle="Dijkstra's Algorithm"
         algorithmSubtitle="Shortest Path Finder"
@@ -403,7 +403,7 @@ const DijkstraVisualization = () => {
       </CommonSidebar>
 
       {/* Main Workspace */}
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden" onClick={handleCanvasClick}>
+      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
         <GraphCanvas
           nodes={nodes}
           edges={edges}

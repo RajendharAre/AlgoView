@@ -19,7 +19,7 @@ const AStarSidebar = ({
   finalPath,
 }) => {
   return (
-    <aside className="w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
+    <aside className="w-full md:w-80 bg-white border-t md:border-t-0 md:border-r border-[#dee2e6] flex flex-col md:shrink-0 overflow-y-auto">
       {/* Header */}
       <div className="p-6 border-b border-[#f1f3f5]">
         <div className="flex items-center gap-3 mb-1">

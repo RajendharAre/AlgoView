@@ -177,7 +177,7 @@ const QuickSortVisualization = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       <CommonSidebar
         algorithmTitle="Quick Sort"
         algorithmSubtitle="Partitioning Visualizer"
@@ -198,7 +198,7 @@ const QuickSortVisualization = () => {
       />
 
       {/* Workspace */}
-      <main className="flex-1 flex flex-col items-center justify-center p-12 bg-[#f8f9faff] relative">
+      <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-12 bg-[#f8f9faff] relative min-h-[300px] md:min-h-0">
         
         {/* Pointer Labels */}
         <div className="mb-12 flex gap-4 absolute top-20 left-1/2 -translate-x-1/2">

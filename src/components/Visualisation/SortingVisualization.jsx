@@ -324,9 +324,9 @@ const SortingVisualization = ({
   };
 
   return (
-    <div className="flex h-full bg-gray-50 text-gray-900 font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-full bg-gray-50 text-gray-900 font-sans overflow-auto md:overflow-hidden">
       {/* Sidebar Command Center */}
-      <aside className="w-80 bg-white border-r border-gray-200 flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
+      <aside className="w-full md:w-80 bg-white border-t md:border-t-0 md:border-r border-gray-200 flex flex-col md:shrink-0 overflow-y-auto">
         <div className="p-6 border-b border-gray-100">
           <div className="flex items-center gap-3 mb-1">
             <button 
@@ -497,7 +497,7 @@ const SortingVisualization = ({
       </aside>
 
       {/* Main Visualization Area */}
-      <main className="flex-1 relative bg-gray-50 flex flex-col items-center justify-center p-8">
+      <main className="flex-1 bg-gray-50 flex flex-col items-center justify-center gap-4 p-4 md:p-8 min-h-[300px] md:min-h-0">
         <ArrayVisualizer
           array={array}
           comparing={comparing}
@@ -505,16 +505,16 @@ const SortingVisualization = ({
           swapping={swapping}
           colors={customColors}
           maxHeight={320}
-          className="mb-8"
+          className="mb-1 md:mb-0"
         />
 
         {/* Legend */}
-        <div className="absolute bottom-6 flex items-center gap-6 p-4 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-xl">
+        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 p-3 md:p-4 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-2xl shadow-xl">
           <LegendItem color="#ced4da" label="Unsorted" />
           <LegendItem color="#495057" label="Comparing" />
           <LegendItem color="#212529" label="Swapping" />
           <LegendItem color="#6c757d" label="Sorted" />
-          <div className="h-4 w-px bg-gray-200 mx-2"></div>
+          <div className="hidden md:block h-4 w-px bg-gray-200 mx-2"></div>
           <div className="flex items-center gap-2">
             <BarChart3 size={14} className="text-gray-400" />
             <span className="text-xs font-black text-gray-400 uppercase">

@@ -170,7 +170,7 @@ const HeapSortVisualization = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       {/* Sidebar */}
       <CommonSidebar
         algorithmTitle="Heap Sort"
@@ -192,7 +192,7 @@ const HeapSortVisualization = () => {
       />
 
       {/* Main Workspace */}
-      <main className="flex-1 flex flex-col bg-[#f8f9faff] relative overflow-hidden">
+      <main className="flex-1 flex flex-col bg-[#f8f9faff] relative overflow-hidden min-h-[300px] md:min-h-0">
         
         {/* Array View (Horizontal Blocks) */}
         <div className="p-8 border-b border-[#dee2e6] bg-white">

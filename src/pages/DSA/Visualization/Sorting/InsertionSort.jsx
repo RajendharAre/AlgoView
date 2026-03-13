@@ -20,7 +20,7 @@ const InsertionSortVisualization = () => {
   };
 
   return (
-    <div className="h-screen w-full">
+    <div className="min-h-screen w-full">
       <SortingVisualization
         algorithmGenerator={insertionSort}
         algorithmName="Insertion Sort"

@@ -13,9 +13,9 @@
     "allowJs": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
+    // "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.json" }]
+  // "references": [{ "path": "./tsconfig.json" }]
 }

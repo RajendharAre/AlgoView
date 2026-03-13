@@ -168,7 +168,7 @@ const Kruskal = () => {
   }
 
   return (
-    <div className="flex h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
+    <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-auto md:overflow-hidden">
       <KruskalSidebar
         isRunning={isRunning}
         mode={mode}
@@ -192,7 +192,7 @@ const Kruskal = () => {
         edges={edges}
       />
 
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden" onClick={handleCanvasClick}>
+      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
         <KruskalCanvas
           ref={svgRef}
           nodes={nodes}
