@@ -9,6 +9,7 @@ import Loader from './components/Common/Loader'
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const Features = lazy(() => import('./pages/Features'))
+const Documentation = lazy(() => import('./pages/Documentation'))
 const Auth = lazy(() => import('./components/Auth/Auth'))
 const ForgotPassword = lazy(() => import('./components/Auth/ForgotPassword'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
@@ -92,6 +93,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Features />
+          </Suspense>
+        )
+      },
+      {
+        path: 'documentation',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Documentation />
           </Suspense>
         )
       },
