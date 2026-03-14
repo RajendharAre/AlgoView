@@ -128,8 +128,10 @@ Please try again, or make sure your API key is properly configured for better re
         '--text-primary': '#ececf1',
         '--text-secondary': '#8e8ea0',
         '--accent': '#10a37f',
-        '--input-bg': '#40414f',
-        '--input-border': '#2b2f36'
+        '--input-bg': '#ffffff',
+        '--input-border': '#d1d5db',
+        '--input-text': '#111827',
+        '--input-placeholder': '#6b7280'
       }}
     >
       {/* Mobile sidebar overlay — covers full viewport */}

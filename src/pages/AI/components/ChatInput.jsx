@@ -56,8 +56,8 @@ export function ChatInput({
             w-full px-3 sm:px-4 py-3 rounded-xl
             border border-[var(--input-border,#2b2f36)]
             bg-[var(--input-bg,#40414f)]
-            text-[var(--text-primary,#ececf1)]
-            placeholder:text-[var(--text-secondary,#8e8ea0)]
+            text-[var(--input-text,#111827)]
+            placeholder:text-[var(--input-placeholder,#6b7280)]
             text-sm sm:text-base
             resize-none
             focus:outline-none focus:ring-2 focus:ring-[var(--accent,#10a37f)] focus:border-transparent
