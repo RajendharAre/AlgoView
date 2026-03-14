@@ -9,6 +9,7 @@
     "rules": "storage.rules"
   },
   "hosting": {
+    "site": "algorithm-visualizer-b963c",
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

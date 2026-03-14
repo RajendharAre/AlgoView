@@ -2,29 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaBook, FaCode, FaVideo, FaFileAlt, FaUsers, FaQuestionCircle } from 'react-icons/fa';
+import { APP_COLORS } from '../constants/sitePalette'
 
-// Semantic color tokens from grayscale palette
-const COLORS = {
-  bg: {
-    primary: '#f8f9fa',
-    secondary: '#e9ecef',
-    tertiary: '#dee2e6',
-  },
-  text: {
-    primary: '#212529',
-    secondary: '#495057',
-    tertiary: '#6c757d',
-    muted: '#adb5bd',
-  },
-  border: {
-    light: '#dee2e6',
-    medium: '#ced4da',
-  },
-  accent: {
-    primary: '#343a40', // gunmetal
-    secondary: '#6c757d', // slate-grey
-  }
-};
+const COLORS = APP_COLORS;
 
 export default function Development() {
   const navigate = useNavigate();
