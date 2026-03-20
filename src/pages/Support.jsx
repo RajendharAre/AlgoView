@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, MessageCircle, Clock3, ShieldCheck, BookOpen, ExternalLink, Send, CheckCircle2 } from 'lucide-react'
+import { sendSupportRequest } from '../services/supportService'
 
 const contactCards = [
   {
@@ -130,15 +131,31 @@ const Support = () => {
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const onChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setSubmitting(true)
+    setError('')
+
+    try {
+      await sendSupportRequest({
+        ...form,
+        source: 'support-page',
+        subject: `Support request (${form.topic})`
+      })
+      setSubmitted(true)
+    } catch (err) {
+      setError(err.message || 'Unable to send request right now. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -227,6 +244,11 @@ const Support = () => {
               </div>
             ) : (
               <form onSubmit={onSubmit} className="space-y-4">
+                {error ? (
+                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {error}
+                  </div>
+                ) : null}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <input
                     type="text"
@@ -273,10 +295,11 @@ const Support = () => {
 
                 <button
                   type="submit"
+                  disabled={submitting}
                   className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-white font-medium hover:bg-blue-700 transition-colors"
                 >
                   <Send className="h-4 w-4" />
-                  Submit Request
+                  {submitting ? 'Sending...' : 'Submit Request'}
                 </button>
               </form>
             )}

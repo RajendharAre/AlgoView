@@ -11,4 +11,15 @@ module.exports = function(app) {
       },
     })
   );
+
+  app.use(
+    '/api/support',
+    createProxyMiddleware({
+      target: 'http://localhost:5000',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api/support': '/api/support',
+      },
+    })
+  );
 };

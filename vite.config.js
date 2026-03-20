@@ -19,6 +19,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/api/support': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
       '/cf': {
         target: 'https://us-central1-algorithm-visualizer-b963c.cloudfunctions.net',
         changeOrigin: true,

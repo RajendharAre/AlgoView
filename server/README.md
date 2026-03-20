@@ -17,6 +17,16 @@ npm install
 2. Create a `.env` file in the server directory with the following:
 ```
 PORT=5000
+
+# SMTP configuration for contact/support email delivery
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-smtp-user@example.com
+SMTP_PASS=your-smtp-app-password
+
+# Optional overrides
+SUPPORT_TO_EMAIL=support@algoview.app
+SUPPORT_FROM_EMAIL=no-reply@algoview.app
 ```
 
 3. Start the server:
@@ -45,6 +55,29 @@ Response:
       "url": "https://leetcode.com/submissions/detail/123456789/"
     }
   ]
+}
+```
+
+### POST `/api/support/contact`
+Sends a support or contact message to the configured support inbox.
+
+Request body:
+```json
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "topic": "billing",
+  "subject": "Need invoice",
+  "message": "Please share my invoice for this month.",
+  "source": "contact-page"
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "Support request sent successfully."
 }
 ```
 

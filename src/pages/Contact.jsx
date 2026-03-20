@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, MessageCircle, Clock3, Send, CheckCircle2 } from 'lucide-react'
+import { sendSupportRequest } from '../services/supportService'
 
 const channels = [
   {
@@ -27,15 +28,31 @@ export default function Contact() {
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setSubmitting(true)
+    setError('')
+
+    try {
+      await sendSupportRequest({
+        ...form,
+        topic: 'contact',
+        source: 'contact-page'
+      })
+      setSubmitted(true)
+    } catch (err) {
+      setError(err.message || 'Unable to send message right now. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -96,12 +113,17 @@ export default function Contact() {
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800 flex items-start gap-3">
                 <CheckCircle2 className="h-5 w-5 mt-0.5" />
                 <div>
-                  <p className="font-semibold">Draft ready</p>
-                  <p className="text-sm mt-1">Your message is prepared. Please send it to support@algoview.app or integrate a backend mail service for automatic delivery.</p>
+                  <p className="font-semibold">Message sent</p>
+                  <p className="text-sm mt-1">Thanks for contacting us. Your message has been delivered to the support inbox.</p>
                 </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {error ? (
+                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {error}
+                  </div>
+                ) : null}
                 <input
                   type="text"
                   name="name"
@@ -140,10 +162,11 @@ export default function Contact() {
                 />
                 <button
                   type="submit"
+                  disabled={submitting}
                   className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-white font-medium hover:bg-blue-700 transition-colors"
                 >
                   <Send className="h-4 w-4" />
-                  Submit
+                  {submitting ? 'Sending...' : 'Submit'}
                 </button>
               </form>
             )}

@@ -11,6 +11,11 @@ const About = lazy(() => import('./pages/About'))
 const Features = lazy(() => import('./pages/Features'))
 const Documentation = lazy(() => import('./pages/Documentation'))
 const Support = lazy(() => import('./pages/Support'))
+const Legal = lazy(() => import('./pages/Legal'))
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'))
+const TermsOfService = lazy(() => import('./pages/TermsOfService'))
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'))
+const Contact = lazy(() => import('./pages/Contact'))
 const Auth = lazy(() => import('./components/Auth/Auth'))
 const ForgotPassword = lazy(() => import('./components/Auth/ForgotPassword'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
@@ -110,6 +115,46 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Support />
+          </Suspense>
+        )
+      },
+      {
+        path: 'legal',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Legal />
+          </Suspense>
+        )
+      },
+      {
+        path: 'privacy',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PrivacyPolicy />
+          </Suspense>
+        )
+      },
+      {
+        path: 'terms',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TermsOfService />
+          </Suspense>
+        )
+      },
+      {
+        path: 'cookies',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CookiePolicy />
+          </Suspense>
+        )
+      },
+      {
+        path: 'contact',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Contact />
           </Suspense>
         )
       },
