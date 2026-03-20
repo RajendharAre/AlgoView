@@ -45,9 +45,9 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Resources</h3>
             <ul className="space-y-2">
               <li><Link to="/documentation" className="text-gray-600 hover:text-blue-600 transition-colors">Documentation</Link></li>
-              <li><Link to="/tutorials" className="text-gray-600 hover:text-blue-600 transition-colors">Tutorials</Link></li>
+              <li><Link to="/development/tutorials" className="text-gray-600 hover:text-blue-600 transition-colors">Tutorials</Link></li>
               <li><Link to="/support" className="text-gray-600 hover:text-blue-600 transition-colors">Support</Link></li>
-              <li><Link to="/community" className="text-gray-600 hover:text-blue-600 transition-colors">Community</Link></li>
+              <li><Link to="/development/community" className="text-gray-600 hover:text-blue-600 transition-colors">Community</Link></li>
             </ul>
           </div>
           
