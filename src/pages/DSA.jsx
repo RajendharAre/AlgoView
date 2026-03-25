@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from '../components/layout/Sidebar'
 import { motion, AnimatePresence } from 'framer-motion'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { 
   Menu, 
   X,
@@ -20,6 +21,13 @@ const DSA = () => {
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+
+  // Set page meta tags for SEO
+  usePageMeta(
+    'Algorithm Visualizer & DSA Practice - AlgoView',
+    'Learn data structures and algorithms with interactive visualizations. Practice sorting, graph, and dynamic programming algorithms with step-by-step animations and code examples.',
+    'algorithm visualizer, DSA, data structures, sorting algorithms, graph algorithms, dynamic programming, coding interview'
+  )
 
   // Toggle sidebar collapse
   const toggleSidebarCollapse = () => {

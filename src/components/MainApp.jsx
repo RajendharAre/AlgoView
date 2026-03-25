@@ -3,12 +3,18 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './Common/Navbar'
 import Footer from './Common/Footer'
+import { PageTracker } from './Analytics/PageTracker'
+import SchemaMarkup from './Common/SchemaMarkup'
 
 const MainApp = () => {
   const location = useLocation()
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
+      {/* Analytics & SEO */}
+      <PageTracker />
+      <SchemaMarkup />
+      
       {/* Navbar */}
       <Navbar />
       

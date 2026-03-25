@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { usePageMeta } from '../hooks/usePageMeta'
 import { Users, Code, BookOpen, Trophy, Calendar, Star, Github, Twitter, Mail, MapPin, Grid3X3, Laptop2, TrendingUp, Users2, Linkedin } from 'lucide-react';
 import { APP_COLORS, APP_SHADOWS } from '../constants/sitePalette'
 
@@ -7,6 +8,13 @@ const SHADOWS = APP_SHADOWS
 
 const About = () => {
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Set About page meta tags for SEO
+  usePageMeta(
+    'About AlgoView - Learn Our Mission & Story',
+    'Discover the story behind AlgoView - an interactive algorithm visualizer and DSA learning platform designed to make algorithm learning visual, engaging, and accessible to everyone.',
+    'about algoview, mission, team, algorithm learning platform'
+  );
 
   const teamMembers = [
     {

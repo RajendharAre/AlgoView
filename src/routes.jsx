@@ -51,6 +51,7 @@ const Profile = lazy(() => import('./pages/Profile'))
 const UserProfile = lazy(() => import('./pages/Profile/User'))
 const Settings = lazy(() => import('./pages/Settings'))
 const Payment = lazy(() => import('./pages/Payment'))
+const AnalyticsDashboard = lazy(() => import('./pages/Analytics/AnalyticsDashboard'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
 
@@ -484,6 +485,16 @@ export const router = createBrowserRouter([
           <ProtectedRoute>
             <Suspense fallback={<Loader />}>
               <Payment />
+            </Suspense>
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'analytics',
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <AnalyticsDashboard />
             </Suspense>
           </ProtectedRoute>
         )

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import { usePageMeta } from '../hooks/usePageMeta'
 import InteractiveFeatureCard from '../components/InteractiveFeatureCard'
 import Testimonial3DCard from '../components/Testimonial3DCard'
 import { 
@@ -23,6 +24,13 @@ const SHADOWS = APP_SHADOWS
 
 const Home = () => {
   const { user } = useAuth();
+  
+  // Set Home page meta tags for SEO
+  usePageMeta(
+    'AlgoView - Interactive Algorithm Visualizer & DSA Learning Platform',
+    'Master data structures and algorithms with visual step-by-step animations. Practice with our interactive algorithm visualizer, code examples, tutorials, and interview preparation tools.',
+    'algorithm visualizer, DSA, data structures, algorithms, coding interview, practice platform, learning'
+  );
   
   // Roadmap data - structured and reusable
   const roadmapData = [

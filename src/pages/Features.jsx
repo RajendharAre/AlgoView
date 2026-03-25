@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { usePageMeta } from '../hooks/usePageMeta'
 import {
   Brain,
   Code2,
@@ -245,6 +246,13 @@ const FeatureCard = ({ item }) => {
 
 const Features = () => {
   const { user } = useAuth()
+
+  // Set Features page meta tags for SEO
+  usePageMeta(
+    'AlgoView Features - Interactive Learning Tools',
+    'Explore AlgoView features: interactive algorithm visualizer, code examples, tutorials, video courses, community resources, and DSA practice tools for interview preparation.',
+    'algorithm visualizer features, DSA tools, interactive learning, code examples, tutorials'
+  );
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: COLORS.bg.primary }}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { usePageMeta } from '../hooks/usePageMeta';
 import { FaBook, FaCode, FaVideo, FaFileAlt, FaUsers, FaQuestionCircle } from 'react-icons/fa';
 import { APP_COLORS } from '../constants/sitePalette'
 
@@ -8,6 +9,13 @@ const COLORS = APP_COLORS;
 
 export default function Development() {
   const navigate = useNavigate();
+
+  // Set page meta tags for SEO
+  usePageMeta(
+    'Web Development Tutorials, Code Examples & Learning Resources - AlgoView',
+    'Complete web development learning path with tutorials, code examples, videos, documentation, and community resources. Learn frontend, backend, DevOps, and more.',
+    'web development, tutorials, code examples, learning resources, developer community, coding guides'
+  );
 
   const sections = [
     {
