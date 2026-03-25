@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import InteractiveFeatureCard from '../components/InteractiveFeatureCard'
 import Testimonial3DCard from '../components/Testimonial3DCard'
+import { getApprovedExperiencesListener, submitPlatformExperience } from '../services/experienceService'
 import { 
   Star,
   ArrowRight,
@@ -53,6 +54,18 @@ const Home = () => {
   // Intersection Observer for stats animation
   const statsRef = useRef(null)
   const [statsVisible, setStatsVisible] = useState(false)
+  const [communityTestimonials, setCommunityTestimonials] = useState([])
+  const [feedbackError, setFeedbackError] = useState('')
+  const [feedbackSuccess, setFeedbackSuccess] = useState('')
+  const [submittingFeedback, setSubmittingFeedback] = useState(false)
+  const [feedbackForm, setFeedbackForm] = useState({
+    name: user?.displayName || '',
+    role: '',
+    institution: '',
+    userType: 'student',
+    rating: '5',
+    content: ''
+  })
 
   // Animated counter for stats
   const Counter = ({ value, suffix }) => {
@@ -88,7 +101,7 @@ const Home = () => {
   }
   
   // Testimonials data
-  const testimonials = [
+  const baseTestimonials = [
     {
       id: 1,
       name: 'Harish',
@@ -139,6 +152,7 @@ const Home = () => {
     }
   ]
 
+  const testimonials = [...baseTestimonials, ...communityTestimonials]
   const marqueeTestimonials = [...testimonials, ...testimonials]
 
   // Stats data
@@ -235,6 +249,79 @@ const Home = () => {
       }
     }
   }, [])
+
+  // Keep feedback form name synced when user signs in/out
+  useEffect(() => {
+    if (user?.displayName) {
+      setFeedbackForm((prev) => ({ ...prev, name: prev.name || user.displayName }))
+    }
+  }, [user])
+
+  // Load approved experiences from Firestore
+  useEffect(() => {
+    const unsubscribe = getApprovedExperiencesListener(
+      (items) => {
+        const mapped = items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          role: `${item.role}${item.institution ? `, ${item.institution}` : ''}`,
+          avatarIcon: item.userType === 'teacher' ? UserRound : GraduationCap,
+          content: item.content,
+          rating: Number(item.rating || 5),
+        }))
+        setCommunityTestimonials(mapped)
+      },
+      () => {
+        // Keep base testimonials available even if dynamic loading fails.
+      }
+    )
+
+    return () => unsubscribe()
+  }, [])
+
+  const handleFeedbackChange = (e) => {
+    const { name, value } = e.target
+    setFeedbackForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleFeedbackSubmit = async (e) => {
+    e.preventDefault()
+    setFeedbackError('')
+    setFeedbackSuccess('')
+
+    if (!user) {
+      setFeedbackError('Please login first to share your experience.')
+      return
+    }
+
+    setSubmittingFeedback(true)
+
+    try {
+      await submitPlatformExperience({
+        user,
+        name: feedbackForm.name,
+        role: feedbackForm.role,
+        institution: feedbackForm.institution,
+        userType: feedbackForm.userType,
+        rating: feedbackForm.rating,
+        content: feedbackForm.content,
+      })
+
+      setFeedbackSuccess('Thank you. Your experience was submitted and is pending review.')
+      setFeedbackForm((prev) => ({
+        ...prev,
+        role: '',
+        institution: '',
+        userType: 'student',
+        rating: '5',
+        content: '',
+      }))
+    } catch (error) {
+      setFeedbackError(error?.message || 'Unable to submit your feedback right now.')
+    } finally {
+      setSubmittingFeedback(false)
+    }
+  }
 
   return (
     <div className="bg-white" style={{ color: COLORS.text.primary }}>
@@ -700,6 +787,142 @@ const Home = () => {
                 </div>
               ))}
             </motion.div>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div
+              className="rounded-2xl border p-6"
+              style={{
+                backgroundColor: COLORS.bg.surface,
+                borderColor: COLORS.border.light,
+                boxShadow: SHADOWS.sm,
+              }}
+            >
+              <h3 className="text-2xl font-bold mb-3">Share Your Experience</h3>
+              <p className="text-sm mb-4" style={{ color: COLORS.text.secondary }}>
+                Students and teachers can share honest feedback, emotions, and learning journey notes.
+              </p>
+
+              {!user ? (
+                <div className="rounded-lg border px-4 py-3" style={{ borderColor: COLORS.border.light }}>
+                  <p className="text-sm mb-3" style={{ color: COLORS.text.secondary }}>
+                    Please login to submit your experience.
+                  </p>
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold"
+                    style={{ backgroundColor: COLORS.text.primary, color: COLORS.bg.surface }}
+                  >
+                    Login to Share Feedback
+                  </Link>
+                </div>
+              ) : (
+                <form onSubmit={handleFeedbackSubmit} className="space-y-4">
+                  {feedbackError ? (
+                    <p className="text-sm text-red-600">{feedbackError}</p>
+                  ) : null}
+                  {feedbackSuccess ? (
+                    <p className="text-sm text-green-600">{feedbackSuccess}</p>
+                  ) : null}
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      name="name"
+                      value={feedbackForm.name}
+                      onChange={handleFeedbackChange}
+                      placeholder="Your name"
+                      required
+                      className="w-full rounded-lg border px-3 py-2 text-sm"
+                      style={{ borderColor: COLORS.border.light }}
+                    />
+                    <select
+                      name="userType"
+                      value={feedbackForm.userType}
+                      onChange={handleFeedbackChange}
+                      className="w-full rounded-lg border px-3 py-2 text-sm"
+                      style={{ borderColor: COLORS.border.light }}
+                    >
+                      <option value="student">Student</option>
+                      <option value="teacher">Teacher</option>
+                    </select>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      name="role"
+                      value={feedbackForm.role}
+                      onChange={handleFeedbackChange}
+                      placeholder="Role (e.g., 3rd Year BE Student)"
+                      required
+                      className="w-full rounded-lg border px-3 py-2 text-sm"
+                      style={{ borderColor: COLORS.border.light }}
+                    />
+                    <input
+                      name="institution"
+                      value={feedbackForm.institution}
+                      onChange={handleFeedbackChange}
+                      placeholder="College / Institution"
+                      required
+                      className="w-full rounded-lg border px-3 py-2 text-sm"
+                      style={{ borderColor: COLORS.border.light }}
+                    />
+                  </div>
+
+                  <select
+                    name="rating"
+                    value={feedbackForm.rating}
+                    onChange={handleFeedbackChange}
+                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    style={{ borderColor: COLORS.border.light }}
+                  >
+                    <option value="5">5.0</option>
+                    <option value="4.5">4.5</option>
+                    <option value="4.0">4.0</option>
+                    <option value="3.5">3.5</option>
+                    <option value="3.0">3.0</option>
+                  </select>
+
+                  <textarea
+                    name="content"
+                    value={feedbackForm.content}
+                    onChange={handleFeedbackChange}
+                    rows={5}
+                    placeholder="Share your detailed experience about AlgoView"
+                    required
+                    className="w-full rounded-lg border px-3 py-2 text-sm"
+                    style={{ borderColor: COLORS.border.light }}
+                  />
+
+                  <button
+                    type="submit"
+                    disabled={submittingFeedback}
+                    className="px-5 py-2.5 rounded-lg text-sm font-semibold"
+                    style={{
+                      backgroundColor: COLORS.text.primary,
+                      color: COLORS.bg.surface,
+                      opacity: submittingFeedback ? 0.8 : 1,
+                    }}
+                  >
+                    {submittingFeedback ? 'Submitting...' : 'Submit Experience'}
+                  </button>
+                </form>
+              )}
+            </div>
+
+            <div
+              className="rounded-2xl border p-6"
+              style={{
+                backgroundColor: COLORS.bg.secondary,
+                borderColor: COLORS.border.light,
+              }}
+            >
+              <h4 className="text-xl font-bold mb-3">How It Works</h4>
+              <ul className="space-y-3 text-sm" style={{ color: COLORS.text.secondary }}>
+                <li>1. Login and submit your authentic student/teacher experience.</li>
+                <li>2. Add clear role, institution, rating, and your detailed thoughts.</li>
+                <li>3. Your entry is reviewed and then published in the testimonials marquee.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

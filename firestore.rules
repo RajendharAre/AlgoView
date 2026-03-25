@@ -134,6 +134,13 @@ service cloud.firestore {
       }
     }
 
+    // Platform experiences - testimonials submitted by students/teachers
+    match /platformExperiences/{experienceId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
     // Catch-all: deny access to any unspecified paths
     match /{document=**} {
       allow read, write: if false;
