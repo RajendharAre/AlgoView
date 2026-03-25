@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Star } from 'lucide-react';
 
 const Testimonial3DCard = ({ testimonial, COLORS, SHADOWS }) => {
+  const AvatarIcon = testimonial.avatarIcon;
+
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -35,15 +37,23 @@ const Testimonial3DCard = ({ testimonial, COLORS, SHADOWS }) => {
         <div className="card">
           <div className="content-box">
             <span className="card-title">{testimonial.name}</span>
+            <p className="card-role">{testimonial.role}</p>
             <p className="card-content">
               "{testimonial.content}"
             </p>
             <div className="rating-box">
               {renderStars(testimonial.rating)}
+              <span className="rating-value">{testimonial.rating.toFixed(1)}</span>
             </div>
           </div>
           <div className="date-box">
-            <img src={testimonial.avatar} alt={testimonial.name} className="avatar-image" />
+            {AvatarIcon ? (
+              <div className="avatar-fallback" aria-label={testimonial.name}>
+                <AvatarIcon className="avatar-icon" />
+              </div>
+            ) : (
+              <img src={testimonial.avatar} alt={testimonial.name} className="avatar-image" />
+            )}
           </div>
         </div>
       </div>
@@ -110,6 +120,16 @@ const StyledWrapper = styled.div`
     line-height: 1.5;
   }
 
+  .content-box .card-role {
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: ${props => props.colors.accent.primary};
+    letter-spacing: 0.02em;
+    transform: translate3d(0px, 0px, 35px);
+    transition: all 0.5s ease-in-out;
+  }
+
   .content-box .card-content:hover {
     transform: translate3d(0px, 0px, 60px);
   }
@@ -120,6 +140,13 @@ const StyledWrapper = styled.div`
     gap: 4px;
     transform: translate3d(0px, 0px, 20px);
     transition: all 0.5s ease-in-out;
+  }
+
+  .rating-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: ${props => props.colors.text.secondary};
+    margin-left: 4px;
   }
 
   .rating-box:hover {
@@ -161,6 +188,21 @@ const StyledWrapper = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  }
+
+  .avatar-icon {
+    width: 28px;
+    height: 28px;
+    color: #1d4ed8;
   }
 `;
 
