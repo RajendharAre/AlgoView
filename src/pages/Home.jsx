@@ -14,7 +14,9 @@ import {
   Brain,
   Users,
   BookOpen,
-  Rocket
+  Rocket,
+  GraduationCap,
+  UserRound
 } from 'lucide-react'
 import { SiThealgorithms, SiGoogle, SiAmazon, SiMeta, SiNetflix, SiAdobe, SiAccenture, SiGoldmansachs, SiSpotify, SiApple, SiTesla, SiTcs, SiInfosys, SiWipro, SiCisco, SiFlipkart } from 'react-icons/si'
 import { APP_COLORS, APP_SHADOWS } from '../constants/sitePalette'
@@ -47,10 +49,6 @@ const Home = () => {
     { id: 11, title: 'Dynamic Programming', category: 'dynamic-programming', difficulty: 'Advanced', side: 'left' },
     { id: 12, title: 'Advanced Topics', category: 'advanced-topics', difficulty: 'Expert', side: 'center' }
   ]
-  
-  // State for testimonials carousel
-  const [currentTestimonial, setCurrentTestimonial] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
   
   // Intersection Observer for stats animation
   const statsRef = useRef(null)
@@ -93,37 +91,55 @@ const Home = () => {
   const testimonials = [
     {
       id: 1,
-      name: 'Sarah Johnson',
-      role: 'Software Engineer at Google',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
-      content: 'This platform transformed how I prepare for technical interviews. The visualizations helped me ace my Google interview!',
+      name: 'Harish',
+      role: '3rd Year BE Student, CSE, MVSR',
+      avatarIcon: GraduationCap,
+      content: 'The step-by-step visualization flow helped me finally understand recursion and sorting internally, not just for exams. I now practice daily because AlgoView makes every topic feel clear and practical.',
       rating: 5
     },
     {
       id: 2,
-      name: 'Michael Chen',
-      role: 'Senior Developer at Meta',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
-      content: 'The interactive visualizations are incredible. It helped me improve my problem-solving speed significantly.',
-      rating: 4.3
-    },
-    {
-      id: 3,
-      name: 'Emma Rodriguez',
-      role: 'Tech Lead at Microsoft',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
-      content: 'I recommend this to my team members. The most effective way to master algorithms and data structures.',
+      name: 'Vishnu',
+      role: '2nd Year BE Student, ECE, MVSR',
+      avatarIcon: GraduationCap,
+      content: 'I come from ECE, so coding speed was a challenge for me. The platform broke down each algorithm in a friendly way, and my confidence in problem solving improved a lot in just a few weeks.',
       rating: 4.5
     },
     {
+      id: 3,
+      name: 'Rajesh Kulkarni',
+      role: 'HOD, CSE (Allied), MVSREC',
+      avatarIcon: UserRound,
+      content: 'As a faculty member, I look for tools that genuinely improve conceptual depth. AlgoView stands out because students can observe algorithm behavior visually and discuss complexity tradeoffs with clarity. It supports both classroom teaching and independent preparation effectively.',
+      rating: 5
+    },
+    {
       id: 4,
-      name: 'David Kim',
-      role: 'Full Stack Developer at Netflix',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&h=100&q=80',
-      content: 'As someone who switched careers into tech, this platform made complex algorithms approachable and easy to understand.',
-      rating: 4.7
+      name: 'Neelakanta Rao',
+      role: 'Assistant Professor, CSE, MVSREC',
+      avatarIcon: UserRound,
+      content: 'I use AlgoView to reinforce difficult classes because the animations bridge the gap between theory and implementation. The explanation flow is clean, and students engage more during doubt sessions after using this platform.',
+      rating: 5
+    },
+    {
+      id: 5,
+      name: 'Manoj',
+      role: 'B.Com Student, Loyola Degree College',
+      avatarIcon: GraduationCap,
+      content: 'I am not from a CS background, but this platform made coding feel less intimidating and more structured. Even basic problems now make sense to me.',
+      rating: 5
+    },
+    {
+      id: 6,
+      name: 'Shiva Kumar',
+      role: 'B.Tech Data Science, GRIET',
+      avatarIcon: GraduationCap,
+      content: 'What I liked most is the combination of visual algorithm flow, practice, and guidance in one place. It helped me build better logic and improve how I explain solutions in interviews.',
+      rating: 4.3
     }
   ]
+
+  const marqueeTestimonials = [...testimonials, ...testimonials]
 
   // Stats data
   const stats = [
@@ -197,17 +213,6 @@ const Home = () => {
       description: 'Practice with quizzes and challenges to solidify understanding.'
     }
   ]
-
-  // Auto-advance testimonials
-  useEffect(() => {
-    if (!isPlaying) return
-    
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-    
-    return () => clearInterval(interval)
-  }, [isPlaying, testimonials.length])
 
   // Intersection Observer for stats
   useEffect(() => {
@@ -328,7 +333,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="mt-12 text-sm" style={{ color: COLORS.text.tertiary }}
             >
-              Trusted by 1000+ developers learning algorithms
+              Trusted by students and teachers across colleges
             </motion.div>
           </motion.div>
         </div>
@@ -664,7 +669,7 @@ const Home = () => {
               transition={{ duration: 0.6 }}
               className="text-4xl md:text-5xl font-bold mb-4"
             >
-              Trusted by Developers Worldwide
+              Trusted by Students and Teachers
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -674,27 +679,27 @@ const Home = () => {
               className="text-lg max-w-3xl mx-auto font-light"
               style={{ color: COLORS.text.secondary }}
             >
-              Real stories from developers who transformed their skills
+              Real experiences shared by learners and faculty using AlgoView in classrooms and self-study
             </motion.p>
           </div>
 
-          {/* Testimonials Grid with 3D Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={testimonial.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-              >
-                <Testimonial3DCard
-                  testimonial={testimonial}
-                  COLORS={COLORS}
-                  SHADOWS={SHADOWS}
-                />
-              </motion.div>
-            ))}
+          {/* Testimonials Marquee */}
+          <div className="overflow-hidden">
+            <motion.div
+              className="flex w-max gap-6"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
+            >
+              {marqueeTestimonials.map((testimonial, index) => (
+                <div key={`${testimonial.id}-marquee-${index}`} className="shrink-0">
+                  <Testimonial3DCard
+                    testimonial={testimonial}
+                    COLORS={COLORS}
+                    SHADOWS={SHADOWS}
+                  />
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
