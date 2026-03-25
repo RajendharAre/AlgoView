@@ -11,16 +11,21 @@ import { db } from '../lib/firebase'
 
 const experiencesCollection = collection(db, 'platformExperiences')
 
-export const submitPlatformExperience = async ({ user, name, role, institution, userType, rating, content }) => {
+export const submitPlatformExperience = async ({ user, name, role, specificRole, institution, rating, emotions, experience, timestamp, status }) => {
+  const resolvedRole = role || 'student'
   const payload = {
     userId: user?.uid || null,
     name: name.trim(),
-    role: role.trim(),
+    role: resolvedRole,
+    specificRole: (specificRole || '').trim(),
     institution: institution.trim(),
-    userType,
+    userType: resolvedRole,
     rating: Number(rating),
-    content: content.trim(),
-    status: 'pending',
+    emotions: Array.isArray(emotions) ? emotions : [],
+    experience: (experience || '').trim(),
+    content: (experience || '').trim(),
+    status: status || 'pending',
+    timestamp: Number(timestamp || Date.now()),
     createdAt: serverTimestamp(),
   }
 

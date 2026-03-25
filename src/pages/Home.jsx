@@ -54,18 +54,35 @@ const Home = () => {
   // Intersection Observer for stats animation
   const statsRef = useRef(null)
   const [statsVisible, setStatsVisible] = useState(false)
+  const [isMarqueePaused, setIsMarqueePaused] = useState(false)
   const [communityTestimonials, setCommunityTestimonials] = useState([])
   const [feedbackError, setFeedbackError] = useState('')
   const [feedbackSuccess, setFeedbackSuccess] = useState('')
   const [submittingFeedback, setSubmittingFeedback] = useState(false)
   const [feedbackForm, setFeedbackForm] = useState({
     name: user?.displayName || '',
-    role: '',
+    role: 'student',
+    specificRole: '',
     institution: '',
-    userType: 'student',
-    rating: '5',
-    content: ''
+    rating: 5,
+    emotions: [],
+    experience: ''
   })
+
+  const emotionOptions = [
+    'Helped me understand',
+    'Reduced anxiety',
+    'Saved study time',
+    'Made it fun'
+  ]
+
+  const ratingLabels = {
+    1: '1.0 — Poor',
+    2: '2.0 — Fair',
+    3: '3.0 — Okay',
+    4: '4.0 — Good',
+    5: '5.0 — Excellent'
+  }
 
   // Animated counter for stats
   const Counter = ({ value, suffix }) => {
@@ -264,9 +281,10 @@ const Home = () => {
         const mapped = items.map((item) => ({
           id: item.id,
           name: item.name,
-          role: `${item.role}${item.institution ? `, ${item.institution}` : ''}`,
+          role: `${item.specificRole || item.role}${item.institution ? `, ${item.institution}` : ''}`,
+          userType: item.userType || item.role || 'student',
           avatarIcon: item.userType === 'teacher' ? UserRound : GraduationCap,
-          content: item.content,
+          content: item.experience || item.content,
           rating: Number(item.rating || 5),
         }))
         setCommunityTestimonials(mapped)
@@ -282,6 +300,23 @@ const Home = () => {
   const handleFeedbackChange = (e) => {
     const { name, value } = e.target
     setFeedbackForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleRoleToggle = (role) => {
+    setFeedbackForm((prev) => ({ ...prev, role }))
+  }
+
+  const handleRatingSelect = (rating) => {
+    setFeedbackForm((prev) => ({ ...prev, rating }))
+  }
+
+  const handleEmotionToggle = (emotion) => {
+    setFeedbackForm((prev) => ({
+      ...prev,
+      emotions: prev.emotions.includes(emotion)
+        ? prev.emotions.filter((item) => item !== emotion)
+        : [...prev.emotions, emotion]
+    }))
   }
 
   const handleFeedbackSubmit = async (e) => {
@@ -301,20 +336,24 @@ const Home = () => {
         user,
         name: feedbackForm.name,
         role: feedbackForm.role,
+        specificRole: feedbackForm.specificRole,
         institution: feedbackForm.institution,
-        userType: feedbackForm.userType,
         rating: feedbackForm.rating,
-        content: feedbackForm.content,
+        emotions: feedbackForm.emotions,
+        experience: feedbackForm.experience,
+        timestamp: Date.now(),
+        status: 'pending',
       })
 
       setFeedbackSuccess('Thank you. Your experience was submitted and is pending review.')
       setFeedbackForm((prev) => ({
         ...prev,
-        role: '',
+        role: 'student',
+        specificRole: '',
         institution: '',
-        userType: 'student',
-        rating: '5',
-        content: '',
+        rating: 5,
+        emotions: [],
+        experience: '',
       }))
     } catch (error) {
       setFeedbackError(error?.message || 'Unable to submit your feedback right now.')
@@ -772,10 +811,15 @@ const Home = () => {
 
           {/* Testimonials Marquee */}
           <div className="overflow-hidden">
-            <motion.div
+            <div
               className="flex w-max gap-6"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 42, repeat: Infinity, ease: 'linear' }}
+              onMouseEnter={() => setIsMarqueePaused(true)}
+              onMouseLeave={() => setIsMarqueePaused(false)}
+              style={{
+                animation: 'testimonialMarquee 42s linear infinite',
+                animationPlayState: isMarqueePaused ? 'paused' : 'running',
+                willChange: 'transform',
+              }}
             >
               {marqueeTestimonials.map((testimonial, index) => (
                 <div key={`${testimonial.id}-marquee-${index}`} className="shrink-0">
@@ -786,142 +830,284 @@ const Home = () => {
                   />
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            <div
-              className="rounded-2xl border p-6"
-              style={{
-                backgroundColor: COLORS.bg.surface,
-                borderColor: COLORS.border.light,
-                boxShadow: SHADOWS.sm,
-              }}
-            >
-              <h3 className="text-2xl font-bold mb-3">Share Your Experience</h3>
-              <p className="text-sm mb-4" style={{ color: COLORS.text.secondary }}>
-                Students and teachers can share honest feedback, emotions, and learning journey notes.
-              </p>
+          <div className="mt-12 rounded-xl border p-4 sm:p-6" style={{ backgroundColor: '#f8fafc', borderColor: COLORS.border.light }}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+              <div className="rounded-xl border p-5 sm:p-6 w-full" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                <h3 className="text-[15px] font-semibold mb-4">Share Your Experience</h3>
 
-              {!user ? (
-                <div className="rounded-lg border px-4 py-3" style={{ borderColor: COLORS.border.light }}>
-                  <p className="text-sm mb-3" style={{ color: COLORS.text.secondary }}>
-                    Please login to submit your experience.
-                  </p>
-                  <Link
-                    to="/login"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold"
-                    style={{ backgroundColor: COLORS.text.primary, color: COLORS.bg.surface }}
-                  >
-                    Login to Share Feedback
-                  </Link>
-                </div>
-              ) : (
-                <form onSubmit={handleFeedbackSubmit} className="space-y-4">
-                  {feedbackError ? (
-                    <p className="text-sm text-red-600">{feedbackError}</p>
-                  ) : null}
-                  {feedbackSuccess ? (
-                    <p className="text-sm text-green-600">{feedbackSuccess}</p>
-                  ) : null}
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input
-                      name="name"
-                      value={feedbackForm.name}
-                      onChange={handleFeedbackChange}
-                      placeholder="Your name"
-                      required
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ borderColor: COLORS.border.light }}
-                    />
-                    <select
-                      name="userType"
-                      value={feedbackForm.userType}
-                      onChange={handleFeedbackChange}
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ borderColor: COLORS.border.light }}
+                {!user ? (
+                  <div className="rounded-lg border px-4 py-3" style={{ borderColor: COLORS.border.light }}>
+                    <p className="text-[13px] mb-3" style={{ color: COLORS.text.secondary }}>
+                      Please login to submit your experience.
+                    </p>
+                    <Link
+                      to="/login"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-semibold"
+                      style={{ backgroundColor: '#111827', color: '#ffffff' }}
                     >
-                      <option value="student">Student</option>
-                      <option value="teacher">Teacher</option>
-                    </select>
+                      Login to Share Feedback
+                    </Link>
                   </div>
+                ) : (
+                  <form onSubmit={handleFeedbackSubmit} className="space-y-4">
+                    {feedbackError ? (
+                      <p className="text-[13px] text-red-600">{feedbackError}</p>
+                    ) : null}
+                    {feedbackSuccess ? (
+                      <p className="text-[13px] text-green-600">{feedbackSuccess}</p>
+                    ) : null}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input
-                      name="role"
-                      value={feedbackForm.role}
-                      onChange={handleFeedbackChange}
-                      placeholder="Role (e.g., 3rd Year BE Student)"
-                      required
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ borderColor: COLORS.border.light }}
-                    />
-                    <input
-                      name="institution"
-                      value={feedbackForm.institution}
-                      onChange={handleFeedbackChange}
-                      placeholder="College / Institution"
-                      required
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ borderColor: COLORS.border.light }}
-                    />
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>I am a</p>
+                      <div className="inline-flex rounded-lg gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleRoleToggle('student')}
+                          className="px-4 py-2 rounded-lg text-[13px] font-medium border"
+                          style={{
+                            backgroundColor: feedbackForm.role === 'student' ? '#111827' : '#ffffff',
+                            color: feedbackForm.role === 'student' ? '#ffffff' : '#4b5563',
+                            borderColor: feedbackForm.role === 'student' ? '#111827' : COLORS.border.light,
+                          }}
+                        >
+                          Student
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleRoleToggle('teacher')}
+                          className="px-4 py-2 rounded-lg text-[13px] font-medium border"
+                          style={{
+                            backgroundColor: feedbackForm.role === 'teacher' ? '#111827' : '#ffffff',
+                            color: feedbackForm.role === 'teacher' ? '#ffffff' : '#4b5563',
+                            borderColor: feedbackForm.role === 'teacher' ? '#111827' : COLORS.border.light,
+                          }}
+                        >
+                          Teacher
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Name</p>
+                        <input
+                          name="name"
+                          value={feedbackForm.name}
+                          onChange={handleFeedbackChange}
+                          placeholder="Your name"
+                          required
+                          className="w-full rounded-lg border px-3 py-2 text-[14px]"
+                          style={{ borderColor: COLORS.border.light }}
+                        />
+                      </div>
+                      <div>
+                        <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>College / Institution</p>
+                        <input
+                          name="institution"
+                          value={feedbackForm.institution}
+                          onChange={handleFeedbackChange}
+                          placeholder="College / Institution"
+                          required
+                          className="w-full rounded-lg border px-3 py-2 text-[14px]"
+                          style={{ borderColor: COLORS.border.light }}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Role</p>
+                      <input
+                        name="specificRole"
+                        value={feedbackForm.specificRole}
+                        onChange={handleFeedbackChange}
+                        placeholder="e.g. 3rd Year BE Student"
+                        required
+                        className="w-full rounded-lg border px-3 py-2 text-[14px]"
+                        style={{ borderColor: COLORS.border.light }}
+                      />
+                    </div>
+
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Rating</p>
+                      <div className="flex items-center gap-1.5">
+                        {[1, 2, 3, 4, 5].map((value) => (
+                          <button
+                            key={value}
+                            type="button"
+                            onClick={() => handleRatingSelect(value)}
+                            className="p-0.5"
+                            aria-label={`Rate ${value} stars`}
+                          >
+                            <Star
+                              className="w-6 h-6"
+                              style={{
+                                color: '#EF9F27',
+                                fill: value <= feedbackForm.rating ? '#EF9F27' : 'transparent',
+                                stroke: value <= feedbackForm.rating ? '#EF9F27' : '#cbd5e1',
+                                strokeWidth: 1.5,
+                              }}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-[12px] mt-1" style={{ color: COLORS.text.secondary }}>
+                        {ratingLabels[feedbackForm.rating]}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>How did it feel?</p>
+                      <div className="flex flex-wrap gap-2">
+                        {emotionOptions.map((emotion) => {
+                          const isActive = feedbackForm.emotions.includes(emotion)
+                          return (
+                            <button
+                              key={emotion}
+                              type="button"
+                              onClick={() => handleEmotionToggle(emotion)}
+                              className="px-3 py-1.5 rounded-full text-[12px] border"
+                              style={{
+                                backgroundColor: isActive ? '#eef2ff' : '#ffffff',
+                                color: isActive ? '#1f2937' : '#6b7280',
+                                borderColor: isActive ? '#c7d2fe' : COLORS.border.light,
+                              }}
+                            >
+                              {emotion}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    <div>
+                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Experience</p>
+                      <textarea
+                        name="experience"
+                        value={feedbackForm.experience}
+                        onChange={handleFeedbackChange}
+                        rows={6}
+                        maxLength={300}
+                        placeholder="Describe your experience in detail…"
+                        required
+                        className="w-full rounded-lg border px-3 py-2 text-[14px]"
+                        style={{ borderColor: COLORS.border.light }}
+                      />
+                      <p className="text-[12px] mt-1 text-right" style={{ color: COLORS.text.tertiary }}>
+                        {feedbackForm.experience.length} / 300
+                      </p>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={submittingFeedback}
+                      className="w-full px-5 py-2.5 rounded-lg text-[14px] font-semibold"
+                      style={{
+                        backgroundColor: '#111827',
+                        color: '#ffffff',
+                        opacity: submittingFeedback ? 0.8 : 1,
+                      }}
+                    >
+                      {submittingFeedback ? 'Submitting...' : 'Submit experience'}
+                    </button>
+                  </form>
+                )}
+              </div>
+
+              <div className="space-y-4 w-full">
+                <div className="rounded-xl border p-5" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                  <h4 className="text-[15px] font-semibold mb-4">How it works</h4>
+                  <div className="space-y-4">
+                    {[
+                      {
+                        title: 'Log in and fill the form',
+                        description: 'Select your role, rate your experience, and add details.'
+                      },
+                      {
+                        title: 'Under review',
+                        description: 'The team reviews it for quality within 24 hours.'
+                      },
+                      {
+                        title: 'Published in the marquee',
+                        description: 'Your entry goes live and helps future learners.'
+                      }
+                    ].map((step, index) => (
+                      <div key={step.title} className="flex gap-3">
+                        <div
+                          className="h-6 w-6 rounded-full border flex items-center justify-center text-[12px] font-semibold shrink-0"
+                          style={{ borderColor: COLORS.border.light, color: COLORS.text.secondary }}
+                        >
+                          {index + 1}
+                        </div>
+                        <div>
+                          <p className="text-[14px] font-medium" style={{ color: COLORS.text.primary }}>{step.title}</p>
+                          <p className="text-[13px]" style={{ color: COLORS.text.secondary }}>{step.description}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
+                </div>
 
-                  <select
-                    name="rating"
-                    value={feedbackForm.rating}
-                    onChange={handleFeedbackChange}
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
-                    style={{ borderColor: COLORS.border.light }}
-                  >
-                    <option value="5">5.0</option>
-                    <option value="4.5">4.5</option>
-                    <option value="4.0">4.0</option>
-                    <option value="3.5">3.5</option>
-                    <option value="3.0">3.0</option>
-                  </select>
+                <div className="rounded-xl border p-5" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                  <h4 className="text-[15px] font-semibold mb-4">Recent contributions</h4>
+                  <div className="space-y-3">
+                    {(communityTestimonials.length ? communityTestimonials : testimonials).slice(0, 2).map((item) => {
+                      const initials = item.name
+                        .split(' ')
+                        .map((part) => part[0])
+                        .join('')
+                        .slice(0, 2)
+                        .toUpperCase()
+                      const isTeacher = (item.userType || '').toLowerCase() === 'teacher'
 
-                  <textarea
-                    name="content"
-                    value={feedbackForm.content}
-                    onChange={handleFeedbackChange}
-                    rows={5}
-                    placeholder="Share your detailed experience about AlgoView"
-                    required
-                    className="w-full rounded-lg border px-3 py-2 text-sm"
-                    style={{ borderColor: COLORS.border.light }}
-                  />
+                      return (
+                        <div key={`recent-${item.id}`} className="rounded-lg border p-3" style={{ borderColor: COLORS.border.light }}>
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="h-8 w-8 rounded-full flex items-center justify-center text-[12px] font-semibold" style={{ backgroundColor: '#e2e8f0', color: '#0f172a' }}>
+                              {initials}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[14px] font-medium truncate">{item.name}</p>
+                              <span
+                                className="inline-flex px-2 py-0.5 rounded-full text-[12px]"
+                                style={{
+                                  backgroundColor: isTeacher ? '#dcfce7' : '#dbeafe',
+                                  color: isTeacher ? '#166534' : '#1d4ed8',
+                                }}
+                              >
+                                {isTeacher ? 'Teacher' : 'Student'}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-[13px] truncate" style={{ color: COLORS.text.secondary }}>
+                            "{item.content}"
+                          </p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
 
-                  <button
-                    type="submit"
-                    disabled={submittingFeedback}
-                    className="px-5 py-2.5 rounded-lg text-sm font-semibold"
-                    style={{
-                      backgroundColor: COLORS.text.primary,
-                      color: COLORS.bg.surface,
-                      opacity: submittingFeedback ? 0.8 : 1,
-                    }}
-                  >
-                    {submittingFeedback ? 'Submitting...' : 'Submit Experience'}
-                  </button>
-                </form>
-              )}
-            </div>
-
-            <div
-              className="rounded-2xl border p-6"
-              style={{
-                backgroundColor: COLORS.bg.secondary,
-                borderColor: COLORS.border.light,
-              }}
-            >
-              <h4 className="text-xl font-bold mb-3">How It Works</h4>
-              <ul className="space-y-3 text-sm" style={{ color: COLORS.text.secondary }}>
-                <li>1. Login and submit your authentic student/teacher experience.</li>
-                <li>2. Add clear role, institution, rating, and your detailed thoughts.</li>
-                <li>3. Your entry is reviewed and then published in the testimonials marquee.</li>
-              </ul>
+                <div className="rounded-xl border p-5" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                  <h4 className="text-[15px] font-semibold mb-3">Trust signal</h4>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#fff7ed' }}>
+                      <Star className="w-5 h-5" style={{ color: '#EF9F27', fill: '#EF9F27' }} />
+                    </div>
+                    <div className="flex items-end gap-2">
+                      <p className="text-3xl font-bold leading-none">
+                        {(testimonials.reduce((sum, item) => sum + Number(item.rating || 0), 0) / (testimonials.length || 1)).toFixed(1)}
+                      </p>
+                      <p className="text-[12px] mb-0.5" style={{ color: COLORS.text.secondary }}>avg rating</p>
+                    </div>
+                  </div>
+                  <p className="text-[13px] mt-2" style={{ color: COLORS.text.secondary }}>
+                    from {testimonials.length} verified reviews
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
