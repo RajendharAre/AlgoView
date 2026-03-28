@@ -141,6 +141,45 @@ service cloud.firestore {
       allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
+    // Blogs collection - published blog posts
+    match /blogs/{blogId} {
+      // Anyone can read published blogs
+      allow read: if resource.data.status == 'published' || request.auth != null;
+      
+      // Authenticated users can create blog posts
+      allow create: if request.auth != null &&
+                   request.resource.data.keys().hasAll(['title', 'excerpt', 'content', 'category']);
+      
+      // Only author can update their own blog
+      allow update: if request.auth != null && 
+                   request.auth.uid == resource.data.authorId;
+      
+      // Only author can delete their own blog
+      allow delete: if request.auth != null && 
+                   request.auth.uid == resource.data.authorId;
+    }
+
+    // Pending blogs collection - awaiting admin approval
+    match /pending_blogs/{blogId} {
+      // Authenticated users can read their own pending blogs
+      allow read: if request.auth != null && 
+                 request.auth.uid == resource.data.authorId;
+      
+      // Authenticated users can create pending blog submissions
+      allow create: if request.auth != null &&
+                   request.resource.data.authorId == request.auth.uid &&
+                   request.resource.data.keys().hasAll(['title', 'excerpt', 'content', 'authorId', 'authorEmail']);
+      
+      // Only author can update their pending blog before approval
+      allow update: if request.auth != null && 
+                   request.auth.uid == resource.data.authorId &&
+                   resource.data.status == 'pending';
+      
+      // Only author can delete their pending blog
+      allow delete: if request.auth != null && 
+                   request.auth.uid == resource.data.authorId;
+    }
+
     // Catch-all: deny access to any unspecified paths
     match /{document=**} {
       allow read, write: if false;

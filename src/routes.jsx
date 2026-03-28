@@ -52,6 +52,9 @@ const UserProfile = lazy(() => import('./pages/Profile/User'))
 const Settings = lazy(() => import('./pages/Settings'))
 const Payment = lazy(() => import('./pages/Payment'))
 const AnalyticsDashboard = lazy(() => import('./pages/Analytics/AnalyticsDashboard'))
+const Blog = lazy(() => import('./pages/Blog/Blog'))
+const BlogPost = lazy(() => import('./pages/Blog/BlogPost'))
+const WriteBlog = lazy(() => import('./pages/Blog/WriteBlog'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
 
@@ -156,6 +159,30 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Contact />
+          </Suspense>
+        )
+      },
+      {
+        path: 'blog',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Blog />
+          </Suspense>
+        )
+      },
+      {
+        path: 'blog/:slug',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <BlogPost />
+          </Suspense>
+        )
+      },
+      {
+        path: 'blog/write',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <WriteBlog />
           </Suspense>
         )
       },

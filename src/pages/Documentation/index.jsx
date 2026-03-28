@@ -221,15 +221,15 @@ const Sidebar = ({ activeId, onItemClick, mobileOpen, onClose }) => {
       {/* Search */}
       <div className="px-4 py-3 border-b flex-shrink-0" style={{ borderColor: COLORS.border.light }}>
         <div className="relative">
-          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: COLORS.text.muted }} />
           <input
             type="text"
             placeholder="Search docs…"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-2 text-xs rounded-lg border focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 transition-all"
+            className="w-full pl-3 pr-10 py-2 text-xs rounded-lg border focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 transition-all"
             style={{ borderColor: COLORS.border.medium, backgroundColor: COLORS.bg.secondary, color: COLORS.text.primary }}
           />
+          <Search size={13} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: COLORS.text.muted }} />
         </div>
       </div>
 
