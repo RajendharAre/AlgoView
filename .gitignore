@@ -48,18 +48,24 @@ yarn-error.log*
 
 # local env files
 .env
-/server/.env
 .env.local
+.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
+/server/.env
+.env.*.key
 
 # Sensitive API Keys and Credentials
-.env.*.key
 *.secret
 *.key
+*.pem
 serviceAccountKey.json
 firebase-urls.json
+firebase-key.json
+google-*.json
+config-*.json
+firebase-config-*.json
 
 # vercel
 .vercel
@@ -162,3 +168,4 @@ firebase-emulator-cache/
 # Local configuration
 .env.local
 .env.*.local
+
