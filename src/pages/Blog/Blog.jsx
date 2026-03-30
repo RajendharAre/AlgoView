@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Search, BookOpen, Tag, Calendar, Clock } from 'lucide-react';
+import { Search, BookOpen, Tag, Calendar, Clock, ChevronDown } from 'lucide-react';
 import { getPublishedBlogsListener, searchBlogs } from '../../services/blogsService';
 import { trackEvent } from '../../lib/analytics';
 import usePageMeta from '../../hooks/usePageMeta';
@@ -12,6 +12,7 @@ const Blog = () => {
   const [allBlogs, setAllBlogs] = useState([]);
   const [displayedBlogs, setDisplayedBlogs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState(searchParams.get('tag') || null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('recent');
@@ -57,6 +58,17 @@ const Blog = () => {
     applyFilters(allBlogs, selectedCategory, selectedTag, searchQuery);
   }, [selectedCategory, selectedTag, searchQuery, allBlogs]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isCategoryDropdownOpen && !event.target.closest('[data-category-dropdown]')) {
+        setIsCategoryDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isCategoryDropdownOpen]);
+
   const applyFilters = async (blogs, category, tag, query) => {
     let filtered = blogs;
 
@@ -91,7 +103,7 @@ const Blog = () => {
     setDisplayedBlogs(filtered);
   };
 
-  const categories = ['All', 'DSA', 'Web Development'];
+  const categories = ['All', 'DSA & Algorithms', 'Web Development', 'NLP', 'AI', 'Machine Learning', 'Deep Learning', 'Mathematics', 'Data Science'];
   const allTags = [...new Set(allBlogs.flatMap(blog => blog.tags || []))].sort();
 
   const handleBlogClick = (slug) => {
@@ -162,26 +174,39 @@ const Blog = () => {
           <div className="lg:col-span-1">
             <div className="sticky top-4 space-y-6">
               {/* Category Filter */}
-              <div className="bg-white rounded-lg shadow p-4">
+              <div className="bg-white rounded-lg shadow p-4" data-category-dropdown>
                 <h3 className="font-semibold text-gray-900 mb-3">Category</h3>
-                <div className="space-y-2">
-                  {categories.map(cat => (
-                    <button
-                      key={cat}
-                      onClick={() => {
-                        setSelectedCategory(cat);
-                        setSelectedTag(null);
-                        trackEvent('blog_category_selected', { category: cat });
-                      }}
-                      className={`block w-full text-left px-3 py-2 rounded transition-colors ${
-                        selectedCategory === cat
-                          ? 'bg-blue-600 text-white'
-                          : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                    className="w-full px-4 py-3 text-left font-medium text-gray-900 bg-white border-2 border-gray-200 rounded-lg hover:border-gray-300 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all flex items-center justify-between"
+                  >
+                    {selectedCategory}
+                    <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isCategoryDropdownOpen && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden">
+                      {categories.map((cat, index) => (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setSelectedCategory(cat);
+                            setSelectedTag(null);
+                            setIsCategoryDropdownOpen(false);
+                            trackEvent('blog_category_selected', { category: cat });
+                          }}
+                          className={`w-full px-4 py-3 text-left font-medium transition-colors ${
+                            selectedCategory === cat
+                              ? 'bg-blue-600 text-white'
+                              : 'text-gray-800 hover:bg-gray-100'
+                          } ${index !== categories.length - 1 ? 'border-b border-gray-200' : ''}`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
