@@ -107,7 +107,7 @@ const DSAAlgorithms = () => {
               accentColor="#3b82f6"
             />
           </div>
-        </div>
+        </div> 
       </div>
 
       {/* Results count and info */}

@@ -13,7 +13,9 @@
     "test:run": "vitest run",
     "upload-images": "node scripts/setup-firebase-images.js",
     "map-urls": "node scripts/map-firebase-urls.js",
-    "apply-mapping": "node scripts/apply-image-mapping.js"
+    "apply-mapping": "node scripts/apply-image-mapping.js",
+    "setup-notifications": "node scripts/setup-notifications.js",
+    "migrate-notifications": "node scripts/migrate-notifications-to-users.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",

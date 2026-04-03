@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux'
 import ProtectedRoute from './components/Layout/ProtectedRoute'
 import MainApp from './components/MainApp'
 import Loader from './components/Common/Loader'
+import AdminLogin from './pages/Admin/AdminLogin'
+import AdminDashboard from './pages/Admin/AdminDashboard'
+import AdminProtectedRoute from './components/Common/ProtectedRoute'
 
 // Lazy load all route components
 const Home = lazy(() => import('./pages/Home'))
@@ -58,6 +61,20 @@ const WriteBlog = lazy(() => import('./pages/Blog/WriteBlog'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
 
+const AdminRoute = ({ children }) => {
+  const { currentUser, loading } = useSelector((state) => state.user)
+
+  if (loading) {
+    return <Loader />
+  }
+
+  if (currentUser && currentUser.email === 'arerajendhar33@gmail.com') {
+    return children
+  }
+
+  return <Navigate to="/admin/login" replace />
+}
+
 // Public route wrapper
 const PublicRoute = ({ children }) => {
   const { currentUser, loading } = useSelector((state) => state.user)
@@ -77,6 +94,24 @@ const PublicRoute = ({ children }) => {
 
 // Router configuration
 export const router = createBrowserRouter([
+  {
+    path: '/admin/login',
+    element: (
+      <Suspense fallback={<Loader />}>
+        <AdminLogin />
+      </Suspense>
+    )
+  },
+  {
+    path: '/admin/dashboard',
+    element: (
+      <AdminRoute>
+        <Suspense fallback={<Loader />}>
+          <AdminDashboard />
+        </Suspense>
+      </AdminRoute>
+    )
+  },
   {
     path: '/',
     element: <MainApp />,

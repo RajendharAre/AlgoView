@@ -51,10 +51,12 @@ const DSAAlgorithmCategory = () => {
       { id: 'kruskal', name: 'Kruskal Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
       { id: 'pagerank', name: 'PageRank', difficulty: 'Medium', description: 'Link analysis algorithm that evaluates node importance based on incoming links' },
       { id: 'prim', name: 'Prim\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
-      { id: 'topologicalSort', name: 'Topological Sort', difficulty: 'Medium', description: 'Algorithm for linear ordering of vertices in directed acyclic graphs' }
+      { id: 'topologicalSort', name: 'Topological Sort', difficulty: 'Medium', description: 'Algorithm for linear ordering of vertices in directed acyclic graphs' },
+      { id: 'tsp', name: 'Traveling Salesman Problem', difficulty: 'Hard', description: 'Backtracking algorithm that finds the shortest route visiting each city exactly once and returning to start' }
     ],
     dynamic: [
-      { id: 'climbingStairs', name: 'Climbing Stairs', difficulty: 'Easy', description: 'DP algorithm that counts the number of ways to climb stairs with 1 or 2 steps at a time' }
+      { id: 'climbingStairs', name: 'Climbing Stairs', difficulty: 'Easy', description: 'DP algorithm that counts the number of ways to climb stairs with 1 or 2 steps at a time' },
+      { id: 'fibonacci', name: 'Fibonacci Sequence', difficulty: 'Easy', description: 'DP algorithm that generates the Fibonacci sequence using bottom-up dynamic programming' }
     ]
   }
 

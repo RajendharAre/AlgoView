@@ -174,7 +174,7 @@ const Home = () => {
 
   // Stats data
   const stats = [
-    { id: 1, value: 10, label: 'Algorithms', suffix: '+' },
+    { id: 1, value: 24, label: 'Algorithms', suffix: '+' },
     { id: 2, value: 100, label: 'Users', suffix: '+' },
     { id: 3, value: 50, label: 'Visualizations', suffix: '+' }
   ]

@@ -48,6 +48,7 @@ const Sidebar = () => {
                                location.pathname.includes('kosaraju') ||
                                location.pathname.includes('graphColoring') ||
                                location.pathname.includes('pagerank') ||
+                               location.pathname.includes('tsp') ||
                                location.pathname.includes('climbingStairs') ||
                                location.pathname.includes('fibonacci') ||
                                location.pathname.includes('coinChange') ||
@@ -96,7 +97,9 @@ const Sidebar = () => {
                  location.pathname.includes('kruskal') ||
                  location.pathname.includes('prim') ||
                  location.pathname.includes('topologicalSort') ||
-                 location.pathname.includes('kosaraju')) {
+                 location.pathname.includes('kosaraju') ||
+                 location.pathname.includes('pagerank') ||
+                 location.pathname.includes('tsp')) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -196,7 +199,8 @@ const Sidebar = () => {
         { id: 'kruskal', name: 'Kruskal\'s Algorithm' },
         { id: 'pagerank', name: 'PageRank' },
         { id: 'prim', name: 'Prim\'s Algorithm' },
-        { id: 'topologicalSort', name: 'Topological Sort' }
+        { id: 'topologicalSort', name: 'Topological Sort' },
+        { id: 'tsp', name: 'Traveling Salesman Problem' }
       ]
     },
     {

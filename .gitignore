@@ -169,3 +169,6 @@ firebase-emulator-cache/
 .env.local
 .env.*.local
 
+.project_info.md
+inputs.txt
+src/pages/Admin/

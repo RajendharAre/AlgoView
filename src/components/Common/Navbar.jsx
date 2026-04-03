@@ -18,6 +18,7 @@ import {
   Brain
 } from 'lucide-react'
 import { signOut } from '../../store/slices/userSlice'
+import NotificationBell from './NotificationBell'
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -195,7 +196,10 @@ const Navbar = () => {
           </div>
 
           {/* User Actions */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            {/* Notification Bell */}
+            <NotificationBell />
+            
             {loading ? (
               <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div>
             ) : currentUser ? (

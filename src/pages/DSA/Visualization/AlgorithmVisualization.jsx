@@ -22,6 +22,8 @@ import KosarajuVisualization from './Graph/Kosaraju';
 import GraphColoringVisualization from './Graph/GraphColoring';
 import PageRankVisualization from './Graph/PageRank';
 import ClimbingStairsVisualization from './DP/ClimbingStairs';
+import FibonacciVisualization from './DP/Fibonacci';
+import TSPVisualization from './Graph/TSP';
 
 /**
  * Dynamic Algorithm Visualization Component
@@ -54,6 +56,8 @@ const AlgorithmVisualization = () => {
     'graphColoring': GraphColoringVisualization,
     'pagerank': PageRankVisualization,
     'climbingStairs': ClimbingStairsVisualization,
+    'fibonacci': FibonacciVisualization,
+    'tsp': TSPVisualization,
     // Add more algorithms here as they are implemented
   };
 

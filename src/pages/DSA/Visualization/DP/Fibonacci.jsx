@@ -88,55 +88,35 @@ const Fibonacci = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
-      {/* Sidebar - Fixed on desktop, hidden on mobile */}
-      <div className="hidden md:flex">
-        <FibonacciSidebar
-          n={n}
-          setN={setN}
-          isRunning={isRunning}
-          speedIndex={speedIndex}
-          onSpeedChange={setSpeedIndex}
-          onRun={runFibonacci}
-          onReset={() => {
-            isRunningRef.current = false;
-            initAlgo(n);
-          }}
-          status={status}
-          sequence={sequence}
-          currentIndex={currentIndex}
-          SPEEDS={SPEEDS}
-          MAX_N={MAX_N}
-          complexityInfo={fibonacciInfo}
-        />
-      </div>
+    <div className="flex flex-col h-screen bg-[#f8f9faff] text-[#212529] font-sans">
+      {/* Layout wrapper - Stacks on mobile, side-by-side on desktop */}
+      <div className="md:flex md:flex-row md:h-screen flex flex-col flex-1">
+        {/* Sidebar - On mobile at TOP (full width), on desktop on LEFT */}
+        <div className="w-full md:w-80 h-auto md:h-full overflow-y-auto md:border-r border-t md:border-t-0">
+          <FibonacciSidebar
+            n={n}
+            setN={setN}
+            isRunning={isRunning}
+            speedIndex={speedIndex}
+            onSpeedChange={setSpeedIndex}
+            onRun={runFibonacci}
+            onReset={() => {
+              isRunningRef.current = false;
+              initAlgo(n);
+            }}
+            status={status}
+            sequence={sequence}
+            currentIndex={currentIndex}
+            SPEEDS={SPEEDS}
+            MAX_N={MAX_N}
+            complexityInfo={fibonacciInfo}
+          />
+        </div>
 
-      {/* Mobile Sidebar */}
-      <div className="md:hidden">
-        <FibonacciSidebar
-          n={n}
-          setN={setN}
-          isRunning={isRunning}
-          speedIndex={speedIndex}
-          onSpeedChange={setSpeedIndex}
-          onRun={runFibonacci}
-          onReset={() => {
-            isRunningRef.current = false;
-            initAlgo(n);
-          }}
-          status={status}
-          sequence={sequence}
-          currentIndex={currentIndex}
-          SPEEDS={SPEEDS}
-          MAX_N={MAX_N}
-          complexityInfo={fibonacciInfo}
-        />
-      </div>
-
-      {/* Main Workspace - Responsive */}
-      <main className="flex-1 relative flex flex-col items-center justify-between md:justify-center p-3 sm:p-6 md:p-8 bg-[#f8f9faff] overflow-y-auto md:overflow-hidden">
-        {/* Visualization Container - Responsive */}
-        <div ref={containerRef} className="relative flex items-end justify-center flex-1 w-full max-w-6xl">
+        {/* Canvas Area - FILLS remaining space */}
+        <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden">
+          {/* Visualization Container - Responsive */}
+          <div ref={containerRef} className="relative w-full h-full flex items-end justify-center p-4 md:p-8">
           {/* SVG arcs - Responsive */}
           <svg ref={svgRef} className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10">
             {currentIndex >= 2 && isRunning && (
@@ -245,8 +225,8 @@ const Fibonacci = () => {
           </div>
         </div>
 
-        {/* Legend - Responsive */}
-        <div className="mt-4 md:mt-8 flex flex-col items-center gap-2 md:gap-3 px-3 sm:px-6 md:px-10 py-3 md:py-5 bg-white border border-[#dee2e6] rounded-2xl md:rounded-3xl shadow-xl w-full md:w-auto max-w-full md:max-w-2xl">
+        {/* Legend - Responsive - Absolute to not affect layout */}
+        <div className="absolute bottom-2 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:gap-3 px-3 md:px-10 py-2 md:py-4 bg-white/95 border border-[#dee2e6] rounded-xl md:rounded-2xl shadow-lg w-11/12 md:w-auto max-w-md md:max-w-2xl">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 md:gap-8 w-full justify-center text-[7px] sm:text-[8px] md:text-[9px]">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-[#212529]"></div>
@@ -269,21 +249,15 @@ const Fibonacci = () => {
             </span>
           </div>
         </div>
-      </main>
-
       <style>{`
         @keyframes dash {
           to {
             stroke-dashoffset: -20;
           }
         }
-        
-        @media (max-width: 768px) {
-          .group {
-            flex-direction: column;
-          }
-        }
       `}</style>
+      </main>
+      </div>
     </div>
   );
 };

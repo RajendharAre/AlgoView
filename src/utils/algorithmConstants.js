@@ -23,6 +23,8 @@ import kosarajuInfo from '../pages/DSA/Visualization/Graph/kosarajuInfo'
 import graphColoringInfo from '../pages/DSA/Visualization/Graph/graphColoringInfo'
 import pageRankInfo from '../pages/DSA/Visualization/Graph/pageRankInfo'
 import climbingStairsInfo from '../pages/DSA/Visualization/DP/climbingStairsInfo'
+import fibonacciInfo from '../pages/DSA/Visualization/DP/fibonacciInfo'
+import tspInfo from '../pages/DSA/Visualization/Graph/tspInfo'
 
 export const ALGORITHM_CATEGORIES = {
   SORTING: 'sorting',
@@ -209,6 +211,22 @@ export const ALGORITHMS = {
     category: ALGORITHM_CATEGORIES.DYNAMIC_PROGRAMMING,
     importFn: () => import('../pages/DSA/Visualization/DP/ClimbingStairs').then(m => m.default),
     ...climbingStairsInfo
+  },
+
+  fibonacci: {
+    id: 'fibonacci',
+    name: 'Fibonacci Sequence',
+    category: ALGORITHM_CATEGORIES.DYNAMIC_PROGRAMMING,
+    importFn: () => import('../pages/DSA/Visualization/DP/Fibonacci').then(m => m.default),
+    ...fibonacciInfo
+  },
+
+  tsp: {
+    id: 'tsp',
+    name: 'Traveling Salesman Problem',
+    category: ALGORITHM_CATEGORIES.GRAPH,
+    importFn: () => import('../pages/DSA/Visualization/Graph/TSP').then(m => m.default),
+    ...tspInfo
   },
 }
 

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './Common/Navbar'
 import Footer from './Common/Footer'
+import NotificationBanner from './Common/NotificationBanner'
 import { PageTracker } from './Analytics/PageTracker'
 import SchemaMarkup from './Common/SchemaMarkup'
 
@@ -17,6 +18,9 @@ const MainApp = () => {
       
       {/* Navbar */}
       <Navbar />
+      
+      {/* Notification Banner for Important Alerts */}
+      <NotificationBanner />
       
       {/* Main Content with Page Transitions */}
       <main className="flex-1 pt-16">

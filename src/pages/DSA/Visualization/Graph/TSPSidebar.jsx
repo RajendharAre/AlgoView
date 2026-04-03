@@ -62,9 +62,9 @@ const TSPSidebar = ({
   complexityInfo,
 }) => {
   return (
-    <aside className="w-64 sm:w-72 md:w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto overflow-x-hidden">
+    <aside className="w-full md:w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
       {/* Header */}
-      <div className="p-4 sm:p-5 md:p-6 border-b border-[#f1f3f5] sticky top-0 bg-white z-10">
+      <div className="p-4 md:p-6 border-b border-[#f1f3f5] sticky top-0 bg-white z-10">
         <div className="flex items-center gap-3 mb-1">
           <button
             onClick={() => window.history.back()}
@@ -73,14 +73,14 @@ const TSPSidebar = ({
           >
             <ArrowLeft size={18} />
           </button>
-          <h1 className="text-sm sm:text-base font-bold tracking-tight truncate">TSP Solver</h1>
+          <h1 className="text-sm md:text-base font-bold tracking-tight truncate">TSP Solver</h1>
         </div>
-        <p className="text-[9px] sm:text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
+        <p className="text-[9px] md:text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
           Backtracking Logic
         </p>
       </div>
 
-      <div className="p-4 sm:p-5 md:p-6 space-y-6 md:space-y-8 flex-1 overflow-y-auto">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6 flex-1 overflow-y-auto">
         {/* Interaction Section */}
         <section className="space-y-3 md:space-y-4">
           <div>

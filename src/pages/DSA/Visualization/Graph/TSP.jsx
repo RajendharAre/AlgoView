@@ -196,63 +196,40 @@ const TSP = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-[#f8f9faff] text-[#212529] font-sans overflow-hidden">
-      {/* Sidebar - Desktop */}
-      <div className="hidden md:flex">
-        <TSPSidebar
-          mode={mode}
-          setMode={setMode}
-          isRunning={isRunning}
-          speedIndex={speedIndex}
-          onSpeedChange={setSpeedIndex}
-          onRun={solveTSP}
-          onReset={() => {
-            setNodes(INITIAL_NODES);
-            setMode('ADD');
-            setStartNodeId(INITIAL_NODES[0].id);
-            setStatus('Place nodes and find the optimal route.');
-            resetAlgoState();
-          }}
-          status={status}
-          minCost={minCost}
-          bestPath={bestPath}
-          nodes={nodes}
-          SPEEDS={SPEEDS}
-          complexityInfo={tspInfo}
-        />
-      </div>
+    <div className="flex flex-col h-screen bg-[#f8f9faff] text-[#212529] font-sans">
+      {/* Sidebar - On mobile at TOP (full width), on desktop on LEFT */}
+      <div className="md:flex md:flex-row md:h-screen flex flex-col flex-1">
+        {/* Sidebar Section */}
+        <div className="w-full md:w-80 h-auto md:h-full overflow-y-auto md:border-r border-t md:border-t-0">
+          <TSPSidebar
+            mode={mode}
+            setMode={setMode}
+            isRunning={isRunning}
+            speedIndex={speedIndex}
+            onSpeedChange={setSpeedIndex}
+            onRun={solveTSP}
+            onReset={() => {
+              setNodes(INITIAL_NODES);
+              setMode('ADD');
+              setStartNodeId(INITIAL_NODES[0].id);
+              setStatus('Place nodes and find the optimal route.');
+              resetAlgoState();
+            }}
+            status={status}
+            minCost={minCost}
+            bestPath={bestPath}
+            nodes={nodes}
+            SPEEDS={SPEEDS}
+            complexityInfo={tspInfo}
+          />
+        </div>
 
-      {/* Sidebar - Mobile */}
-      <div className="md:hidden">
-        <TSPSidebar
-          mode={mode}
-          setMode={setMode}
-          isRunning={isRunning}
-          speedIndex={speedIndex}
-          onSpeedChange={setSpeedIndex}
-          onRun={solveTSP}
-          onReset={() => {
-            setNodes(INITIAL_NODES);
-            setMode('ADD');
-            setStartNodeId(INITIAL_NODES[0].id);
-            setStatus('Place nodes and find the optimal route.');
-            resetAlgoState();
-          }}
-          status={status}
-          minCost={minCost}
-          bestPath={bestPath}
-          nodes={nodes}
-          SPEEDS={SPEEDS}
-          complexityInfo={tspInfo}
-        />
-      </div>
-
-      {/* Main Workspace */}
-      <main
-        className="flex-1 relative bg-[#f8f9faff] overflow-y-auto md:overflow-hidden"
-        onClick={handleCanvasClick}
-      >
-        <svg ref={svgRef} className="w-full h-full cursor-crosshair">
+        {/* Canvas Area - FILLS remaining space */}
+        <main
+          className="flex-1 relative bg-[#f8f9faff] overflow-hidden"
+          onClick={handleCanvasClick}
+        >
+          <svg ref={svgRef} className="w-full h-full cursor-crosshair" style={{ display: 'block' }}>
           {/* Background Adjacency Matrix (Light Connections) */}
           {!isRunning &&
             bestPath.length === 0 &&
@@ -364,35 +341,36 @@ const TSP = () => {
           })}
         </svg>
 
-        {/* Legend Overlay */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 px-8 py-4 bg-white/90 backdrop-blur-sm border border-[#dee2e6] rounded-3xl shadow-2xl">
-          <div className="flex items-center gap-8">
+        {/* Legend Overlay - Responsive positioning */}
+        <div className="absolute bottom-3 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 md:gap-3 px-4 md:px-8 py-2 md:py-4 bg-white/95 backdrop-blur-sm border border-[#dee2e6] rounded-2xl md:rounded-3xl shadow-2xl text-[8px] md:text-[9px]">
+          <div className="flex flex-col sm:flex-row items-center gap-2 md:gap-8">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-[#212529]"></div>
-              <span className="text-[9px] font-black uppercase text-[#6c757d]">
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-[#212529]"></div>
+              <span className="font-black uppercase text-[#6c757d]">
                 Optimal Result
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-white border border-[#dee2e6]"></div>
-              <span className="text-[9px] font-black uppercase text-[#6c757d]">
+              <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-white border border-[#dee2e6]"></div>
+              <span className="font-black uppercase text-[#6c757d]">
                 Active Probe
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Timer size={14} className="text-[#adb5bd]" />
-              <span className="text-[9px] font-black uppercase text-[#6c757d]">
+              <Timer size={10} className="md:w-4 md:h-4 text-[#adb5bd]" />
+              <span className="font-black uppercase text-[#6c757d]">
                 Factorial Growth
               </span>
             </div>
           </div>
-          <div className="w-full h-px bg-[#dee2e6] opacity-50"></div>
-          <span className="text-[9px] font-black text-[#adb5bd] uppercase tracking-widest text-center">
+          <div className="hidden md:block w-full h-px bg-[#dee2e6] opacity-50"></div>
+          <span className="hidden md:block text-[9px] font-black text-[#adb5bd] uppercase tracking-widest text-center max-w-md">
             Complexity: The number of cities makes this problem exponentially
             difficult to solve precisely.
           </span>
         </div>
       </main>
+      </div>
     </div>
   );
 };

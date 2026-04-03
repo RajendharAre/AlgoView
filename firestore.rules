@@ -51,6 +51,24 @@ service cloud.firestore {
           allow read, write: if request.auth != null && request.auth.uid == userId;
         }
       }
+
+      // Notifications subcollection - user-specific notifications
+      // Types: welcome, completion, user-specific messages
+      // Each user can only manage their own notifications
+      match /notifications/{notificationId} {
+        // Users can read their own notifications
+        allow read: if request.auth != null && request.auth.uid == userId;
+        
+        // Users can update their own notifications (to change status: deleted/read/unread)
+        allow update: if request.auth != null && request.auth.uid == userId;
+        
+        // Admin can create notifications for users (via migration or cloud functions)
+        allow create: if request.auth != null && 
+                     request.auth.email == 'arerajendhar33@gmail.com';
+        
+        // Users can delete their own notifications
+        allow delete: if request.auth != null && request.auth.uid == userId;
+      }
     }
     
     // pendingVerifications collection - used during email verification signup flow
@@ -178,6 +196,17 @@ service cloud.firestore {
       // Only author can delete their pending blog
       allow delete: if request.auth != null && 
                    request.auth.uid == resource.data.authorId;
+    }
+
+    // GLOBAL NOTIFICATIONS COLLECTION
+    // These are for all users: maintenance, announcements, system-wide messages
+    match /notifications/{notificationId} {
+      // Authenticated users can read active global notifications
+      allow read: if request.auth != null && resource.data.active == true;
+      
+      // Only admin can create/update/delete global notifications
+      allow create, update, delete: if request.auth != null && 
+                                       request.auth.email == 'arerajendhar33@gmail.com';
     }
 
     // Catch-all: deny access to any unspecified paths
