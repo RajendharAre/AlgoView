@@ -18,28 +18,15 @@ const About = () => {
 
   const teamMembers = [
     {
-      name: "Alex Johnson",
-      role: "Lead Developer",
-      bio: "Full-stack developer with expertise in React and modern JavaScript frameworks.",
-      avatar: "https://via.placeholder.com/100x100/3b82f6/ffffff?text=AJ"
-    },
-    {
-      name: "Sarah Chen",
-      role: "UI/UX Designer",
-      bio: "Design specialist focused on creating intuitive and beautiful user experiences.",
-      avatar: "https://via.placeholder.com/100x100/ef4444/ffffff?text=SC"
-    },
-    {
-      name: "Michael Rodriguez",
-      role: "Backend Engineer",
-      bio: "Database and API expert ensuring scalable and efficient server-side solutions.",
-      avatar: "https://via.placeholder.com/100x100/10b981/ffffff?text=MR"
-    },
-    {
-      name: "Emily Davis",
-      role: "Frontend Specialist",
-      bio: "React enthusiast passionate about creating responsive and accessible interfaces.",
-      avatar: "https://via.placeholder.com/100x100/f59e0b/ffffff?text=ED"
+      name: "Rajendhar Are",
+      role: "Software Developer | Fullstack Developer | Problem Solver",
+      bio: "Tech enthusiast specializing in creating impactful web projects and exploring the future of algorithms. I love turning creative ideas into functional code that solves real-world problems.",
+      avatar: "https://res.cloudinary.com/dsx4notov/image/upload/v1775970940/Rajendhar_Cropped_icbbpb.png",
+      portfolio: "https://rajendharare.tech",
+      social: {
+        github: "https://github.com/RajendharAre",
+        linkedin: "https://www.linkedin.com/in/rajendhar-are/"
+      }
     }
   ];
 
@@ -238,37 +225,80 @@ const About = () => {
               <div className="space-y-6">
                 <h2 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: COLORS.text.primary }}>Meet Our Team</h2>
                 <p className="mb-8" style={{ color: COLORS.text.secondary }}>
-                  A diverse group of passionate individuals dedicated to revolutionizing how people learn algorithms.
+                  The developer behind AlgoView, passionate about making algorithm education accessible and engaging for everyone.
                 </p>
                 
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="flex justify-center">
                   {teamMembers.map((member, index) => (
-                    <div key={index} className="border rounded-lg p-6 text-center transition-shadow" style={{ backgroundColor: COLORS.bg.surface, borderColor: COLORS.border.light, boxShadow: SHADOWS.sm }} onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md} onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}>
+                    <div key={index} className="border rounded-lg p-8 text-center transition-shadow max-w-md" style={{ backgroundColor: COLORS.bg.surface, borderColor: COLORS.border.light, boxShadow: SHADOWS.sm }} onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md} onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}>
                       <img 
                         src={member.avatar} 
                         alt={member.name}
-                        className="w-20 h-20 rounded-full mx-auto mb-4"
+                        className="w-32 h-32 rounded-full mx-auto mb-6 object-cover"
                       />
-                      <h3 className="text-lg font-semibold" style={{ color: COLORS.text.primary }}>{member.name}</h3>
-                      <p className="font-medium mb-2" style={{ color: COLORS.text.primary }}>{member.role}</p>
-                      <p className="text-sm" style={{ color: COLORS.text.secondary }}>{member.bio}</p>
+                      <h3 className="text-2xl font-semibold mb-2" style={{ color: COLORS.text.primary }}>{member.name}</h3>
+                      <p className="font-medium mb-4 text-sm" style={{ color: COLORS.text.primary }}>{member.role}</p>
+                      <p className="text-sm mb-6" style={{ color: COLORS.text.secondary }}>{member.bio}</p>
+                      
+                      <div className="flex justify-center gap-4 mb-6">
+                        <a 
+                          href={member.social.github} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center p-2 rounded-lg transition-colors"
+                          style={{ backgroundColor: COLORS.bg.secondary, color: COLORS.text.primary }}
+                          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                          title="GitHub"
+                        >
+                          <Github className="h-5 w-5" />
+                        </a>
+                        <a 
+                          href={member.social.linkedin} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center p-2 rounded-lg transition-colors"
+                          style={{ backgroundColor: COLORS.bg.secondary, color: COLORS.text.primary }}
+                          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                          title="LinkedIn"
+                        >
+                          <Linkedin className="h-5 w-5" />
+                        </a>
+                      </div>
+                      
+                      <a 
+                        href={member.portfolio} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-6 py-2 rounded-lg font-medium transition-all"
+                        style={{ backgroundColor: COLORS.text.primary, color: COLORS.bg.surface, boxShadow: SHADOWS.sm }}
+                        onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
+                        onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}
+                      >
+                        <Laptop2 className="h-4 w-4 mr-2" />
+                        Visit Portfolio
+                      </a>
                     </div>
                   ))}
                 </div>
                 
                 <div className="mt-8 pt-8" style={{ borderTopColor: COLORS.border.light, borderTopWidth: '1px' }}>
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: COLORS.text.primary }}>Join Our Journey</h3>
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: COLORS.text.primary }}>About AlgoView</h3>
                   <p className="mb-4" style={{ color: COLORS.text.secondary }}>
-                    We're always looking for talented individuals who share our passion for education and technology.
+                    AlgoView is a passion project created to help students and developers master algorithms through interactive visualization. Built with modern web technologies and a focus on user experience, it combines education with innovation.
+                  </p>
+                  <p className="mb-6" style={{ color: COLORS.text.secondary }}>
+                    If you have feedback, suggestions, or would like to collaborate, feel free to reach out through GitHub or LinkedIn.
                   </p>
                   <div className="flex flex-wrap gap-4">
                     <button className="flex items-center px-4 py-2 rounded-lg transition-all" style={{ backgroundColor: COLORS.text.primary, color: COLORS.bg.surface, boxShadow: SHADOWS.sm }} onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.md} onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.sm}>
                       <Mail className="h-4 w-4 mr-2" />
-                      Contact Us
+                      Get In Touch
                     </button>
-                    <a href="https://github.com/RajendharAre/AlgoView" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 rounded-lg border transition-colors" style={{ borderColor: COLORS.border.light, color: COLORS.text.primary }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = COLORS.bg.secondary} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                    <a href="https://github.com/RajendharAre/algorithm-visualizer" target="_blank" rel="noopener noreferrer" className="flex items-center px-4 py-2 rounded-lg border transition-colors" style={{ borderColor: COLORS.border.light, color: COLORS.text.primary }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = COLORS.bg.secondary} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
                       <Github className="h-4 w-4 mr-2" />
-                      Contribute
+                      GitHub Repository
                     </a>
                   </div>
                 </div>
