@@ -26,7 +26,9 @@ const TopologicalSort = () => {
   const [mode, setMode] = useState(null)
   const [isRunning, setIsRunning] = useState(false)
   const [speedIndex, setSpeedIndex] = useState(1)
-  const [currentStep, setCurrentStep] = useState("Kahn's Algorithm resolves nodes with zero dependencies first.")
+  const [currentStep, setCurrentStep] = useState(
+    "Kahn's Algorithm resolves nodes with zero dependencies first."
+  )
   const [activeNode, setActiveNode] = useState(null)
 
   const speedRef = useRef(SPEEDS[1].value)
@@ -44,24 +46,27 @@ const TopologicalSort = () => {
     setInDegrees({})
     setActiveEdges([])
     setCycleDetected(false)
-    setCurrentStep("Ready to perform topological sort.")
+    setCurrentStep('Ready to perform topological sort.')
   }, [])
 
   /**
    * Handle canvas click for ADD mode
    */
-  const handleCanvasClick = useCallback((e) => {
-    e.stopPropagation()
-    if (isRunning || mode !== 'ADD') return
-    const rect = canvasRef.current?.getBoundingClientRect()
-    if (!rect) return
+  const handleCanvasClick = useCallback(
+    e => {
+      e.stopPropagation()
+      if (isRunning || mode !== 'ADD') return
+      const rect = canvasRef.current?.getBoundingClientRect()
+      if (!rect) return
 
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
 
-    setNodes(prev => [...prev, { id: prev.length, x, y, label: prev.length.toString() }])
-    resetAlgoState()
-  }, [mode, isRunning, resetAlgoState])
+      setNodes(prev => [...prev, { id: prev.length, x, y, label: prev.length.toString() }])
+      resetAlgoState()
+    },
+    [mode, isRunning, resetAlgoState]
+  )
 
   /**
    * Handle node click for linking and operations
@@ -71,7 +76,9 @@ const TopologicalSort = () => {
     if (isRunning) return
 
     if (mode === 'DELETE') {
-      const newNodes = nodes.filter(n => n.id !== node.id).map((n, i) => ({ ...n, id: i, label: i.toString() }))
+      const newNodes = nodes
+        .filter(n => n.id !== node.id)
+        .map((n, i) => ({ ...n, id: i, label: i.toString() }))
       setNodes(newNodes)
       setEdges(prev =>
         prev
@@ -91,7 +98,9 @@ const TopologicalSort = () => {
         const exists = edges.some(edge => edge.u === linkSource && edge.v === node.id)
         if (!exists) {
           setEdges(prev => [...prev, { u: linkSource, v: node.id }])
-          setCurrentStep(`Directed edge ${nodes.find(n => n.id === linkSource)?.label}→${node.label} added`)
+          setCurrentStep(
+            `Directed edge ${nodes.find(n => n.id === linkSource)?.label}→${node.label} added`
+          )
         } else {
           setCurrentStep('Edge already exists')
         }
@@ -191,7 +200,9 @@ const TopologicalSort = () => {
     // Check for cycle
     if (localOrder.length < V) {
       setCycleDetected(true)
-      setCurrentStep('Cycle detected! Topological sort only works on Directed Acyclic Graphs (DAGs).')
+      setCurrentStep(
+        'Cycle detected! Topological sort only works on Directed Acyclic Graphs (DAGs).'
+      )
     } else {
       setCurrentStep('Topological Sort Complete. Sequence represents dependency resolution order.')
     }
@@ -231,7 +242,10 @@ const TopologicalSort = () => {
       />
 
       {/* Canvas - RIGHT */}
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
+      <main
+        className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0"
+        onClick={handleCanvasClick}
+      >
         <TopSortCanvas
           ref={canvasRef}
           nodes={nodes}

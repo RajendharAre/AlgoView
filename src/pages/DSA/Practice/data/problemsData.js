@@ -1,6 +1,6 @@
 // Top 10 LeetCode categories with 30 UNIQUE problems each (10 Easy, 10 Medium, 10 Hard)
 // NO DUPLICATES - Each problem appears only once across all 300 problems
-import { UNIQUE_PROBLEMS, getRandomAcceptance } from './uniqueProblems';
+import { UNIQUE_PROBLEMS, getRandomAcceptance } from './uniqueProblems'
 
 export const PROBLEM_CATEGORIES = {
   arrays: {
@@ -93,33 +93,33 @@ export const PROBLEM_CATEGORIES = {
     totalProblems: 310,
     displayProblems: 30,
   },
-};
+}
 
 // Helper function to generate problems for a category (uses UNIQUE problems)
 export const generateSampleProblems = (categoryId, categoryName, count = 30) => {
-  const problems = [];
-  
+  const problems = []
+
   // Map category names to their unique problems
   const categoryKeyMap = {
-    'Arrays': 'arrays',
-    'Strings': 'strings',
+    Arrays: 'arrays',
+    Strings: 'strings',
     'Hash Table': 'hashTable',
-    'Math': 'math',
+    Math: 'math',
     'Dynamic Programming': 'dynamicProgramming',
-    'Sorting': 'sorting',
-    'Greedy': 'greedy',
+    Sorting: 'sorting',
+    Greedy: 'greedy',
     'Depth-First Search': 'depthFirstSearch',
     'Binary Search': 'binarySearch',
-    'Database': 'database',
-  };
+    Database: 'database',
+  }
 
-  const categoryKey = categoryKeyMap[categoryName];
-  const categoryProblems = UNIQUE_PROBLEMS[categoryKey] || [];
+  const categoryKey = categoryKeyMap[categoryName]
+  const categoryProblems = UNIQUE_PROBLEMS[categoryKey] || []
 
   // Create problems with unique acceptance rates
-  let problemNumber = 1;
+  let problemNumber = 1
   categoryProblems.forEach((problemData, index) => {
-    const difficulty = index < 10 ? 'Easy' : index < 20 ? 'Medium' : 'Hard';
+    const difficulty = index < 10 ? 'Easy' : index < 20 ? 'Medium' : 'Hard'
 
     problems.push({
       id: `${categoryId}-${index + 1}`,
@@ -132,38 +132,38 @@ export const generateSampleProblems = (categoryId, categoryName, count = 30) => 
       leetcodeSlug: problemData.slug,
       isSolved: false,
       isFavourite: false,
-    });
-  });
+    })
+  })
 
-  return problems;
-};
+  return problems
+}
 
 // Export all problems for all categories
 export const generateAllProblems = () => {
-  const allProblems = [];
+  const allProblems = []
 
   Object.entries(PROBLEM_CATEGORIES).forEach(([key, category]) => {
-    const categoryProblems = generateSampleProblems(category.id, category.name, 30);
-    allProblems.push(...categoryProblems);
-  });
+    const categoryProblems = generateSampleProblems(category.id, category.name, 30)
+    allProblems.push(...categoryProblems)
+  })
 
-  return allProblems;
-};
+  return allProblems
+}
 
 // Convert flat problems array into DSA_CATEGORIES structure for UI
 // Note: Icons are mapped in Practice.jsx where React is available
-export const getDSACategoriesWithProblems = (iconMap) => {
-  const dsaCategories = {};
+export const getDSACategoriesWithProblems = iconMap => {
+  const dsaCategories = {}
 
   Object.entries(PROBLEM_CATEGORIES).forEach(([key, category]) => {
-    const categoryProblems = generateSampleProblems(category.id, category.name, 30);
-    
+    const categoryProblems = generateSampleProblems(category.id, category.name, 30)
+
     dsaCategories[key] = {
       name: category.name,
       icon: iconMap[category.iconName],
-      problems: categoryProblems
-    };
-  });
+      problems: categoryProblems,
+    }
+  })
 
-  return dsaCategories;
-};
+  return dsaCategories
+}

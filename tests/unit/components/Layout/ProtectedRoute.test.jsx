@@ -6,7 +6,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import ProtectedRoute from '../../../../src/components/Layout/ProtectedRoute'
 
 // Create a mock store
-const createMockStore = (preloadedState) => {
+const createMockStore = preloadedState => {
   return configureStore({
     reducer: {
       user: (state = { currentUser: null, loading: false, error: null }, action) => {
@@ -18,9 +18,9 @@ const createMockStore = (preloadedState) => {
           default:
             return state
         }
-      }
+      },
     },
-    preloadedState
+    preloadedState,
   })
 }
 
@@ -30,8 +30,8 @@ describe('ProtectedRoute Component', () => {
       user: {
         currentUser: null,
         loading: true,
-        error: null
-      }
+        error: null,
+      },
     })
 
     render(
@@ -53,8 +53,8 @@ describe('ProtectedRoute Component', () => {
       user: {
         currentUser: null,
         loading: false,
-        error: null
-      }
+        error: null,
+      },
     })
 
     render(
@@ -76,15 +76,15 @@ describe('ProtectedRoute Component', () => {
     const mockUser = {
       uid: '123',
       email: 'test@example.com',
-      displayName: 'Test User'
+      displayName: 'Test User',
     }
 
     const store = createMockStore({
       user: {
         currentUser: mockUser,
         loading: false,
-        error: null
-      }
+        error: null,
+      },
     })
 
     render(

@@ -15,25 +15,26 @@ const DSAProblemPractice = () => {
     id: problemId || 'two-sum',
     title: problemId ? `Problem: ${problemId}` : 'Two Sum',
     difficulty: 'Medium',
-    description: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
+    description:
+      'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
     examples: [
       {
         input: 'nums = [2,7,11,15], target = 9',
         output: '[0,1]',
-        explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1].'
-      }
+        explanation: 'Because nums[0] + nums[1] == 9, we return [0, 1].',
+      },
     ],
     constraints: [
       '2 <= nums.length <= 10^4',
       '-10^9 <= nums[i] <= 10^9',
-      '-10^9 <= target <= 10^9'
-    ]
+      '-10^9 <= target <= 10^9',
+    ],
   }
 
   const handleRunCode = () => {
     setIsRunning(true)
     setOutput('Running code...')
-    
+
     // Simulate code execution
     setTimeout(() => {
       setOutput('Code executed successfully!\nOutput: [0, 1]')
@@ -60,11 +61,15 @@ const DSAProblemPractice = () => {
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">{problem.title}</h1>
                 <div className="flex items-center gap-3 mt-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    problem.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
-                    problem.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      problem.difficulty === 'Easy'
+                        ? 'bg-green-100 text-green-800'
+                        : problem.difficulty === 'Medium'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
+                    }`}
+                  >
                     {problem.difficulty}
                   </span>
                   <span className="text-sm text-gray-500">Problem ID: {problem.id}</span>
@@ -127,7 +132,7 @@ const DSAProblemPractice = () => {
                 </div>
                 <textarea
                   value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  onChange={e => setCode(e.target.value)}
                   className="w-full h-64 p-4 font-mono text-sm bg-gray-900 text-gray-100 resize-none focus:outline-none"
                   spellCheck="false"
                 />

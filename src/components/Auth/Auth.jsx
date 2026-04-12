@@ -17,11 +17,11 @@ const Auth = () => {
       setIsLogin(true)
     }
   }, [location.pathname])
-  
+
   const handleSwitchToRegister = () => {
     setIsLogin(false)
   }
-  
+
   const handleSwitchToLogin = () => {
     setIsLogin(true)
   }

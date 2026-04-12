@@ -18,9 +18,9 @@ const initialState = {
 }
 
 // Helper function to extract serializable user data
-const extractUserData = (user) => {
+const extractUserData = user => {
   if (!user) return null
-  
+
   return {
     uid: user.uid,
     email: user.email,
@@ -29,18 +29,19 @@ const extractUserData = (user) => {
     emailVerified: user.emailVerified,
     isAnonymous: user.isAnonymous,
     tenantId: user.tenantId,
-    providerData: user.providerData?.map(provider => ({
-      providerId: provider.providerId,
-      uid: provider.uid,
-      displayName: provider.displayName,
-      email: provider.email,
-      phoneNumber: provider.phoneNumber,
-      photoURL: provider.photoURL
-    })) || [],
+    providerData:
+      user.providerData?.map(provider => ({
+        providerId: provider.providerId,
+        uid: provider.uid,
+        displayName: provider.displayName,
+        email: provider.email,
+        phoneNumber: provider.phoneNumber,
+        photoURL: provider.photoURL,
+      })) || [],
     metadata: {
       creationTime: user.metadata?.creationTime,
-      lastSignInTime: user.metadata?.lastSignInTime
-    }
+      lastSignInTime: user.metadata?.lastSignInTime,
+    },
   }
 }
 
@@ -48,8 +49,8 @@ const extractUserData = (user) => {
 export const initializeAuthListener = createAsyncThunk(
   'user/initializeAuthListener',
   async (_, { dispatch }) => {
-    return new Promise((resolve) => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
+    return new Promise(resolve => {
+      const unsubscribe = onAuthStateChanged(auth, user => {
         if (user) {
           dispatch(setUser(extractUserData(user)))
         } else {
@@ -58,7 +59,7 @@ export const initializeAuthListener = createAsyncThunk(
         dispatch(setLoading(false))
         resolve()
       })
-      
+
       // Return unsubscribe function as meta
       return unsubscribe
     })
@@ -79,7 +80,7 @@ export const registerUser = createAsyncThunk(
 )
 
 // Maps Firebase error codes to user-friendly messages
-const getFriendlyErrorMessage = (error) => {
+const getFriendlyErrorMessage = error => {
   const code = error.code || ''
   switch (code) {
     case 'auth/email-already-in-use':
@@ -266,7 +267,7 @@ export const selectUserError = state => state.user.error
 export default userSlice.reducer
 
 // Initialize the auth listener when the app starts
-export const initAuth = () => (dispatch) => {
+export const initAuth = () => dispatch => {
   dispatch(initializeAuthListener())
 }
 

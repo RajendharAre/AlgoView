@@ -1,33 +1,29 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useRef } from 'react'
 
-const CategoryFilter = ({
-  categories,
-  selectedCategory,
-  onSelectCategory,
-}) => {
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainer = useRef(null);
+const CategoryFilter = ({ categories, selectedCategory, onSelectCategory }) => {
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const scrollContainer = useRef(null)
 
   const checkScroll = () => {
     if (scrollContainer.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer.current
+      setCanScrollLeft(scrollLeft > 0)
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10)
     }
-  };
+  }
 
-  const scroll = (direction) => {
+  const scroll = direction => {
     if (scrollContainer.current) {
-      const scrollAmount = 200;
+      const scrollAmount = 200
       scrollContainer.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
-      });
-      setTimeout(checkScroll, 300);
+      })
+      setTimeout(checkScroll, 300)
     }
-  };
+  }
 
   return (
     <div className="sticky top-0 z-10 bg-white border-b border-gray-200">
@@ -50,7 +46,7 @@ const CategoryFilter = ({
           className="flex-1 overflow-x-auto scrollbar-hide"
         >
           <div className="flex gap-2 py-3">
-            {categories.map((category) => (
+            {categories.map(category => (
               <button
                 key={category.id}
                 onClick={() => onSelectCategory(category.id)}
@@ -78,7 +74,7 @@ const CategoryFilter = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CategoryFilter;
+export default CategoryFilter

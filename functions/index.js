@@ -1,28 +1,28 @@
-import functions from "firebase-functions";
-import admin from "firebase-admin";
-import sgMail from "@sendgrid/mail";
+import functions from 'firebase-functions'
+import admin from 'firebase-admin'
+import sgMail from '@sendgrid/mail'
 
 // Initialize Firebase Admin SDK (needed for password reset)
-admin.initializeApp();
+admin.initializeApp()
 
 // Set CORS headers on every response
 function setCors(res) {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.set("Access-Control-Allow-Headers", "Content-Type");
+  res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.set('Access-Control-Allow-Headers', 'Content-Type')
 }
 
 // Initialize SendGrid later, not at module load time
-let sendgridKey = null;
+let sendgridKey = null
 
 function ensureSendgridConfigured() {
   if (!sendgridKey) {
-    sendgridKey = functions.config().sendgrid?.api_key;
+    sendgridKey = functions.config().sendgrid?.api_key
     if (!sendgridKey) {
-      console.error("SendGrid API key not configured!");
-      throw new Error("SendGrid API key not configured");
+      console.error('SendGrid API key not configured!')
+      throw new Error('SendGrid API key not configured')
     }
-    sgMail.setApiKey(sendgridKey);
+    sgMail.setApiKey(sendgridKey)
   }
 }
 
@@ -31,68 +31,74 @@ function ensureSendgridConfigured() {
  * Endpoint: /sendEmail
  */
 export const sendEmail = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  setCors(res)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
   try {
-    ensureSendgridConfigured();
-    const { to, subject, text, html } = req.body;
+    ensureSendgridConfigured()
+    const { to, subject, text, html } = req.body
 
     if (!to || !subject || (!text && !html)) {
       res.status(400).json({
         success: false,
-        error: "Missing required fields: to, subject, and (text or html)",
-      });
-      return;
+        error: 'Missing required fields: to, subject, and (text or html)',
+      })
+      return
     }
 
     const msg = {
       to: to,
-      from: "hello@algovieww.me",
+      from: 'hello@algovieww.me',
       subject: subject,
       text: text,
       html: html || text,
-    };
+    }
 
-    await sgMail.send(msg);
+    await sgMail.send(msg)
 
     res.status(200).json({
       success: true,
-      message: "Email sent successfully!",
+      message: 'Email sent successfully!',
       to: to,
-    });
+    })
   } catch (error) {
-    console.error("SendGrid error:", error);
+    console.error('SendGrid error:', error)
     res.status(500).json({
       success: false,
-      error: error.message || "Failed to send email",
-    });
+      error: error.message || 'Failed to send email',
+    })
   }
-});
+})
 
 /**
  * Welcome email function
  * Sends welcome email to new user
  */
 export const sendWelcomeEmail = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  setCors(res)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
   try {
-    ensureSendgridConfigured();
-    const { email, name } = req.body;
+    ensureSendgridConfigured()
+    const { email, name } = req.body
 
     if (!email || !name) {
       res.status(400).json({
         success: false,
-        error: "Missing required fields: email, name",
-      });
-      return;
+        error: 'Missing required fields: email, name',
+      })
+      return
     }
 
-      const msg = {
-        to: email,
-        from: "hello@algovieww.me",
-        subject: `Welcome to AlgoView, ${name}!`,
-        html: `
+    const msg = {
+      to: email,
+      from: 'hello@algovieww.me',
+      subject: `Welcome to AlgoView, ${name}!`,
+      html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1>Welcome to AlgoView! 🚀</h1>
             <p>Hi ${name},</p>
@@ -110,65 +116,68 @@ export const sendWelcomeEmail = functions.https.onRequest(async (req, res) => {
             </p>
           </div>
         `,
-      };
+    }
 
-      await sgMail.send(msg);
+    await sgMail.send(msg)
 
     res.status(200).json({
       success: true,
-      message: "Welcome email sent successfully!",
+      message: 'Welcome email sent successfully!',
       email: email,
-    });
+    })
   } catch (error) {
-    console.error("SendGrid error:", error);
+    console.error('SendGrid error:', error)
     res.status(500).json({
       success: false,
-      error: error.message || "Failed to send welcome email",
-    });
+      error: error.message || 'Failed to send welcome email',
+    })
   }
-});
+})
 
 /**
  * Contact form email function
  * Sends notification to admin when user submits contact form
  */
 export const sendContactEmail = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  setCors(res)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
   try {
-    ensureSendgridConfigured();
-    const { name, email, message } = req.body;
+    ensureSendgridConfigured()
+    const { name, email, message } = req.body
 
     if (!name || !email || !message) {
       res.status(400).json({
         success: false,
-        error: "Missing required fields: name, email, message",
-      });
-      return;
+        error: 'Missing required fields: name, email, message',
+      })
+      return
     }
 
-      // Send notification to admin
-      const adminMsg = {
-        to: "arerajendhar33@gmail.com", // Your admin email
-        from: "noreply@algovieww.me",
-        subject: `New Contact Form Submission from ${name}`,
-        html: `
+    // Send notification to admin
+    const adminMsg = {
+      to: 'arerajendhar33@gmail.com', // Your admin email
+      from: 'noreply@algovieww.me',
+      subject: `New Contact Form Submission from ${name}`,
+      html: `
           <h2>New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, "<br>")}</p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
         `,
-      };
+    }
 
-      await sgMail.send(adminMsg);
+    await sgMail.send(adminMsg)
 
-      // Send confirmation to user
-      const userMsg = {
-        to: email,
-        from: "support@algovieww.me",
-        subject: "We received your message",
-        html: `
+    // Send confirmation to user
+    const userMsg = {
+      to: email,
+      from: 'support@algovieww.me',
+      subject: 'We received your message',
+      html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h1>Thank You! 😌</h1>
             <p>Hi ${name},</p>
@@ -176,47 +185,50 @@ export const sendContactEmail = functions.https.onRequest(async (req, res) => {
             <p>Best regards,<br>AlgoView Team</p>
           </div>
         `,
-      };
+    }
 
-      await sgMail.send(userMsg);
+    await sgMail.send(userMsg)
 
     res.status(200).json({
       success: true,
-      message: "Contact email sent successfully!",
-    });
+      message: 'Contact email sent successfully!',
+    })
   } catch (error) {
-    console.error("SendGrid error:", error);
+    console.error('SendGrid error:', error)
     res.status(500).json({
       success: false,
-      error: error.message || "Failed to send contact email",
-    });
+      error: error.message || 'Failed to send contact email',
+    })
   }
-});
+})
 
 /**
  * Send verification code email function
  * Sends 6-digit verification code to user during signup
  */
 export const sendVerificationEmail = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  setCors(res)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
   try {
-    ensureSendgridConfigured();
-    const { email, verificationCode } = req.body;
+    ensureSendgridConfigured()
+    const { email, verificationCode } = req.body
 
     if (!email || !verificationCode) {
       res.status(400).json({
         success: false,
-        error: "Missing required fields: email, verificationCode",
-      });
-      return;
+        error: 'Missing required fields: email, verificationCode',
+      })
+      return
     }
 
-      const msg = {
-        to: email,
-        from: "hello@algovieww.me",
-        subject: "Verify Your AlgoView Account 🚀",
-        html: `
+    const msg = {
+      to: email,
+      from: 'hello@algovieww.me',
+      subject: 'Verify Your AlgoView Account 🚀',
+      html: `
           <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
             <div style="text-align: center; margin-bottom: 30px;">
               <h1 style="color: #1f2937; font-size: 28px; margin: 0;">Welcome to AlgoView! 🎓</h1>
@@ -260,23 +272,23 @@ export const sendVerificationEmail = functions.https.onRequest(async (req, res) 
             </div>
           </div>
         `,
-      };
-
-      await sgMail.send(msg);
-
-      res.status(200).json({
-        success: true,
-        message: "Verification email sent successfully!",
-        email: email,
-      });
-    } catch (error) {
-      console.error("SendGrid error:", error);
-      res.status(500).json({
-        success: false,
-        error: error.message || "Failed to send verification email",
-      });
     }
-});
+
+    await sgMail.send(msg)
+
+    res.status(200).json({
+      success: true,
+      message: 'Verification email sent successfully!',
+      email: email,
+    })
+  } catch (error) {
+    console.error('SendGrid error:', error)
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to send verification email',
+    })
+  }
+})
 
 /**
  * Send password reset code email
@@ -284,24 +296,27 @@ export const sendVerificationEmail = functions.https.onRequest(async (req, res) 
  * Endpoint: /sendPasswordResetCode
  */
 export const sendPasswordResetCode = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  setCors(res)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
   try {
-    ensureSendgridConfigured();
-    const { email, resetCode } = req.body;
+    ensureSendgridConfigured()
+    const { email, resetCode } = req.body
 
     if (!email || !resetCode) {
       res.status(400).json({
         success: false,
-        error: "Missing required fields: email, resetCode",
-      });
-      return;
+        error: 'Missing required fields: email, resetCode',
+      })
+      return
     }
 
     const msg = {
       to: email,
-      from: "hello@algovieww.me",
-      subject: "Reset Your AlgoView Password",
+      from: 'hello@algovieww.me',
+      subject: 'Reset Your AlgoView Password',
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
           <div style="text-align: center; margin-bottom: 30px;">
@@ -337,23 +352,23 @@ export const sendPasswordResetCode = functions.https.onRequest(async (req, res) 
           </div>
         </div>
       `,
-    };
+    }
 
-    await sgMail.send(msg);
+    await sgMail.send(msg)
 
     res.status(200).json({
       success: true,
-      message: "Password reset code sent successfully!",
+      message: 'Password reset code sent successfully!',
       email: email,
-    });
+    })
   } catch (error) {
-    console.error("SendGrid error:", error);
+    console.error('SendGrid error:', error)
     res.status(500).json({
       success: false,
-      error: error.message || "Failed to send password reset email",
-    });
+      error: error.message || 'Failed to send password reset email',
+    })
   }
-});
+})
 
 /**
  * Reset user password using Firebase Admin SDK
@@ -361,51 +376,54 @@ export const sendPasswordResetCode = functions.https.onRequest(async (req, res) 
  * Endpoint: /resetUserPassword
  */
 export const resetUserPassword = functions.https.onRequest(async (req, res) => {
-  setCors(res);
-  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+  setCors(res)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('')
+    return
+  }
   try {
-    const { email, newPassword } = req.body;
+    const { email, newPassword } = req.body
 
     if (!email || !newPassword) {
       res.status(400).json({
         success: false,
-        error: "Missing required fields: email, newPassword",
-      });
-      return;
+        error: 'Missing required fields: email, newPassword',
+      })
+      return
     }
 
     if (newPassword.length < 6) {
       res.status(400).json({
         success: false,
-        error: "Password must be at least 6 characters long",
-      });
-      return;
+        error: 'Password must be at least 6 characters long',
+      })
+      return
     }
 
     // Look up the user by email
-    const userRecord = await admin.auth().getUserByEmail(email);
+    const userRecord = await admin.auth().getUserByEmail(email)
 
     // Update the password
     await admin.auth().updateUser(userRecord.uid, {
       password: newPassword,
-    });
+    })
 
     res.status(200).json({
       success: true,
-      message: "Password reset successfully!",
-    });
+      message: 'Password reset successfully!',
+    })
   } catch (error) {
-    console.error("Password reset error:", error);
-    if (error.code === "auth/user-not-found") {
+    console.error('Password reset error:', error)
+    if (error.code === 'auth/user-not-found') {
       res.status(404).json({
         success: false,
-        error: "No account found with this email address.",
-      });
+        error: 'No account found with this email address.',
+      })
     } else {
       res.status(500).json({
         success: false,
-        error: error.message || "Failed to reset password",
-      });
+        error: error.message || 'Failed to reset password',
+      })
     }
   }
-});
+})

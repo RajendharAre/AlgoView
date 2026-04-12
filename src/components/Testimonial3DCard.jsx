@@ -1,36 +1,36 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Star } from 'lucide-react';
+import React from 'react'
+import styled from 'styled-components'
+import { Star } from 'lucide-react'
 
 const Testimonial3DCard = ({ testimonial, COLORS, SHADOWS }) => {
-  const AvatarIcon = testimonial.avatarIcon;
+  const AvatarIcon = testimonial.avatarIcon
 
-  const renderStars = (rating) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    
+  const renderStars = rating => {
+    const stars = []
+    const fullStars = Math.floor(rating)
+    const hasHalfStar = rating % 1 !== 0
+
     // Full stars
     for (let i = 0; i < fullStars; i++) {
       stars.push(
         <div key={`full-${i}`} className="star-container">
           <Star className="star-icon" size={14} />
         </div>
-      );
+      )
     }
-    
+
     // Half star
     if (hasHalfStar) {
       stars.push(
         <div key="half" className="star-container half-star">
           <Star className="star-icon" size={14} />
         </div>
-      );
+      )
     }
-    
-    return stars;
-  };
-  
+
+    return stars
+  }
+
   return (
     <StyledWrapper colors={COLORS} shadows={SHADOWS}>
       <div className="parent">
@@ -38,9 +38,7 @@ const Testimonial3DCard = ({ testimonial, COLORS, SHADOWS }) => {
           <div className="content-box">
             <span className="card-title">{testimonial.name}</span>
             <p className="card-role">{testimonial.role}</p>
-            <p className="card-content">
-              "{testimonial.content}"
-            </p>
+            <p className="card-content">"{testimonial.content}"</p>
             <div className="rating-box">
               {renderStars(testimonial.rating)}
               <span className="rating-value">{testimonial.rating.toFixed(1)}</span>
@@ -58,8 +56,8 @@ const Testimonial3DCard = ({ testimonial, COLORS, SHADOWS }) => {
         </div>
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
 const StyledWrapper = styled.div`
   .parent {
@@ -73,10 +71,22 @@ const StyledWrapper = styled.div`
     padding-top: 50px;
     border: 2px solid ${props => props.colors.text.primary};
     transform-style: preserve-3d;
-    background: linear-gradient(135deg, #0000 18.75%, ${props => props.colors.bg.secondary} 0 31.25%, #0000 0),
-      repeating-linear-gradient(45deg, ${props => props.colors.bg.secondary} -6.25% 6.25%, ${props => props.colors.text.primary} 0 18.75%);
+    background:
+      linear-gradient(
+        135deg,
+        #0000 18.75%,
+        ${props => props.colors.bg.secondary} 0 31.25%,
+        #0000 0
+      ),
+      repeating-linear-gradient(
+        45deg,
+        ${props => props.colors.bg.secondary} -6.25% 6.25%,
+        ${props => props.colors.text.primary} 0 18.75%
+      );
     background-size: 60px 60px;
-    background-position: 0 0, 0 0;
+    background-position:
+      0 0,
+      0 0;
     background-color: ${props => props.colors.text.primary};
     width: 100%;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 17px 10px -10px;
@@ -85,7 +95,9 @@ const StyledWrapper = styled.div`
   }
 
   .card:hover {
-    background-position: -100px 100px, -100px 100px;
+    background-position:
+      -100px 100px,
+      -100px 100px;
     transform: rotate3d(0.5, 1, 0, 30deg);
   }
 
@@ -204,6 +216,6 @@ const StyledWrapper = styled.div`
     height: 28px;
     color: #1d4ed8;
   }
-`;
+`
 
-export default Testimonial3DCard;
+export default Testimonial3DCard

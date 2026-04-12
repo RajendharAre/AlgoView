@@ -2,43 +2,43 @@
 
 /**
  * Heap Sort Algorithm
- * 
+ *
  * A comparison-based sorting algorithm that uses binary heap data structure.
  * It divides its input into a sorted and an unsorted region, and it iteratively
  * shrinks the unsorted region by extracting the largest element and moving that
  * to the sorted region.
- * 
+ *
  * @param {number[]} arr - Array of numbers to sort
  * @yields {Object} - Step information for visualization
  * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
  */
 export function* heapSort(arr) {
-  const a = [...arr];
-  let n = a.length;
-  let localStats = { comparisons: 0, swaps: 0 };
+  const a = [...arr]
+  let n = a.length
+  let localStats = { comparisons: 0, swaps: 0 }
 
   // Build max heap
   for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-    yield* heapify(a, n, i, localStats);
+    yield* heapify(a, n, i, localStats)
   }
 
   // Extract elements from heap one by one
   for (let i = n - 1; i > 0; i--) {
     // Move current root to end
-    [a[0], a[i]] = [a[i], a[0]];
-    localStats.swaps++;
-    
+    ;[a[0], a[i]] = [a[i], a[0]]
+    localStats.swaps++
+
     yield {
       array: [...a],
       comparing: [],
       swapping: [0, i],
       heapSize: i,
       description: `Extracting root ${a[i]} to position ${i}`,
-      stats: { ...localStats }
-    };
+      stats: { ...localStats },
+    }
 
     // Call heapify on the reduced heap
-    yield* heapify(a, i, 0, localStats);
+    yield* heapify(a, i, 0, localStats)
   }
 
   yield {
@@ -47,13 +47,13 @@ export function* heapSort(arr) {
     swapping: [],
     heapSize: 0,
     description: 'Heap Sort Complete',
-    stats: { ...localStats }
-  };
+    stats: { ...localStats },
+  }
 }
 
 /**
  * Heapify a subtree rooted at index i
- * 
+ *
  * @param {number[]} arr - Array to heapify
  * @param {number} n - Size of heap
  * @param {number} i - Root index
@@ -61,66 +61,66 @@ export function* heapSort(arr) {
  * @yields {Object} - Step information for visualization
  */
 function* heapify(arr, n, i, localStats) {
-  let largest = i;
-  let left = 2 * i + 1;
-  let right = 2 * i + 2;
+  let largest = i
+  let left = 2 * i + 1
+  let right = 2 * i + 2
 
   // Compare with left child
   if (left < n) {
-    localStats.comparisons++;
+    localStats.comparisons++
     yield {
       array: [...arr],
       comparing: [i, left],
       swapping: [],
       heapSize: n,
       description: `Comparing parent ${arr[i]} with left child ${arr[left]}`,
-      stats: { ...localStats }
-    };
+      stats: { ...localStats },
+    }
 
     if (arr[left] > arr[largest]) {
-      largest = left;
+      largest = left
     }
   }
 
   // Compare with right child
   if (right < n) {
-    localStats.comparisons++;
+    localStats.comparisons++
     yield {
       array: [...arr],
       comparing: [largest, right],
       swapping: [],
       heapSize: n,
       description: `Comparing parent ${arr[largest]} with right child ${arr[right]}`,
-      stats: { ...localStats }
-    };
+      stats: { ...localStats },
+    }
 
     if (arr[right] > arr[largest]) {
-      largest = right;
+      largest = right
     }
   }
 
   // If largest is not root
   if (largest !== i) {
-    [arr[i], arr[largest]] = [arr[largest], arr[i]];
-    localStats.swaps++;
-    
+    ;[arr[i], arr[largest]] = [arr[largest], arr[i]]
+    localStats.swaps++
+
     yield {
       array: [...arr],
       comparing: [],
       swapping: [i, largest],
       heapSize: n,
       description: `Swapping ${arr[i]} and ${arr[largest]} to maintain Max Heap`,
-      stats: { ...localStats }
-    };
+      stats: { ...localStats },
+    }
 
     // Recursively heapify the affected subtree
-    yield* heapify(arr, n, largest, localStats);
+    yield* heapify(arr, n, largest, localStats)
   }
 }
 
 /**
  * Algorithm information for Heap Sort
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -141,13 +141,14 @@ export const heapSortInfo = {
     time: {
       best: 'O(n log n)',
       average: 'O(n log n)',
-      worst: 'O(n log n)'
+      worst: 'O(n log n)',
     },
-    space: 'O(1)'
+    space: 'O(1)',
   },
   stable: false,
   inPlace: true,
-  description: 'A comparison-based sorting algorithm that uses binary heap data structure. It builds a max heap and repeatedly extracts the maximum element.',
+  description:
+    'A comparison-based sorting algorithm that uses binary heap data structure. It builds a max heap and repeatedly extracts the maximum element.',
   code: {
     javascript: `
 function heapSort(arr) {
@@ -250,12 +251,12 @@ public static void heapify(int[] arr, int n, int i) {
         arr[largest] = swap;
         heapify(arr, n, largest);
     }
-}`
+}`,
   },
   useCases: [
     'When guaranteed O(n log n) performance is needed',
     'When memory usage needs to be minimized (in-place sorting)',
     'For priority queue implementations',
-    'When sorting large datasets where consistent performance matters'
-  ]
+    'When sorting large datasets where consistent performance matters',
+  ],
 }

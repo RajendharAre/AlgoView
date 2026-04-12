@@ -1,126 +1,141 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Search, BookOpen, Tag, Calendar, Clock, ChevronDown } from 'lucide-react';
-import { getPublishedBlogsListener, searchBlogs } from '../../services/blogsService';
-import { trackEvent } from '../../lib/analytics';
-import usePageMeta from '../../hooks/usePageMeta';
-import Loader from '../../components/Common/Loader';
+import { useState, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Search, BookOpen, Tag, Calendar, Clock, ChevronDown } from 'lucide-react'
+import { getPublishedBlogsListener, searchBlogs } from '../../services/blogsService'
+import { trackEvent } from '../../lib/analytics'
+import usePageMeta from '../../hooks/usePageMeta'
+import Loader from '../../components/Common/Loader'
 
 const Blog = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const [allBlogs, setAllBlogs] = useState([]);
-  const [displayedBlogs, setDisplayedBlogs] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
-  const [selectedTag, setSelectedTag] = useState(searchParams.get('tag') || null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('recent');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const [allBlogs, setAllBlogs] = useState([])
+  const [displayedBlogs, setDisplayedBlogs] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false)
+  const [selectedTag, setSelectedTag] = useState(searchParams.get('tag') || null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState('recent')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   // Set page metadata for SEO
   usePageMeta({
     title: 'AlgoView Blog - Learn Algorithms & Web Development',
-    description: 'Read in-depth tutorials on DSA algorithms, web development, and programming. Interactive guides with real-world examples.',
+    description:
+      'Read in-depth tutorials on DSA algorithms, web development, and programming. Interactive guides with real-world examples.',
     keywords: 'blog, algorithms, DSA tutorial, web development, programming tips, coding guide',
-    ogImage: '/og-blog.png'
-  });
+    ogImage: '/og-blog.png',
+  })
 
   useEffect(() => {
     // Set up real-time listener for published blogs
     const unsubscribe = getPublishedBlogsListener(
-      (blogs) => {
-        console.log('✅ Blogs loaded:', blogs.length, 'blogs');
-        setAllBlogs(blogs);
-        setLoading(false);
-        setError(null);
+      blogs => {
+        console.log('✅ Blogs loaded:', blogs.length, 'blogs')
+        setAllBlogs(blogs)
+        setLoading(false)
+        setError(null)
       },
-      (error) => {
-        console.error('❌ Error fetching blogs:', error);
-        setError(error.message);
-        setLoading(false);
+      error => {
+        console.error('❌ Error fetching blogs:', error)
+        setError(error.message)
+        setLoading(false)
       }
-    );
+    )
 
     // Track blog page visit
     trackEvent('blog_page_viewed', {
       category: selectedCategory,
       tag: selectedTag,
-      view: 'list'
-    });
+      view: 'list',
+    })
 
     // Cleanup listener on unmount
-    return () => unsubscribe();
-  }, []);
+    return () => unsubscribe()
+  }, [])
 
   useEffect(() => {
-    applyFilters(allBlogs, selectedCategory, selectedTag, searchQuery);
-  }, [selectedCategory, selectedTag, searchQuery, allBlogs]);
+    applyFilters(allBlogs, selectedCategory, selectedTag, searchQuery)
+  }, [selectedCategory, selectedTag, searchQuery, allBlogs])
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (isCategoryDropdownOpen && !event.target.closest('[data-category-dropdown]')) {
-        setIsCategoryDropdownOpen(false);
+        setIsCategoryDropdownOpen(false)
       }
-    };
+    }
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, [isCategoryDropdownOpen]);
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [isCategoryDropdownOpen])
 
   const applyFilters = async (blogs, category, tag, query) => {
-    let filtered = blogs;
+    let filtered = blogs
 
     // Apply category filter
     if (category !== 'All') {
-      filtered = filtered.filter(blog => blog.category === category);
+      filtered = filtered.filter(blog => blog.category === category)
     }
 
     // Apply tag filter
     if (tag) {
-      filtered = filtered.filter(blog => blog.tags && blog.tags.includes(tag));
+      filtered = filtered.filter(blog => blog.tags && blog.tags.includes(tag))
     }
 
     // Apply search
     if (query) {
-      const searchResults = await searchBlogs(query);
+      const searchResults = await searchBlogs(query)
       // Also apply category and tag filters to search results
       filtered = searchResults.filter(blog => {
-        const matchesCategory = category === 'All' || blog.category === category;
-        const matchesTag = !tag || (blog.tags && blog.tags.includes(tag));
-        return matchesCategory && matchesTag;
-      });
+        const matchesCategory = category === 'All' || blog.category === category
+        const matchesTag = !tag || (blog.tags && blog.tags.includes(tag))
+        return matchesCategory && matchesTag
+      })
     }
 
     // Apply sorting
     if (sortBy === 'popular') {
-      filtered.sort((a, b) => (b.views || 0) - (a.views || 0));
+      filtered.sort((a, b) => (b.views || 0) - (a.views || 0))
     } else {
-      filtered.sort((a, b) => new Date(b.createdAt?.toDate?.() || b.createdAt) - new Date(a.createdAt?.toDate?.() || a.createdAt));
+      filtered.sort(
+        (a, b) =>
+          new Date(b.createdAt?.toDate?.() || b.createdAt) -
+          new Date(a.createdAt?.toDate?.() || a.createdAt)
+      )
     }
 
-    setDisplayedBlogs(filtered);
-  };
+    setDisplayedBlogs(filtered)
+  }
 
-  const categories = ['All', 'DSA & Algorithms', 'Web Development', 'NLP', 'AI', 'Machine Learning', 'Deep Learning', 'Mathematics', 'Data Science'];
-  const allTags = [...new Set(allBlogs.flatMap(blog => blog.tags || []))].sort();
+  const categories = [
+    'All',
+    'DSA & Algorithms',
+    'Web Development',
+    'NLP',
+    'AI',
+    'Machine Learning',
+    'Deep Learning',
+    'Mathematics',
+    'Data Science',
+  ]
+  const allTags = [...new Set(allBlogs.flatMap(blog => blog.tags || []))].sort()
 
-  const handleBlogClick = (slug) => {
+  const handleBlogClick = slug => {
     trackEvent('blog_post_clicked', {
       slug: slug,
-      title: displayedBlogs.find(b => b.slug === slug)?.title
-    });
-    navigate(`/blog/${slug}`);
-  };
+      title: displayedBlogs.find(b => b.slug === slug)?.title,
+    })
+    navigate(`/blog/${slug}`)
+  }
 
-  const handleTagClick = (tag) => {
-    setSelectedTag(selectedTag === tag ? null : tag);
-    trackEvent('blog_tag_filtered', { tag });
-  };
+  const handleTagClick = tag => {
+    setSelectedTag(selectedTag === tag ? null : tag)
+    trackEvent('blog_tag_filtered', { tag })
+  }
 
   if (loading) {
-    return <Loader />;
+    return <Loader />
   }
 
   if (error) {
@@ -138,7 +153,7 @@ const Blog = () => {
           </button>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -151,7 +166,8 @@ const Blog = () => {
             <h1 className="text-4xl md:text-5xl font-bold">AlgoView Blog</h1>
           </div>
           <p className="text-blue-100 text-xl mb-8 max-w-2xl">
-            Master algorithms, data structures, and web development through interactive tutorials and in-depth guides.
+            Master algorithms, data structures, and web development through interactive tutorials
+            and in-depth guides.
           </p>
 
           {/* Search Bar */}
@@ -160,7 +176,7 @@ const Blog = () => {
               type="text"
               placeholder="Search blog posts..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-4 pr-12 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <Search className="absolute right-4 top-3 text-blue-200 w-5 h-5 pointer-events-none" />
@@ -182,19 +198,21 @@ const Blog = () => {
                     className="w-full px-4 py-3 text-left font-medium text-gray-900 bg-white border-2 border-gray-200 rounded-lg hover:border-gray-300 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition-all flex items-center justify-between"
                   >
                     {selectedCategory}
-                    <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-600 transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`}
+                    />
                   </button>
-                  
+
                   {isCategoryDropdownOpen && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden">
                       {categories.map((cat, index) => (
                         <button
                           key={cat}
                           onClick={() => {
-                            setSelectedCategory(cat);
-                            setSelectedTag(null);
-                            setIsCategoryDropdownOpen(false);
-                            trackEvent('blog_category_selected', { category: cat });
+                            setSelectedCategory(cat)
+                            setSelectedTag(null)
+                            setIsCategoryDropdownOpen(false)
+                            trackEvent('blog_category_selected', { category: cat })
                           }}
                           className={`w-full px-4 py-3 text-left font-medium transition-colors ${
                             selectedCategory === cat
@@ -235,9 +253,9 @@ const Blog = () => {
                 <h3 className="font-semibold text-gray-900 mb-3">Sort By</h3>
                 <select
                   value={sortBy}
-                  onChange={(e) => {
-                    setSortBy(e.target.value);
-                    trackEvent('blog_sort_changed', { sortBy: e.target.value });
+                  onChange={e => {
+                    setSortBy(e.target.value)
+                    trackEvent('blog_sort_changed', { sortBy: e.target.value })
                   }}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                 >
@@ -275,7 +293,9 @@ const Blog = () => {
                         <div className="flex gap-4 text-sm text-gray-500">
                           <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
-                            {new Date(blog.createdAt?.toDate?.() || blog.createdAt).toLocaleDateString()}
+                            {new Date(
+                              blog.createdAt?.toDate?.() || blog.createdAt
+                            ).toLocaleDateString()}
                           </div>
                           <div className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
@@ -290,17 +310,19 @@ const Blog = () => {
                       </h2>
 
                       {/* Excerpt */}
-                      <p className="text-gray-600 mb-4">
-                        {blog.excerpt}
-                      </p>
+                      <p className="text-gray-600 mb-4">{blog.excerpt}</p>
 
                       {/* Tags */}
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {blog.tags && blog.tags.slice(0, 3).map(tag => (
-                          <span key={tag} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                            #{tag}
-                          </span>
-                        ))}
+                        {blog.tags &&
+                          blog.tags.slice(0, 3).map(tag => (
+                            <span
+                              key={tag}
+                              className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                            >
+                              #{tag}
+                            </span>
+                          ))}
                       </div>
 
                       {/* Footer */}
@@ -310,7 +332,9 @@ const Blog = () => {
                           <span>•</span>
                           <span>{blog.views || 0} views</span>
                         </div>
-                        <span className="text-blue-600 font-semibold hover:text-blue-700">Read More →</span>
+                        <span className="text-blue-600 font-semibold hover:text-blue-700">
+                          Read More →
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -321,7 +345,9 @@ const Blog = () => {
             {/* Pagination info */}
             {displayedBlogs.length > 0 && (
               <div className="mt-8 text-center text-gray-600">
-                <p>Showing {displayedBlogs.length} of {allBlogs.length} posts</p>
+                <p>
+                  Showing {displayedBlogs.length} of {allBlogs.length} posts
+                </p>
               </div>
             )}
           </div>
@@ -333,12 +359,13 @@ const Blog = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Want to Share Your Knowledge?</h2>
           <p className="text-gray-600 mb-6">
-            Premium members can write blog posts to share insights with the community. Posts go live after admin verification.
+            Premium members can write blog posts to share insights with the community. Posts go live
+            after admin verification.
           </p>
           <button
             onClick={() => {
-              trackEvent('blog_write_button_clicked', {});
-              navigate('/blog/write');
+              trackEvent('blog_write_button_clicked', {})
+              navigate('/blog/write')
             }}
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
@@ -347,7 +374,7 @@ const Blog = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

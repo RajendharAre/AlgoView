@@ -1,58 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import SortingVisualization from '../../../components/Visualisation/SortingVisualization';
-import { ALGORITHMS } from '../../../utils/algorithmConstants';
-import Loader from '../../../components/Common/Loader';
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import SortingVisualization from '../../../components/Visualisation/SortingVisualization'
+import { ALGORITHMS } from '../../../utils/algorithmConstants'
+import Loader from '../../../components/Common/Loader'
 
 /**
  * Dynamic Algorithm Visualization Component
  * Dynamically loads and visualizes any available algorithm
  */
 const DynamicAlgorithmVisualization = () => {
-  const { algorithmId } = useParams();
-  const [algorithmData, setAlgorithmData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { algorithmId } = useParams()
+  const [algorithmData, setAlgorithmData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadAlgorithm = async () => {
-      setLoading(true);
-      setError(null);
-      
+      setLoading(true)
+      setError(null)
+
       try {
         // Look up the algorithm in our registry
-        const algorithmInfo = ALGORITHMS[algorithmId];
-        
+        const algorithmInfo = ALGORITHMS[algorithmId]
+
         if (!algorithmInfo) {
-          throw new Error(`Algorithm "${algorithmId}" not found`);
+          throw new Error(`Algorithm "${algorithmId}" not found`)
         }
 
         // Get the algorithm generator function
-        const algorithmModule = await algorithmInfo.importFn();
-        const algorithmGenerator = typeof algorithmModule === 'function' 
-          ? algorithmModule 
-          : algorithmModule[algorithmId.replace(/([A-Z])/g, '_$1').toLowerCase()] || 
-            algorithmModule[algorithmId];
+        const algorithmModule = await algorithmInfo.importFn()
+        const algorithmGenerator =
+          typeof algorithmModule === 'function'
+            ? algorithmModule
+            : algorithmModule[algorithmId.replace(/([A-Z])/g, '_$1').toLowerCase()] ||
+              algorithmModule[algorithmId]
 
         // Set up the algorithm data
         setAlgorithmData({
           generator: algorithmGenerator,
           name: algorithmInfo.name,
-          category: algorithmInfo.category
-        });
+          category: algorithmInfo.category,
+        })
       } catch (err) {
-        console.error(`Error loading algorithm ${algorithmId}:`, err);
-        setError(err.message);
+        console.error(`Error loading algorithm ${algorithmId}:`, err)
+        setError(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    loadAlgorithm();
-  }, [algorithmId]);
+    loadAlgorithm()
+  }, [algorithmId])
 
   // Default color palette for algorithms
-  const getDefaultColors = (category) => {
+  const getDefaultColors = category => {
     switch (category) {
       case 'sorting':
         return {
@@ -60,41 +61,41 @@ const DynamicAlgorithmVisualization = () => {
           comparing: '#495057ff',
           swapping: '#212529ff',
           sorted: '#6c757dff',
-          background: '#f8f9faff'
-        };
+          background: '#f8f9faff',
+        }
       case 'searching':
         return {
           unsorted: '#d1ecf1ff',
           comparing: '#0c5460ff',
           swapping: '#042124ff',
           sorted: '#207a8eff',
-          background: '#f8f9faff'
-        };
+          background: '#f8f9faff',
+        }
       case 'graph':
         return {
           unsorted: '#f1ecdcff',
           comparing: '#8a6d3bff',
           swapping: '#3c2e17ff',
           sorted: '#5e4e2cff',
-          background: '#f8f9faff'
-        };
+          background: '#f8f9faff',
+        }
       default:
         return {
           unsorted: '#ced4daff',
           comparing: '#495057ff',
           swapping: '#212529ff',
           sorted: '#6c757dff',
-          background: '#f8f9faff'
-        };
+          background: '#f8f9faff',
+        }
     }
-  };
+  }
 
   if (loading) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-gray-50">
         <Loader />
       </div>
-    );
+    )
   }
 
   if (error) {
@@ -103,10 +104,12 @@ const DynamicAlgorithmVisualization = () => {
         <div className="text-center p-8 bg-white rounded-xl shadow-md max-w-md">
           <h1 className="text-2xl font-bold text-red-600 mb-2">Algorithm Not Available</h1>
           <p className="text-gray-600 mb-4">{error}</p>
-          <p className="text-sm text-gray-500">This algorithm visualization is not currently implemented.</p>
+          <p className="text-sm text-gray-500">
+            This algorithm visualization is not currently implemented.
+          </p>
         </div>
       </div>
-    );
+    )
   }
 
   if (algorithmData) {
@@ -119,15 +122,15 @@ const DynamicAlgorithmVisualization = () => {
           algorithmName={algorithmData.name}
           customColors={getDefaultColors(algorithmData.category)}
           allowUserInput={true}
-          onComplete={(results) => {
-            console.log(`${algorithmData.name} completed:`, results);
+          onComplete={results => {
+            console.log(`${algorithmData.name} completed:`, results)
           }}
         />
       </div>
-    );
+    )
   }
 
-  return null;
-};
+  return null
+}
 
-export default DynamicAlgorithmVisualization;
+export default DynamicAlgorithmVisualization

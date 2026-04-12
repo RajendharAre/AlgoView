@@ -15,12 +15,13 @@ const Unauthorized = () => {
             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShieldAlert className="text-red-600" size={40} />
             </div>
-            
+
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
             <p className="text-gray-600 mb-8">
-              You don't have permission to access this page. Please contact your administrator if you believe this is an error.
+              You don't have permission to access this page. Please contact your administrator if
+              you believe this is an error.
             </p>
-            
+
             <div className="space-y-4">
               <Link
                 to="/"
@@ -29,7 +30,7 @@ const Unauthorized = () => {
                 <Home size={18} />
                 Go to Homepage
               </Link>
-              
+
               <Link
                 to="/login"
                 className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
@@ -39,7 +40,7 @@ const Unauthorized = () => {
               </Link>
             </div>
           </div>
-          
+
           <div className="bg-gray-50 px-8 py-6 border-t border-gray-200">
             <p className="text-sm text-gray-500">
               If you continue to experience issues, please contact support.

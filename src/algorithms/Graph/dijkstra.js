@@ -138,7 +138,7 @@ export function* dijkstra(graph, startId) {
 
 /**
  * Algorithm information for Dijkstra's Algorithm
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -153,29 +153,31 @@ export function* dijkstra(graph, startId) {
  * @property {string} description - Brief description of the algorithm
  */
 export const dijkstraInfo = {
-  name: 'Dijkstra\'s Algorithm',
+  name: "Dijkstra's Algorithm",
   category: 'graph',
   complexity: {
     time: {
       best: 'O(E + V log V)',
       average: 'O(E + V log V)',
-      worst: 'O(E + V log V)'
+      worst: 'O(E + V log V)',
     },
-    space: 'O(V)'
+    space: 'O(V)',
   },
   timeComplexity: {
     best: 'O(E + V log V)',
     average: 'O(E + V log V)',
     worst: 'O(E + V log V)',
-    explanation: 'Using min-heap priority queue: Extract-min V times: O(V log V). Update-key up to E times: O(E log V). Total: O((V+E) log V).'
+    explanation:
+      'Using min-heap priority queue: Extract-min V times: O(V log V). Update-key up to E times: O(E log V). Total: O((V+E) log V).',
   },
   spaceComplexity: {
     value: 'O(V)',
-    explanation: 'Stores distances, previous nodes, priority queue, and visited set all of size V.'
+    explanation: 'Stores distances, previous nodes, priority queue, and visited set all of size V.',
   },
   stable: true,
   inPlace: false,
-  description: 'An algorithm for finding the shortest paths between nodes in a weighted graph with non-negative edge weights.',
+  description:
+    'An algorithm for finding the shortest paths between nodes in a weighted graph with non-negative edge weights.',
   code: {
     javascript: `
 function dijkstra(graph, startNode) {
@@ -285,13 +287,13 @@ public static Map<String, Integer> dijkstra(Map<String, Map<String, Integer>> gr
     }
     
     return distances;
-}`
+}`,
   },
   useCases: [
     'GPS navigation and route planning',
     'Network routing protocols',
     'Social network analysis for finding shortest connections',
     'Game development for pathfinding AI',
-    'Telecommunications for finding optimal data transmission paths'
-  ]
+    'Telecommunications for finding optimal data transmission paths',
+  ],
 }

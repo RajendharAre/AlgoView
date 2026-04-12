@@ -46,11 +46,7 @@ const ThemeToggle = ({ showLabel = false, compact = false }) => {
       </button>
 
       {/* Label */}
-      {showLabel && (
-        <span className="text-sm font-medium ml-1">
-          {isDark ? 'Dark' : 'Light'}
-        </span>
-      )}
+      {showLabel && <span className="text-sm font-medium ml-1">{isDark ? 'Dark' : 'Light'}</span>}
 
       {/* Dropdown Menu (Optional - More detailed settings) */}
     </div>

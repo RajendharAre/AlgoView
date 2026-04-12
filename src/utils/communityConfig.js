@@ -10,7 +10,8 @@ export const communityConfig = [
     name: 'Reactiflux',
     platform: 'Discord',
     category: 'Frontend',
-    description: 'The largest React community on Discord. Get help with React, React Native, Redux, and related libraries from over 200k members.',
+    description:
+      'The largest React community on Discord. Get help with React, React Native, Redux, and related libraries from over 200k members.',
     members: '230K+',
     url: 'https://discord.gg/reactiflux',
     tags: ['React', 'Redux', 'Next.js'],
@@ -20,7 +21,8 @@ export const communityConfig = [
     name: 'Tailwind CSS',
     platform: 'Discord',
     category: 'Frontend',
-    description: 'Official Tailwind CSS Discord server. Discuss utility-first CSS, share designs, and get help with configuration.',
+    description:
+      'Official Tailwind CSS Discord server. Discuss utility-first CSS, share designs, and get help with configuration.',
     members: '90K+',
     url: 'https://tailwindcss.com/discord',
     tags: ['CSS', 'Tailwind', 'Design'],
@@ -30,7 +32,8 @@ export const communityConfig = [
     name: 'TypeScript Community',
     platform: 'Discord',
     category: 'Frontend',
-    description: 'Active TypeScript community for discussing types, generics, and best practices with fellow TS developers.',
+    description:
+      'Active TypeScript community for discussing types, generics, and best practices with fellow TS developers.',
     members: '55K+',
     url: 'https://discord.gg/typescript',
     tags: ['TypeScript', 'JavaScript'],
@@ -40,7 +43,8 @@ export const communityConfig = [
     name: 'Devcord',
     platform: 'Discord',
     category: 'General',
-    description: 'A friendly community for developers of all skill levels. Get code reviews, career advice, and project feedback.',
+    description:
+      'A friendly community for developers of all skill levels. Get code reviews, career advice, and project feedback.',
     members: '30K+',
     url: 'https://discord.gg/devcord',
     tags: ['Networking', 'Code Review', 'Career'],
@@ -50,7 +54,8 @@ export const communityConfig = [
     name: 'Python',
     platform: 'Discord',
     category: 'Backend',
-    description: 'Official Python Discord community. Discuss Python development, get help with projects, and participate in events.',
+    description:
+      'Official Python Discord community. Discuss Python development, get help with projects, and participate in events.',
     members: '380K+',
     url: 'https://discord.gg/python',
     tags: ['Python', 'Django', 'Flask'],
@@ -60,7 +65,8 @@ export const communityConfig = [
     name: 'The Coding Den',
     platform: 'Discord',
     category: 'General',
-    description: 'Welcoming community for coding newcomers and experts alike. Mentorship programs and daily challenges.',
+    description:
+      'Welcoming community for coding newcomers and experts alike. Mentorship programs and daily challenges.',
     members: '100K+',
     url: 'https://discord.gg/code',
     tags: ['Beginner', 'Mentorship', 'Challenges'],
@@ -72,7 +78,8 @@ export const communityConfig = [
     name: 'r/webdev',
     platform: 'Reddit',
     category: 'Frontend',
-    description: 'Subreddit for web developers to share articles, tutorials, tools, and discuss industry trends.',
+    description:
+      'Subreddit for web developers to share articles, tutorials, tools, and discuss industry trends.',
     members: '2.1M+',
     url: 'https://reddit.com/r/webdev',
     tags: ['Web Dev', 'Frontend', 'Backend'],
@@ -82,7 +89,8 @@ export const communityConfig = [
     name: 'r/reactjs',
     platform: 'Reddit',
     category: 'Frontend',
-    description: 'The React subreddit. Latest news, tutorials, open-source projects, and discussions about React ecosystem.',
+    description:
+      'The React subreddit. Latest news, tutorials, open-source projects, and discussions about React ecosystem.',
     members: '400K+',
     url: 'https://reddit.com/r/reactjs',
     tags: ['React', 'Next.js', 'Hooks'],
@@ -92,7 +100,8 @@ export const communityConfig = [
     name: 'r/programming',
     platform: 'Reddit',
     category: 'General',
-    description: 'One of the largest programming communities. Cross-language discussions, industry news, and technical deep-dives.',
+    description:
+      'One of the largest programming communities. Cross-language discussions, industry news, and technical deep-dives.',
     members: '6.2M+',
     url: 'https://reddit.com/r/programming',
     tags: ['General', 'News', 'Discussion'],
@@ -102,7 +111,8 @@ export const communityConfig = [
     name: 'r/learnprogramming',
     platform: 'Reddit',
     category: 'General',
-    description: 'A subreddit for learning programming. Ask questions, share resources, and get mentorship from experienced developers.',
+    description:
+      'A subreddit for learning programming. Ask questions, share resources, and get mentorship from experienced developers.',
     members: '4.5M+',
     url: 'https://reddit.com/r/learnprogramming',
     tags: ['Beginner', 'Learning', 'Mentorship'],
@@ -112,7 +122,8 @@ export const communityConfig = [
     name: 'r/devops',
     platform: 'Reddit',
     category: 'DevOps',
-    description: 'Discussion hub for DevOps practices, CI/CD pipelines, cloud infrastructure, and container orchestration.',
+    description:
+      'Discussion hub for DevOps practices, CI/CD pipelines, cloud infrastructure, and container orchestration.',
     members: '310K+',
     url: 'https://reddit.com/r/devops',
     tags: ['DevOps', 'CI/CD', 'Cloud'],
@@ -122,7 +133,8 @@ export const communityConfig = [
     name: 'r/node',
     platform: 'Reddit',
     category: 'Backend',
-    description: 'Node.js community on Reddit. Discuss server-side JavaScript, APIs, packages, and deployment strategies.',
+    description:
+      'Node.js community on Reddit. Discuss server-side JavaScript, APIs, packages, and deployment strategies.',
     members: '210K+',
     url: 'https://reddit.com/r/node',
     tags: ['Node.js', 'Express', 'APIs'],
@@ -134,7 +146,8 @@ export const communityConfig = [
     name: 'facebook/react',
     platform: 'GitHub',
     category: 'Frontend',
-    description: 'Official React repository. Follow discussions, contribute to issues, and stay on top of the latest RFC proposals.',
+    description:
+      'Official React repository. Follow discussions, contribute to issues, and stay on top of the latest RFC proposals.',
     members: '230K+ stars',
     url: 'https://github.com/facebook/react',
     tags: ['React', 'Open Source', 'Meta'],
@@ -144,7 +157,8 @@ export const communityConfig = [
     name: 'nodejs/node',
     platform: 'GitHub',
     category: 'Backend',
-    description: 'Node.js core repository. Participate in the direction of the runtime, report bugs, and contribute code.',
+    description:
+      'Node.js core repository. Participate in the direction of the runtime, report bugs, and contribute code.',
     members: '108K+ stars',
     url: 'https://github.com/nodejs/node',
     tags: ['Node.js', 'Open Source', 'Runtime'],
@@ -154,7 +168,8 @@ export const communityConfig = [
     name: 'awesome-selfhosted',
     platform: 'GitHub',
     category: 'DevOps',
-    description: 'Curated list of self-hosted software. Discover alternatives to cloud services you can run yourself.',
+    description:
+      'Curated list of self-hosted software. Discover alternatives to cloud services you can run yourself.',
     members: '200K+ stars',
     url: 'https://github.com/awesome-selfhosted/awesome-selfhosted',
     tags: ['Self-Hosted', 'Open Source', 'DevOps'],
@@ -164,7 +179,8 @@ export const communityConfig = [
     name: 'first-contributions',
     platform: 'GitHub',
     category: 'Open Source',
-    description: 'Beginner-friendly repo to make your first open-source contribution. Step-by-step guides for Git workflow.',
+    description:
+      'Beginner-friendly repo to make your first open-source contribution. Step-by-step guides for Git workflow.',
     members: '45K+ stars',
     url: 'https://github.com/firstcontributions/first-contributions',
     tags: ['Beginner', 'Open Source', 'Git'],
@@ -174,7 +190,8 @@ export const communityConfig = [
     name: 'free-programming-books',
     platform: 'GitHub',
     category: 'General',
-    description: 'Massive list of free learning resources — books, courses, interactive tutorials, podcasts, and more.',
+    description:
+      'Massive list of free learning resources — books, courses, interactive tutorials, podcasts, and more.',
     members: '340K+ stars',
     url: 'https://github.com/EbookFoundation/free-programming-books',
     tags: ['Books', 'Free', 'Learning'],
@@ -186,7 +203,8 @@ export const communityConfig = [
     name: 'JavaScript',
     platform: 'Stack Overflow',
     category: 'Frontend',
-    description: 'Most active tag on Stack Overflow. Find answers to JS questions, learn patterns, and help other developers.',
+    description:
+      'Most active tag on Stack Overflow. Find answers to JS questions, learn patterns, and help other developers.',
     members: '2.5M+ questions',
     url: 'https://stackoverflow.com/questions/tagged/javascript',
     tags: ['JavaScript', 'Q&A'],
@@ -196,7 +214,8 @@ export const communityConfig = [
     name: 'Python',
     platform: 'Stack Overflow',
     category: 'Backend',
-    description: 'Second most popular tag. Get solutions for Python problems from data science to web backends.',
+    description:
+      'Second most popular tag. Get solutions for Python problems from data science to web backends.',
     members: '2.2M+ questions',
     url: 'https://stackoverflow.com/questions/tagged/python',
     tags: ['Python', 'Q&A'],
@@ -206,7 +225,8 @@ export const communityConfig = [
     name: 'React',
     platform: 'Stack Overflow',
     category: 'Frontend',
-    description: 'All React-related Q&A on Stack Overflow. From hooks to performance optimization and SSR.',
+    description:
+      'All React-related Q&A on Stack Overflow. From hooks to performance optimization and SSR.',
     members: '450K+ questions',
     url: 'https://stackoverflow.com/questions/tagged/reactjs',
     tags: ['React', 'Q&A'],
@@ -218,7 +238,8 @@ export const communityConfig = [
     name: 'Web Developers Hub',
     platform: 'Telegram',
     category: 'Frontend',
-    description: 'Active Telegram group for web developers sharing resources, job postings, and technical discussions.',
+    description:
+      'Active Telegram group for web developers sharing resources, job postings, and technical discussions.',
     members: '45K+',
     url: 'https://t.me/AskWebDevs',
     tags: ['Web Dev', 'Jobs', 'Resources'],
@@ -238,7 +259,8 @@ export const communityConfig = [
     name: 'DevOps Engineers',
     platform: 'Telegram',
     category: 'DevOps',
-    description: 'Telegram community for DevOps professionals discussing Kubernetes, Docker, Terraform, and cloud platforms.',
+    description:
+      'Telegram community for DevOps professionals discussing Kubernetes, Docker, Terraform, and cloud platforms.',
     members: '35K+',
     url: 'https://t.me/devops_eng',
     tags: ['DevOps', 'Kubernetes', 'Docker'],
@@ -250,7 +272,8 @@ export const communityConfig = [
     name: 'DEV Community',
     platform: 'Dev.to',
     category: 'General',
-    description: 'One of the largest developer blogging platforms. Write articles, join challenges, and engage with millions of devs.',
+    description:
+      'One of the largest developer blogging platforms. Write articles, join challenges, and engage with millions of devs.',
     members: '1M+ members',
     url: 'https://dev.to',
     tags: ['Blogging', 'Articles', 'Community'],
@@ -260,7 +283,8 @@ export const communityConfig = [
     name: 'Hashnode',
     platform: 'Hashnode',
     category: 'General',
-    description: 'Free blogging platform for developers with a built-in community. Own your content with custom domains.',
+    description:
+      'Free blogging platform for developers with a built-in community. Own your content with custom domains.',
     members: '500K+ bloggers',
     url: 'https://hashnode.com',
     tags: ['Blogging', 'Writing', 'Community'],
@@ -272,7 +296,8 @@ export const communityConfig = [
     name: 'Good First Issues',
     platform: 'GitHub',
     category: 'Open Source',
-    description: 'Aggregator for beginner-friendly open-source issues across thousands of repos. Perfect for first-time contributors.',
+    description:
+      'Aggregator for beginner-friendly open-source issues across thousands of repos. Perfect for first-time contributors.',
     members: 'N/A',
     url: 'https://goodfirstissue.dev',
     tags: ['Open Source', 'Beginner', 'Contributing'],
@@ -282,27 +307,28 @@ export const communityConfig = [
     name: 'Up For Grabs',
     platform: 'GitHub',
     category: 'Open Source',
-    description: 'Projects with curated tasks specifically for new contributors. Filter by language and difficulty.',
+    description:
+      'Projects with curated tasks specifically for new contributors. Filter by language and difficulty.',
     members: 'N/A',
     url: 'https://up-for-grabs.net',
     tags: ['Open Source', 'Projects', 'Contributing'],
   },
-];
+]
 
 /**
  * Get unique platforms from community data
  */
 export function getCommunityPlatforms() {
-  const platforms = [...new Set(communityConfig.map(c => c.platform))];
-  return ['All', ...platforms.sort()];
+  const platforms = [...new Set(communityConfig.map(c => c.platform))]
+  return ['All', ...platforms.sort()]
 }
 
 /**
  * Get unique categories from community data
  */
 export function getCommunityCategories() {
-  const categories = [...new Set(communityConfig.map(c => c.category))];
-  return ['All', ...categories.sort()];
+  const categories = [...new Set(communityConfig.map(c => c.category))]
+  return ['All', ...categories.sort()]
 }
 
 /**
@@ -312,25 +338,25 @@ export function filterCommunities({ communities, searchQuery, platform, category
   return communities.filter(item => {
     // Search filter
     if (searchQuery && searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
+      const q = searchQuery.toLowerCase()
       const matchesSearch =
         item.name.toLowerCase().includes(q) ||
         item.description.toLowerCase().includes(q) ||
         item.platform.toLowerCase().includes(q) ||
-        item.tags.some(tag => tag.toLowerCase().includes(q));
-      if (!matchesSearch) return false;
+        item.tags.some(tag => tag.toLowerCase().includes(q))
+      if (!matchesSearch) return false
     }
 
     // Platform filter
     if (platform && platform !== 'All' && item.platform !== platform) {
-      return false;
+      return false
     }
 
     // Category filter
     if (category && category !== 'All' && item.category !== category) {
-      return false;
+      return false
     }
 
-    return true;
-  });
+    return true
+  })
 }

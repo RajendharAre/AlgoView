@@ -1,14 +1,14 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import SortingVisualization from '../../../../components/Visualisation/SortingVisualization';
-import { bubbleSort, bubbleSortInfo } from '../../../../algorithms/Sorting/bubbleSort';
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import SortingVisualization from '../../../../components/Visualisation/SortingVisualization'
+import { bubbleSort, bubbleSortInfo } from '../../../../algorithms/Sorting/bubbleSort'
 
 /**
  * Bubble Sort Visualization Page
  * Dedicated page for bubble sort algorithm visualization
  */
 const BubbleSortVisualization = () => {
-  const { algorithmId } = useParams();
+  const { algorithmId } = useParams()
 
   // Custom color palette for Bubble Sort (using the snow to carbon theme from original)
   const bubbleSortColors = {
@@ -16,8 +16,8 @@ const BubbleSortVisualization = () => {
     comparing: '#495057ff',
     swapping: '#212529ff',
     sorted: '#6c757dff',
-    background: '#f8f9faff'
-  };
+    background: '#f8f9faff',
+  }
 
   return (
     <div className="min-h-screen w-full">
@@ -27,12 +27,12 @@ const BubbleSortVisualization = () => {
         customColors={bubbleSortColors}
         allowUserInput={true}
         complexityInfo={bubbleSortInfo.complexity}
-        onComplete={(results) => {
-          console.log('Bubble Sort completed:', results);
+        onComplete={results => {
+          console.log('Bubble Sort completed:', results)
         }}
       />
     </div>
-  );
-};
+  )
+}
 
-export default BubbleSortVisualization;
+export default BubbleSortVisualization

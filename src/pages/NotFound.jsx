@@ -32,8 +32,8 @@ const NotFound = () => {
           transition={{ delay: 0.2 }}
           className="text-lg text-gray-600 mb-8"
         >
-          Sorry, we couldn't find the page you're looking for. It might have been removed, 
-          had its name changed, or is temporarily unavailable.
+          Sorry, we couldn't find the page you're looking for. It might have been removed, had its
+          name changed, or is temporarily unavailable.
         </motion.p>
 
         <motion.div
@@ -64,7 +64,12 @@ const NotFound = () => {
           transition={{ delay: 0.4 }}
           className="text-sm text-gray-500"
         >
-          <p>Need help? <Link to="/support" className="text-blue-600 hover:underline">Contact support</Link></p>
+          <p>
+            Need help?{' '}
+            <Link to="/support" className="text-blue-600 hover:underline">
+              Contact support
+            </Link>
+          </p>
         </motion.div>
       </div>
     </div>

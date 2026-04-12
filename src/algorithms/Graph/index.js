@@ -19,6 +19,6 @@ export const graphAlgorithms = {
     function: dijkstra,
     info: dijkstraInfo,
     category: 'graph',
-    name: 'Dijkstra\'s Algorithm',
+    name: "Dijkstra's Algorithm",
   },
 }

@@ -5,8 +5,11 @@ import { useAuth } from '../hooks/useAuth'
 import { usePageMeta } from '../hooks/usePageMeta'
 import InteractiveFeatureCard from '../components/InteractiveFeatureCard'
 import Testimonial3DCard from '../components/Testimonial3DCard'
-import { getApprovedExperiencesListener, submitPlatformExperience } from '../services/experienceService'
-import { 
+import {
+  getApprovedExperiencesListener,
+  submitPlatformExperience,
+} from '../services/experienceService'
+import {
   Star,
   ArrowRight,
   Check,
@@ -17,40 +20,99 @@ import {
   BookOpen,
   Rocket,
   GraduationCap,
-  UserRound
+  UserRound,
 } from 'lucide-react'
-import { SiThealgorithms, SiGoogle, SiAmazon, SiMeta, SiNetflix, SiAdobe, SiAccenture, SiGoldmansachs, SiSpotify, SiApple, SiTesla, SiTcs, SiInfosys, SiWipro, SiCisco, SiFlipkart } from 'react-icons/si'
+import {
+  SiThealgorithms,
+  SiGoogle,
+  SiAmazon,
+  SiMeta,
+  SiNetflix,
+  SiAdobe,
+  SiAccenture,
+  SiGoldmansachs,
+  SiSpotify,
+  SiApple,
+  SiTesla,
+  SiTcs,
+  SiInfosys,
+  SiWipro,
+  SiCisco,
+  SiFlipkart,
+} from 'react-icons/si'
 import { APP_COLORS, APP_SHADOWS } from '../constants/sitePalette'
 
 const COLORS = APP_COLORS
 const SHADOWS = APP_SHADOWS
 
 const Home = () => {
-  const { user } = useAuth();
-  
+  const { user } = useAuth()
+
   // Set Home page meta tags for SEO
   usePageMeta(
     'AlgoView - Interactive Algorithm Visualizer & DSA Learning Platform',
     'Master data structures and algorithms with visual step-by-step animations. Practice with our interactive algorithm visualizer, code examples, tutorials, and interview preparation tools.',
     'algorithm visualizer, DSA, data structures, algorithms, coding interview, practice platform, learning'
-  );
-  
+  )
+
   // Roadmap data - structured and reusable
   const roadmapData = [
-    { id: 1, title: 'Programming Basics', category: 'basics', difficulty: 'Beginner', side: 'left' },
-    { id: 2, title: 'Arrays & Strings', category: 'arrays-strings', difficulty: 'Beginner', side: 'right' },
+    {
+      id: 1,
+      title: 'Programming Basics',
+      category: 'basics',
+      difficulty: 'Beginner',
+      side: 'left',
+    },
+    {
+      id: 2,
+      title: 'Arrays & Strings',
+      category: 'arrays-strings',
+      difficulty: 'Beginner',
+      side: 'right',
+    },
     { id: 3, title: 'Recursion', category: 'recursion', difficulty: 'Intermediate', side: 'left' },
-    { id: 4, title: 'Searching & Sorting', category: 'searching-sorting', difficulty: 'Intermediate', side: 'right' },
-    { id: 5, title: 'Linked List', category: 'linked-list', difficulty: 'Intermediate', side: 'left' },
-    { id: 6, title: 'Stack & Queue', category: 'stack-queue', difficulty: 'Intermediate', side: 'right' },
+    {
+      id: 4,
+      title: 'Searching & Sorting',
+      category: 'searching-sorting',
+      difficulty: 'Intermediate',
+      side: 'right',
+    },
+    {
+      id: 5,
+      title: 'Linked List',
+      category: 'linked-list',
+      difficulty: 'Intermediate',
+      side: 'left',
+    },
+    {
+      id: 6,
+      title: 'Stack & Queue',
+      category: 'stack-queue',
+      difficulty: 'Intermediate',
+      side: 'right',
+    },
     { id: 7, title: 'Hashing', category: 'hashing', difficulty: 'Intermediate', side: 'left' },
     { id: 8, title: 'Trees', category: 'trees', difficulty: 'Advanced', side: 'right' },
     { id: 9, title: 'Graphs', category: 'graphs', difficulty: 'Advanced', side: 'left' },
     { id: 10, title: 'Greedy', category: 'greedy', difficulty: 'Advanced', side: 'right' },
-    { id: 11, title: 'Dynamic Programming', category: 'dynamic-programming', difficulty: 'Advanced', side: 'left' },
-    { id: 12, title: 'Advanced Topics', category: 'advanced-topics', difficulty: 'Expert', side: 'center' }
+    {
+      id: 11,
+      title: 'Dynamic Programming',
+      category: 'dynamic-programming',
+      difficulty: 'Advanced',
+      side: 'left',
+    },
+    {
+      id: 12,
+      title: 'Advanced Topics',
+      category: 'advanced-topics',
+      difficulty: 'Expert',
+      side: 'center',
+    },
   ]
-  
+
   // Intersection Observer for stats animation
   const statsRef = useRef(null)
   const [statsVisible, setStatsVisible] = useState(false)
@@ -66,14 +128,14 @@ const Home = () => {
     institution: '',
     rating: 5,
     emotions: [],
-    experience: ''
+    experience: '',
   })
 
   const emotionOptions = [
     'Helped me understand',
     'Reduced anxiety',
     'Saved study time',
-    'Made it fun'
+    'Made it fun',
   ]
 
   const ratingLabels = {
@@ -81,21 +143,21 @@ const Home = () => {
     2: '2.0 — Fair',
     3: '3.0 — Okay',
     4: '4.0 — Good',
-    5: '5.0 — Excellent'
+    5: '5.0 — Excellent',
   }
 
   // Animated counter for stats
   const Counter = ({ value, suffix }) => {
     const [count, setCount] = useState(0)
-    
+
     useEffect(() => {
       if (!statsVisible) return
-      
+
       let start = 0
       const end = value
       const duration = 2000
       const increment = end / (duration / 16)
-      
+
       const timer = setInterval(() => {
         start += increment
         if (start >= end) {
@@ -105,10 +167,10 @@ const Home = () => {
           setCount(Math.ceil(start))
         }
       }, 16)
-      
+
       return () => clearInterval(timer)
     }, [value, statsVisible])
-    
+
     return (
       <span>
         {count}
@@ -116,7 +178,7 @@ const Home = () => {
       </span>
     )
   }
-  
+
   // Testimonials data
   const baseTestimonials = [
     {
@@ -124,49 +186,55 @@ const Home = () => {
       name: 'Harish',
       role: '3rd Year BE Student, CSE, MVSR',
       avatarIcon: GraduationCap,
-      content: 'The step-by-step visualization flow helped me finally understand recursion and sorting internally, not just for exams. I now practice daily because AlgoView makes every topic feel clear and practical.',
-      rating: 5
+      content:
+        'The step-by-step visualization flow helped me finally understand recursion and sorting internally, not just for exams. I now practice daily because AlgoView makes every topic feel clear and practical.',
+      rating: 5,
     },
     {
       id: 2,
       name: 'Vishnu',
       role: '2nd Year BE Student, ECE, MVSR',
       avatarIcon: GraduationCap,
-      content: 'I come from ECE, so coding speed was a challenge for me. The platform broke down each algorithm in a friendly way, and my confidence in problem solving improved a lot in just a few weeks.',
-      rating: 4.5
+      content:
+        'I come from ECE, so coding speed was a challenge for me. The platform broke down each algorithm in a friendly way, and my confidence in problem solving improved a lot in just a few weeks.',
+      rating: 4.5,
     },
     {
       id: 3,
       name: 'Rajesh Kulkarni',
       role: 'HOD, CSE (Allied), MVSREC',
       avatarIcon: UserRound,
-      content: 'As a faculty member, I look for tools that genuinely improve conceptual depth. AlgoView stands out because students can observe algorithm behavior visually and discuss complexity tradeoffs with clarity. It supports both classroom teaching and independent preparation effectively.',
-      rating: 5
+      content:
+        'As a faculty member, I look for tools that genuinely improve conceptual depth. AlgoView stands out because students can observe algorithm behavior visually and discuss complexity tradeoffs with clarity. It supports both classroom teaching and independent preparation effectively.',
+      rating: 5,
     },
     {
       id: 4,
       name: 'Neelakanta Rao',
       role: 'Assistant Professor, CSE, MVSREC',
       avatarIcon: UserRound,
-      content: 'I use AlgoView to reinforce difficult classes because the animations bridge the gap between theory and implementation. The explanation flow is clean, and students engage more during doubt sessions after using this platform.',
-      rating: 5
+      content:
+        'I use AlgoView to reinforce difficult classes because the animations bridge the gap between theory and implementation. The explanation flow is clean, and students engage more during doubt sessions after using this platform.',
+      rating: 5,
     },
     {
       id: 5,
       name: 'Manoj',
       role: 'B.Com Student, Loyola Degree College',
       avatarIcon: GraduationCap,
-      content: 'I am not from a CS background, but this platform made coding feel less intimidating and more structured. Even basic problems now make sense to me.',
-      rating: 5
+      content:
+        'I am not from a CS background, but this platform made coding feel less intimidating and more structured. Even basic problems now make sense to me.',
+      rating: 5,
     },
     {
       id: 6,
       name: 'Shiva Kumar',
       role: 'B.Tech Data Science, GRIET',
       avatarIcon: GraduationCap,
-      content: 'What I liked most is the combination of visual algorithm flow, practice, and guidance in one place. It helped me build better logic and improve how I explain solutions in interviews.',
-      rating: 4.3
-    }
+      content:
+        'What I liked most is the combination of visual algorithm flow, practice, and guidance in one place. It helped me build better logic and improve how I explain solutions in interviews.',
+      rating: 4.3,
+    },
   ]
 
   const testimonials = [...baseTestimonials, ...communityTestimonials]
@@ -176,7 +244,7 @@ const Home = () => {
   const stats = [
     { id: 1, value: 24, label: 'Algorithms', suffix: '+' },
     { id: 2, value: 100, label: 'Users', suffix: '+' },
-    { id: 3, value: 50, label: 'Visualizations', suffix: '+' }
+    { id: 3, value: 50, label: 'Visualizations', suffix: '+' },
   ]
 
   // Company logos data
@@ -195,35 +263,35 @@ const Home = () => {
     { name: 'Infosys', icon: SiInfosys },
     { name: 'Wipro', icon: SiWipro },
     { name: 'Cisco', icon: SiCisco },
-    { name: 'Flipkart', icon: SiFlipkart }
+    { name: 'Flipkart', icon: SiFlipkart },
   ]
-  
+
   // Features data
   const features = [
     {
       title: '200+ Algorithm Visualizations',
       description: 'Interactive visualizations for sorting, searching, graph algorithms, and more.',
       icon: SiThealgorithms,
-      link: '/dsa/algorithms'
+      link: '/dsa/algorithms',
     },
     {
       title: 'AI-Powered Mock Interviews',
       description: 'Practice coding interviews with intelligent AI feedback and analysis.',
       icon: Brain,
-      link: '/interview'
+      link: '/interview',
     },
     {
       title: 'Collaborative Learning',
       description: 'Share ideas and collaborate with the community on projects.',
       icon: Users,
-      link: '/ideas'
+      link: '/ideas',
     },
     {
       title: 'Development Resources',
       description: 'Tutorials, code examples, and best practices for developers.',
       icon: BookOpen,
-      link: '/development'
-    }
+      link: '/development',
+    },
   ]
 
   // How it works steps
@@ -231,18 +299,18 @@ const Home = () => {
     {
       id: 1,
       title: 'Choose Algorithm',
-      description: 'Select from our library of algorithms across various categories.'
+      description: 'Select from our library of algorithms across various categories.',
     },
     {
       id: 2,
       title: 'Visualize Execution',
-      description: 'Watch step-by-step execution with interactive controls.'
+      description: 'Watch step-by-step execution with interactive controls.',
     },
     {
       id: 3,
       title: 'Master the Concept',
-      description: 'Practice with quizzes and challenges to solidify understanding.'
-    }
+      description: 'Practice with quizzes and challenges to solidify understanding.',
+    },
   ]
 
   // Intersection Observer for stats
@@ -270,15 +338,15 @@ const Home = () => {
   // Keep feedback form name synced when user signs in/out
   useEffect(() => {
     if (user?.displayName) {
-      setFeedbackForm((prev) => ({ ...prev, name: prev.name || user.displayName }))
+      setFeedbackForm(prev => ({ ...prev, name: prev.name || user.displayName }))
     }
   }, [user])
 
   // Load approved experiences from Firestore
   useEffect(() => {
     const unsubscribe = getApprovedExperiencesListener(
-      (items) => {
-        const mapped = items.map((item) => ({
+      items => {
+        const mapped = items.map(item => ({
           id: item.id,
           name: item.name,
           role: `${item.specificRole || item.role}${item.institution ? `, ${item.institution}` : ''}`,
@@ -297,29 +365,29 @@ const Home = () => {
     return () => unsubscribe()
   }, [])
 
-  const handleFeedbackChange = (e) => {
+  const handleFeedbackChange = e => {
     const { name, value } = e.target
-    setFeedbackForm((prev) => ({ ...prev, [name]: value }))
+    setFeedbackForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleRoleToggle = (role) => {
-    setFeedbackForm((prev) => ({ ...prev, role }))
+  const handleRoleToggle = role => {
+    setFeedbackForm(prev => ({ ...prev, role }))
   }
 
-  const handleRatingSelect = (rating) => {
-    setFeedbackForm((prev) => ({ ...prev, rating }))
+  const handleRatingSelect = rating => {
+    setFeedbackForm(prev => ({ ...prev, rating }))
   }
 
-  const handleEmotionToggle = (emotion) => {
-    setFeedbackForm((prev) => ({
+  const handleEmotionToggle = emotion => {
+    setFeedbackForm(prev => ({
       ...prev,
       emotions: prev.emotions.includes(emotion)
-        ? prev.emotions.filter((item) => item !== emotion)
-        : [...prev.emotions, emotion]
+        ? prev.emotions.filter(item => item !== emotion)
+        : [...prev.emotions, emotion],
     }))
   }
 
-  const handleFeedbackSubmit = async (e) => {
+  const handleFeedbackSubmit = async e => {
     e.preventDefault()
     setFeedbackError('')
     setFeedbackSuccess('')
@@ -346,7 +414,7 @@ const Home = () => {
       })
 
       setFeedbackSuccess('Thank you. Your experience was submitted and is pending review.')
-      setFeedbackForm((prev) => ({
+      setFeedbackForm(prev => ({
         ...prev,
         role: 'student',
         specificRole: '',
@@ -406,7 +474,8 @@ const Home = () => {
               className="text-lg md:text-xl mb-12 max-w-3xl mx-auto font-light"
               style={{ color: COLORS.text.secondary }}
             >
-              Master complex algorithms through interactive visualizations. Understand data structures and algorithms like never before.
+              Master complex algorithms through interactive visualizations. Understand data
+              structures and algorithms like never before.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -422,10 +491,10 @@ const Home = () => {
                 style={{
                   backgroundColor: COLORS.text.primary,
                   color: COLORS.bg.surface,
-                  boxShadow: SHADOWS.md
+                  boxShadow: SHADOWS.md,
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
-                onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = SHADOWS.lg)}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = SHADOWS.md)}
               >
                 Explore Algorithms
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -436,13 +505,13 @@ const Home = () => {
                 style={{
                   borderColor: COLORS.text.primary,
                   color: COLORS.text.primary,
-                  backgroundColor: 'transparent'
+                  backgroundColor: 'transparent',
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={e => {
                   e.currentTarget.style.backgroundColor = COLORS.bg.secondary
                   e.currentTarget.style.boxShadow = SHADOWS.sm
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = 'transparent'
                   e.currentTarget.style.boxShadow = 'none'
                 }}
@@ -457,7 +526,8 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="mt-12 text-sm" style={{ color: COLORS.text.tertiary }}
+              className="mt-12 text-sm"
+              style={{ color: COLORS.text.tertiary }}
             >
               Trusted by students and teachers across colleges
             </motion.div>
@@ -500,7 +570,7 @@ const Home = () => {
                 className="px-6 py-2 rounded-lg font-medium transition-all duration-300"
                 style={{
                   backgroundColor: COLORS.text.primary,
-                  color: '#ffffff'
+                  color: '#ffffff',
                 }}
               >
                 DSA Roadmap
@@ -514,7 +584,7 @@ const Home = () => {
                 className="px-6 py-2 rounded-lg font-medium transition-all duration-300 opacity-50 cursor-not-allowed"
                 style={{
                   backgroundColor: COLORS.border.light,
-                  color: COLORS.text.tertiary
+                  color: COLORS.text.tertiary,
                 }}
               >
                 Development Roadmap <span className="text-xs ml-2">Coming Soon</span>
@@ -563,7 +633,7 @@ const Home = () => {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.08, duration: 0.5 }}
                   className={`absolute ${node.side === 'left' ? 'left-0 md:left-12' : node.side === 'right' ? 'right-0 md:right-12' : 'left-1/2 transform -translate-x-1/2'}`}
-                  style={{ top: `${40 + (index * 85)}px` }}
+                  style={{ top: `${40 + index * 85}px` }}
                 >
                   <Link
                     to={`/dsa/algorithms?topic=${node.category}`}
@@ -576,15 +646,15 @@ const Home = () => {
                           className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center font-bold text-white transition-all duration-300 group-hover:scale-110 cursor-pointer"
                           style={{
                             backgroundColor: '#a8aab5',
-                            boxShadow: SHADOWS.md
+                            boxShadow: SHADOWS.md,
                           }}
-                          onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
-                          onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
+                          onMouseEnter={e => (e.currentTarget.style.boxShadow = SHADOWS.lg)}
+                          onMouseLeave={e => (e.currentTarget.style.boxShadow = SHADOWS.md)}
                         >
                           {node.id}
                         </div>
                       </div>
-                      
+
                       {/* Title */}
                       <h4
                         className="text-sm md:text-base font-semibold mt-3 group-hover:text-blue-600 transition-colors text-center w-28"
@@ -592,8 +662,6 @@ const Home = () => {
                       >
                         {node.title}
                       </h4>
-                      
-
                     </div>
                   </Link>
                 </motion.div>
@@ -611,15 +679,20 @@ const Home = () => {
             style={{
               backgroundColor: COLORS.bg.secondary,
               borderColor: COLORS.text.primary,
-              borderWidth: '0 0 0 4px'
+              borderWidth: '0 0 0 4px',
             }}
           >
-            <h4 className="font-semibold mb-2 flex items-center gap-2" style={{ color: COLORS.text.primary }}>
+            <h4
+              className="font-semibold mb-2 flex items-center gap-2"
+              style={{ color: COLORS.text.primary }}
+            >
               <Rocket className="w-5 h-5" />
               Your Learning Journey
             </h4>
             <p style={{ color: COLORS.text.secondary }}>
-              Follow the curved path to master DSA progressively. Beginner topics build foundations, intermediate topics develop problem-solving skills, and advanced topics prepare you for complex challenges. Click any node to practice problems for that topic.
+              Follow the curved path to master DSA progressively. Beginner topics build foundations,
+              intermediate topics develop problem-solving skills, and advanced topics prepare you
+              for complex challenges. Click any node to practice problems for that topic.
             </p>
           </motion.div>
         </div>
@@ -683,7 +756,7 @@ const Home = () => {
                 className="p-8 rounded-xl"
                 style={{
                   backgroundColor: COLORS.bg.surface,
-                  boxShadow: SHADOWS.sm
+                  boxShadow: SHADOWS.sm,
                 }}
               >
                 <div className="text-4xl md:text-5xl font-bold mb-2">
@@ -753,7 +826,7 @@ const Home = () => {
                   style={{
                     backgroundColor: COLORS.bg.secondary,
                     color: COLORS.text.primary,
-                    boxShadow: SHADOWS.md
+                    boxShadow: SHADOWS.md,
                   }}
                 >
                   {step.id}
@@ -765,7 +838,7 @@ const Home = () => {
                   style={{
                     backgroundColor: COLORS.bg.surface,
                     borderColor: COLORS.border.light,
-                    boxShadow: SHADOWS.sm
+                    boxShadow: SHADOWS.sm,
                   }}
                 >
                   <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
@@ -805,7 +878,8 @@ const Home = () => {
               className="text-lg max-w-3xl mx-auto font-light"
               style={{ color: COLORS.text.secondary }}
             >
-              Real experiences shared by learners and faculty using AlgoView in classrooms and self-study
+              Real experiences shared by learners and faculty using AlgoView in classrooms and
+              self-study
             </motion.p>
           </div>
 
@@ -823,23 +897,28 @@ const Home = () => {
             >
               {marqueeTestimonials.map((testimonial, index) => (
                 <div key={`${testimonial.id}-marquee-${index}`} className="shrink-0">
-                  <Testimonial3DCard
-                    testimonial={testimonial}
-                    COLORS={COLORS}
-                    SHADOWS={SHADOWS}
-                  />
+                  <Testimonial3DCard testimonial={testimonial} COLORS={COLORS} SHADOWS={SHADOWS} />
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mt-12 rounded-xl border p-4 sm:p-6" style={{ backgroundColor: '#f8fafc', borderColor: COLORS.border.light }}>
+          <div
+            className="mt-12 rounded-xl border p-4 sm:p-6"
+            style={{ backgroundColor: '#f8fafc', borderColor: COLORS.border.light }}
+          >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-              <div className="rounded-xl border p-5 sm:p-6 w-full" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+              <div
+                className="rounded-xl border p-5 sm:p-6 w-full"
+                style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}
+              >
                 <h3 className="text-[15px] font-semibold mb-4">Share Your Experience</h3>
 
                 {!user ? (
-                  <div className="rounded-lg border px-4 py-3" style={{ borderColor: COLORS.border.light }}>
+                  <div
+                    className="rounded-lg border px-4 py-3"
+                    style={{ borderColor: COLORS.border.light }}
+                  >
                     <p className="text-[13px] mb-3" style={{ color: COLORS.text.secondary }}>
                       Please login to submit your experience.
                     </p>
@@ -861,16 +940,23 @@ const Home = () => {
                     ) : null}
 
                     <div>
-                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>I am a</p>
+                      <p
+                        className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                        style={{ color: COLORS.text.tertiary }}
+                      >
+                        I am a
+                      </p>
                       <div className="inline-flex rounded-lg gap-2">
                         <button
                           type="button"
                           onClick={() => handleRoleToggle('student')}
                           className="px-4 py-2 rounded-lg text-[13px] font-medium border"
                           style={{
-                            backgroundColor: feedbackForm.role === 'student' ? '#111827' : '#ffffff',
+                            backgroundColor:
+                              feedbackForm.role === 'student' ? '#111827' : '#ffffff',
                             color: feedbackForm.role === 'student' ? '#ffffff' : '#4b5563',
-                            borderColor: feedbackForm.role === 'student' ? '#111827' : COLORS.border.light,
+                            borderColor:
+                              feedbackForm.role === 'student' ? '#111827' : COLORS.border.light,
                           }}
                         >
                           Student
@@ -880,9 +966,11 @@ const Home = () => {
                           onClick={() => handleRoleToggle('teacher')}
                           className="px-4 py-2 rounded-lg text-[13px] font-medium border"
                           style={{
-                            backgroundColor: feedbackForm.role === 'teacher' ? '#111827' : '#ffffff',
+                            backgroundColor:
+                              feedbackForm.role === 'teacher' ? '#111827' : '#ffffff',
                             color: feedbackForm.role === 'teacher' ? '#ffffff' : '#4b5563',
-                            borderColor: feedbackForm.role === 'teacher' ? '#111827' : COLORS.border.light,
+                            borderColor:
+                              feedbackForm.role === 'teacher' ? '#111827' : COLORS.border.light,
                           }}
                         >
                           Teacher
@@ -892,7 +980,12 @@ const Home = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Name</p>
+                        <p
+                          className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                          style={{ color: COLORS.text.tertiary }}
+                        >
+                          Name
+                        </p>
                         <input
                           name="name"
                           value={feedbackForm.name}
@@ -904,7 +997,12 @@ const Home = () => {
                         />
                       </div>
                       <div>
-                        <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>College / Institution</p>
+                        <p
+                          className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                          style={{ color: COLORS.text.tertiary }}
+                        >
+                          College / Institution
+                        </p>
                         <input
                           name="institution"
                           value={feedbackForm.institution}
@@ -918,7 +1016,12 @@ const Home = () => {
                     </div>
 
                     <div>
-                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Role</p>
+                      <p
+                        className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                        style={{ color: COLORS.text.tertiary }}
+                      >
+                        Role
+                      </p>
                       <input
                         name="specificRole"
                         value={feedbackForm.specificRole}
@@ -931,9 +1034,14 @@ const Home = () => {
                     </div>
 
                     <div>
-                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Rating</p>
+                      <p
+                        className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                        style={{ color: COLORS.text.tertiary }}
+                      >
+                        Rating
+                      </p>
                       <div className="flex items-center gap-1.5">
-                        {[1, 2, 3, 4, 5].map((value) => (
+                        {[1, 2, 3, 4, 5].map(value => (
                           <button
                             key={value}
                             type="button"
@@ -959,9 +1067,14 @@ const Home = () => {
                     </div>
 
                     <div>
-                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>How did it feel?</p>
+                      <p
+                        className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                        style={{ color: COLORS.text.tertiary }}
+                      >
+                        How did it feel?
+                      </p>
                       <div className="flex flex-wrap gap-2">
-                        {emotionOptions.map((emotion) => {
+                        {emotionOptions.map(emotion => {
                           const isActive = feedbackForm.emotions.includes(emotion)
                           return (
                             <button
@@ -983,7 +1096,12 @@ const Home = () => {
                     </div>
 
                     <div>
-                      <p className="text-[12px] uppercase tracking-[0.08em] mb-2" style={{ color: COLORS.text.tertiary }}>Experience</p>
+                      <p
+                        className="text-[12px] uppercase tracking-[0.08em] mb-2"
+                        style={{ color: COLORS.text.tertiary }}
+                      >
+                        Experience
+                      </p>
                       <textarea
                         name="experience"
                         value={feedbackForm.experience}
@@ -995,7 +1113,10 @@ const Home = () => {
                         className="w-full rounded-lg border px-3 py-2 text-[14px]"
                         style={{ borderColor: COLORS.border.light }}
                       />
-                      <p className="text-[12px] mt-1 text-right" style={{ color: COLORS.text.tertiary }}>
+                      <p
+                        className="text-[12px] mt-1 text-right"
+                        style={{ color: COLORS.text.tertiary }}
+                      >
                         {feedbackForm.experience.length} / 300
                       </p>
                     </div>
@@ -1017,22 +1138,25 @@ const Home = () => {
               </div>
 
               <div className="space-y-4 w-full">
-                <div className="rounded-xl border p-5" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                <div
+                  className="rounded-xl border p-5"
+                  style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}
+                >
                   <h4 className="text-[15px] font-semibold mb-4">How it works</h4>
                   <div className="space-y-4">
                     {[
                       {
                         title: 'Log in and fill the form',
-                        description: 'Select your role, rate your experience, and add details.'
+                        description: 'Select your role, rate your experience, and add details.',
                       },
                       {
                         title: 'Under review',
-                        description: 'The team reviews it for quality within 24 hours.'
+                        description: 'The team reviews it for quality within 24 hours.',
                       },
                       {
                         title: 'Published in the marquee',
-                        description: 'Your entry goes live and helps future learners.'
-                      }
+                        description: 'Your entry goes live and helps future learners.',
+                      },
                     ].map((step, index) => (
                       <div key={step.title} className="flex gap-3">
                         <div
@@ -1042,65 +1166,98 @@ const Home = () => {
                           {index + 1}
                         </div>
                         <div>
-                          <p className="text-[14px] font-medium" style={{ color: COLORS.text.primary }}>{step.title}</p>
-                          <p className="text-[13px]" style={{ color: COLORS.text.secondary }}>{step.description}</p>
+                          <p
+                            className="text-[14px] font-medium"
+                            style={{ color: COLORS.text.primary }}
+                          >
+                            {step.title}
+                          </p>
+                          <p className="text-[13px]" style={{ color: COLORS.text.secondary }}>
+                            {step.description}
+                          </p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="rounded-xl border p-5" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                <div
+                  className="rounded-xl border p-5"
+                  style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}
+                >
                   <h4 className="text-[15px] font-semibold mb-4">Recent contributions</h4>
                   <div className="space-y-3">
-                    {(communityTestimonials.length ? communityTestimonials : testimonials).slice(0, 2).map((item) => {
-                      const initials = item.name
-                        .split(' ')
-                        .map((part) => part[0])
-                        .join('')
-                        .slice(0, 2)
-                        .toUpperCase()
-                      const isTeacher = (item.userType || '').toLowerCase() === 'teacher'
+                    {(communityTestimonials.length ? communityTestimonials : testimonials)
+                      .slice(0, 2)
+                      .map(item => {
+                        const initials = item.name
+                          .split(' ')
+                          .map(part => part[0])
+                          .join('')
+                          .slice(0, 2)
+                          .toUpperCase()
+                        const isTeacher = (item.userType || '').toLowerCase() === 'teacher'
 
-                      return (
-                        <div key={`recent-${item.id}`} className="rounded-lg border p-3" style={{ borderColor: COLORS.border.light }}>
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="h-8 w-8 rounded-full flex items-center justify-center text-[12px] font-semibold" style={{ backgroundColor: '#e2e8f0', color: '#0f172a' }}>
-                              {initials}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-[14px] font-medium truncate">{item.name}</p>
-                              <span
-                                className="inline-flex px-2 py-0.5 rounded-full text-[12px]"
-                                style={{
-                                  backgroundColor: isTeacher ? '#dcfce7' : '#dbeafe',
-                                  color: isTeacher ? '#166534' : '#1d4ed8',
-                                }}
+                        return (
+                          <div
+                            key={`recent-${item.id}`}
+                            className="rounded-lg border p-3"
+                            style={{ borderColor: COLORS.border.light }}
+                          >
+                            <div className="flex items-center gap-3 mb-2">
+                              <div
+                                className="h-8 w-8 rounded-full flex items-center justify-center text-[12px] font-semibold"
+                                style={{ backgroundColor: '#e2e8f0', color: '#0f172a' }}
                               >
-                                {isTeacher ? 'Teacher' : 'Student'}
-                              </span>
+                                {initials}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="text-[14px] font-medium truncate">{item.name}</p>
+                                <span
+                                  className="inline-flex px-2 py-0.5 rounded-full text-[12px]"
+                                  style={{
+                                    backgroundColor: isTeacher ? '#dcfce7' : '#dbeafe',
+                                    color: isTeacher ? '#166534' : '#1d4ed8',
+                                  }}
+                                >
+                                  {isTeacher ? 'Teacher' : 'Student'}
+                                </span>
+                              </div>
                             </div>
+                            <p
+                              className="text-[13px] truncate"
+                              style={{ color: COLORS.text.secondary }}
+                            >
+                              "{item.content}"
+                            </p>
                           </div>
-                          <p className="text-[13px] truncate" style={{ color: COLORS.text.secondary }}>
-                            "{item.content}"
-                          </p>
-                        </div>
-                      )
-                    })}
+                        )
+                      })}
                   </div>
                 </div>
 
-                <div className="rounded-xl border p-5" style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}>
+                <div
+                  className="rounded-xl border p-5"
+                  style={{ backgroundColor: '#ffffff', borderColor: COLORS.border.light }}
+                >
                   <h4 className="text-[15px] font-semibold mb-3">Trust signal</h4>
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#fff7ed' }}>
+                    <div
+                      className="h-10 w-10 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: '#fff7ed' }}
+                    >
                       <Star className="w-5 h-5" style={{ color: '#EF9F27', fill: '#EF9F27' }} />
                     </div>
                     <div className="flex items-end gap-2">
                       <p className="text-3xl font-bold leading-none">
-                        {(testimonials.reduce((sum, item) => sum + Number(item.rating || 0), 0) / (testimonials.length || 1)).toFixed(1)}
+                        {(
+                          testimonials.reduce((sum, item) => sum + Number(item.rating || 0), 0) /
+                          (testimonials.length || 1)
+                        ).toFixed(1)}
                       </p>
-                      <p className="text-[12px] mb-0.5" style={{ color: COLORS.text.secondary }}>avg rating</p>
+                      <p className="text-[12px] mb-0.5" style={{ color: COLORS.text.secondary }}>
+                        avg rating
+                      </p>
                     </div>
                   </div>
                   <p className="text-[13px] mt-2" style={{ color: COLORS.text.secondary }}>
@@ -1132,20 +1289,24 @@ const Home = () => {
             {[
               {
                 question: 'Is it really free?',
-                answer: 'Yes, our core algorithm visualizations are completely free. Everyone should have access to quality computer science education.'
+                answer:
+                  'Yes, our core algorithm visualizations are completely free. Everyone should have access to quality computer science education.',
               },
               {
                 question: 'Do I need coding experience?',
-                answer: "Our platform is designed for all skill levels. Our visualizations help make complex algorithms understandable."
+                answer:
+                  'Our platform is designed for all skill levels. Our visualizations help make complex algorithms understandable.',
               },
               {
                 question: 'How many algorithms are available?',
-                answer: 'We offer 200+ algorithm visualizations across sorting, searching, graph theory, and more.'
+                answer:
+                  'We offer 200+ algorithm visualizations across sorting, searching, graph theory, and more.',
               },
               {
                 question: 'Can I use this for interview prep?',
-                answer: 'Absolutely! Many users have landed jobs at top tech companies after preparing with our platform.'
-              }
+                answer:
+                  'Absolutely! Many users have landed jobs at top tech companies after preparing with our platform.',
+              },
             ].map((faq, index) => (
               <motion.div
                 key={index}
@@ -1157,13 +1318,16 @@ const Home = () => {
                 style={{
                   backgroundColor: COLORS.bg.surface,
                   borderColor: COLORS.border.light,
-                  boxShadow: SHADOWS.xs
+                  boxShadow: SHADOWS.xs,
                 }}
               >
                 <details className="group p-6">
                   <summary className="flex items-center justify-between cursor-pointer font-semibold">
                     <span>{faq.question}</span>
-                    <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform" style={{ color: COLORS.text.tertiary }} />
+                    <ChevronDown
+                      className="w-5 h-5 group-open:rotate-180 transition-transform"
+                      style={{ color: COLORS.text.tertiary }}
+                    />
                   </summary>
                   <p className="mt-4 text-sm" style={{ color: COLORS.text.secondary }}>
                     {faq.answer}
@@ -1188,10 +1352,9 @@ const Home = () => {
               {user ? 'Continue Your Learning Journey' : 'Ready to Master Algorithms?'}
             </h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto" style={{ color: COLORS.text.secondary }}>
-              {user 
+              {user
                 ? 'Explore more algorithms and advance your programming skills with our interactive visualizations.'
-                : 'Start learning with our interactive visualizations today. No credit card required.'
-              }
+                : 'Start learning with our interactive visualizations today. No credit card required.'}
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -1201,10 +1364,10 @@ const Home = () => {
                 style={{
                   backgroundColor: COLORS.text.primary,
                   color: COLORS.bg.surface,
-                  boxShadow: SHADOWS.md
+                  boxShadow: SHADOWS.md,
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.boxShadow = SHADOWS.lg}
-                onMouseLeave={(e) => e.currentTarget.style.boxShadow = SHADOWS.md}
+                onMouseEnter={e => (e.currentTarget.style.boxShadow = SHADOWS.lg)}
+                onMouseLeave={e => (e.currentTarget.style.boxShadow = SHADOWS.md)}
               >
                 {user ? 'Explore Algorithms' : 'Explore Now'}
               </Link>
@@ -1214,7 +1377,7 @@ const Home = () => {
                   className="px-8 py-4 font-semibold rounded-lg border-2 transition-all duration-300"
                   style={{
                     borderColor: COLORS.text.primary,
-                    color: COLORS.text.primary
+                    color: COLORS.text.primary,
                   }}
                 >
                   Sign Up Free
@@ -1226,7 +1389,7 @@ const Home = () => {
                   className="px-8 py-4 font-semibold rounded-lg border-2 transition-all duration-300"
                   style={{
                     borderColor: COLORS.text.primary,
-                    color: COLORS.text.primary
+                    color: COLORS.text.primary,
                   }}
                 >
                   Go to Dashboard

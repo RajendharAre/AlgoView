@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import { submitIdea } from '../../services/ideasService';
-import { Lightbulb, X } from 'lucide-react';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
+import { submitIdea } from '../../services/ideasService'
+import { Lightbulb, X } from 'lucide-react'
 
 const NewIdea = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     tags: '',
-    references: [] // Initialize with an empty array for references
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+    references: [], // Initialize with an empty array for references
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   if (!user) {
     return (
@@ -23,7 +23,7 @@ const NewIdea = () => {
           <Lightbulb className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Please Log In</h2>
           <p className="text-gray-600 mb-4">You need to be logged in to submit an idea.</p>
-          <button 
+          <button
             onClick={() => navigate('/login')}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
@@ -31,81 +31,94 @@ const NewIdea = () => {
           </button>
         </div>
       </div>
-    );
+    )
   }
 
-  const validateUrl = (urlString) => {
+  const validateUrl = urlString => {
     try {
-      new URL(urlString);
-      return true;
+      new URL(urlString)
+      return true
     } catch (err) {
-      return false;
+      return false
     }
-  };
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
     if (!formData.title.trim()) {
-      setError('Title is required');
-      setLoading(false);
-      return;
+      setError('Title is required')
+      setLoading(false)
+      return
     }
 
     if (!formData.description.trim()) {
-      setError('Description is required');
-      setLoading(false);
-      return;
+      setError('Description is required')
+      setLoading(false)
+      return
     }
 
     // Validate references URLs
-    const invalidUrls = formData.references.filter(ref => !validateUrl(ref.url));
+    const invalidUrls = formData.references.filter(ref => !validateUrl(ref.url))
     if (invalidUrls.length > 0) {
-      setError('Please enter valid URLs for all references');
-      setLoading(false);
-      return;
+      setError('Please enter valid URLs for all references')
+      setLoading(false)
+      return
     }
 
-    const tags = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    const tags = formData.tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(tag => tag)
 
     const ideaData = {
       title: formData.title.trim(),
       description: formData.description.trim(),
       tags,
-      references: formData.references
-    };
-
-    const result = await submitIdea(ideaData, user.uid, user.displayName || user.email.split('@')[0]);
-    
-    if (result.success) {
-      navigate('/ideas');
-    } else {
-      setError(result.error || 'Failed to submit idea');
+      references: formData.references,
     }
 
-    setLoading(false);
-  };
+    const result = await submitIdea(
+      ideaData,
+      user.uid,
+      user.displayName || user.email.split('@')[0]
+    )
 
-  const addTag = (tag) => {
-    const currentTags = formData.tags.split(',').map(t => t.trim()).filter(t => t);
+    if (result.success) {
+      navigate('/ideas')
+    } else {
+      setError(result.error || 'Failed to submit idea')
+    }
+
+    setLoading(false)
+  }
+
+  const addTag = tag => {
+    const currentTags = formData.tags
+      .split(',')
+      .map(t => t.trim())
+      .filter(t => t)
     if (!currentTags.includes(tag) && tag.trim()) {
       setFormData(prev => ({
         ...prev,
-        tags: [...currentTags, tag.trim()].join(', ')
-      }));
+        tags: [...currentTags, tag.trim()].join(', '),
+      }))
     }
-  };
+  }
 
-  const removeTag = (tagToRemove) => {
-    const currentTags = formData.tags.split(',').map(t => t.trim()).filter(t => t);
-    const updatedTags = currentTags.filter(tag => tag !== tagToRemove);
+  const removeTag = tagToRemove => {
+    const currentTags = formData.tags
+      .split(',')
+      .map(t => t.trim())
+      .filter(t => t)
+    const updatedTags = currentTags.filter(tag => tag !== tagToRemove)
     setFormData(prev => ({
       ...prev,
-      tags: updatedTags.join(', ')
-    }));
-  };
+      tags: updatedTags.join(', '),
+    }))
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -124,11 +137,7 @@ const NewIdea = () => {
             </button>
           </div>
 
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md">
-              {error}
-            </div>
-          )}
+          {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md">{error}</div>}
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -139,7 +148,7 @@ const NewIdea = () => {
                 type="text"
                 id="title"
                 value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter a catchy title for your idea"
               />
@@ -153,27 +162,25 @@ const NewIdea = () => {
                 id="description"
                 rows={6}
                 value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Describe your idea in detail..."
               />
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Tags
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
               <input
                 type="text"
                 value={formData.tags}
-                onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
+                onChange={e => setFormData(prev => ({ ...prev, tags: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
                 placeholder="Enter tags separated by commas (e.g., DSA, Education, Visualization)"
               />
-              
+
               <div className="flex flex-wrap gap-2">
                 {formData.tags.split(',').map((tag, index) => {
-                  const trimmedTag = tag.trim();
+                  const trimmedTag = tag.trim()
                   return trimmedTag ? (
                     <span
                       key={index}
@@ -188,27 +195,30 @@ const NewIdea = () => {
                         ×
                       </button>
                     </span>
-                  ) : null;
+                  ) : null
                 })}
               </div>
             </div>
 
             {/* References section */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                References
-              </label>
-              <p className="text-xs text-gray-500 mb-3">Add external links related to your idea (GitHub, articles, research papers, etc.)</p>
-              
+              <label className="block text-sm font-medium text-gray-700 mb-1">References</label>
+              <p className="text-xs text-gray-500 mb-3">
+                Add external links related to your idea (GitHub, articles, research papers, etc.)
+              </p>
+
               <div className="space-y-3">
                 {formData.references.map((reference, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <select
                       value={reference.type}
-                      onChange={(e) => {
-                        const updatedReferences = [...formData.references];
-                        updatedReferences[index] = { ...updatedReferences[index], type: e.target.value };
-                        setFormData(prev => ({ ...prev, references: updatedReferences }));
+                      onChange={e => {
+                        const updatedReferences = [...formData.references]
+                        updatedReferences[index] = {
+                          ...updatedReferences[index],
+                          type: e.target.value,
+                        }
+                        setFormData(prev => ({ ...prev, references: updatedReferences }))
                       }}
                       className="w-32"
                     >
@@ -217,24 +227,27 @@ const NewIdea = () => {
                       <option value="research-paper">Research Paper</option>
                       <option value="other">Other</option>
                     </select>
-                    
+
                     <input
                       type="url"
                       value={reference.url}
-                      onChange={(e) => {
-                        const updatedReferences = [...formData.references];
-                        updatedReferences[index] = { ...updatedReferences[index], url: e.target.value };
-                        setFormData(prev => ({ ...prev, references: updatedReferences }));
+                      onChange={e => {
+                        const updatedReferences = [...formData.references]
+                        updatedReferences[index] = {
+                          ...updatedReferences[index],
+                          url: e.target.value,
+                        }
+                        setFormData(prev => ({ ...prev, references: updatedReferences }))
                       }}
                       className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="https://example.com"
                     />
-                    
+
                     <button
                       type="button"
                       onClick={() => {
-                        const updatedReferences = formData.references.filter((_, i) => i !== index);
-                        setFormData(prev => ({ ...prev, references: updatedReferences }));
+                        const updatedReferences = formData.references.filter((_, i) => i !== index)
+                        setFormData(prev => ({ ...prev, references: updatedReferences }))
                       }}
                       className="px-3 py-2 text-red-600 hover:text-red-800"
                     >
@@ -243,7 +256,7 @@ const NewIdea = () => {
                   </div>
                 ))}
               </div>
-              
+
               {formData.references.length < 10 && (
                 <button
                   type="button"
@@ -251,8 +264,8 @@ const NewIdea = () => {
                     if (formData.references.length < 10) {
                       setFormData(prev => ({
                         ...prev,
-                        references: [...prev.references, { type: 'github', url: '' }]
-                      }));
+                        references: [...prev.references, { type: 'github', url: '' }],
+                      }))
                     }
                   }}
                   className="mt-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm"
@@ -260,9 +273,11 @@ const NewIdea = () => {
                   + Add Reference
                 </button>
               )}
-              
+
               {formData.references.length > 0 && (
-                <p className="text-xs text-gray-500 mt-2">{formData.references.length}/10 references added</p>
+                <p className="text-xs text-gray-500 mt-2">
+                  {formData.references.length}/10 references added
+                </p>
               )}
             </div>
 
@@ -286,7 +301,7 @@ const NewIdea = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NewIdea;
+export default NewIdea

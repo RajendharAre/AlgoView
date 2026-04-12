@@ -142,9 +142,7 @@ const GraphColoringSidebar = ({
       <div className="flex-1 p-6 space-y-6">
         <div
           className={`p-4 rounded-xl border-l-4 transition-all ${
-            isRunning
-              ? 'bg-[#212529] text-white shadow-md'
-              : 'bg-[#f8f9faff] border-[#dee2e6]'
+            isRunning ? 'bg-[#212529] text-white shadow-md' : 'bg-[#f8f9faff] border-[#dee2e6]'
           }`}
         >
           <p className="text-[9px] font-black uppercase opacity-60 mb-1">Process Status</p>
@@ -159,7 +157,9 @@ const GraphColoringSidebar = ({
             <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-red-500 via-blue-500 to-green-500 animate-spin-slow"></div>
             <span className="text-3xl font-black font-mono">{chromaticNumber || '-'}</span>
           </div>
-          <p className="text-[8px] text-[#adb5bd] mt-2 font-medium">Distinct colors currently assigned.</p>
+          <p className="text-[8px] text-[#adb5bd] mt-2 font-medium">
+            Distinct colors currently assigned.
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -202,8 +202,8 @@ const ToolButton = ({ active, onClick, disabled, icon, label, desc, danger }) =>
         active
           ? 'bg-white/20 text-white'
           : danger
-          ? 'bg-red-50 text-red-500'
-          : 'bg-[#f1f3f5] text-[#6c757d]'
+            ? 'bg-red-50 text-red-500'
+            : 'bg-[#f1f3f5] text-[#6c757d]'
       }`}
     >
       {icon}

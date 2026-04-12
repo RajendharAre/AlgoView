@@ -39,7 +39,7 @@ const Kruskal = () => {
 
   // --- Graph Management ---
 
-  const handleCanvasClick = (e) => {
+  const handleCanvasClick = e => {
     if (isRunning || mode !== 'ADD') return
     const rect = svgRef.current.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -82,7 +82,7 @@ const Kruskal = () => {
     setRejectedEdges([])
     setSortedEdges([])
     setTotalWeight(0)
-    setCurrentStep("Ready to find the Minimum Spanning Tree.")
+    setCurrentStep('Ready to find the Minimum Spanning Tree.')
   }
 
   const sleep = () => new Promise(r => setTimeout(r, speedRef.current))
@@ -192,7 +192,10 @@ const Kruskal = () => {
         edges={edges}
       />
 
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
+      <main
+        className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0"
+        onClick={handleCanvasClick}
+      >
         <KruskalCanvas
           ref={svgRef}
           nodes={nodes}

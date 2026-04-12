@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const InteractiveFeatureCard = ({ feature, COLORS }) => {
-  const Icon = feature.icon;
-  
+  const Icon = feature.icon
+
   return (
     <StyledWrapper colors={COLORS}>
       <a href={feature.link} className="card-link">
@@ -19,8 +19,8 @@ const InteractiveFeatureCard = ({ feature, COLORS }) => {
         </div>
       </a>
     </StyledWrapper>
-  );
-};
+  )
+}
 
 const StyledWrapper = styled.div`
   .card-link {
@@ -40,9 +40,11 @@ const StyledWrapper = styled.div`
     gap: 16px;
     padding: 32px;
     border-radius: 16px;
-    background: linear-gradient(135deg, 
-      ${props => props.colors.bg.surface} 0%, 
-      ${props => props.colors.bg.secondary} 100%);
+    background: linear-gradient(
+      135deg,
+      ${props => props.colors.bg.surface} 0%,
+      ${props => props.colors.bg.secondary} 100%
+    );
     border: 1px solid ${props => props.colors.border.light};
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
@@ -117,6 +119,6 @@ const StyledWrapper = styled.div`
     opacity: 1;
     transform: translateX(4px);
   }
-`;
+`
 
-export default InteractiveFeatureCard;
+export default InteractiveFeatureCard

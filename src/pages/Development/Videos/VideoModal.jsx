@@ -1,6 +1,6 @@
-import React, { memo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaExternalLinkAlt } from 'react-icons/fa';
+import React, { memo, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaTimes, FaExternalLinkAlt } from 'react-icons/fa'
 
 /**
  * VideoModal Component
@@ -8,36 +8,32 @@ import { FaTimes, FaExternalLinkAlt } from 'react-icons/fa';
  * Handles keyboard shortcuts (Escape) and outside clicks
  * Simplified - shows only title, description, and video player
  */
-const VideoModal = memo(({
-  video,
-  isOpen,
-  onClose
-}) => {
+const VideoModal = memo(({ video, isOpen, onClose }) => {
   // Close modal on Escape key
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) return
 
-    const handleEscape = (e) => {
+    const handleEscape = e => {
       if (e.key === 'Escape') {
-        onClose();
+        onClose()
       }
-    };
+    }
 
-    document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEscape)
+    document.body.style.overflow = 'hidden'
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen, onClose]);
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen, onClose])
 
-  if (!video) return null;
+  if (!video) return null
 
-  const { title, videoUrl, description } = video;
+  const { title, videoUrl, description } = video
 
   // Validate video URL
-  const isValidUrl = videoUrl && videoUrl.includes('embed');
+  const isValidUrl = videoUrl && videoUrl.includes('embed')
 
   return (
     <AnimatePresence>
@@ -62,12 +58,9 @@ const VideoModal = memo(({
             className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-6 lg:p-8"
           >
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl flex flex-col max-h-[90vh] overflow-y-auto">
-              
               {/* Header */}
               <div className="sticky top-0 bg-gradient-to-r from-gray-900 to-gray-800 px-6 py-4 flex items-center justify-between border-b border-gray-700 z-10">
-                <h2 className="text-xl font-bold text-white line-clamp-1 flex-1">
-                  {title}
-                </h2>
+                <h2 className="text-xl font-bold text-white line-clamp-1 flex-1">{title}</h2>
                 <button
                   onClick={onClose}
                   className="ml-4 p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
@@ -146,7 +139,19 @@ const VideoModal = memo(({
 
                 {/* Keyboard Hint */}
                 <div className="pt-3 border-t border-gray-100 text-xs text-gray-500 flex items-center gap-1">
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
                   Press ESC to close
                 </div>
               </div>
@@ -155,9 +160,9 @@ const VideoModal = memo(({
         </>
       )}
     </AnimatePresence>
-  );
-});
+  )
+})
 
-VideoModal.displayName = 'VideoModal';
+VideoModal.displayName = 'VideoModal'
 
-export default VideoModal;
+export default VideoModal

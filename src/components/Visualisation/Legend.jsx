@@ -1,6 +1,6 @@
-import React from 'react';
-import { Info } from 'lucide-react';
-import { COLORS } from '../../constants/visualizationConstants';
+import React from 'react'
+import { Info } from 'lucide-react'
+import { COLORS } from '../../constants/visualizationConstants'
 
 const Legend = ({ items, description, showDivider = true }) => {
   return (
@@ -10,9 +10,9 @@ const Legend = ({ items, description, showDivider = true }) => {
           <LegendItem key={index} color={item.color} label={item.label} icon={item.icon} />
         ))}
       </div>
-      
+
       {showDivider && <div className="w-full h-px bg-[#dee2e6] opacity-50"></div>}
-      
+
       {description && (
         <div className="flex items-center gap-2">
           <Info size={14} className="text-[#adb5bd]" />
@@ -22,8 +22,8 @@ const Legend = ({ items, description, showDivider = true }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
 const LegendItem = ({ color, label, icon }) => (
   <div className="flex items-center gap-2">
@@ -32,6 +32,6 @@ const LegendItem = ({ color, label, icon }) => (
     </div>
     <span className="text-[9px] font-black uppercase text-[#6c757d] tracking-wide">{label}</span>
   </div>
-);
+)
 
-export default Legend;
+export default Legend

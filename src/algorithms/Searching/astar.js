@@ -10,13 +10,14 @@ export const astarInfo = {
     time: {
       best: 'O(b^d)',
       average: 'O(b^d)',
-      worst: 'O(b^d)'
+      worst: 'O(b^d)',
     },
-    space: 'O(b^d)'
+    space: 'O(b^d)',
   },
   stable: false,
   inPlace: false,
-  description: 'A* is an informed search algorithm that finds the optimal path between nodes in a graph. It combines the benefits of Dijkstra\'s algorithm and greedy best-first search by considering both the cost to reach a node and an heuristic estimate of the cost to the goal.',
+  description:
+    "A* is an informed search algorithm that finds the optimal path between nodes in a graph. It combines the benefits of Dijkstra's algorithm and greedy best-first search by considering both the cost to reach a node and an heuristic estimate of the cost to the goal.",
   code: {
     javascript: `
 function aStar(grid, start, goal, heuristic) {
@@ -96,7 +97,7 @@ public List<Node> aStar(Grid grid, Node start, Node goal, Heuristic heuristic) {
         }
     }
     return null;
-}`
+}`,
   },
   useCases: [
     'Pathfinding in game AI and robotics',
@@ -104,7 +105,7 @@ public List<Node> aStar(Grid grid, Node start, Node goal, Heuristic heuristic) {
     'Finding optimal solutions with heuristic guidance',
     'Solving puzzles and maze problems',
     'Real-time path computation with admissible heuristics',
-    'Computer vision and image processing applications'
+    'Computer vision and image processing applications',
   ],
   keyPoints: [
     'Combines actual cost (g) and heuristic estimate (h) to find optimal paths',
@@ -112,6 +113,6 @@ public List<Node> aStar(Grid grid, Node start, Node goal, Heuristic heuristic) {
     'Requires an admissible heuristic for guaranteed optimal solution',
     'More efficient than Dijkstra when good heuristic is available',
     'Widely used in game development and robotics',
-    'Manhattan or Euclidean distance commonly used as heuristics'
-  ]
+    'Manhattan or Euclidean distance commonly used as heuristics',
+  ],
 }

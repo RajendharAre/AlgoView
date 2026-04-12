@@ -1,6 +1,15 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MessageCircle, Clock3, ShieldCheck, BookOpen, ExternalLink, Send, CheckCircle2 } from 'lucide-react'
+import {
+  Mail,
+  MessageCircle,
+  Clock3,
+  ShieldCheck,
+  BookOpen,
+  ExternalLink,
+  Send,
+  CheckCircle2,
+} from 'lucide-react'
 import { sendSupportRequest } from '../services/supportService'
 
 const contactCards = [
@@ -9,41 +18,41 @@ const contactCards = [
     description: 'Best for account issues, billing questions, and bug reports.',
     action: 'support@algoview.app',
     href: 'mailto:support@algoview.app',
-    icon: Mail
+    icon: Mail,
   },
   {
     title: 'Community Q&A',
     description: 'Ask questions and get help from learners and contributors.',
     action: 'Open Community',
     href: '/development/community',
-    icon: MessageCircle
+    icon: MessageCircle,
   },
   {
     title: 'Documentation',
     description: 'Find setup guides, workflow docs, and feature walkthroughs.',
     action: 'Read Documentation',
     href: '/documentation',
-    icon: BookOpen
-  }
+    icon: BookOpen,
+  },
 ]
 
 const faqs = [
   {
     q: 'How quickly will I get a response?',
-    a: 'Most support requests receive a response within 24 hours on business days.'
+    a: 'Most support requests receive a response within 24 hours on business days.',
   },
   {
     q: 'What details should I include for a bug report?',
-    a: 'Include steps to reproduce, your browser and OS, screenshots, and any console errors.'
+    a: 'Include steps to reproduce, your browser and OS, screenshots, and any console errors.',
   },
   {
     q: 'Can I request a new algorithm visualization?',
-    a: 'Yes. Share your request in Community with expected behavior and sample input/output.'
+    a: 'Yes. Share your request in Community with expected behavior and sample input/output.',
   },
   {
     q: 'Where can I track product updates?',
-    a: 'Check the Documentation page and Development Hub sections for newly released content.'
-  }
+    a: 'Check the Documentation page and Development Hub sections for newly released content.',
+  },
 ]
 
 const SupportHeroIllustration = () => (
@@ -55,8 +64,26 @@ const SupportHeroIllustration = () => (
     className="w-full max-w-[500px]"
   >
     {/* Main help desk panel */}
-    <rect x="84" y="38" width="352" height="248" rx="16" fill="white" stroke="#1e293b" strokeWidth="2.5" />
-    <rect x="96" y="50" width="328" height="224" rx="10" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1" />
+    <rect
+      x="84"
+      y="38"
+      width="352"
+      height="248"
+      rx="16"
+      fill="white"
+      stroke="#1e293b"
+      strokeWidth="2.5"
+    />
+    <rect
+      x="96"
+      y="50"
+      width="328"
+      height="224"
+      rx="10"
+      fill="#f8fafc"
+      stroke="#cbd5e1"
+      strokeWidth="1"
+    />
 
     {/* Header strip */}
     <rect x="96" y="50" width="328" height="34" rx="10" fill="#e2e8f0" />
@@ -66,7 +93,16 @@ const SupportHeroIllustration = () => (
     <rect x="164" y="62" width="122" height="10" rx="4" fill="#94a3b8" />
 
     {/* Left chat list */}
-    <rect x="110" y="100" width="106" height="158" rx="8" fill="white" stroke="#dbeafe" strokeWidth="1.2" />
+    <rect
+      x="110"
+      y="100"
+      width="106"
+      height="158"
+      rx="8"
+      fill="white"
+      stroke="#dbeafe"
+      strokeWidth="1.2"
+    />
     <rect x="120" y="112" width="72" height="8" rx="3" fill="#cbd5e1" />
     <rect x="120" y="126" width="84" height="30" rx="6" fill="#eff6ff" stroke="#bfdbfe" />
     <circle cx="130" cy="141" r="6" fill="#3b82f6" opacity="0.25" />
@@ -79,7 +115,16 @@ const SupportHeroIllustration = () => (
     <rect x="141" y="212" width="56" height="6" rx="2" fill="#cbd5e1" />
 
     {/* Active ticket area */}
-    <rect x="230" y="100" width="180" height="158" rx="8" fill="white" stroke="#dbeafe" strokeWidth="1.2" />
+    <rect
+      x="230"
+      y="100"
+      width="180"
+      height="158"
+      rx="8"
+      fill="white"
+      stroke="#dbeafe"
+      strokeWidth="1.2"
+    />
     <rect x="244" y="114" width="80" height="8" rx="3" fill="#94a3b8" />
     <rect x="244" y="129" width="46" height="6" rx="3" fill="#cbd5e1" />
 
@@ -92,14 +137,46 @@ const SupportHeroIllustration = () => (
     <rect x="254" y="223" width="84" height="8" rx="3" fill="#3b82f6" opacity="0.45" />
 
     {/* Input bar */}
-    <rect x="230" y="265" width="180" height="21" rx="10" fill="white" stroke="#bfdbfe" strokeWidth="1.2" />
+    <rect
+      x="230"
+      y="265"
+      width="180"
+      height="21"
+      rx="10"
+      fill="white"
+      stroke="#bfdbfe"
+      strokeWidth="1.2"
+    />
     <rect x="242" y="272" width="92" height="7" rx="3" fill="#cbd5e1" />
     <circle cx="392" cy="275" r="7" fill="#3b82f6" />
-    <polyline points="389,275 392,272 395,275" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    <line x1="392" y1="272" x2="392" y2="279" stroke="white" strokeWidth="1.6" strokeLinecap="round" />
+    <polyline
+      points="389,275 392,272 395,275"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1="392"
+      y1="272"
+      x2="392"
+      y2="279"
+      stroke="white"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+    />
 
     {/* Floating support badge */}
-    <rect x="14" y="132" width="84" height="98" rx="12" fill="white" stroke="#1e293b" strokeWidth="1.6" />
+    <rect
+      x="14"
+      y="132"
+      width="84"
+      height="98"
+      rx="12"
+      fill="white"
+      stroke="#1e293b"
+      strokeWidth="1.6"
+    />
     <rect x="14" y="132" width="84" height="8" rx="12" fill="#3b82f6" />
     <circle cx="56" cy="168" r="18" fill="#eff6ff" stroke="#93c5fd" strokeWidth="1.2" />
     <path d="M49 168h14M56 161v14" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" />
@@ -107,19 +184,65 @@ const SupportHeroIllustration = () => (
     <rect x="38" y="208" width="36" height="6" rx="3" fill="#dbeafe" />
 
     {/* Floating checklist card */}
-    <rect x="398" y="300" width="106" height="70" rx="12" fill="white" stroke="#1e293b" strokeWidth="1.6" />
+    <rect
+      x="398"
+      y="300"
+      width="106"
+      height="70"
+      rx="12"
+      fill="white"
+      stroke="#1e293b"
+      strokeWidth="1.6"
+    />
     <rect x="410" y="316" width="48" height="7" rx="3" fill="#94a3b8" />
     <circle cx="414" cy="336" r="5.5" fill="#dbeafe" stroke="#60a5fa" />
-    <polyline points="411,336 414,339 418,333" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <polyline
+      points="411,336 414,339 418,333"
+      stroke="#2563eb"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
     <rect x="424" y="333" width="62" height="6" rx="3" fill="#cbd5e1" />
     <circle cx="414" cy="350" r="5.5" fill="#dbeafe" stroke="#60a5fa" />
-    <polyline points="411,350 414,353 418,347" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <polyline
+      points="411,350 414,353 418,347"
+      stroke="#2563eb"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
     <rect x="424" y="347" width="48" height="6" rx="3" fill="#cbd5e1" />
 
     {/* Base shadow and decorative lines */}
-    <rect x="132" y="300" width="256" height="14" rx="7" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.2" />
-    <line x1="98" y1="334" x2="164" y2="334" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="5,4" />
-    <line x1="354" y1="334" x2="398" y2="334" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="5,4" />
+    <rect
+      x="132"
+      y="300"
+      width="256"
+      height="14"
+      rx="7"
+      fill="#e2e8f0"
+      stroke="#94a3b8"
+      strokeWidth="1.2"
+    />
+    <line
+      x1="98"
+      y1="334"
+      x2="164"
+      y2="334"
+      stroke="#cbd5e1"
+      strokeWidth="1.5"
+      strokeDasharray="5,4"
+    />
+    <line
+      x1="354"
+      y1="334"
+      x2="398"
+      y2="334"
+      stroke="#cbd5e1"
+      strokeWidth="1.5"
+      strokeDasharray="5,4"
+    />
   </svg>
 )
 
@@ -128,18 +251,18 @@ const Support = () => {
     name: '',
     email: '',
     topic: 'general',
-    message: ''
+    message: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const onChange = (e) => {
+  const onChange = e => {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
+    setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault()
     setSubmitting(true)
     setError('')
@@ -148,7 +271,7 @@ const Support = () => {
       await sendSupportRequest({
         ...form,
         source: 'support-page',
-        subject: `Support request (${form.topic})`
+        subject: `Support request (${form.topic})`,
       })
       setSubmitted(true)
     } catch (err) {
@@ -176,7 +299,8 @@ const Support = () => {
               We are here to help you keep learning without blockers
             </h1>
             <p className="mt-4 text-slate-600 text-base sm:text-lg">
-              Reach out for technical issues, account help, or platform guidance. Pick the fastest support path below.
+              Reach out for technical issues, account help, or platform guidance. Pick the fastest
+              support path below.
             </p>
             <div className="mt-6 inline-flex items-center gap-2 text-sm text-slate-600">
               <Clock3 className="h-4 w-4 text-blue-600" />
@@ -239,7 +363,10 @@ const Support = () => {
                 <CheckCircle2 className="h-5 w-5 mt-0.5" />
                 <div>
                   <p className="font-semibold">Request received</p>
-                  <p className="text-sm mt-1">Thanks for contacting support. We will get back to you at the email you provided.</p>
+                  <p className="text-sm mt-1">
+                    Thanks for contacting support. We will get back to you at the email you
+                    provided.
+                  </p>
                 </div>
               </div>
             ) : (
@@ -312,9 +439,11 @@ const Support = () => {
             transition={{ delay: 0.05 }}
             className="lg:col-span-2 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm"
           >
-            <h3 className="text-2xl font-semibold text-slate-900 mb-4">Frequently Asked Questions</h3>
+            <h3 className="text-2xl font-semibold text-slate-900 mb-4">
+              Frequently Asked Questions
+            </h3>
             <div className="space-y-4">
-              {faqs.map((item) => (
+              {faqs.map(item => (
                 <div key={item.q} className="rounded-xl border border-slate-200 p-4">
                   <p className="font-medium text-slate-900">{item.q}</p>
                   <p className="text-sm text-slate-600 mt-2">{item.a}</p>

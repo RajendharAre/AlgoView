@@ -13,7 +13,7 @@ const DSARewardsRedeem = () => {
       points: 500,
       image: null,
       description: 'Premium cotton t-shirt with algorithm visualization design',
-      category: 'Merchandise'
+      category: 'Merchandise',
     },
     {
       id: 2,
@@ -21,7 +21,7 @@ const DSARewardsRedeem = () => {
       points: 1200,
       image: null,
       description: '3-month access to premium DSA course content',
-      category: 'Courses'
+      category: 'Courses',
     },
     {
       id: 3,
@@ -29,7 +29,7 @@ const DSARewardsRedeem = () => {
       points: 150,
       image: null,
       description: 'Set of 10 algorithm-themed stickers',
-      category: 'Merchandise'
+      category: 'Merchandise',
     },
     {
       id: 4,
@@ -37,7 +37,7 @@ const DSARewardsRedeem = () => {
       points: 2000,
       image: null,
       description: '60-minute 1:1 session with DSA expert',
-      category: 'Services'
+      category: 'Services',
     },
     {
       id: 5,
@@ -45,7 +45,7 @@ const DSARewardsRedeem = () => {
       points: 300,
       image: null,
       description: 'Leather-bound notebook for coding notes',
-      category: 'Merchandise'
+      category: 'Merchandise',
     },
     {
       id: 6,
@@ -53,14 +53,14 @@ const DSARewardsRedeem = () => {
       points: 100,
       image: null,
       description: 'Official certificate for completing DSA challenges',
-      category: 'Certificates'
-    }
+      category: 'Certificates',
+    },
   ]
 
   // Mock user points
   const userPoints = 1150
 
-  const handleRedeem = (item) => {
+  const handleRedeem = item => {
     if (userPoints >= item.points) {
       setSelectedItem(item)
     }
@@ -96,14 +96,18 @@ const DSARewardsRedeem = () => {
 
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {rewards.map((reward) => (
+              {rewards.map(reward => (
                 <div
                   key={reward.id}
                   className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
                 >
                   <div className="h-48 bg-gray-100 flex items-center justify-center">
                     {reward.image ? (
-                      <img src={reward.image} alt={reward.name} className="w-full h-full object-cover" />
+                      <img
+                        src={reward.image}
+                        alt={reward.name}
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
                       <Gift className="text-gray-400" size={48} />
                     )}
@@ -156,7 +160,8 @@ const DSARewardsRedeem = () => {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Confirm Redemption</h3>
               <p className="text-gray-600 mb-4">
-                Are you sure you want to redeem <span className="font-medium">{selectedItem.name}</span> for{' '}
+                Are you sure you want to redeem{' '}
+                <span className="font-medium">{selectedItem.name}</span> for{' '}
                 <span className="font-bold text-gray-900">{selectedItem.points}</span> points?
               </p>
               <div className="flex items-center justify-center gap-3">

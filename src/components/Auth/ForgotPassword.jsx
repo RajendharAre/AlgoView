@@ -76,7 +76,9 @@ const ForgotPassword = ({ onBackToLogin }) => {
           // Active code exists — go directly to code step
           setStep('code')
           setResendAttempts(existingData.resendCount || 0)
-          setSuccess('A reset code was already sent to your email. Please check your inbox or request a new code.')
+          setSuccess(
+            'A reset code was already sent to your email. Please check your inbox or request a new code.'
+          )
           setLoading(false)
           return
         }
@@ -327,7 +329,10 @@ const ForgotPassword = ({ onBackToLogin }) => {
 
   const handlePaste = e => {
     e.preventDefault()
-    const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6)
+    const pastedData = e.clipboardData
+      .getData('text')
+      .replace(/[^0-9]/g, '')
+      .slice(0, 6)
     if (pastedData.length === 6) {
       setCode(pastedData.split(''))
     }
@@ -349,7 +354,11 @@ const ForgotPassword = ({ onBackToLogin }) => {
       className="flex items-start gap-2 p-3 bg-red-50 border border-red-100 text-red-600 rounded-xl text-sm"
     >
       <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+        <path
+          fillRule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clipRule="evenodd"
+        />
       </svg>
       {message}
     </motion.div>
@@ -362,7 +371,11 @@ const ForgotPassword = ({ onBackToLogin }) => {
       className="flex items-start gap-2 p-3 bg-green-50 border border-green-100 text-green-700 rounded-xl text-sm"
     >
       <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        <path
+          fillRule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clipRule="evenodd"
+        />
       </svg>
       {message}
     </motion.div>
@@ -396,20 +409,26 @@ const ForgotPassword = ({ onBackToLogin }) => {
                   i < currentStepIndex
                     ? 'bg-green-500 text-white'
                     : i === currentStepIndex
-                    ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-400'
+                      ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-400'
                 }`}
               >
                 {i < currentStepIndex ? (
                   <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 ) : (
                   i + 1
                 )}
               </div>
               {i < steps.length - 1 && (
-                <div className={`w-8 h-0.5 rounded ${i < currentStepIndex ? 'bg-green-400' : 'bg-gray-200'}`} />
+                <div
+                  className={`w-8 h-0.5 rounded ${i < currentStepIndex ? 'bg-green-400' : 'bg-gray-200'}`}
+                />
               )}
             </div>
           ))}
@@ -428,11 +447,16 @@ const ForgotPassword = ({ onBackToLogin }) => {
             className="space-y-5"
           >
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Email Address
+              </label>
               <input
                 type="email"
                 value={email}
-                onChange={e => { setEmail(e.target.value); setError('') }}
+                onChange={e => {
+                  setEmail(e.target.value)
+                  setError('')
+                }}
                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 focus:bg-white transition-all duration-200"
                 placeholder="you@example.com"
                 required
@@ -512,7 +536,8 @@ const ForgotPassword = ({ onBackToLogin }) => {
             <div className="text-center">
               {resendCountdown > 0 ? (
                 <p className="text-sm text-gray-400">
-                  Resend code in <span className="font-semibold text-gray-600">{resendCountdown}s</span>
+                  Resend code in{' '}
+                  <span className="font-semibold text-gray-600">{resendCountdown}s</span>
                 </p>
               ) : (
                 <button
@@ -545,7 +570,10 @@ const ForgotPassword = ({ onBackToLogin }) => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={newPassword}
-                  onChange={e => { setNewPassword(e.target.value); setError('') }}
+                  onChange={e => {
+                    setNewPassword(e.target.value)
+                    setError('')
+                  }}
                   className="w-full px-4 py-3 pr-11 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 focus:bg-white transition-all duration-200"
                   placeholder="Min. 6 characters"
                   disabled={loading}
@@ -562,12 +590,17 @@ const ForgotPassword = ({ onBackToLogin }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirm New Password</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Confirm New Password
+              </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
-                  onChange={e => { setConfirmPassword(e.target.value); setError('') }}
+                  onChange={e => {
+                    setConfirmPassword(e.target.value)
+                    setError('')
+                  }}
                   className="w-full px-4 py-3 pr-11 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 focus:bg-white transition-all duration-200"
                   placeholder="Confirm your new password"
                   disabled={loading}
@@ -612,7 +645,11 @@ const ForgotPassword = ({ onBackToLogin }) => {
           >
             <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
               <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
             </div>
             <AlertSuccess message={success} />

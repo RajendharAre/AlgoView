@@ -1,72 +1,74 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Calendar, Clock, ArrowLeft, Share2, Tag, MessageSquare, ChevronRight } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { getBlogBySlug, incrementBlogViews } from '../../services/blogsService';
-import { trackEvent } from '../../lib/analytics';
-import usePageMeta from '../../hooks/usePageMeta';
-import Loader from '../../components/Common/Loader';
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { Calendar, Clock, ArrowLeft, Share2, Tag, MessageSquare, ChevronRight } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { getBlogBySlug, incrementBlogViews } from '../../services/blogsService'
+import { trackEvent } from '../../lib/analytics'
+import usePageMeta from '../../hooks/usePageMeta'
+import Loader from '../../components/Common/Loader'
 
 const BlogPost = () => {
-  const { slug } = useParams();
-  const navigate = useNavigate();
-  const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [commentText, setCommentText] = useState('');
+  const { slug } = useParams()
+  const navigate = useNavigate()
+  const [blog, setBlog] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [copied, setCopied] = useState(false)
+  const [comments, setComments] = useState([])
+  const [commentText, setCommentText] = useState('')
 
   useEffect(() => {
     const fetchBlog = async () => {
-      setLoading(true);
-      const foundBlog = await getBlogBySlug(slug);
-      
+      setLoading(true)
+      const foundBlog = await getBlogBySlug(slug)
+
       if (!foundBlog) {
-        navigate('/blog');
-        return;
+        navigate('/blog')
+        return
       }
 
-      setBlog(foundBlog);
+      setBlog(foundBlog)
 
       // Increment views
       if (foundBlog.id) {
-        await incrementBlogViews(foundBlog.id);
+        await incrementBlogViews(foundBlog.id)
       }
 
       // Track blog view
       trackEvent('blog_post_viewed', {
         slug: foundBlog.slug,
         title: foundBlog.title,
-        category: foundBlog.category
-      });
+        category: foundBlog.category,
+      })
 
       // Load comments from localStorage (mock - in production, use Firebase subcollection)
-      const savedComments = localStorage.getItem(`blog-comments-${slug}`);
+      const savedComments = localStorage.getItem(`blog-comments-${slug}`)
       if (savedComments) {
-        setComments(JSON.parse(savedComments));
+        setComments(JSON.parse(savedComments))
       }
 
-      setLoading(false);
-    };
+      setLoading(false)
+    }
 
-    fetchBlog();
-  }, [slug, navigate]);
+    fetchBlog()
+  }, [slug, navigate])
 
   // Set page metadata for SEO
   usePageMeta(
-    blog ? {
-      title: `${blog.title} - AlgoView Blog`,
-      description: blog.excerpt,
-      keywords: blog.keywords,
-      ogImage: '/og-blog.png'
-    } : {}
-  );
+    blog
+      ? {
+          title: `${blog.title} - AlgoView Blog`,
+          description: blog.excerpt,
+          keywords: blog.keywords,
+          ogImage: '/og-blog.png',
+        }
+      : {}
+  )
 
   if (loading) {
-    return <Loader />;
+    return <Loader />
   }
 
   if (!blog) {
@@ -76,56 +78,56 @@ const BlogPost = () => {
           <div className="text-gray-400">Blog not found</div>
         </div>
       </div>
-    );
+    )
   }
 
-  const handleShare = (platform) => {
-    const url = window.location.href;
-    const title = blog.title;
+  const handleShare = platform => {
+    const url = window.location.href
+    const title = blog.title
 
     trackEvent('blog_post_shared', {
       slug: blog.slug,
-      platform: platform
-    });
+      platform: platform,
+    })
 
     const shareUrls = {
       twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-    };
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    }
 
     if (shareUrls[platform]) {
-      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+      window.open(shareUrls[platform], '_blank', 'width=600,height=400')
     }
-  };
+  }
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-    trackEvent('blog_post_link_copied', { slug: blog.slug });
-  };
+    navigator.clipboard.writeText(window.location.href)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+    trackEvent('blog_post_link_copied', { slug: blog.slug })
+  }
 
   const handleAddComment = () => {
-    if (!commentText.trim()) return;
+    if (!commentText.trim()) return
 
     const newComment = {
       id: Date.now(),
       author: 'You',
       date: new Date().toLocaleDateString(),
-      text: commentText
-    };
+      text: commentText,
+    }
 
-    const updatedComments = [...comments, newComment];
-    setComments(updatedComments);
-    localStorage.setItem(`blog-comments-${slug}`, JSON.stringify(updatedComments));
-    setCommentText('');
+    const updatedComments = [...comments, newComment]
+    setComments(updatedComments)
+    localStorage.setItem(`blog-comments-${slug}`, JSON.stringify(updatedComments))
+    setCommentText('')
 
     trackEvent('blog_comment_added', {
       slug: blog.slug,
-      commentLength: commentText.length
-    });
-  };
+      commentLength: commentText.length,
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -156,7 +158,7 @@ const BlogPost = () => {
             {new Date(blog.createdAt?.toDate?.() || blog.createdAt).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
-              day: 'numeric'
+              day: 'numeric',
             })}
           </div>
           <div className="flex items-center gap-1">
@@ -176,27 +178,58 @@ const BlogPost = () => {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                  h1: ({ node, ...props }) => <h1 className="text-4xl font-bold mt-8 mb-4 text-gray-900" {...props} />,
-                  h2: ({ node, ...props }) => <h2 className="text-3xl font-bold mt-8 mb-4 text-gray-900 border-b-2 border-blue-500 pb-2" {...props} />,
-                  h3: ({ node, ...props }) => <h3 className="text-2xl font-semibold mt-6 mb-3 text-gray-800" {...props} />,
-                  h4: ({ node, ...props }) => <h4 className="text-xl font-semibold mt-4 mb-2 text-gray-700" {...props} />,
-                  p: ({ node, ...props }) => <p className="text-gray-700 mb-4 leading-relaxed" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700 ml-4" {...props} />,
-                  ol: ({ node, ...props }) => <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700 ml-4" {...props} />,
+                  h1: ({ node, ...props }) => (
+                    <h1 className="text-4xl font-bold mt-8 mb-4 text-gray-900" {...props} />
+                  ),
+                  h2: ({ node, ...props }) => (
+                    <h2
+                      className="text-3xl font-bold mt-8 mb-4 text-gray-900 border-b-2 border-blue-500 pb-2"
+                      {...props}
+                    />
+                  ),
+                  h3: ({ node, ...props }) => (
+                    <h3 className="text-2xl font-semibold mt-6 mb-3 text-gray-800" {...props} />
+                  ),
+                  h4: ({ node, ...props }) => (
+                    <h4 className="text-xl font-semibold mt-4 mb-2 text-gray-700" {...props} />
+                  ),
+                  p: ({ node, ...props }) => (
+                    <p className="text-gray-700 mb-4 leading-relaxed" {...props} />
+                  ),
+                  ul: ({ node, ...props }) => (
+                    <ul
+                      className="list-disc list-inside mb-4 space-y-2 text-gray-700 ml-4"
+                      {...props}
+                    />
+                  ),
+                  ol: ({ node, ...props }) => (
+                    <ol
+                      className="list-decimal list-inside mb-4 space-y-2 text-gray-700 ml-4"
+                      {...props}
+                    />
+                  ),
                   li: ({ node, ...props }) => <li className="mb-2" {...props} />,
-                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-blue-500 bg-blue-50 p-4 my-4 italic text-gray-700" {...props} />,
+                  blockquote: ({ node, ...props }) => (
+                    <blockquote
+                      className="border-l-4 border-blue-500 bg-blue-50 p-4 my-4 italic text-gray-700"
+                      {...props}
+                    />
+                  ),
                   code: ({ node, inline, className, children, ...props }) => {
-                    const match = /language-(\w+)/.exec(className || '');
-                    const language = match ? match[1] : 'javascript';
-                    
+                    const match = /language-(\w+)/.exec(className || '')
+                    const language = match ? match[1] : 'javascript'
+
                     if (inline) {
                       return (
-                        <code className="bg-gray-100 text-red-600 px-2 py-1 rounded font-mono text-sm" {...props}>
+                        <code
+                          className="bg-gray-100 text-red-600 px-2 py-1 rounded font-mono text-sm"
+                          {...props}
+                        >
                           {children}
                         </code>
-                      );
+                      )
                     }
-                    
+
                     return (
                       <SyntaxHighlighter
                         language={language}
@@ -208,24 +241,49 @@ const BlogPost = () => {
                       >
                         {String(children).replace(/\n$/, '')}
                       </SyntaxHighlighter>
-                    );
+                    )
                   },
                   pre: ({ node, ...props }) => <pre className="mb-4" {...props} />,
                   table: ({ node, ...props }) => (
                     <div className="overflow-x-auto my-4">
-                      <table className="min-w-full border-collapse border border-gray-300" {...props} />
+                      <table
+                        className="min-w-full border-collapse border border-gray-300"
+                        {...props}
+                      />
                     </div>
                   ),
-                  thead: ({ node, ...props }) => <thead className="bg-gray-800 text-white" {...props} />,
+                  thead: ({ node, ...props }) => (
+                    <thead className="bg-gray-800 text-white" {...props} />
+                  ),
                   tbody: ({ node, ...props }) => <tbody {...props} />,
                   tr: ({ node, ...props }) => <tr className="hover:bg-gray-50" {...props} />,
-                  th: ({ node, ...props }) => <th className="px-4 py-3 border border-gray-300 font-bold text-left" {...props} />,
-                  td: ({ node, ...props }) => <td className="px-4 py-2 border border-gray-300 text-gray-700" {...props} />,
-                  a: ({ node, ...props }) => <a className="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer" {...props} />,
-                  img: ({ node, ...props }) => <img className="max-w-full rounded-lg my-4" {...props} />,
-                  strong: ({ node, ...props }) => <strong className="font-bold text-gray-900" {...props} />,
+                  th: ({ node, ...props }) => (
+                    <th
+                      className="px-4 py-3 border border-gray-300 font-bold text-left"
+                      {...props}
+                    />
+                  ),
+                  td: ({ node, ...props }) => (
+                    <td className="px-4 py-2 border border-gray-300 text-gray-700" {...props} />
+                  ),
+                  a: ({ node, ...props }) => (
+                    <a
+                      className="text-blue-600 hover:text-blue-800 underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      {...props}
+                    />
+                  ),
+                  img: ({ node, ...props }) => (
+                    <img className="max-w-full rounded-lg my-4" {...props} />
+                  ),
+                  strong: ({ node, ...props }) => (
+                    <strong className="font-bold text-gray-900" {...props} />
+                  ),
                   em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
-                  hr: ({ node, ...props }) => <hr className="my-6 border-t-2 border-gray-300" {...props} />
+                  hr: ({ node, ...props }) => (
+                    <hr className="my-6 border-t-2 border-gray-300" {...props} />
+                  ),
                 }}
               >
                 {blog.content}
@@ -237,15 +295,16 @@ const BlogPost = () => {
               <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 rounded-lg mb-12">
                 <h3 className="text-2xl font-bold mb-2">Ready to Practice?</h3>
                 <p className="text-blue-100 mb-4">
-                  Try the interactive visualizer to see these concepts in action with real-time animations.
+                  Try the interactive visualizer to see these concepts in action with real-time
+                  animations.
                 </p>
                 <button
                   onClick={() => {
                     trackEvent('blog_cta_clicked', {
                       slug: blog.slug,
-                      destination: blog.relatedVisualizer
-                    });
-                    navigate(blog.relatedVisualizer);
+                      destination: blog.relatedVisualizer,
+                    })
+                    navigate(blog.relatedVisualizer)
                   }}
                   className="flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
                 >
@@ -304,7 +363,7 @@ const BlogPost = () => {
               <div className="mb-8 pb-8 border-b border-gray-200">
                 <textarea
                   value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
+                  onChange={e => setCommentText(e.target.value)}
                   placeholder="Share your thoughts on this post..."
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
                   rows="4"
@@ -323,7 +382,9 @@ const BlogPost = () => {
               {/* Display Comments */}
               <div className="space-y-4">
                 {comments.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">No comments yet. Be the first to comment!</p>
+                  <p className="text-gray-500 text-center py-8">
+                    No comments yet. Be the first to comment!
+                  </p>
                 ) : (
                   comments.map(comment => (
                     <div key={comment.id} className="pb-4">
@@ -350,15 +411,16 @@ const BlogPost = () => {
                 Tags
               </h3>
               <div className="flex flex-wrap gap-2">
-                {blog.tags && blog.tags.map(tag => (
-                  <button
-                    key={tag}
-                    onClick={() => navigate(`/blog?tag=${tag}`)}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                  >
-                    {tag}
-                  </button>
-                ))}
+                {blog.tags &&
+                  blog.tags.map(tag => (
+                    <button
+                      key={tag}
+                      onClick={() => navigate(`/blog?tag=${tag}`)}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      {tag}
+                    </button>
+                  ))}
               </div>
             </div>
 
@@ -380,7 +442,7 @@ const BlogPost = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BlogPost;
+export default BlogPost

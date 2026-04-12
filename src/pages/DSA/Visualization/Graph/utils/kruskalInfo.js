@@ -4,29 +4,31 @@
  */
 
 export const kruskalInfo = {
-  name: 'Kruskal\'s Algorithm',
+  name: "Kruskal's Algorithm",
   category: 'graph',
   complexity: {
     time: {
       best: 'O(E log E)',
       average: 'O(E log E)',
-      worst: 'O(E log E)'
+      worst: 'O(E log E)',
     },
-    space: 'O(V + E)'
+    space: 'O(V + E)',
   },
   timeComplexity: {
     best: 'O(E log E)',
     average: 'O(E log E)',
     worst: 'O(E log E)',
-    explanation: 'Sort edges: O(E log E). Process each edge once with union-find: O(E α(V)). Total: O(E log E).'
+    explanation:
+      'Sort edges: O(E log E). Process each edge once with union-find: O(E α(V)). Total: O(E log E).',
   },
   spaceComplexity: {
     value: 'O(V + E)',
-    explanation: 'Stores adjacency list and union-find parent/rank arrays.'
+    explanation: 'Stores adjacency list and union-find parent/rank arrays.',
   },
   stable: false,
   inPlace: false,
-  description: 'Kruskal\'s algorithm is a greedy algorithm that finds a minimum spanning tree (MST) for a weighted undirected graph. It sorts all edges by weight and adds them to the MST if they don\'t form a cycle, using a Disjoint Set Union (DSU) data structure to detect cycles.',
+  description:
+    "Kruskal's algorithm is a greedy algorithm that finds a minimum spanning tree (MST) for a weighted undirected graph. It sorts all edges by weight and adds them to the MST if they don't form a cycle, using a Disjoint Set Union (DSU) data structure to detect cycles.",
   code: {
     javascript: `
 function kruskal(vertices, edges) {
@@ -138,7 +140,7 @@ private void union(int[] parent, int[] rank, int x, int y) {
         parent[yroot] = xroot;
         rank[xroot]++;
     }
-}`
+}`,
   },
   useCases: [
     'Finding minimum spanning trees in weighted graphs',
@@ -146,14 +148,14 @@ private void union(int[] parent, int[] rank, int x, int y) {
     'Circuit design and minimization',
     'Image segmentation and computer vision',
     'Clustering algorithms',
-    'Airline route planning'
+    'Airline route planning',
   ],
   keyPoints: [
-    'Greedy algorithm - always picks the cheapest edge that doesn\'t form a cycle',
+    "Greedy algorithm - always picks the cheapest edge that doesn't form a cycle",
     'Uses Disjoint Set Union (DSU) for efficient cycle detection',
     'Time complexity is dominated by edge sorting',
-    'Produces same MST weight as Prim\'s algorithm but may have different edge selection',
+    "Produces same MST weight as Prim's algorithm but may have different edge selection",
     'Works with disconnected graphs',
-    'Optimal for sparse graphs'
-  ]
+    'Optimal for sparse graphs',
+  ],
 }

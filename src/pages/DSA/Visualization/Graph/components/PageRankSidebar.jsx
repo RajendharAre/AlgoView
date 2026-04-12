@@ -50,14 +50,16 @@ const PageRankSidebar = ({
           active
             ? 'bg-white/20 text-white'
             : danger
-            ? 'bg-red-50 text-red-500'
-            : 'bg-[#f1f3f5] text-[#6c757d]'
+              ? 'bg-red-50 text-red-500'
+              : 'bg-[#f1f3f5] text-[#6c757d]'
         }`}
       >
         {icon}
       </div>
       <div className="overflow-hidden">
-        <div className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}>
+        <div
+          className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}
+        >
           {label}
         </div>
         <div
@@ -180,9 +182,7 @@ const PageRankSidebar = ({
       <div className="flex-1 p-6 space-y-6">
         <div
           className={`p-4 rounded-xl border-l-4 transition-all ${
-            isRunning
-              ? 'bg-[#212529] text-white shadow-md'
-              : 'bg-[#f8f9faff] border-[#dee2e6]'
+            isRunning ? 'bg-[#212529] text-white shadow-md' : 'bg-[#f8f9faff] border-[#dee2e6]'
           }`}
         >
           <p className="text-[9px] font-black uppercase opacity-60 mb-1">Process Status</p>

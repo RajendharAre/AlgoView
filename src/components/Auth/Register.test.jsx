@@ -63,7 +63,7 @@ describe('Register Component', () => {
 
   it('renders the register form correctly', () => {
     renderRegister()
-    
+
     expect(screen.getByText('Create Account')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Enter your full name')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('your@email.com')).toBeInTheDocument()
@@ -74,10 +74,10 @@ describe('Register Component', () => {
 
   it('calls onSwitchToLogin when Sign in here link is clicked', () => {
     renderRegister()
-    
+
     const signInLink = screen.getByText('Sign in here')
     fireEvent.click(signInLink)
-    
+
     expect(mockSwitchToLogin).toHaveBeenCalledTimes(1)
   })
 })

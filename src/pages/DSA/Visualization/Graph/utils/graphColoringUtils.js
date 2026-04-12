@@ -58,9 +58,7 @@ export const INITIAL_EDGES = [
  * Get neighbors of a node
  */
 export const getNeighbors = (nodeId, edges) => {
-  return edges
-    .filter(e => e.u === nodeId || e.v === nodeId)
-    .map(e => (e.u === nodeId ? e.v : e.u))
+  return edges.filter(e => e.u === nodeId || e.v === nodeId).map(e => (e.u === nodeId ? e.v : e.u))
 }
 
 /**
@@ -80,7 +78,7 @@ export const getNeighborColors = (nodeId, edges, nodeColors) => {
 /**
  * Find first available color
  */
-export const findAvailableColor = (usedColors) => {
+export const findAvailableColor = usedColors => {
   let colorIdx = 0
   while (usedColors.has(colorIdx)) {
     colorIdx++

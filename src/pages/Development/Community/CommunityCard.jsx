@@ -1,14 +1,8 @@
-import React, { memo } from 'react';
-import { motion } from 'framer-motion';
-import { FaExternalLinkAlt } from 'react-icons/fa';
-import {
-  FaDiscord,
-  FaRedditAlien,
-  FaGithub,
-  FaStackOverflow,
-  FaTelegram,
-} from 'react-icons/fa';
-import { SiDevdotto, SiHashnode } from 'react-icons/si';
+import React, { memo } from 'react'
+import { motion } from 'framer-motion'
+import { FaExternalLinkAlt } from 'react-icons/fa'
+import { FaDiscord, FaRedditAlien, FaGithub, FaStackOverflow, FaTelegram } from 'react-icons/fa'
+import { SiDevdotto, SiHashnode } from 'react-icons/si'
 
 // Semantic color tokens — matches Development Hub grayscale palette
 const COLORS = {
@@ -16,18 +10,18 @@ const COLORS = {
   text: { primary: '#212529', secondary: '#495057', tertiary: '#6c757d' },
   border: { light: '#dee2e6' },
   accent: { primary: '#343a40' },
-};
+}
 
 /** Platform → icon + brand color mapping */
 const PLATFORM_META = {
-  Discord:          { Icon: FaDiscord,        color: '#5865F2' },
-  Reddit:           { Icon: FaRedditAlien,    color: '#FF4500' },
-  GitHub:           { Icon: FaGithub,         color: '#333333' },
-  'Stack Overflow': { Icon: FaStackOverflow,  color: '#F48024' },
-  Telegram:         { Icon: FaTelegram,       color: '#0088cc' },
-  'Dev.to':         { Icon: SiDevdotto,       color: '#0A0A0A' },
-  Hashnode:         { Icon: SiHashnode,       color: '#2962FF' },
-};
+  Discord: { Icon: FaDiscord, color: '#5865F2' },
+  Reddit: { Icon: FaRedditAlien, color: '#FF4500' },
+  GitHub: { Icon: FaGithub, color: '#333333' },
+  'Stack Overflow': { Icon: FaStackOverflow, color: '#F48024' },
+  Telegram: { Icon: FaTelegram, color: '#0088cc' },
+  'Dev.to': { Icon: SiDevdotto, color: '#0A0A0A' },
+  Hashnode: { Icon: SiHashnode, color: '#2962FF' },
+}
 
 /**
  * CommunityCard
@@ -35,9 +29,9 @@ const PLATFORM_META = {
  * and a "Join Community" CTA that opens in a new tab.
  */
 const CommunityCard = memo(({ community, index = 0 }) => {
-  const { name, platform, category, description, members, url, tags } = community;
-  const meta = PLATFORM_META[platform] || { Icon: FaExternalLinkAlt, color: COLORS.accent.primary };
-  const { Icon: PlatformIcon, color: brandColor } = meta;
+  const { name, platform, category, description, members, url, tags } = community
+  const meta = PLATFORM_META[platform] || { Icon: FaExternalLinkAlt, color: COLORS.accent.primary }
+  const { Icon: PlatformIcon, color: brandColor } = meta
 
   return (
     <motion.div
@@ -55,17 +49,11 @@ const CommunityCard = memo(({ community, index = 0 }) => {
           style={{ backgroundColor: `${brandColor}10` }}
           className="flex items-center gap-3 px-5 py-4 border-b"
         >
-          <div
-            style={{ backgroundColor: `${brandColor}18` }}
-            className="p-2.5 rounded-lg"
-          >
+          <div style={{ backgroundColor: `${brandColor}18` }} className="p-2.5 rounded-lg">
             <PlatformIcon size={22} style={{ color: brandColor }} />
           </div>
           <div className="min-w-0 flex-1">
-            <h3
-              style={{ color: COLORS.text.primary }}
-              className="font-bold text-base truncate"
-            >
+            <h3 style={{ color: COLORS.text.primary }} className="font-bold text-base truncate">
               {name}
             </h3>
             <span
@@ -99,7 +87,7 @@ const CommunityCard = memo(({ community, index = 0 }) => {
           {/* Tags */}
           {tags && tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
-              {tags.map((tag) => (
+              {tags.map(tag => (
                 <span
                   key={tag}
                   style={{
@@ -131,8 +119,8 @@ const CommunityCard = memo(({ community, index = 0 }) => {
         </div>
       </div>
     </motion.div>
-  );
-});
+  )
+})
 
-CommunityCard.displayName = 'CommunityCard';
-export default CommunityCard;
+CommunityCard.displayName = 'CommunityCard'
+export default CommunityCard

@@ -4,11 +4,11 @@
  * Shows data from Google Analytics 4
  */
 
-import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { usePageMeta } from '../../hooks/usePageMeta';
-import { trackPageView } from '../../lib/analytics';
-import { BarChart3, Users, Eye, Clock, TrendingUp, TrendingDown } from 'lucide-react';
+import { useEffect, useState } from 'react'
+import { useAuth } from '../../hooks/useAuth'
+import { usePageMeta } from '../../hooks/usePageMeta'
+import { trackPageView } from '../../lib/analytics'
+import { BarChart3, Users, Eye, Clock, TrendingUp, TrendingDown } from 'lucide-react'
 
 // Main metrics cards
 const MetricCard = ({ label, value, trend, icon: Icon, color = 'blue' }) => {
@@ -17,7 +17,7 @@ const MetricCard = ({ label, value, trend, icon: Icon, color = 'blue' }) => {
     green: 'bg-green-50 text-green-600 border-green-200',
     purple: 'bg-purple-50 text-purple-600 border-purple-200',
     orange: 'bg-orange-50 text-orange-600 border-orange-200',
-  };
+  }
 
   return (
     <div className={`p-6 rounded-lg border ${colorClasses[color]}`}>
@@ -26,7 +26,9 @@ const MetricCard = ({ label, value, trend, icon: Icon, color = 'blue' }) => {
           <p className="text-sm font-medium text-gray-600 mb-1">{label}</p>
           <p className="text-3xl font-bold">{value}</p>
           {trend && (
-            <div className={`flex items-center gap-1 mt-2 text-sm ${trend.positive ? 'text-green-600' : 'text-red-600'}`}>
+            <div
+              className={`flex items-center gap-1 mt-2 text-sm ${trend.positive ? 'text-green-600' : 'text-red-600'}`}
+            >
               {trend.positive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
               <span>{trend.value}% vs last period</span>
             </div>
@@ -35,8 +37,8 @@ const MetricCard = ({ label, value, trend, icon: Icon, color = 'blue' }) => {
         <Icon size={24} className="opacity-50" />
       </div>
     </div>
-  );
-};
+  )
+}
 
 // Chart placeholder
 const ChartPlaceholder = ({ title, description }) => {
@@ -49,12 +51,12 @@ const ChartPlaceholder = ({ title, description }) => {
         Connect to Google Analytics 4 API for real data visualization
       </p>
     </div>
-  );
-};
+  )
+}
 
 export default function AnalyticsDashboard() {
-  const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { user } = useAuth()
+  const [isAdmin, setIsAdmin] = useState(false)
   const [metrics, setMetrics] = useState({
     totalUsers: 0,
     newUsers: 0,
@@ -62,23 +64,23 @@ export default function AnalyticsDashboard() {
     pageViews: 0,
     avgSessionDuration: 0,
     bounceRate: 0,
-  });
+  })
 
   // Update page meta for SEO
   usePageMeta(
     'Analytics Dashboard - AlgoView',
     'View detailed analytics and user metrics for AlgoView platform',
     'analytics, dashboard, metrics, statistics'
-  );
+  )
 
   useEffect(() => {
     // Track page view
-    trackPageView('/analytics', 'Analytics Dashboard');
+    trackPageView('/analytics', 'Analytics Dashboard')
 
     // Check if user is admin (for now just a placeholder)
     // In future, fetch from Firebase user claims
     if (user) {
-      setIsAdmin(user.email?.endsWith('@algovieww.me') || false);
+      setIsAdmin(user.email?.endsWith('@algovieww.me') || false)
     }
 
     // Fetch analytics data from GA4 API (implement later)
@@ -90,20 +92,18 @@ export default function AnalyticsDashboard() {
       pageViews: 12847,
       avgSessionDuration: 4.2,
       bounceRate: 32.5,
-    });
-  }, [user]);
+    })
+  }, [user])
 
   if (!user || !isAdmin) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center max-w-md">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Access Denied</h2>
-          <p className="text-gray-600">
-            This dashboard is only accessible to administrators.
-          </p>
+          <p className="text-gray-600">This dashboard is only accessible to administrators.</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -213,9 +213,7 @@ export default function AnalyticsDashboard() {
         {/* Info Box */}
         <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
           <h3 className="font-semibold text-blue-900 mb-2">Setting up Google Analytics 4</h3>
-          <p className="text-blue-800 text-sm mb-4">
-            To see real analytics data, you need to:
-          </p>
+          <p className="text-blue-800 text-sm mb-4">To see real analytics data, you need to:</p>
           <ol className="text-blue-800 text-sm space-y-2 list-decimal list-inside">
             <li>Create a GA4 property in Google Analytics</li>
             <li>Get your Measurement ID (starts with G-)</li>
@@ -224,10 +222,18 @@ export default function AnalyticsDashboard() {
             <li>Connect the API to fetch real-time data</li>
           </ol>
           <p className="text-blue-700 text-xs mt-4">
-            📚 <a href="https://developers.google.com/analytics/devguides/reporting/data/v1" target="_blank" rel="noopener noreferrer" className="underline">Google Analytics 4 Reporting API Docs</a>
+            📚{' '}
+            <a
+              href="https://developers.google.com/analytics/devguides/reporting/data/v1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              Google Analytics 4 Reporting API Docs
+            </a>
           </p>
         </div>
       </div>
     </div>
-  );
+  )
 }

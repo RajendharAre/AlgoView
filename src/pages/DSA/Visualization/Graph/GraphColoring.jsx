@@ -108,9 +108,7 @@ const GraphColoring = () => {
 
       const u = nodes[i]
       setActiveNode(u.id)
-      setCurrentStep(
-        `Checking assigned colors of Node ${u.label}'s neighbors...`
-      )
+      setCurrentStep(`Checking assigned colors of Node ${u.label}'s neighbors...`)
 
       const neighbors = getNeighbors(u.id, edges)
 
@@ -134,9 +132,7 @@ const GraphColoring = () => {
     }
 
     setActiveNode(null)
-    setCurrentStep(
-      `Success! Minimum ${maxColorUsed + 1} colors required for this graph.`
-    )
+    setCurrentStep(`Success! Minimum ${maxColorUsed + 1} colors required for this graph.`)
     setIsRunning(false)
     isRunningRef.current = false
   }

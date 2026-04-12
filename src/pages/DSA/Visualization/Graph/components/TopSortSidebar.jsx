@@ -60,7 +60,9 @@ const TopSortSidebar = ({
         {icon}
       </div>
       <div className="overflow-hidden">
-        <div className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}>
+        <div
+          className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}
+        >
           {label}
         </div>
         <div
@@ -88,7 +90,9 @@ const TopSortSidebar = ({
           </button>
           <h1 className="text-base font-bold tracking-tight">Topological Sort</h1>
         </div>
-        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">Kahn's Dependency Logic</p>
+        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
+          Kahn's Dependency Logic
+        </p>
       </div>
 
       {/* Speed Controls */}
@@ -209,7 +213,10 @@ const TopSortSidebar = ({
           </h4>
           <div className="flex flex-wrap gap-1.5 min-h-[40px] p-2 bg-[#f8f9faff] rounded-xl border border-[#dee2e6]">
             {queue.map((id, i) => (
-              <div key={i} className="px-2 py-1 bg-[#212529] text-white text-[10px] font-bold rounded-lg shadow-sm">
+              <div
+                key={i}
+                className="px-2 py-1 bg-[#212529] text-white text-[10px] font-bold rounded-lg shadow-sm"
+              >
                 {nodes.find(n => n.id === id)?.label}
               </div>
             ))}

@@ -2,11 +2,11 @@
 
 /**
  * Insertion Sort Algorithm
- * 
+ *
  * A simple sorting algorithm that builds the final sorted array one item at a time.
  * It is much less efficient on large lists than more advanced algorithms such as quicksort,
  * heapsort, or merge sort.
- * 
+ *
  * @param {number[]} arr - Array of numbers to sort
  * @yields {Object} - Step information for visualization
  * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
@@ -103,7 +103,7 @@ export function* insertionSort(arr) {
 
 /**
  * Algorithm information for Insertion Sort
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -124,13 +124,14 @@ export const insertionSortInfo = {
     time: {
       best: 'O(n)',
       average: 'O(n²)',
-      worst: 'O(n²)'
+      worst: 'O(n²)',
     },
-    space: 'O(1)'
+    space: 'O(1)',
   },
   stable: true,
   inPlace: true,
-  description: 'A simple sorting algorithm that builds the final sorted array one item at a time by inserting each element into its correct position.',
+  description:
+    'A simple sorting algorithm that builds the final sorted array one item at a time by inserting each element into its correct position.',
   code: {
     javascript: `
 function insertionSort(arr) {
@@ -166,12 +167,12 @@ public static void insertionSort(int[] arr) {
         }
         arr[j + 1] = key;
     }
-}`
+}`,
   },
   useCases: [
     'Small datasets where simplicity is preferred',
     'When the data is already mostly sorted',
     'Online algorithms where data arrives continuously',
-    'Hybrid algorithms like Timsort and Introsort use insertion sort for small subarrays'
-  ]
+    'Hybrid algorithms like Timsort and Introsort use insertion sort for small subarrays',
+  ],
 }

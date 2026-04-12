@@ -3,196 +3,196 @@
  * Tests animation display and proper rendering
  */
 
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { TypingIndicator } from '../../../src/pages/AI/components/TypingIndicator';
-import * as testUtils from '../../../tests/test-utils.jsx';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { TypingIndicator } from '../../../src/pages/AI/components/TypingIndicator'
+import * as testUtils from '../../../tests/test-utils.jsx'
 
 describe('TypingIndicator Component', () => {
   beforeEach(() => {
-    testUtils.mockConsole();
-  });
+    testUtils.mockConsole()
+  })
 
   afterEach(() => {
-    vi.restoreAllMocks();
-  });
+    vi.restoreAllMocks()
+  })
 
   describe('Rendering', () => {
     it('renders with default text', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      expect(screen.getByText('AI is thinking...')).toBeInTheDocument();
-    });
+      expect(screen.getByText('AI is thinking...')).toBeInTheDocument()
+    })
 
     it('renders with custom text', () => {
-      render(<TypingIndicator text="Processing your request..." />);
+      render(<TypingIndicator text="Processing your request..." />)
 
-      expect(screen.getByText('Processing your request...')).toBeInTheDocument();
-    });
+      expect(screen.getByText('Processing your request...')).toBeInTheDocument()
+    })
 
     it('renders avatar with checkmark icon', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const avatar = screen.getByTestId('typing-avatar');
-      expect(avatar).toBeInTheDocument();
-      
-      const checkmarkIcon = screen.getByTestId('checkmark-icon');
-      expect(checkmarkIcon).toBeInTheDocument();
-    });
+      const avatar = screen.getByTestId('typing-avatar')
+      expect(avatar).toBeInTheDocument()
+
+      const checkmarkIcon = screen.getByTestId('checkmark-icon')
+      expect(checkmarkIcon).toBeInTheDocument()
+    })
 
     it('renders three animated dots', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const dots = screen.getAllByTestId('typing-dot');
-      expect(dots).toHaveLength(3);
-    });
-  });
+      const dots = screen.getAllByTestId('typing-dot')
+      expect(dots).toHaveLength(3)
+    })
+  })
 
   describe('Animation', () => {
     it('dots have proper animation properties', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const dots = screen.getAllByTestId('typing-dot');
-      
+      const dots = screen.getAllByTestId('typing-dot')
+
       dots.forEach((dot, index) => {
         // Each dot should have different animation delays
-        expect(dot).toHaveClass('rounded-full');
-        expect(dot).toHaveClass('bg-gray-400');
-      });
-    });
+        expect(dot).toHaveClass('rounded-full')
+        expect(dot).toHaveClass('bg-gray-400')
+      })
+    })
 
     it('animations use proper timing sequence', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const dots = screen.getAllByTestId('typing-dot');
-      
+      const dots = screen.getAllByTestId('typing-dot')
+
       // First dot should animate first
-      expect(dots[0]).toBeInTheDocument();
+      expect(dots[0]).toBeInTheDocument()
       // Second dot should have delay
-      expect(dots[1]).toBeInTheDocument();
+      expect(dots[1]).toBeInTheDocument()
       // Third dot should have longer delay
-      expect(dots[2]).toBeInTheDocument();
-    });
+      expect(dots[2]).toBeInTheDocument()
+    })
 
     it('maintains animation during re-renders', () => {
-      const { rerender } = render(<TypingIndicator />);
+      const { rerender } = render(<TypingIndicator />)
 
       // Multiple re-renders shouldn't affect animation
       for (let i = 0; i < 5; i++) {
-        rerender(<TypingIndicator />);
+        rerender(<TypingIndicator />)
       }
 
-      const dots = screen.getAllByTestId('typing-dot');
-      expect(dots).toHaveLength(3);
-    });
-  });
+      const dots = screen.getAllByTestId('typing-dot')
+      expect(dots).toHaveLength(3)
+    })
+  })
 
   describe('Visual Elements', () => {
     it('applies correct styling classes', () => {
-      const { container } = render(<TypingIndicator />);
+      const { container } = render(<TypingIndicator />)
 
-      const typingContainer = container.firstChild;
-      expect(typingContainer).toHaveClass('flex', 'items-start', 'gap-3');
-    });
+      const typingContainer = container.firstChild
+      expect(typingContainer).toHaveClass('flex', 'items-start', 'gap-3')
+    })
 
     it('avatar has correct styling', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const avatar = screen.getByTestId('typing-avatar');
-      expect(avatar).toHaveClass('flex-shrink-0', 'w-8', 'h-8');
-      expect(avatar).toHaveClass('bg-gray-100', 'dark:bg-gray-700');
-    });
+      const avatar = screen.getByTestId('typing-avatar')
+      expect(avatar).toHaveClass('flex-shrink-0', 'w-8', 'h-8')
+      expect(avatar).toHaveClass('bg-gray-100', 'dark:bg-gray-700')
+    })
 
     it('content area has proper styling', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const contentArea = screen.getByText('AI is thinking...').closest('div');
-      expect(contentArea).toHaveClass('flex-1', 'py-1');
-    });
+      const contentArea = screen.getByText('AI is thinking...').closest('div')
+      expect(contentArea).toHaveClass('flex-1', 'py-1')
+    })
 
     it('dots container has proper spacing', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const dotsContainer = screen.getByTestId('dots-container');
-      expect(dotsContainer).toHaveClass('flex', 'items-center', 'gap-1', 'mt-1');
-    });
-  });
+      const dotsContainer = screen.getByTestId('dots-container')
+      expect(dotsContainer).toHaveClass('flex', 'items-center', 'gap-1', 'mt-1')
+    })
+  })
 
   describe('Accessibility', () => {
     it('has proper ARIA roles', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const typingElement = screen.getByRole('status');
-      expect(typingElement).toBeInTheDocument();
-      expect(typingElement).toHaveAttribute('aria-live', 'polite');
-    });
+      const typingElement = screen.getByRole('status')
+      expect(typingElement).toBeInTheDocument()
+      expect(typingElement).toHaveAttribute('aria-live', 'polite')
+    })
 
     it('text is readable by screen readers', () => {
-      render(<TypingIndicator text="Custom processing message" />);
+      render(<TypingIndicator text="Custom processing message" />)
 
-      const textElement = screen.getByText('Custom processing message');
-      expect(textElement).toBeInTheDocument();
-    });
+      const textElement = screen.getByText('Custom processing message')
+      expect(textElement).toBeInTheDocument()
+    })
 
     it('maintains proper color contrast', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const textElement = screen.getByText('AI is thinking...');
-      expect(textElement).toHaveClass('text-gray-500', 'dark:text-gray-400');
-    });
-  });
+      const textElement = screen.getByText('AI is thinking...')
+      expect(textElement).toHaveClass('text-gray-500', 'dark:text-gray-400')
+    })
+  })
 
   describe('Edge Cases', () => {
     it('handles empty text prop', () => {
-      render(<TypingIndicator text="" />);
+      render(<TypingIndicator text="" />)
 
       // Should render without errors (might show empty text or default)
-      const typingElement = screen.getByRole('status');
-      expect(typingElement).toBeInTheDocument();
-    });
+      const typingElement = screen.getByRole('status')
+      expect(typingElement).toBeInTheDocument()
+    })
 
     it('handles very long text', () => {
-      const longText = 'A'.repeat(200);
+      const longText = 'A'.repeat(200)
 
-      render(<TypingIndicator text={longText} />);
+      render(<TypingIndicator text={longText} />)
 
-      const textElement = screen.getByText(longText);
-      expect(textElement).toBeInTheDocument();
-    });
+      const textElement = screen.getByText(longText)
+      expect(textElement).toBeInTheDocument()
+    })
 
     it('handles special characters in text', () => {
-      const specialText = 'Processing <>&"\' special chars';
+      const specialText = 'Processing <>&"\' special chars'
 
-      render(<TypingIndicator text={specialText} />);
+      render(<TypingIndicator text={specialText} />)
 
-      expect(screen.getByText(specialText)).toBeInTheDocument();
-    });
+      expect(screen.getByText(specialText)).toBeInTheDocument()
+    })
 
     it('maintains layout with varying text lengths', () => {
-      const { rerender } = render(<TypingIndicator text="Short" />);
+      const { rerender } = render(<TypingIndicator text="Short" />)
 
-      rerender(<TypingIndicator text="This is a much longer processing message" />);
+      rerender(<TypingIndicator text="This is a much longer processing message" />)
 
       // Should maintain proper layout
-      const typingElement = screen.getByRole('status');
-      expect(typingElement).toBeInTheDocument();
-    });
-  });
+      const typingElement = screen.getByRole('status')
+      expect(typingElement).toBeInTheDocument()
+    })
+  })
 
   describe('Performance', () => {
     it('renders efficiently', () => {
-      const startTime = performance.now();
-      
-      render(<TypingIndicator />);
+      const startTime = performance.now()
 
-      const endTime = performance.now();
-      const renderTime = endTime - startTime;
+      render(<TypingIndicator />)
 
-      expect(renderTime).toBeLessThan(50); // Should render quickly
-    });
+      const endTime = performance.now()
+      const renderTime = endTime - startTime
+
+      expect(renderTime).toBeLessThan(50) // Should render quickly
+    })
 
     it('handles multiple instances efficiently', () => {
-      const startTime = performance.now();
+      const startTime = performance.now()
 
       // Render multiple instances
       render(
@@ -201,71 +201,71 @@ describe('TypingIndicator Component', () => {
           <TypingIndicator />
           <TypingIndicator />
         </div>
-      );
+      )
 
-      const endTime = performance.now();
-      const renderTime = endTime - startTime;
+      const endTime = performance.now()
+      const renderTime = endTime - startTime
 
-      expect(renderTime).toBeLessThan(100);
-    });
+      expect(renderTime).toBeLessThan(100)
+    })
 
     it('animation updates are performant', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const startTime = performance.now();
-      
+      const startTime = performance.now()
+
       // Let animation run for a bit
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => {
-          const endTime = performance.now();
-          const animationTime = endTime - startTime;
-          
+          const endTime = performance.now()
+          const animationTime = endTime - startTime
+
           // Animation should run smoothly
-          expect(animationTime).toBeGreaterThanOrEqual(0);
-          resolve();
-        }, 100);
-      });
-    });
-  });
+          expect(animationTime).toBeGreaterThanOrEqual(0)
+          resolve()
+        }, 100)
+      })
+    })
+  })
 
   describe('Integration', () => {
     it('works correctly within ChatWindow component', () => {
       // This would test integration with parent components
       // In a real test, we'd render ChatWindow with isLoading=true
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const typingElement = screen.getByRole('status');
-      expect(typingElement).toBeInTheDocument();
-    });
+      const typingElement = screen.getByRole('status')
+      expect(typingElement).toBeInTheDocument()
+    })
 
     it('maintains consistent styling with theme', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const avatar = screen.getByTestId('typing-avatar');
-      const textElement = screen.getByText('AI is thinking...');
-      const dots = screen.getAllByTestId('typing-dot');
+      const avatar = screen.getByTestId('typing-avatar')
+      const textElement = screen.getByText('AI is thinking...')
+      const dots = screen.getAllByTestId('typing-dot')
 
       // Should use proper theme classes
-      expect(avatar).toHaveClass('bg-gray-100', 'dark:bg-gray-700');
-      expect(textElement).toHaveClass('text-gray-500', 'dark:text-gray-400');
+      expect(avatar).toHaveClass('bg-gray-100', 'dark:bg-gray-700')
+      expect(textElement).toHaveClass('text-gray-500', 'dark:text-gray-400')
       dots.forEach(dot => {
-        expect(dot).toHaveClass('bg-gray-400', 'dark:bg-gray-500');
-      });
-    });
+        expect(dot).toHaveClass('bg-gray-400', 'dark:bg-gray-500')
+      })
+    })
 
     it('responsive design works properly', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const typingElement = screen.getByRole('status');
-      const avatar = screen.getByTestId('typing-avatar');
-      const textElement = screen.getByText('AI is thinking...');
+      const typingElement = screen.getByRole('status')
+      const avatar = screen.getByTestId('typing-avatar')
+      const textElement = screen.getByText('AI is thinking...')
 
       // Should maintain proper responsive behavior
-      expect(typingElement).toBeInTheDocument();
-      expect(avatar).toBeInTheDocument();
-      expect(textElement).toBeInTheDocument();
-    });
-  });
+      expect(typingElement).toBeInTheDocument()
+      expect(avatar).toBeInTheDocument()
+      expect(textElement).toBeInTheDocument()
+    })
+  })
 
   describe('Customization', () => {
     it('supports different text variants', () => {
@@ -273,28 +273,28 @@ describe('TypingIndicator Component', () => {
         'AI is processing...',
         'Thinking...',
         'Analyzing your request...',
-        'Generating response...'
-      ];
+        'Generating response...',
+      ]
 
       variants.forEach(variant => {
-        const { rerender } = render(<TypingIndicator text={variant} />);
-        
-        expect(screen.getByText(variant)).toBeInTheDocument();
-        rerender(null); // Clean up for next iteration
-      });
-    });
+        const { rerender } = render(<TypingIndicator text={variant} />)
+
+        expect(screen.getByText(variant)).toBeInTheDocument()
+        rerender(null) // Clean up for next iteration
+      })
+    })
 
     it('maintains consistent visual identity', () => {
-      render(<TypingIndicator />);
+      render(<TypingIndicator />)
 
-      const avatar = screen.getByTestId('typing-avatar');
-      const checkmarkIcon = screen.getByTestId('checkmark-icon');
-      const dots = screen.getAllByTestId('typing-dot');
+      const avatar = screen.getByTestId('typing-avatar')
+      const checkmarkIcon = screen.getByTestId('checkmark-icon')
+      const dots = screen.getAllByTestId('typing-dot')
 
       // All visual elements should be present and consistent
-      expect(avatar).toBeInTheDocument();
-      expect(checkmarkIcon).toBeInTheDocument();
-      expect(dots).toHaveLength(3);
-    });
-  });
-});
+      expect(avatar).toBeInTheDocument()
+      expect(checkmarkIcon).toBeInTheDocument()
+      expect(dots).toHaveLength(3)
+    })
+  })
+})

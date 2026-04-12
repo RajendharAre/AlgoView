@@ -8,17 +8,17 @@ import Navbar from '../../../../src/components/Layout/Navbar'
 // Mock the Firebase auth module
 vi.mock('../../../../src/lib/firebase', () => ({
   auth: {
-    signOut: vi.fn()
-  }
+    signOut: vi.fn(),
+  },
 }))
 
 // Mock the Firebase auth functions
 vi.mock('firebase/auth', () => ({
-  signOut: vi.fn()
+  signOut: vi.fn(),
 }))
 
 // Create a mock store
-const createMockStore = (preloadedState) => {
+const createMockStore = preloadedState => {
   return configureStore({
     reducer: {
       user: (state = { currentUser: null, loading: false, error: null }, action) => {
@@ -30,17 +30,17 @@ const createMockStore = (preloadedState) => {
           default:
             return state
         }
-      }
+      },
     },
-    preloadedState
+    preloadedState,
   })
 }
 
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }) => <div {...props}>{children}</div>
-  }
+    div: ({ children, ...props }) => <div {...props}>{children}</div>,
+  },
 }))
 
 describe('Navbar Component', () => {
@@ -93,15 +93,15 @@ describe('Navbar Component', () => {
     const mockUser = {
       uid: '123',
       email: 'test@example.com',
-      displayName: 'Test User'
+      displayName: 'Test User',
     }
 
     const storeWithUser = createMockStore({
       user: {
         currentUser: mockUser,
         loading: false,
-        error: null
-      }
+        error: null,
+      },
     })
 
     render(
@@ -126,7 +126,7 @@ describe('Navbar Component', () => {
 
     const logo = screen.getByText('Algorithm')
     fireEvent.click(logo)
-    
+
     // Since we're using BrowserRouter, we can't directly test navigation
     // But we can verify the onClick handler is attached
     expect(logo).toBeInTheDocument()
@@ -137,7 +137,7 @@ describe('Navbar Component', () => {
     const reloadMock = vi.fn()
     Object.defineProperty(window, 'location', {
       value: { reload: reloadMock },
-      writable: true
+      writable: true,
     })
 
     // Mock useLocation to return current path
@@ -145,7 +145,7 @@ describe('Navbar Component', () => {
       const actual = await vi.importActual('react-router-dom')
       return {
         ...actual,
-        useLocation: () => ({ pathname: '/dsa' })
+        useLocation: () => ({ pathname: '/dsa' }),
       }
     })
 
@@ -160,7 +160,7 @@ describe('Navbar Component', () => {
     // Find the DSA link and click it
     const dsaLink = screen.getByText('DSA')
     fireEvent.click(dsaLink)
-    
+
     // Expect reload to be called
     expect(reloadMock).toHaveBeenCalled()
   })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Play,
   RotateCcw,
@@ -7,9 +7,9 @@ import {
   Hash,
   TrendingUp,
   ArrowLeft,
-  ChevronUp
-} from 'lucide-react';
-import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection';
+  ChevronUp,
+} from 'lucide-react'
+import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection'
 
 const ClimbingStairsSidebar = ({
   n,
@@ -24,7 +24,7 @@ const ClimbingStairsSidebar = ({
   currentIndex,
   MAX_STAIRS,
   SPEEDS,
-  complexityInfo
+  complexityInfo,
 }) => {
   return (
     <aside className="w-80 bg-white border-r border-[#dee2e6] flex flex-col shrink-0 shadow-lg z-20 overflow-y-auto">
@@ -40,7 +40,9 @@ const ClimbingStairsSidebar = ({
           </button>
           <h1 className="text-base font-bold tracking-tight">Climbing Stairs</h1>
         </div>
-        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">DP Visualizer</p>
+        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
+          DP Visualizer
+        </p>
       </div>
 
       {/* Controls */}
@@ -51,14 +53,16 @@ const ClimbingStairsSidebar = ({
             <h3 className="text-[10px] font-black text-[#adb5bd] uppercase tracking-wider flex items-center gap-2">
               <Hash size={12} /> Steps Count
             </h3>
-            <span className="text-xs font-mono font-bold px-2 py-0.5 bg-[#f8f9faff] border rounded-md">n = {n}</span>
+            <span className="text-xs font-mono font-bold px-2 py-0.5 bg-[#f8f9faff] border rounded-md">
+              n = {n}
+            </span>
           </div>
           <input
             type="range"
             min="3"
             max={MAX_STAIRS}
             value={n}
-            onChange={(e) => setN(parseInt(e.target.value))}
+            onChange={e => setN(parseInt(e.target.value))}
             disabled={isRunning}
             className="w-full accent-[#212529] cursor-pointer"
           />
@@ -130,10 +134,10 @@ const ClimbingStairsSidebar = ({
                     currentIndex === idx
                       ? 'bg-[#212529] text-white border-[#212529] scale-105'
                       : idx === currentIndex - 1 || idx === currentIndex - 2
-                      ? 'bg-[#e9ecefff] border-[#6c757d] font-bold'
-                      : val !== null
-                      ? 'bg-white border-[#dee2e6] text-[#6c757d]'
-                      : 'bg-transparent border-dashed border-[#dee2e6] opacity-30'
+                        ? 'bg-[#e9ecefff] border-[#6c757d] font-bold'
+                        : val !== null
+                          ? 'bg-white border-[#dee2e6] text-[#6c757d]'
+                          : 'bg-transparent border-dashed border-[#dee2e6] opacity-30'
                   }
                 `}
               >
@@ -152,7 +156,7 @@ const ClimbingStairsSidebar = ({
         )}
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default ClimbingStairsSidebar;
+export default ClimbingStairsSidebar

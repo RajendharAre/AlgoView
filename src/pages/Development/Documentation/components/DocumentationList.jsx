@@ -1,33 +1,28 @@
-import React, { memo, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import DocumentationRow from './DocumentationRow';
+import React, { memo, useMemo } from 'react'
+import { motion } from 'framer-motion'
+import DocumentationRow from './DocumentationRow'
 
 /**
  * DocumentationList Component
  * Displays documentation entries organized by category
  * Matches Tutorials page styling with grayscale palette
  */
-const DocumentationList = memo(({
-  documentation,
-  onRowClick,
-  accentColor = '#343a40',
-  colors
-}) => {
+const DocumentationList = memo(({ documentation, onRowClick, accentColor = '#343a40', colors }) => {
   // Group documentation by category
   const groupedDocs = useMemo(() => {
-    const groups = {};
+    const groups = {}
 
     documentation.forEach(doc => {
       if (!groups[doc.category]) {
-        groups[doc.category] = [];
+        groups[doc.category] = []
       }
-      groups[doc.category].push(doc);
-    });
+      groups[doc.category].push(doc)
+    })
 
-    return groups;
-  }, [documentation]);
+    return groups
+  }, [documentation])
 
-  const categories = Object.keys(groupedDocs).sort();
+  const categories = Object.keys(groupedDocs).sort()
 
   // Empty state
   if (documentation.length === 0) {
@@ -38,19 +33,40 @@ const DocumentationList = memo(({
         className="flex flex-col items-center justify-center py-16 px-6"
       >
         <div className="text-center">
-          <h3 style={{ color: colors?.text.primary || '#212529' }} className="text-xl font-semibold mb-2">
+          <h3
+            style={{ color: colors?.text.primary || '#212529' }}
+            className="text-xl font-semibold mb-2"
+          >
             No Documentation Found
           </h3>
           <p style={{ color: colors?.text.secondary || '#495057' }} className="mb-4">
             Try adjusting your filters or search query.
           </p>
-          <div style={{ backgroundColor: colors?.bg.secondary || '#e9ecef', color: colors?.text.secondary || '#495057' }} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <div
+            style={{
+              backgroundColor: colors?.bg.secondary || '#e9ecef',
+              color: colors?.text.secondary || '#495057',
+            }}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
             Tip: Clear filters to see all documentation
           </div>
         </div>
       </motion.div>
-    );
+    )
   }
 
   return (
@@ -73,20 +89,20 @@ const DocumentationList = memo(({
           transition={{ duration: 0.3, delay: categoryIndex * 0.05 }}
         >
           {/* Category Header */}
-          <div 
-            style={{ 
+          <div
+            style={{
               backgroundColor: colors?.bg.secondary || '#e9ecef',
               borderBottomColor: colors?.border.light || '#dee2e6',
-              color: colors?.text.primary || '#212529'
-            }} 
+              color: colors?.text.primary || '#212529',
+            }}
             className="px-6 py-3 border-b sticky top-0 z-10"
           >
             <h2 className="text-sm font-bold uppercase tracking-wide">
               {category}
-              <span 
+              <span
                 style={{
                   backgroundColor: '#ffffff',
-                  color: colors?.text.secondary || '#495057'
+                  color: colors?.text.secondary || '#495057',
                 }}
                 className="ml-2 text-xs font-normal px-2 py-1 rounded"
               >
@@ -102,7 +118,7 @@ const DocumentationList = memo(({
                 key={doc.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2, delay: (categoryIndex * 0.05) + (docIndex * 0.02) }}
+                transition={{ duration: 0.2, delay: categoryIndex * 0.05 + docIndex * 0.02 }}
               >
                 <DocumentationRow
                   documentation={doc}
@@ -124,16 +140,18 @@ const DocumentationList = memo(({
         style={{
           backgroundColor: colors?.bg.secondary || '#e9ecef',
           borderTopColor: colors?.border.light || '#dee2e6',
-          color: colors?.text.secondary || '#495057'
+          color: colors?.text.secondary || '#495057',
         }}
         className="px-6 py-3 border-t text-xs text-center"
       >
-        Showing {documentation.length} documentation {documentation.length === 1 ? 'entry' : 'entries'} across {categories.length} {categories.length === 1 ? 'category' : 'categories'}
+        Showing {documentation.length} documentation{' '}
+        {documentation.length === 1 ? 'entry' : 'entries'} across {categories.length}{' '}
+        {categories.length === 1 ? 'category' : 'categories'}
       </motion.div>
     </motion.div>
-  );
-});
+  )
+})
 
-DocumentationList.displayName = 'DocumentationList';
+DocumentationList.displayName = 'DocumentationList'
 
-export default DocumentationList;
+export default DocumentationList

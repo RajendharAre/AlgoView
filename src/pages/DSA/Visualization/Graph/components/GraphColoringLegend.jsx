@@ -25,8 +25,8 @@ const GraphColoringLegend = () => {
       <div className="flex items-center gap-2">
         <Info size={14} className="text-[#adb5bd]" />
         <span className="text-[9px] font-black text-[#adb5bd] uppercase tracking-wide">
-          Greedy Strategy: Assigning the first available bright color that is not used by any connected
-          neighbor.
+          Greedy Strategy: Assigning the first available bright color that is not used by any
+          connected neighbor.
         </span>
       </div>
     </div>

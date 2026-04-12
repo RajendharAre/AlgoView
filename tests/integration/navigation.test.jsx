@@ -15,9 +15,9 @@ vi.mock('../../src/components/Layout/Navbar', () => ({
   default: () => {
     const navigate = useNavigate()
     const location = useLocation()
-    
+
     // Handle navigation link click with reload functionality for same page
-    const handleNavClick = (path) => {
+    const handleNavClick = path => {
       // If clicking on the same page, reload the page
       if (location.pathname === path) {
         window.location.reload()
@@ -29,12 +29,18 @@ vi.mock('../../src/components/Layout/Navbar', () => ({
     return (
       <nav data-testid="navbar">
         <div onClick={() => navigate('/')}>Logo</div>
-        <div onClick={() => handleNavClick('/')} data-testid="home-link">Home</div>
-        <div onClick={() => handleNavClick('/dsa')} data-testid="dsa-link">DSA</div>
-        <div onClick={() => handleNavClick('/development')} data-testid="development-link">Development</div>
+        <div onClick={() => handleNavClick('/')} data-testid="home-link">
+          Home
+        </div>
+        <div onClick={() => handleNavClick('/dsa')} data-testid="dsa-link">
+          DSA
+        </div>
+        <div onClick={() => handleNavClick('/development')} data-testid="development-link">
+          Development
+        </div>
       </nav>
     )
-  }
+  },
 }))
 
 // Mock MainApp component
@@ -50,7 +56,7 @@ const MockMainApp = () => {
 }
 
 // Create a mock store
-const createMockStore = (preloadedState) => {
+const createMockStore = preloadedState => {
   return configureStore({
     reducer: {
       user: (state = { currentUser: null, loading: false, error: null }, action) => {
@@ -62,9 +68,9 @@ const createMockStore = (preloadedState) => {
           default:
             return state
         }
-      }
+      },
     },
-    preloadedState
+    preloadedState,
   })
 }
 
@@ -93,7 +99,7 @@ describe('Navigation Integration', () => {
     const reloadMock = vi.fn()
     Object.defineProperty(window, 'location', {
       value: { reload: reloadMock },
-      writable: true
+      writable: true,
     })
 
     render(

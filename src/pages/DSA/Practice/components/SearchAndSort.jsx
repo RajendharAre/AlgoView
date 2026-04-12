@@ -1,5 +1,5 @@
-import { Search, ArrowUpDown } from 'lucide-react';
-import { useState } from 'react';
+import { Search, ArrowUpDown } from 'lucide-react'
+import { useState } from 'react'
 
 const SORT_OPTIONS = [
   { value: 'title', label: 'Title (A-Z)' },
@@ -7,7 +7,7 @@ const SORT_OPTIONS = [
   { value: 'difficulty-desc', label: 'Difficulty (Hard → Easy)' },
   { value: 'acceptance-asc', label: 'Acceptance (Low → High)' },
   { value: 'acceptance-desc', label: 'Acceptance (High → Low)' },
-];
+]
 
 const SearchAndSort = ({
   searchQuery,
@@ -17,7 +17,7 @@ const SearchAndSort = ({
   totalProblems,
   completedCount,
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   return (
     <div className="px-6 py-4 bg-white border-b border-gray-200">
@@ -28,7 +28,7 @@ const SearchAndSort = ({
             type="text"
             placeholder="Search problems..."
             value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={e => onSearchChange(e.target.value)}
             className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
@@ -39,13 +39,20 @@ const SearchAndSort = ({
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="w-full sm:w-auto flex items-center justify-between gap-2 px-4 py-2.5 border border-gray-300 rounded-lg bg-gray-50 hover:border-gray-400 hover:bg-white transition-all duration-200 cursor-pointer"
-            style={isDropdownOpen ? { borderColor: '#343a40', boxShadow: '0 0 0 3px rgba(52,58,64,0.12)', backgroundColor: '#fff' } : {}}
+            style={
+              isDropdownOpen
+                ? {
+                    borderColor: '#343a40',
+                    boxShadow: '0 0 0 3px rgba(52,58,64,0.12)',
+                    backgroundColor: '#fff',
+                  }
+                : {}
+            }
           >
             <div className="flex items-center gap-2">
               <ArrowUpDown className="h-4 w-4 text-gray-500" />
               <span className="text-sm text-gray-700 font-medium">
-                {SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label ||
-                  'Sort by...'}
+                {SORT_OPTIONS.find(opt => opt.value === sortBy)?.label || 'Sort by...'}
               </span>
             </div>
             <svg
@@ -71,8 +78,8 @@ const SearchAndSort = ({
                 <button
                   key={option.value}
                   onClick={() => {
-                    onSortChange(option.value);
-                    setIsDropdownOpen(false);
+                    onSortChange(option.value)
+                    setIsDropdownOpen(false)
                   }}
                   className={`w-full text-left px-4 py-2.5 text-sm transition-colors duration-150 ${
                     sortBy === option.value
@@ -94,7 +101,7 @@ const SearchAndSort = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SearchAndSort;
+export default SearchAndSort

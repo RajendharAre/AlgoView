@@ -3,23 +3,23 @@
  * Handles input value, changes, and utility functions
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react'
 
 export function useChatInput() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState('')
 
   // Clear input
   const clearInput = useCallback(() => {
-    setInput('');
-  }, []);
+    setInput('')
+  }, [])
 
   // Check if input has content
-  const hasInput = input.trim().length > 0;
+  const hasInput = input.trim().length > 0
 
   return {
     input,
     setInput,
     clearInput,
-    hasInput
-  };
+    hasInput,
+  }
 }

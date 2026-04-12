@@ -60,7 +60,7 @@ describe('Login Component', () => {
 
   it('renders the login form correctly', () => {
     renderLogin()
-    
+
     expect(screen.getByText('Welcome Back')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('your@email.com')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('••••••••')).toBeInTheDocument()
@@ -69,19 +69,19 @@ describe('Login Component', () => {
 
   it('calls onSwitchToRegister when Sign up link is clicked', () => {
     renderLogin()
-    
+
     const signUpLink = screen.getByText('Sign up')
     fireEvent.click(signUpLink)
-    
+
     expect(mockSwitchToRegister).toHaveBeenCalledTimes(1)
   })
 
   it('shows forgot password form when Forgot Password link is clicked', () => {
     renderLogin()
-    
+
     const forgotPasswordLink = screen.getByText('Forgot Password?')
     fireEvent.click(forgotPasswordLink)
-    
+
     // This would normally show the ForgotPassword component
     // We're just checking that the click handler works
     expect(forgotPasswordLink).toBeInTheDocument()

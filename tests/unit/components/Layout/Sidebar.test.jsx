@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 // Mock the Sidebar component instead of importing it directly
 vi.mock('../../../../src/components/Layout/Sidebar', () => ({
   __esModule: true,
-  default: () => <div data-testid="sidebar">Sidebar Component</div>
+  default: () => <div data-testid="sidebar">Sidebar Component</div>,
 }))
 
 // Now import the mocked component

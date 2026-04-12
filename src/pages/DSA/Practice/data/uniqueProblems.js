@@ -50,11 +50,17 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Count and Say', slug: 'count-and-say' },
     { title: 'Roman to Integer', slug: 'roman-to-integer' },
     // Medium
-    { title: 'Longest Substring Without Repeating Characters', slug: 'longest-substring-without-repeating-characters' },
+    {
+      title: 'Longest Substring Without Repeating Characters',
+      slug: 'longest-substring-without-repeating-characters',
+    },
     { title: 'Longest Palindromic Substring', slug: 'longest-palindromic-substring' },
     { title: 'Group Anagrams', slug: 'group-anagrams' },
     { title: 'Integer to Roman', slug: 'integer-to-roman' },
-    { title: 'Letter Combinations of a Phone Number', slug: 'letter-combinations-of-a-phone-number' },
+    {
+      title: 'Letter Combinations of a Phone Number',
+      slug: 'letter-combinations-of-a-phone-number',
+    },
     { title: 'Generate Parentheses', slug: 'generate-parentheses' },
     { title: 'Simplify Path', slug: 'simplify-path' },
     { title: 'Basic Calculator II', slug: 'basic-calculator-ii' },
@@ -92,13 +98,19 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Intersection of Two Arrays II', slug: 'intersection-of-two-arrays-ii' },
     { title: 'Most Common Word', slug: 'most-common-word' },
     { title: 'Subarray Sum Equals K', slug: 'subarray-sum-equals-k' },
-    { title: 'Longest Substring with At Most Two Distinct Characters', slug: 'longest-substring-with-at-most-two-distinct-characters' },
+    {
+      title: 'Longest Substring with At Most Two Distinct Characters',
+      slug: 'longest-substring-with-at-most-two-distinct-characters',
+    },
     { title: 'Find All Anagrams in a String', slug: 'find-all-anagrams-in-a-string' },
     { title: 'Design All Dictionary Compress', slug: 'design-all-o1-data-structure' },
     // Hard (10)
     { title: 'LFU Cache', slug: 'lfu-cache' },
     { title: 'Insert Delete GetRandom O(1)', slug: 'insert-delete-getrandom-o1' },
-    { title: 'Substring with Concatenation of All Words', slug: 'substring-with-concatenation-of-all-words' },
+    {
+      title: 'Substring with Concatenation of All Words',
+      slug: 'substring-with-concatenation-of-all-words',
+    },
     { title: 'Count of Smaller Numbers After Self', slug: 'count-of-smaller-numbers-after-self' },
     { title: 'Four Sum II', slug: '4sum-ii' },
     { title: 'Sum of Subarray Minimums', slug: 'sum-of-subarray-minimums' },
@@ -148,7 +160,7 @@ export const UNIQUE_PROBLEMS = {
     { title: 'House Robber', slug: 'house-robber' },
     { title: 'Fibonacci Number', slug: 'fibonacci-number' },
     { title: 'Min Cost Climbing Stairs', slug: 'min-cost-climbing-stairs' },
-    { title: 'Pascal\'s Triangle', slug: 'pascals-triangle' },
+    { title: "Pascal's Triangle", slug: 'pascals-triangle' },
     { title: 'Range Sum Query Immutable', slug: 'range-sum-query-immutable' },
     { title: 'Delete and Earn', slug: 'delete-and-earn' },
     { title: 'Predict the Winner', slug: 'predict-the-winner' },
@@ -158,7 +170,10 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Coin Change', slug: 'coin-change' },
     { title: 'Word Break', slug: 'word-break' },
     { title: 'House Robber II', slug: 'house-robber-ii' },
-    { title: 'Best Time to Buy and Sell Stock with Transaction Fee', slug: 'best-time-to-buy-and-sell-stock-with-transaction-fee' },
+    {
+      title: 'Best Time to Buy and Sell Stock with Transaction Fee',
+      slug: 'best-time-to-buy-and-sell-stock-with-transaction-fee',
+    },
     { title: 'Unique Paths', slug: 'unique-paths' },
     { title: 'Unique Paths II', slug: 'unique-paths-ii' },
     { title: 'Coin Change 2', slug: 'coin-change-2' },
@@ -172,7 +187,10 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Interleaving String', slug: 'interleaving-string' },
     { title: 'Scramble String', slug: 'scramble-string' },
     { title: 'Cherry Pickup', slug: 'cherry-pickup' },
-    { title: 'Best Time to Buy and Sell Stock with Cooldown', slug: 'best-time-to-buy-and-sell-stock-with-cooldown' },
+    {
+      title: 'Best Time to Buy and Sell Stock with Cooldown',
+      slug: 'best-time-to-buy-and-sell-stock-with-cooldown',
+    },
     { title: 'Longest Increasing Path in a Matrix', slug: 'longest-increasing-path-in-a-matrix' },
     { title: 'Palindromic Substrings', slug: 'palindromic-substrings' },
     { title: 'Free Keys', slug: 'free-keys' },
@@ -182,12 +200,21 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Sort Colors', slug: 'sort-colors' },
     { title: 'Relative Sort Array', slug: 'relative-sort-array' },
     { title: 'Rank Transform of an Array', slug: 'rank-transform-of-an-array' },
-    { title: 'Largest Number At Least Twice of Others', slug: 'largest-number-at-least-twice-of-others' },
-    { title: 'Minimum Increment to Make Array Unique', slug: 'minimum-increment-to-make-array-unique' },
+    {
+      title: 'Largest Number At Least Twice of Others',
+      slug: 'largest-number-at-least-twice-of-others',
+    },
+    {
+      title: 'Minimum Increment to Make Array Unique',
+      slug: 'minimum-increment-to-make-array-unique',
+    },
     { title: 'Unique Email Addresses', slug: 'unique-email-addresses' },
     { title: 'Squares of a Sorted Array', slug: 'squares-of-a-sorted-array' },
     { title: 'Array Partition I', slug: 'array-partition-i' },
-    { title: 'Lexicographically Smallest Equivalent String', slug: 'lexicographically-smallest-equivalent-string' },
+    {
+      title: 'Lexicographically Smallest Equivalent String',
+      slug: 'lexicographically-smallest-equivalent-string',
+    },
     { title: 'Sort Array by Increasing Frequency', slug: 'sort-array-by-increasing-frequency' },
     // Medium (10)
     { title: 'Sort List', slug: 'sort-list' },
@@ -199,11 +226,17 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Sort an Array', slug: 'sort-an-array' },
     { title: 'Reorganize String', slug: 'reorganize-string' },
     { title: 'Assign Cookies', slug: 'assign-cookies' },
-    { title: 'Minimum Number of Arrows to Burst Balloons', slug: 'minimum-number-of-arrows-to-burst-balloons' },
+    {
+      title: 'Minimum Number of Arrows to Burst Balloons',
+      slug: 'minimum-number-of-arrows-to-burst-balloons',
+    },
     // Hard (10)
     { title: 'The Skyline Problem (Sorting)', slug: 'the-skyline-problem-sort' },
     { title: 'Russian Doll Envelopes', slug: 'russian-doll-envelopes' },
-    { title: 'Minimum Interval to Include Each Query', slug: 'minimum-interval-to-include-each-query' },
+    {
+      title: 'Minimum Interval to Include Each Query',
+      slug: 'minimum-interval-to-include-each-query',
+    },
     { title: 'Reverse Pairs', slug: 'reverse-pairs' },
     { title: 'Queue Reconstruction by Height', slug: 'queue-reconstruction-by-height' },
     { title: 'Campus Bikes', slug: 'campus-bikes' },
@@ -221,7 +254,10 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Is Subsequence', slug: 'is-subsequence' },
     { title: 'Play With Coins', slug: 'play-with-coins' },
     { title: 'Bag of Tokens', slug: 'bag-of-tokens' },
-    { title: 'Minimum Deletions to Make Character Frequencies Unique', slug: 'minimum-deletions-to-make-character-frequencies-unique' },
+    {
+      title: 'Minimum Deletions to Make Character Frequencies Unique',
+      slug: 'minimum-deletions-to-make-character-frequencies-unique',
+    },
     { title: 'Meeting Rooms', slug: 'meeting-rooms' },
     { title: 'Assign Cookies (Greedy)', slug: 'assign-cookies-greedy' },
     // Medium (10)
@@ -239,12 +275,21 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Candy', slug: 'candy' },
     { title: 'Dota 2 Senate', slug: 'dota-2-senate' },
     { title: 'Minimum Cost to Hire K Workers', slug: 'minimum-cost-to-hire-k-workers' },
-    { title: 'Minimum Domino Rotations For Equal Row', slug: 'minimum-domino-rotations-for-equal-row' },
+    {
+      title: 'Minimum Domino Rotations For Equal Row',
+      slug: 'minimum-domino-rotations-for-equal-row',
+    },
     { title: 'Number of Visible People in a Queue', slug: 'number-of-visible-people-in-a-queue' },
-    { title: 'Minimum Operations to Make Array Equal', slug: 'minimum-operations-to-make-array-equal' },
+    {
+      title: 'Minimum Operations to Make Array Equal',
+      slug: 'minimum-operations-to-make-array-equal',
+    },
     { title: 'Maximum Performance of a Team', slug: 'maximum-performance-of-a-team' },
     { title: 'Create Maximum Number', slug: 'create-maximum-number' },
-    { title: 'Smallest Range Covering Elements from K Lists', slug: 'smallest-range-covering-elements-from-k-lists' },
+    {
+      title: 'Smallest Range Covering Elements from K Lists',
+      slug: 'smallest-range-covering-elements-from-k-lists',
+    },
     { title: 'Maximize Capital', slug: 'ipo' },
   ],
   depthFirstSearch: [
@@ -255,7 +300,10 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Same Tree', slug: 'same-tree' },
     { title: 'Symmetric Tree', slug: 'symmetric-tree' },
     { title: 'Path Sum', slug: 'path-sum' },
-    { title: 'Lowest Common Ancestor of a Binary Search Tree', slug: 'lowest-common-ancestor-of-a-binary-search-tree' },
+    {
+      title: 'Lowest Common Ancestor of a Binary Search Tree',
+      slug: 'lowest-common-ancestor-of-a-binary-search-tree',
+    },
     { title: 'Number of Islands', slug: 'number-of-islands' },
     { title: 'Backspace String Compare', slug: 'backspace-string-compare' },
     { title: 'Minimum Depth of Binary Tree', slug: 'minimum-depth-of-binary-tree' },
@@ -263,20 +311,32 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Binary Tree Level Order Traversal', slug: 'binary-tree-level-order-traversal' },
     { title: 'Validate Binary Search Tree', slug: 'validate-binary-search-tree' },
     { title: 'Path Sum II', slug: 'path-sum-ii' },
-    { title: 'Lowest Common Ancestor of a Binary Tree', slug: 'lowest-common-ancestor-of-a-binary-tree' },
+    {
+      title: 'Lowest Common Ancestor of a Binary Tree',
+      slug: 'lowest-common-ancestor-of-a-binary-tree',
+    },
     { title: 'Word Ladder', slug: 'word-ladder' },
     { title: 'Clone Graph', slug: 'clone-graph' },
     { title: 'Course Schedule', slug: 'course-schedule' },
     { title: 'Surrounded Regions', slug: 'surrounded-regions' },
     { title: 'All Paths From Root to Leaf', slug: 'all-paths-from-root-to-leaf' },
-    { title: 'Construct Binary Tree from Preorder and Inorder', slug: 'construct-binary-tree-from-preorder-and-inorder-traversal' },
+    {
+      title: 'Construct Binary Tree from Preorder and Inorder',
+      slug: 'construct-binary-tree-from-preorder-and-inorder-traversal',
+    },
     // Hard (10)
     { title: 'Binary Tree Maximum Path Sum', slug: 'binary-tree-maximum-path-sum' },
-    { title: 'Serialize and Deserialize Binary Tree', slug: 'serialize-and-deserialize-binary-tree' },
+    {
+      title: 'Serialize and Deserialize Binary Tree',
+      slug: 'serialize-and-deserialize-binary-tree',
+    },
     { title: 'Word Ladder II', slug: 'word-ladder-ii' },
     { title: 'Minimum Height Trees', slug: 'minimum-height-trees' },
     { title: 'Critical Connection in Network', slug: 'critical-connections-in-a-network' },
-    { title: 'Number of Connected Components in an Undirected Graph', slug: 'number-of-connected-components-in-an-undirected-graph' },
+    {
+      title: 'Number of Connected Components in an Undirected Graph',
+      slug: 'number-of-connected-components-in-an-undirected-graph',
+    },
     { title: 'Regions Cut By Slashes', slug: 'regions-cut-by-slashes' },
     { title: 'Redundant Connection II', slug: 'redundant-connection-ii' },
     { title: 'Similar String Groups', slug: 'similar-string-groups' },
@@ -290,15 +350,27 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Guess Number Higher or Lower', slug: 'guess-number-higher-or-lower' },
     { title: 'Peak Index in a Mountain Array', slug: 'peak-index-in-a-mountain-array' },
     { title: 'Arranging Coins', slug: 'arranging-coins' },
-    { title: 'Find the Distance Value Between Two Arrays', slug: 'find-the-distance-value-between-two-arrays' },
+    {
+      title: 'Find the Distance Value Between Two Arrays',
+      slug: 'find-the-distance-value-between-two-arrays',
+    },
     { title: 'Search in Rotated Sorted Array II', slug: 'search-in-rotated-sorted-array-ii' },
-    { title: 'Count Negative Numbers in a Sorted Matrix', slug: 'count-negative-numbers-in-a-sorted-matrix' },
+    {
+      title: 'Count Negative Numbers in a Sorted Matrix',
+      slug: 'count-negative-numbers-in-a-sorted-matrix',
+    },
     { title: 'Eat Bananas (Easy)', slug: 'eating-bananas' },
     // Medium (10)
     { title: 'Search in Rotated Sorted Array', slug: 'search-in-rotated-sorted-array' },
-    { title: 'Find First and Last Position of Element', slug: 'find-first-and-last-position-of-element-in-sorted-array' },
+    {
+      title: 'Find First and Last Position of Element',
+      slug: 'find-first-and-last-position-of-element-in-sorted-array',
+    },
     { title: 'Time Based Key-Value Store', slug: 'time-based-key-value-store' },
-    { title: 'Capacity To Ship Packages Within D Days', slug: 'capacity-to-ship-packages-within-d-days' },
+    {
+      title: 'Capacity To Ship Packages Within D Days',
+      slug: 'capacity-to-ship-packages-within-d-days',
+    },
     { title: 'Koko Eating Bananas', slug: 'koko-eating-bananas' },
     { title: 'Find K Closest Elements', slug: 'find-k-closest-elements' },
     { title: 'Split Array Largest Sum', slug: 'split-array-largest-sum' },
@@ -307,9 +379,15 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Minimum Absolute Difference in BST', slug: 'minimum-absolute-difference-in-bst' },
     // Hard (10)
     { title: 'Find the Celebrity', slug: 'find-the-celebrity' },
-    { title: 'Minimum Number of Days to Make m Bouquets', slug: 'minimum-number-of-days-to-make-m-bouquets' },
+    {
+      title: 'Minimum Number of Days to Make m Bouquets',
+      slug: 'minimum-number-of-days-to-make-m-bouquets',
+    },
     { title: 'Smallest Divisor Given a Threshold', slug: 'smallest-divisor-given-a-threshold' },
-    { title: 'Split Array into Consecutive Subsequences', slug: 'split-array-into-consecutive-subsequences' },
+    {
+      title: 'Split Array into Consecutive Subsequences',
+      slug: 'split-array-into-consecutive-subsequences',
+    },
     { title: 'Find in Mountain Array', slug: 'find-in-mountain-array' },
     { title: 'Where Will the Ball Fall', slug: 'where-will-the-ball-fall' },
     { title: 'Count Complete Tree Nodes', slug: 'count-complete-tree-nodes' },
@@ -324,7 +402,10 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Duplicate Emails', slug: 'duplicate-emails' },
     { title: 'Customers Who Never Order', slug: 'customers-who-never-order' },
     { title: 'Department Highest Salary', slug: 'department-highest-salary' },
-    { title: 'Employees Earning More Than Their Managers', slug: 'employees-earning-more-than-their-managers' },
+    {
+      title: 'Employees Earning More Than Their Managers',
+      slug: 'employees-earning-more-than-their-managers',
+    },
     { title: 'Rising Temperature', slug: 'rising-temperature' },
     { title: 'Classes More Than 5 Students', slug: 'classes-more-than-5-students' },
     { title: 'Human Traffic of Stadium', slug: 'human-traffic-of-stadium' },
@@ -338,21 +419,30 @@ export const UNIQUE_PROBLEMS = {
     { title: 'Consecutive Numbers', slug: 'consecutive-numbers' },
     { title: 'Game Play Analysis I', slug: 'game-play-analysis-i' },
     { title: 'Not Boring Movies', slug: 'not-boring-movies' },
-    { title: 'The Number of Employees Which Report to Each Employee', slug: 'the-number-of-employees-which-report-to-each-employee' },
+    {
+      title: 'The Number of Employees Which Report to Each Employee',
+      slug: 'the-number-of-employees-which-report-to-each-employee',
+    },
     { title: 'Biggest Cities', slug: 'biggest-cities' },
     // Hard
     { title: 'Product Sales Analysis III', slug: 'product-sales-analysis-iii' },
     { title: 'Winning Candidate', slug: 'winning-candidate' },
     { title: 'Investments in 2016', slug: 'investments-in-2016' },
     { title: 'Median Employee Salary', slug: 'median-employee-salary' },
-    { title: 'Managers with at Least 5 Direct Reports', slug: 'managers-with-at-least-5-direct-reports' },
+    {
+      title: 'Managers with at Least 5 Direct Reports',
+      slug: 'managers-with-at-least-5-direct-reports',
+    },
     { title: 'Market Analysis by Sex', slug: 'market-analysis-by-sex' },
     { title: 'Students Report for Their School', slug: 'students-report-for-their-school' },
     { title: 'Black and White Tree', slug: 'black-and-white-tree' },
-    { title: 'All Valid Triplets That Can Represent a Country', slug: 'all-valid-triplets-that-can-represent-a-country' },
+    {
+      title: 'All Valid Triplets That Can Represent a Country',
+      slug: 'all-valid-triplets-that-can-represent-a-country',
+    },
     { title: 'NPV Queries', slug: 'npv-queries' },
   ],
-};
+}
 
 // Helper function to generate acceptance rate randomly
-export const getRandomAcceptance = () => Math.round((Math.random() * 40 + 30) * 10) / 10;
+export const getRandomAcceptance = () => Math.round((Math.random() * 40 + 30) * 10) / 10

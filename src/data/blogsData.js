@@ -6,7 +6,8 @@ export const blogsData = [
     id: 1,
     slug: 'bubble-sort-explained-animation',
     title: 'Bubble Sort Explained: Step-by-Step Animation & Code',
-    exceprt: 'Learn bubble sort algorithm with interactive visualization. Understand time complexity, space complexity, and when to use bubble sort in real-world applications.',
+    exceprt:
+      'Learn bubble sort algorithm with interactive visualization. Understand time complexity, space complexity, and when to use bubble sort in real-world applications.',
     content: `
 ## Understanding Bubble Sort
 
@@ -76,15 +77,17 @@ Try our interactive bubble sort visualizer to see exactly how the algorithm work
     updatedAt: '2026-03-15',
     readTime: '6 min',
     status: 'published',
-    keywords: 'bubble sort, sorting algorithm, algorithm visualization, DSA, learn algorithms, bubble sort animation, O(n2)',
+    keywords:
+      'bubble sort, sorting algorithm, algorithm visualization, DSA, learn algorithms, bubble sort animation, O(n2)',
     relatedVisualizer: '/dsa/algorithms/sorting',
-    views: 325
+    views: 325,
   },
   {
     id: 2,
     slug: 'graph-algorithms-dfs-vs-bfs',
     title: 'Graph Algorithms Explained: DFS vs BFS Visualization',
-    exceprt: 'Master Depth-First Search and Breadth-First Search. Understand when to use each, implementation details, and real-world applications of graph traversal.',
+    exceprt:
+      'Master Depth-First Search and Breadth-First Search. Understand when to use each, implementation details, and real-world applications of graph traversal.',
     content: `
 ## Graph Traversal: DFS vs BFS
 
@@ -175,15 +178,17 @@ See both algorithms in action with our [Graph Algorithms Visualizer](/dsa/algori
     updatedAt: '2026-03-18',
     readTime: '8 min',
     status: 'published',
-    keywords: 'DFS, BFS, graph algorithms, depth-first search, breadth-first search, algorithm visualization, graph traversal',
+    keywords:
+      'DFS, BFS, graph algorithms, depth-first search, breadth-first search, algorithm visualization, graph traversal',
     relatedVisualizer: '/dsa/algorithms/graph',
-    views: 412
+    views: 412,
   },
   {
     id: 3,
     slug: 'dynamic-programming-for-beginners',
     title: 'Dynamic Programming for Beginners: From Recursion to DP',
-    exceprt: 'Learn dynamic programming fundamentals. Understand memoization and tabulation with real examples you can actually understand.',
+    exceprt:
+      'Learn dynamic programming fundamentals. Understand memoization and tabulation with real examples you can actually understand.',
     content: `
 ## Dynamic Programming Explained Simply
 
@@ -276,15 +281,17 @@ Every time you see:
     updatedAt: '2026-03-20',
     readTime: '10 min',
     status: 'published',
-    keywords: 'dynamic programming, memoization, tabulation, algorithm optimization, DP practice, learn DP',
+    keywords:
+      'dynamic programming, memoization, tabulation, algorithm optimization, DP practice, learn DP',
     relatedVisualizer: '/dsa/problems',
-    views: 578
+    views: 578,
   },
   {
     id: 4,
     slug: 'react-hooks-complete-guide',
     title: 'React Hooks Complete Guide: From useState to Custom Hooks',
-    exceprt: 'Master React Hooks with real examples. Learn useState, useEffect, useContext, and how to create your own custom hooks.',
+    exceprt:
+      'Master React Hooks with real examples. Learn useState, useEffect, useContext, and how to create your own custom hooks.',
     content: `
 ## React Hooks: A Complete Guide
 
@@ -441,15 +448,17 @@ Build interactive components using hooks in our [Development Section](/developme
     updatedAt: '2026-03-22',
     readTime: '12 min',
     status: 'published',
-    keywords: 'React hooks, useState, useEffect, useContext, custom hooks, React tutorial, learn React',
+    keywords:
+      'React hooks, useState, useEffect, useContext, custom hooks, React tutorial, learn React',
     relatedVisualizer: '/development/tutorials',
-    views: 689
+    views: 689,
   },
   {
     id: 5,
     slug: 'javascript-promises-async-await',
     title: 'JavaScript Promises and Async/Await: Mastering Asynchronous Code',
-    exceprt: 'Understand promises, async/await, and how to handle asynchronous operations properly. Stop callback hell forever.',
+    exceprt:
+      'Understand promises, async/await, and how to handle asynchronous operations properly. Stop callback hell forever.',
     content: `
 ## Asynchronous JavaScript Explained
 
@@ -578,37 +587,40 @@ Build a project that fetches data from APIs. Try our [Development Tutorials](/de
     updatedAt: '2026-03-24',
     readTime: '11 min',
     status: 'published',
-    keywords: 'JavaScript promises, async await, asynchronous programming, JavaScript tutorial, callbacks, fetch API',
+    keywords:
+      'JavaScript promises, async await, asynchronous programming, JavaScript tutorial, callbacks, fetch API',
     relatedVisualizer: '/development/tutorials',
-    views: 524
-  }
-];
+    views: 524,
+  },
+]
 
 // Helper functions
 export function getBlogBySlug(slug) {
-  return blogsData.find(blog => blog.slug === slug);
+  return blogsData.find(blog => blog.slug === slug)
 }
 
 export function getPublishedBlogs() {
-  return blogsData.filter(blog => blog.status === 'published').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  return blogsData
+    .filter(blog => blog.status === 'published')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 }
 
 export function getBlogsByCategory(category) {
-  return blogsData.filter(blog => blog.status === 'published' && blog.category === category);
+  return blogsData.filter(blog => blog.status === 'published' && blog.category === category)
 }
 
 export function getBlogsByTag(tag) {
-  return blogsData.filter(blog => blog.status === 'published' && blog.tags.includes(tag));
+  return blogsData.filter(blog => blog.status === 'published' && blog.tags.includes(tag))
 }
 
 export function searchBlogs(query) {
-  const lower = query.toLowerCase();
-  return blogsData.filter(blog => 
-    blog.status === 'published' && (
-      blog.title.toLowerCase().includes(lower) ||
-      blog.exceprt.toLowerCase().includes(lower) ||
-      blog.content.toLowerCase().includes(lower) ||
-      blog.tags.some(tag => tag.toLowerCase().includes(lower))
-    )
-  );
+  const lower = query.toLowerCase()
+  return blogsData.filter(
+    blog =>
+      blog.status === 'published' &&
+      (blog.title.toLowerCase().includes(lower) ||
+        blog.exceprt.toLowerCase().includes(lower) ||
+        blog.content.toLowerCase().includes(lower) ||
+        blog.tags.some(tag => tag.toLowerCase().includes(lower)))
+  )
 }

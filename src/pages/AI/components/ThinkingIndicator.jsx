@@ -2,7 +2,7 @@
  * Thinking Indicator — ChatGPT-style three-dot bounce animation
  */
 
-import { Bot } from 'lucide-react';
+import { Bot } from 'lucide-react'
 
 export function ThinkingIndicator() {
   return (
@@ -20,8 +20,14 @@ export function ThinkingIndicator() {
       <div className="bg-[var(--bg-assistant-msg,#444654)] rounded-2xl rounded-bl-sm px-4 py-3">
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot" />
-          <span className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot" style={{ animationDelay: '0.15s' }} />
-          <span className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot" style={{ animationDelay: '0.3s' }} />
+          <span
+            className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot"
+            style={{ animationDelay: '0.15s' }}
+          />
+          <span
+            className="w-2 h-2 rounded-full bg-[var(--text-secondary,#8e8ea0)] thinking-dot"
+            style={{ animationDelay: '0.3s' }}
+          />
         </div>
       </div>
 
@@ -36,5 +42,5 @@ export function ThinkingIndicator() {
         }
       `}</style>
     </div>
-  );
+  )
 }

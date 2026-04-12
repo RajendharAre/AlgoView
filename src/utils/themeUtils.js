@@ -88,7 +88,7 @@ export const getCurrentTheme = () => {
 /**
  * Set theme mode and persist to localStorage
  */
-export const setTheme = (mode) => {
+export const setTheme = mode => {
   localStorage.setItem('theme', mode)
 
   if (mode === THEME_MODES.SYSTEM) {
@@ -107,14 +107,14 @@ export const setTheme = (mode) => {
 /**
  * Get colors based on current theme
  */
-export const getThemeColors = (isDark) => {
+export const getThemeColors = isDark => {
   return isDark ? COLORS.dark : COLORS.light
 }
 
 /**
  * Generate CSS variables for the theme
  */
-export const generateCSSVariables = (isDark) => {
+export const generateCSSVariables = isDark => {
   const colors = getThemeColors(isDark)
   const cssVars = {}
 

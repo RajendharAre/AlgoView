@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { doc, setDoc, onSnapshot, serverTimestamp } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 
-export const useProfile = (userId) => {
+export const useProfile = userId => {
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -15,14 +15,14 @@ export const useProfile = (userId) => {
     }
 
     const profileRef = doc(db, 'users', userId)
-    
+
     const unsubscribe = onSnapshot(
       profileRef,
-      (docSnap) => {
+      docSnap => {
         if (docSnap.exists()) {
           setProfile({
             id: docSnap.id,
-            ...docSnap.data()
+            ...docSnap.data(),
           })
         } else {
           // Initialize profile document if it doesn't exist
@@ -38,17 +38,17 @@ export const useProfile = (userId) => {
               leetcode: '',
               hackerrank: '',
               linkedin: '',
-              twitter: ''
+              twitter: '',
             },
             createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp()
+            updatedAt: serverTimestamp(),
           }
           setProfile(initialProfile)
         }
         setLoading(false)
         setError(null)
       },
-      (err) => {
+      err => {
         setError(err.message)
         setLoading(false)
       }
@@ -58,16 +58,16 @@ export const useProfile = (userId) => {
   }, [userId])
 
   // Save profile data to Firestore
-  const saveProfile = async (profileData) => {
+  const saveProfile = async profileData => {
     if (!userId) return
 
     try {
       const profileRef = doc(db, 'users', userId)
       const updateData = {
         ...profileData,
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
       }
-      
+
       await setDoc(profileRef, updateData, { merge: true })
       return true
     } catch (err) {
@@ -79,12 +79,12 @@ export const useProfile = (userId) => {
   // Extract LeetCode username from URL
   const getLeetCodeUsername = () => {
     if (!profile?.socialLinks?.leetcode) return null
-    
+
     const url = profile.socialLinks.leetcode
     try {
       const urlObj = new URL(url)
       const pathname = urlObj.pathname
-      
+
       // Handle different LeetCode URL formats
       if (pathname.startsWith('/u/')) {
         return pathname.split('/')[2]
@@ -101,7 +101,7 @@ export const useProfile = (userId) => {
       // If it's not a valid URL, treat it as a username
       return url
     }
-    
+
     return null
   }
 
@@ -110,6 +110,6 @@ export const useProfile = (userId) => {
     loading,
     error,
     saveProfile,
-    getLeetCodeUsername
+    getLeetCodeUsername,
   }
 }

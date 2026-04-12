@@ -1,15 +1,6 @@
-import React from 'react';
-import {
-  Play,
-  RotateCcw,
-  Activity,
-  Info,
-  Layers,
-  Hash,
-  TrendingUp,
-  ArrowLeft,
-} from 'lucide-react';
-import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection';
+import React from 'react'
+import { Play, RotateCcw, Activity, Info, Layers, Hash, TrendingUp, ArrowLeft } from 'lucide-react'
+import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection'
 
 const FibonacciSidebar = ({
   n,
@@ -38,7 +29,9 @@ const FibonacciSidebar = ({
           >
             <ArrowLeft size={18} />
           </button>
-          <h1 className="text-sm md:text-base font-bold tracking-tight truncate">Fibonacci Solver</h1>
+          <h1 className="text-sm md:text-base font-bold tracking-tight truncate">
+            Fibonacci Solver
+          </h1>
         </div>
         <p className="text-[9px] md:text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
           Dynamic Programming
@@ -63,7 +56,7 @@ const FibonacciSidebar = ({
               min="2"
               max={MAX_N}
               value={n}
-              onChange={(e) => setN(parseInt(e.target.value))}
+              onChange={e => setN(parseInt(e.target.value))}
               disabled={isRunning}
               className="w-full h-1.5 bg-[#e9ecefff] rounded-lg appearance-none cursor-pointer accent-[#212529] disabled:opacity-50"
             />
@@ -119,9 +112,7 @@ const FibonacciSidebar = ({
         <section className="space-y-3 md:space-y-4 pt-4 border-t border-[#f1f3f5]">
           <div
             className={`p-3 md:p-4 rounded-xl border-l-4 transition-all ${
-              isRunning
-                ? 'bg-[#212529] text-white shadow-md'
-                : 'bg-[#f8f9faff] border-[#dee2e6]'
+              isRunning ? 'bg-[#212529] text-white shadow-md' : 'bg-[#f8f9faff] border-[#dee2e6]'
             }`}
           >
             <p className="text-[8px] sm:text-[9px] font-black uppercase opacity-60 mb-1 flex items-center gap-1">
@@ -146,10 +137,10 @@ const FibonacciSidebar = ({
                       currentIndex === idx
                         ? 'bg-[#212529] text-white border-[#212529] scale-105'
                         : idx === currentIndex - 1 || idx === currentIndex - 2
-                        ? 'bg-[#e9ecefff] border-[#6c757d] font-bold'
-                        : val !== null
-                        ? 'bg-white border-[#dee2e6] text-[#6c757d]'
-                        : 'bg-transparent border-dashed border-[#dee2e6] opacity-30'
+                          ? 'bg-[#e9ecefff] border-[#6c757d] font-bold'
+                          : val !== null
+                            ? 'bg-white border-[#dee2e6] text-[#6c757d]'
+                            : 'bg-transparent border-dashed border-[#dee2e6] opacity-30'
                     }
                   `}
                 >
@@ -167,7 +158,7 @@ const FibonacciSidebar = ({
         </section>
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default FibonacciSidebar;
+export default FibonacciSidebar

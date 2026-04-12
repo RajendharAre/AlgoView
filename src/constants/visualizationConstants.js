@@ -11,7 +11,7 @@ export const COLORS = {
   ironGrey: '#495057ff',
   gunmetal: '#343a40ff',
   carbonBlack: '#212529ff',
-};
+}
 
 // Animation speeds configuration
 export const SPEEDS = [
@@ -21,7 +21,7 @@ export const SPEEDS = [
   { label: '2x', value: 500 },
   { label: '2.5x', value: 400 },
   { label: '3x', value: 333 },
-];
+]
 
 // Bucket ranges for algorithms like BucketSort
 export const BUCKET_RANGES = [
@@ -30,7 +30,7 @@ export const BUCKET_RANGES = [
   { label: '40-59', min: 40, max: 59 },
   { label: '60-79', min: 60, max: 79 },
   { label: '80-99', min: 80, max: 99 },
-];
+]
 
 // Default stats structure for algorithms
 export const DEFAULT_STATS = {
@@ -38,4 +38,4 @@ export const DEFAULT_STATS = {
   swaps: 0,
   scattered: 0,
   gathered: 0,
-};
+}

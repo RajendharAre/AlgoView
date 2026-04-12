@@ -21,15 +21,30 @@ console.log(solution());
     { id: 'python', name: 'Python' },
     { id: 'java', name: 'Java' },
     { id: 'cpp', name: 'C++' },
-    { id: 'c', name: 'C' }
+    { id: 'c', name: 'C' },
   ]
 
   const problems = [
     { id: 'two-sum', name: 'Two Sum', difficulty: 'Easy', acceptance: '45%' },
-    { id: 'reverse-linked-list', name: 'Reverse Linked List', difficulty: 'Easy', acceptance: '68%' },
+    {
+      id: 'reverse-linked-list',
+      name: 'Reverse Linked List',
+      difficulty: 'Easy',
+      acceptance: '68%',
+    },
     { id: 'valid-parentheses', name: 'Valid Parentheses', difficulty: 'Easy', acceptance: '39%' },
-    { id: 'merge-two-sorted-lists', name: 'Merge Two Sorted Lists', difficulty: 'Easy', acceptance: '50%' },
-    { id: 'best-time-to-buy-sell-stock', name: 'Best Time to Buy and Sell Stock', difficulty: 'Easy', acceptance: '53%' }
+    {
+      id: 'merge-two-sorted-lists',
+      name: 'Merge Two Sorted Lists',
+      difficulty: 'Easy',
+      acceptance: '50%',
+    },
+    {
+      id: 'best-time-to-buy-sell-stock',
+      name: 'Best Time to Buy and Sell Stock',
+      difficulty: 'Easy',
+      acceptance: '53%',
+    },
   ]
 
   const handleRunCode = () => {
@@ -66,7 +81,7 @@ console.log(solution());
             </div>
           </div>
           <div className="divide-y divide-gray-200">
-            {problems.map((problem) => (
+            {problems.map(problem => (
               <Link
                 key={problem.id}
                 to={`/dsa/practice/${problem.id}`}
@@ -76,20 +91,20 @@ console.log(solution());
                   <div>
                     <h3 className="text-sm font-medium text-gray-900">{problem.name}</h3>
                     <div className="flex items-center mt-1">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                        problem.difficulty === 'Easy' 
-                          ? 'bg-green-100 text-green-800' 
-                          : problem.difficulty === 'Medium' 
-                            ? 'bg-yellow-100 text-yellow-800' 
-                            : 'bg-red-100 text-red-800'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                          problem.difficulty === 'Easy'
+                            ? 'bg-green-100 text-green-800'
+                            : problem.difficulty === 'Medium'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-red-100 text-red-800'
+                        }`}
+                      >
                         {problem.difficulty}
                       </span>
                     </div>
                   </div>
-                  <div className="text-xs text-gray-500">
-                    {problem.acceptance}
-                  </div>
+                  <div className="text-xs text-gray-500">{problem.acceptance}</div>
                 </div>
               </Link>
             ))}
@@ -104,16 +119,20 @@ console.log(solution());
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold text-gray-900">Code Practice</h1>
-              <p className="text-gray-600">Solve problems in our integrated development environment</p>
+              <p className="text-gray-600">
+                Solve problems in our integrated development environment
+              </p>
             </div>
             <div className="flex items-center space-x-3">
               <select
                 value={language}
-                onChange={(e) => setLanguage(e.target.value)}
+                onChange={e => setLanguage(e.target.value)}
                 className="block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               >
                 {languages.map(lang => (
-                  <option key={lang.id} value={lang.id}>{lang.name}</option>
+                  <option key={lang.id} value={lang.id}>
+                    {lang.name}
+                  </option>
                 ))}
               </select>
               <button
@@ -139,12 +158,12 @@ console.log(solution());
           <div className="flex-1">
             <textarea
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={e => setCode(e.target.value)}
               className="w-full h-full font-mono text-sm p-4 border-0 focus:ring-0 resize-none"
               spellCheck="false"
             />
           </div>
-          
+
           {/* Output Panel */}
           <div className="h-48 border-t border-gray-200 bg-gray-50">
             <div className="flex items-center justify-between p-3 border-b border-gray-200">

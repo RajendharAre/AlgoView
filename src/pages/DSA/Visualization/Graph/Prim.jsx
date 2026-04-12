@@ -25,7 +25,9 @@ const Prim = () => {
   const [mode, setMode] = useState(null)
   const [isRunning, setIsRunning] = useState(false)
   const [speedIndex, setSpeedIndex] = useState(1)
-  const [currentStep, setCurrentStep] = useState("Prim's grows a tree from a start node by picking the cheapest neighbor.")
+  const [currentStep, setCurrentStep] = useState(
+    "Prim's grows a tree from a start node by picking the cheapest neighbor."
+  )
   const [activeNode, setActiveNode] = useState(null)
   const [totalWeight, setTotalWeight] = useState(0)
 
@@ -43,24 +45,30 @@ const Prim = () => {
     setCosts({})
     setParent({})
     setTotalWeight(0)
-    setCurrentStep("Graph modified. Ready to grow Spanning Tree.")
+    setCurrentStep('Graph modified. Ready to grow Spanning Tree.')
   }, [])
 
   /**
    * Handle canvas click for ADD mode
    */
-  const handleCanvasClick = useCallback((e) => {
-    e.stopPropagation()
-    if (isRunning || mode !== 'ADD') return
-    const rect = canvasRef.current?.getBoundingClientRect()
-    if (!rect) return
+  const handleCanvasClick = useCallback(
+    e => {
+      e.stopPropagation()
+      if (isRunning || mode !== 'ADD') return
+      const rect = canvasRef.current?.getBoundingClientRect()
+      if (!rect) return
 
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    
-    setNodes(prev => [...prev, { id: prev.length, x, y, label: String.fromCharCode(65 + prev.length) }])
-    resetAlgoState()
-  }, [mode, isRunning, resetAlgoState])
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+
+      setNodes(prev => [
+        ...prev,
+        { id: prev.length, x, y, label: String.fromCharCode(65 + prev.length) },
+      ])
+      resetAlgoState()
+    },
+    [mode, isRunning, resetAlgoState]
+  )
 
   /**
    * Handle node click for linking and operations
@@ -70,7 +78,9 @@ const Prim = () => {
     if (isRunning) return
 
     if (mode === 'DELETE') {
-      const newNodes = nodes.filter(n => n.id !== node.id).map((n, i) => ({ ...n, id: i, label: String.fromCharCode(65 + i) }))
+      const newNodes = nodes
+        .filter(n => n.id !== node.id)
+        .map((n, i) => ({ ...n, id: i, label: String.fromCharCode(65 + i) }))
       setNodes(newNodes)
       setEdges(prev =>
         prev
@@ -78,7 +88,7 @@ const Prim = () => {
           .map(edge => ({
             ...edge,
             u: edge.u > node.id ? edge.u - 1 : edge.u,
-            v: edge.v > node.id ? edge.v - 1 : edge.v
+            v: edge.v > node.id ? edge.v - 1 : edge.v,
           }))
       )
       resetAlgoState()
@@ -95,7 +105,9 @@ const Prim = () => {
         if (!exists) {
           const weight = Math.floor(Math.random() * 15) + 1
           setEdges(prev => [...prev, { u: linkSource, v: node.id, weight }])
-          setCurrentStep(`Edge (${nodes.find(n => n.id === linkSource)?.label}-${node.label}) weight ${weight} added`)
+          setCurrentStep(
+            `Edge (${nodes.find(n => n.id === linkSource)?.label}-${node.label}) weight ${weight} added`
+          )
         } else {
           setCurrentStep('Edge already exists')
         }
@@ -135,7 +147,9 @@ const Prim = () => {
     localCosts[startNodeId] = 0
 
     setCosts({ ...localCosts })
-    setCurrentStep(`Initializing: Starting Prim's from Node ${nodes.find(n => n.id === startNodeId)?.label}`)
+    setCurrentStep(
+      `Initializing: Starting Prim's from Node ${nodes.find(n => n.id === startNodeId)?.label}`
+    )
     await sleep()
 
     // Prim's main loop
@@ -155,7 +169,9 @@ const Prim = () => {
       if (u === -1 || localCosts[u] === Infinity) break
 
       setActiveNode(u)
-      setCurrentStep(`Picking Node ${nodes.find(n => n.id === u)?.label} with min connection cost ${localCosts[u]}`)
+      setCurrentStep(
+        `Picking Node ${nodes.find(n => n.id === u)?.label} with min connection cost ${localCosts[u]}`
+      )
       await sleep()
 
       localVisited.add(u)
@@ -165,9 +181,10 @@ const Prim = () => {
       if (localParent[u] !== undefined) {
         localMstEdges.push({ u: localParent[u], v: u })
         setMstEdges([...localMstEdges])
-        const edgeWeight = edges.find(
-          e => (e.u === u && e.v === localParent[u]) || (e.v === u && e.u === localParent[u])
-        )?.weight || 0
+        const edgeWeight =
+          edges.find(
+            e => (e.u === u && e.v === localParent[u]) || (e.v === u && e.u === localParent[u])
+          )?.weight || 0
         localWeight += edgeWeight
         setTotalWeight(localWeight)
       }
@@ -185,7 +202,9 @@ const Prim = () => {
 
           setCosts({ ...localCosts })
           setParent({ ...localParent })
-          setCurrentStep(`Updating connection to Node ${nodes.find(n => n.id === neighbor.target)?.label} (Cost: ${neighbor.weight})`)
+          setCurrentStep(
+            `Updating connection to Node ${nodes.find(n => n.id === neighbor.target)?.label} (Cost: ${neighbor.weight})`
+          )
           await sleep()
         }
       }
@@ -234,7 +253,10 @@ const Prim = () => {
       />
 
       {/* Canvas - RIGHT */}
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
+      <main
+        className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0"
+        onClick={handleCanvasClick}
+      >
         <PrimCanvas
           ref={canvasRef}
           nodes={nodes}

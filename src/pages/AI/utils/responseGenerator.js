@@ -2,7 +2,7 @@
  * AI Response Generator
  * Uses Gemini API with intelligent prompts as primary response generator
  * Returns markdown-formatted responses (not HTML) for clean rendering
- * 
+ *
  * IMPORTANT: This system prioritizes Gemini API responses with proper system prompts
  * Fallback to hardcoded responses only when API is unavailable
  */
@@ -13,10 +13,22 @@
  * @returns {boolean} True if user is asking for a table
  */
 function isTableRequest(input) {
-  const tableKeywords = ['table', 'spreadsheet', 'grid', 'format', 'structure', 'list', 'comparison', 'problems solved', 'problem tracking', 'chart', 'organize'];
-  const inputLower = input.toLowerCase();
-  
-  return tableKeywords.some(keyword => inputLower.includes(keyword));
+  const tableKeywords = [
+    'table',
+    'spreadsheet',
+    'grid',
+    'format',
+    'structure',
+    'list',
+    'comparison',
+    'problems solved',
+    'problem tracking',
+    'chart',
+    'organize',
+  ]
+  const inputLower = input.toLowerCase()
+
+  return tableKeywords.some(keyword => inputLower.includes(keyword))
 }
 
 /**
@@ -54,7 +66,7 @@ EXAMPLE:
 
 Original user request: "${input}"
 
-Now generate the table following the rules above.`;
+Now generate the table following the rules above.`
 }
 
 /**
@@ -162,7 +174,7 @@ If user asks about topics NOT related to learning (movies, music, jokes, celebri
 - Educational focus
 - Helpful and encouraging
 
-You are an expert educator. Provide the best possible learning experience with clean, ChatGPT-style formatting.`;
+You are an expert educator. Provide the best possible learning experience with clean, ChatGPT-style formatting.`
 
 /**
  * Generate AI response based on user input
@@ -171,36 +183,38 @@ You are an expert educator. Provide the best possible learning experience with c
  */
 export async function generateResponse(input) {
   // Check if Gemini API key is available
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  
-  console.log('🤖 Initializing AI response generator...');
-  console.log('Gemini API Key available:', geminiApiKey ? '✅ Yes' : '❌ No');
-  
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY
+
+  console.log('🤖 Initializing AI response generator...')
+  console.log('Gemini API Key available:', geminiApiKey ? '✅ Yes' : '❌ No')
+
   // Detect if user is asking for a table
-  const requestingTable = isTableRequest(input);
-  const systemPrompt = requestingTable ? getTableFormattingPrompt(input) : SYSTEM_PROMPT;
-  
+  const requestingTable = isTableRequest(input)
+  const systemPrompt = requestingTable ? getTableFormattingPrompt(input) : SYSTEM_PROMPT
+
   if (requestingTable) {
-    console.log('📊 Detected table request - using specialized table formatting prompt');
+    console.log('📊 Detected table request - using specialized table formatting prompt')
   }
-  
+
   // Try to use Gemini API with system prompt
   if (geminiApiKey && geminiApiKey !== 'your_gemini_api_key_here') {
     try {
-      console.log('📡 Connecting to Gemini API...');
-      console.log('👤 User query:', input);
-      const response = await callGeminiAPI(input, systemPrompt);
-      console.log('✅ Gemini AI response received successfully');
-      return response;
+      console.log('📡 Connecting to Gemini API...')
+      console.log('👤 User query:', input)
+      const response = await callGeminiAPI(input, systemPrompt)
+      console.log('✅ Gemini AI response received successfully')
+      return response
     } catch (error) {
-      console.warn('⚠️ Gemini API Error:', error.message);
-      console.log('📋 Falling back to default response...');
-      return getDefaultResponse(input);
+      console.warn('⚠️ Gemini API Error:', error.message)
+      console.log('📋 Falling back to default response...')
+      return getDefaultResponse(input)
     }
   } else {
-    console.log('⚠️ Gemini API key not configured');
-    console.log('💾 Using default response (add VITE_GEMINI_API_KEY to .env for better AI responses)');
-    return getDefaultResponse(input);
+    console.log('⚠️ Gemini API key not configured')
+    console.log(
+      '💾 Using default response (add VITE_GEMINI_API_KEY to .env for better AI responses)'
+    )
+    return getDefaultResponse(input)
   }
 }
 
@@ -211,54 +225,63 @@ export async function generateResponse(input) {
  * @returns {Promise<string>} Markdown formatted AI response
  */
 async function callGeminiAPI(input, systemPrompt) {
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY
+
   try {
-    console.log('🔄 Preparing API request with system prompt...');
-    
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        systemInstruction: {
-          parts: [{
-            text: systemPrompt
-          }]
+    console.log('🔄 Preparing API request with system prompt...')
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        contents: [{
-          parts: [{
-            text: input
-          }]
-        }]
-      })
-    });
-    
-    console.log('📨 API request sent, waiting for response...');
-    console.log('Response status:', response.status);
-    
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [
+              {
+                text: systemPrompt,
+              },
+            ],
+          },
+          contents: [
+            {
+              parts: [
+                {
+                  text: input,
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    )
+
+    console.log('📨 API request sent, waiting for response...')
+    console.log('Response status:', response.status)
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ API Error Response:', errorText);
-      throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+      const errorText = await response.text()
+      console.error('❌ API Error Response:', errorText)
+      throw new Error(`API request failed with status ${response.status}: ${errorText}`)
     }
-    
-    const data = await response.json();
-    console.log('📦 Response data received from Gemini');
-    
-    const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    
+
+    const data = await response.json()
+    console.log('📦 Response data received from Gemini')
+
+    const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
+
     if (!textResponse) {
-      console.warn('⚠️ Empty response from Gemini API');
-      throw new Error('Empty response from Gemini API');
+      console.warn('⚠️ Empty response from Gemini API')
+      throw new Error('Empty response from Gemini API')
     }
-    
-    console.log('✅ AI response extracted successfully');
-    return textResponse;
+
+    console.log('✅ AI response extracted successfully')
+    return textResponse
   } catch (error) {
-    console.error('❌ Error calling Gemini API:', error);
-    throw error;
+    console.error('❌ Error calling Gemini API:', error)
+    throw error
   }
 }
 
@@ -269,15 +292,35 @@ async function callGeminiAPI(input, systemPrompt) {
  * @returns {string} Markdown formatted response
  */
 function getDefaultResponse(input) {
-  const text = input.toLowerCase();
+  const text = input.toLowerCase()
 
   // ============================================
   // OFF-TOPIC FILTER - Politely redirect non-educational queries
   // ============================================
-  const offTopicKeywords = ['movie', 'film', 'music', 'song', 'game', 'sports', 'celebrity', 'entertainment', 'joke', 'meme', 'weather', 'news', 'politics'];
-  const isOffTopic = offTopicKeywords.some(keyword => text.includes(keyword));
-  
-  if (isOffTopic && !text.includes('algorithm') && !text.includes('code') && !text.includes('development') && !text.includes('learn')) {
+  const offTopicKeywords = [
+    'movie',
+    'film',
+    'music',
+    'song',
+    'game',
+    'sports',
+    'celebrity',
+    'entertainment',
+    'joke',
+    'meme',
+    'weather',
+    'news',
+    'politics',
+  ]
+  const isOffTopic = offTopicKeywords.some(keyword => text.includes(keyword))
+
+  if (
+    isOffTopic &&
+    !text.includes('algorithm') &&
+    !text.includes('code') &&
+    !text.includes('development') &&
+    !text.includes('learn')
+  ) {
     return `I appreciate the question, but I'm specifically designed to help with:
 
 ### What I Can Help With:
@@ -293,7 +336,7 @@ function getDefaultResponse(input) {
 - Sports, celebrities, current events
 - General trivia or non-educational topics
 
-**Feel free to ask me about algorithms, web development, or learning paths!**`;
+**Feel free to ask me about algorithms, web development, or learning paths!**`
   }
 
   // ============================================
@@ -301,7 +344,7 @@ function getDefaultResponse(input) {
   // ============================================
 
   // HTML/CSS/JavaScript fundamentals
-  if ((text.includes("html") || text.includes("css")) && !text.includes("algorithm")) {
+  if ((text.includes('html') || text.includes('css')) && !text.includes('algorithm')) {
     return `### HTML & CSS Fundamentals
 
 **HTML (HyperText Markup Language):**
@@ -326,11 +369,11 @@ function getDefaultResponse(input) {
 - MDN Web Docs
 - CSS-Tricks
 - Codecademy
-- FreeCodeCamp`;
+- FreeCodeCamp`
   }
 
   // React framework
-  if (text.includes("react") && !text.includes("react native")) {
+  if (text.includes('react') && !text.includes('react native')) {
     return `### React.js Explained
 
 **What is React?**
@@ -359,11 +402,11 @@ A JavaScript library for building user interfaces with reusable components.
 - Redux or Zustand (state management)
 - React Router (routing)
 
-**Best for:** Interactive web applications, SPAs, dynamic UIs`;
+**Best for:** Interactive web applications, SPAs, dynamic UIs`
   }
 
   // JavaScript fundamentals
-  if (text.includes("javascript") && !text.includes("java ")) {
+  if (text.includes('javascript') && !text.includes('java ')) {
     return `### JavaScript Fundamentals
 
 **Core Concepts:**
@@ -397,11 +440,11 @@ A JavaScript library for building user interfaces with reusable components.
 - Frontend development
 - Backend (Node.js)
 - Full-stack applications
-- Automation and scripting`;
+- Automation and scripting`
   }
 
   // Node.js backend
-  if (text.includes("node") && (text.includes("backend") || text.includes("server"))) {
+  if (text.includes('node') && (text.includes('backend') || text.includes('server'))) {
     return `### Node.js Backend Development
 
 **What is Node.js?**
@@ -434,11 +477,14 @@ JavaScript runtime for building server-side applications.
 - Build REST APIs
 - Handle requests/responses
 - Work with databases
-- Implement authentication`;
+- Implement authentication`
   }
 
   // Database questions
-  if ((text.includes("database") || text.includes("sql") || text.includes("mongodb")) && !text.includes("algorithm")) {
+  if (
+    (text.includes('database') || text.includes('sql') || text.includes('mongodb')) &&
+    !text.includes('algorithm')
+  ) {
     return `### Databases & SQL
 
 **SQL (Relational):**
@@ -470,7 +516,7 @@ JavaScript runtime for building server-side applications.
 
 **When to Use:**
 - SQL: Structured data, complex relationships
-- NoSQL: Flexible schema, rapid scaling`;
+- NoSQL: Flexible schema, rapid scaling`
   }
 
   // ============================================
@@ -478,7 +524,10 @@ JavaScript runtime for building server-side applications.
   // ============================================
 
   // DSA learning roadmap
-  if ((text.includes("dsa") || text.includes("data structure")) && (text.includes("roadmap") || text.includes("path") || text.includes("learning"))) {
+  if (
+    (text.includes('dsa') || text.includes('data structure')) &&
+    (text.includes('roadmap') || text.includes('path') || text.includes('learning'))
+  ) {
     return `### Data Structures & Algorithms Learning Roadmap
 
 **Level 1: Foundations (1-2 weeks)**
@@ -515,11 +564,14 @@ JavaScript runtime for building server-side applications.
 - LeetCode (practice problems)
 - GeeksforGeeks (tutorials)
 - AlgoExpert (video course)
-- InterviewBit (interview prep)`;
+- InterviewBit (interview prep)`
   }
 
   // Web development roadmap
-  if ((text.includes("web") || text.includes("frontend") || text.includes("fullstack")) && (text.includes("roadmap") || text.includes("path") || text.includes("learning"))) {
+  if (
+    (text.includes('web') || text.includes('frontend') || text.includes('fullstack')) &&
+    (text.includes('roadmap') || text.includes('path') || text.includes('learning'))
+  ) {
     return `### Web Development Learning Roadmap
 
 **Level 1: Fundamentals (2-3 weeks)**
@@ -559,11 +611,14 @@ Frontend Focus → React → Backend → Full-stack
 - FreeCodeCamp (YouTube courses)
 - The Odin Project (full curriculum)
 - Codecademy (interactive learning)
-- MDN Web Docs (reference)`;
+- MDN Web Docs (reference)`
   }
 
   // Career/interview roadmap
-  if ((text.includes("interview") || text.includes("career") || text.includes("job")) && text.includes("roadmap")) {
+  if (
+    (text.includes('interview') || text.includes('career') || text.includes('job')) &&
+    text.includes('roadmap')
+  ) {
     return `### Interview Preparation Roadmap
 
 **Phase 1: Foundation Building (4 weeks)**
@@ -606,7 +661,7 @@ Frontend Focus → React → Backend → Full-stack
 - LeetCode (1500+ problems)
 - HackerRank (interactive)
 - InterviewBit (curated)
-- Pramp (mock interviews)`;
+- Pramp (mock interviews)`
   }
 
   // ============================================
@@ -614,7 +669,12 @@ Frontend Focus → React → Backend → Full-stack
   // ============================================
 
   // Resources request
-  if (text.includes("resource") || text.includes("book") || text.includes("course") || text.includes("tutorial")) {
+  if (
+    text.includes('resource') ||
+    text.includes('book') ||
+    text.includes('course') ||
+    text.includes('tutorial')
+  ) {
     return `### Recommended Learning Resources
 
 **Books:**
@@ -648,11 +708,15 @@ Frontend Focus → React → Backend → Full-stack
 - Your learning style (video, text, interactive)
 - Your level (beginner, intermediate, advanced)
 - Your goal (DSA, web dev, interview prep)
-- Your pace (self-paced, structured)`;
+- Your pace (self-paced, structured)`
   }
 
   // Handle DFS vs BFS comparison
-  if ((text.includes("dfs") || text.includes("depth first")) && (text.includes("bfs") || text.includes("breadth first")) && (text.includes("vs") || text.includes("compare") || text.includes("difference"))) {
+  if (
+    (text.includes('dfs') || text.includes('depth first')) &&
+    (text.includes('bfs') || text.includes('breadth first')) &&
+    (text.includes('vs') || text.includes('compare') || text.includes('difference'))
+  ) {
     return `### DFS vs BFS
 
 | Feature | DFS | BFS |
@@ -674,11 +738,15 @@ Frontend Focus → React → Backend → Full-stack
 - Shortest path (unweighted)
 - Level-order traversal
 - Social network distances
-- Finding closest node`;
+- Finding closest node`
   }
 
   // Handle comparisons (difference between X and Y)
-  if ((text.includes("difference") || text.includes("compare")) && (text.includes("quick") || text.includes("quicksort")) && (text.includes("bubble") || text.includes("bubblesort"))) {
+  if (
+    (text.includes('difference') || text.includes('compare')) &&
+    (text.includes('quick') || text.includes('quicksort')) &&
+    (text.includes('bubble') || text.includes('bubblesort'))
+  ) {
     return `### QuickSort vs Bubble Sort
 
 | Feature | Quick Sort | Bubble Sort |
@@ -699,11 +767,11 @@ Frontend Focus → React → Backend → Full-stack
 **When to use Bubble Sort:**
 - Nearly sorted data
 - Educational purposes
-- Tiny datasets`;
+- Tiny datasets`
   }
 
   // Merge Sort
-  if (text.includes("merge") && text.includes("sort")) {
+  if (text.includes('merge') && text.includes('sort')) {
     return `### Merge Sort Explained
 
 **Merge Sort** is a **divide and conquer** algorithm.
@@ -720,11 +788,11 @@ Frontend Focus → React → Backend → Full-stack
 **Best for:** 
 - When you need guaranteed O(n log n)
 - External sorting
-- Stable sorting is required`;
+- Stable sorting is required`
   }
 
   // Bubble Sort
-  if (text.includes("bubble") && text.includes("sort")) {
+  if (text.includes('bubble') && text.includes('sort')) {
     return `### Bubble Sort Explained
 
 Bubble Sort repeatedly compares adjacent elements and swaps them.
@@ -741,11 +809,11 @@ Bubble Sort repeatedly compares adjacent elements and swaps them.
 **Best for:** 
 - Educational purposes
 - Nearly sorted arrays
-- When space is critical`;
+- When space is critical`
   }
 
   // Quick Sort
-  if (text.includes("quick") && text.includes("sort")) {
+  if (text.includes('quick') && text.includes('sort')) {
     return `### Quick Sort Explained
 
 **Quick Sort** is a **divide and conquer** algorithm that picks a pivot element.
@@ -762,11 +830,11 @@ Bubble Sort repeatedly compares adjacent elements and swaps them.
 **Best for:** 
 - General purpose sorting
 - Good cache locality
-- Most practical sorting algorithm`;
+- Most practical sorting algorithm`
   }
 
   // Binary Search
-  if (text.includes("binary") && text.includes("search")) {
+  if (text.includes('binary') && text.includes('search')) {
     return `### Binary Search Explained
 
 Binary Search works on **sorted arrays** by repeatedly halving the search space.
@@ -782,11 +850,11 @@ Binary Search works on **sorted arrays** by repeatedly halving the search space.
 
 **Requirements:**
 - Input must be sorted
-- Random access needed`;
+- Random access needed`
   }
 
   // Linear Search
-  if (text.includes("linear") && text.includes("search")) {
+  if (text.includes('linear') && text.includes('search')) {
     return `### Linear Search Explained
 
 Linear Search checks each element sequentially.
@@ -803,11 +871,11 @@ Linear Search checks each element sequentially.
 **Best for:**
 - Unsorted data
 - Small datasets
-- Simple implementation`;
+- Simple implementation`
   }
 
   // DFS
-  if ((text.includes("dfs") || text.includes("depth")) && text.includes("search")) {
+  if ((text.includes('dfs') || text.includes('depth')) && text.includes('search')) {
     return `### Depth-First Search (DFS)
 
 DFS explores as far as possible along each branch before backtracking.
@@ -822,11 +890,11 @@ DFS explores as far as possible along each branch before backtracking.
 - Topological sorting
 - Cycle detection
 - Path finding
-- Maze solving`;
+- Maze solving`
   }
 
   // BFS
-  if ((text.includes("bfs") || text.includes("breadth")) && text.includes("search")) {
+  if ((text.includes('bfs') || text.includes('breadth')) && text.includes('search')) {
     return `### Breadth-First Search (BFS)
 
 BFS explores all neighbors at current depth before going deeper.
@@ -840,11 +908,11 @@ BFS explores all neighbors at current depth before going deeper.
 **Use Cases:**
 - Shortest path in unweighted graphs
 - Level-order traversal
-- Connected components`;
+- Connected components`
   }
 
   // Dijkstra
-  if (text.includes("dijkstra")) {
+  if (text.includes('dijkstra')) {
     return `### Dijkstra's Algorithm
 
 Dijkstra finds shortest path from a source to all other vertices.
@@ -860,11 +928,11 @@ Dijkstra finds shortest path from a source to all other vertices.
 - **Space:** O(V)
 
 **Requirements:**
-- Non-negative edge weights`;
+- Non-negative edge weights`
   }
 
   // General algorithm questions
-  if (text.includes("time complexity") || text.includes("space complexity")) {
+  if (text.includes('time complexity') || text.includes('space complexity')) {
     return `### Complexity Analysis
 
 **Big O Notation (from best to worst):**
@@ -878,11 +946,11 @@ Dijkstra finds shortest path from a source to all other vertices.
 - O(n!) - Factorial
 
 **Time Complexity** - How runtime grows with input size
-**Space Complexity** - How memory usage grows with input size`;
+**Space Complexity** - How memory usage grows with input size`
   }
 
   // Data structures
-  if (text.includes("data structure")) {
+  if (text.includes('data structure')) {
     return `### Common Data Structures
 
 **Linear:**
@@ -898,7 +966,7 @@ Dijkstra finds shortest path from a source to all other vertices.
 
 **Hash:**
 - **Hash Map** - O(1) average lookup
-- **Hash Set** - Fast membership testing`;
+- **Hash Set** - Fast membership testing`
   }
 
   // Default welcome message (only if nothing matched)
@@ -940,5 +1008,5 @@ I'm your AI assistant for **Algorithms**, **Data Structures**, and **Web Develop
 - Roadmap: "Web development learning path"
 - Resources: "Best books for algorithms"
 
-What would you like to learn today?`;
+What would you like to learn today?`
 }

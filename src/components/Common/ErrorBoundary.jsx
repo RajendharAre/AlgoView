@@ -16,9 +16,9 @@ class ErrorBoundary extends Component {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     })
-    
+
     // Log error to console for debugging
     console.error('ErrorBoundary caught an error:', error, errorInfo)
   }
@@ -58,7 +58,7 @@ class ErrorBoundary extends Component {
               transition={{ delay: 0.2 }}
               className="text-lg text-gray-600 mb-8"
             >
-              We're sorry, but something unexpected happened. This could be due to a network issue, 
+              We're sorry, but something unexpected happened. This could be due to a network issue,
               a missing file, or a temporary problem with our service.
             </motion.p>
 
@@ -108,7 +108,13 @@ class ErrorBoundary extends Component {
               transition={{ delay: 0.5 }}
               className="mt-8 text-sm text-gray-500"
             >
-              <p>If the problem persists, please <Link to="/support" className="text-blue-600 hover:underline">contact support</Link>.</p>
+              <p>
+                If the problem persists, please{' '}
+                <Link to="/support" className="text-blue-600 hover:underline">
+                  contact support
+                </Link>
+                .
+              </p>
             </motion.div>
           </div>
         </div>

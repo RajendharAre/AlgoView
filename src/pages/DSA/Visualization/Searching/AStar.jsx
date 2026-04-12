@@ -46,25 +46,28 @@ const AStarVisualizer = () => {
   }, [speedIndex])
 
   // Initialize Grid
-  const initGrid = useCallback((resetWalls = false) => {
-    const newGrid = []
-    for (let r = 0; r < GRID_SIZE; r++) {
-      const row = []
-      for (let c = 0; c < GRID_SIZE; c++) {
-        const isWall = !resetWalls && grid[r]?.[c]?.isWall ? true : false
-        row.push({ r, c, isWall })
+  const initGrid = useCallback(
+    (resetWalls = false) => {
+      const newGrid = []
+      for (let r = 0; r < GRID_SIZE; r++) {
+        const row = []
+        for (let c = 0; c < GRID_SIZE; c++) {
+          const isWall = !resetWalls && grid[r]?.[c]?.isWall ? true : false
+          row.push({ r, c, isWall })
+        }
+        newGrid.push(row)
       }
-      newGrid.push(row)
-    }
-    setGrid(newGrid)
-    setOpenSet(new Set())
-    setClosedSet(new Set())
-    setFinalPath(new Set())
-    setCurrentCell(null)
-    setStats({ visited: 0, pathLength: 0 })
-    setIsRunning(false)
-    isRunningRef.current = false
-  }, [grid])
+      setGrid(newGrid)
+      setOpenSet(new Set())
+      setClosedSet(new Set())
+      setFinalPath(new Set())
+      setCurrentCell(null)
+      setStats({ visited: 0, pathLength: 0 })
+      setIsRunning(false)
+      isRunningRef.current = false
+    },
+    [grid]
+  )
 
   useEffect(() => {
     initGrid(true)
@@ -104,8 +107,7 @@ const AStarVisualizer = () => {
   }
 
   const toggleWall = (r, c) => {
-    if ((r === startPos.r && c === startPos.c) || (r === targetPos.r && c === targetPos.c))
-      return
+    if ((r === startPos.r && c === startPos.c) || (r === targetPos.r && c === targetPos.c)) return
     const newGrid = [...grid]
     newGrid[r][c].isWall = !newGrid[r][c].isWall
     setGrid(newGrid)
@@ -118,9 +120,9 @@ const AStarVisualizer = () => {
   }
 
   // A* Algorithm
-  const sleep = () => new Promise((r) => setTimeout(r, speedRef.current))
+  const sleep = () => new Promise(r => setTimeout(r, speedRef.current))
 
-  const getPos = (key) => {
+  const getPos = key => {
     const [r, c] = key.split(',').map(Number)
     return { r, c }
   }
@@ -155,14 +157,14 @@ const AStarVisualizer = () => {
 
       setCurrentCell(currentKey)
       setOpenSet(new Set(open))
-      setClosedSet((prev) => new Set(prev).add(currentKey))
-      setStats((s) => ({ ...s, visited: s.visited + 1 }))
+      setClosedSet(prev => new Set(prev).add(currentKey))
+      setStats(s => ({ ...s, visited: s.visited + 1 }))
 
       if (currentKey === targetKey) {
         // Path Reconstruction
         const path = reconstructPath(cameFrom, startKey, targetKey)
         setFinalPath(new Set(path))
-        setStats((s) => ({ ...s, pathLength: path.length }))
+        setStats(s => ({ ...s, pathLength: path.length }))
         setCurrentStep('Goal reached! Optimal path found.')
         setIsRunning(false)
         isRunningRef.current = false
@@ -170,7 +172,9 @@ const AStarVisualizer = () => {
         return
       }
 
-      setCurrentStep(`Evaluating cell (${current.r}, ${current.c}) | f=${fScore[currentKey].toFixed(2)}`)
+      setCurrentStep(
+        `Evaluating cell (${current.r}, ${current.c}) | f=${fScore[currentKey].toFixed(2)}`
+      )
       await sleep()
 
       // Get neighbors
@@ -182,8 +186,7 @@ const AStarVisualizer = () => {
           cameFrom[neighborKey] = currentKey
           gScore[neighborKey] = tentativeGScore
           const neighborPos = getPos(neighborKey)
-          fScore[neighborKey] =
-            tentativeGScore + heuristic(neighborPos, targetPos)
+          fScore[neighborKey] = tentativeGScore + heuristic(neighborPos, targetPos)
           if (!open.includes(neighborKey)) {
             open.push(neighborKey)
             setOpenSet(new Set(open))

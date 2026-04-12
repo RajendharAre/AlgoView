@@ -19,7 +19,8 @@ const KruskalLegend = () => {
       <div className="flex items-center gap-2">
         <Info size={14} className="text-[#adb5bd]" />
         <span className="text-[9px] font-black text-[#adb5bd] uppercase tracking-wide">
-          Kruskal's Algorithm: Sort all edges by weight and pick the cheapest ones without forming cycles.
+          Kruskal's Algorithm: Sort all edges by weight and pick the cheapest ones without forming
+          cycles.
         </span>
       </div>
     </div>
@@ -32,7 +33,7 @@ const LegendItem = ({ color, label, border, dashed }) => (
       className={`w-4 h-0.5 rounded-full ${border ? 'border border-[#dee2e6]' : ''} ${dashed ? 'border-dashed border-2' : ''}`}
       style={{
         backgroundColor: dashed ? 'transparent' : color,
-        borderTopColor: dashed ? color : 'transparent'
+        borderTopColor: dashed ? color : 'transparent',
       }}
     ></div>
     <span className="text-[9px] font-black uppercase text-[#6c757d] tracking-wide">{label}</span>

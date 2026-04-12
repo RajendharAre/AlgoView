@@ -2,28 +2,28 @@
 
 /**
  * Bucket Sort Algorithm
- * 
+ *
  * A distribution sorting algorithm that works by distributing elements into buckets
  * and then sorting each bucket individually. It's particularly effective when the
  * input is uniformly distributed over a range.
- * 
+ *
  * @param {number[]} arr - Array of numbers to sort (values should be in range 0-99)
  * @yields {Object} - Step information for visualization
  * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
  */
 export function* bucketSort(arr) {
-  const a = [...arr];
-  const n = a.length;
-  let localStats = { scattered: 0, gathered: 0 };
-  
+  const a = [...arr]
+  const n = a.length
+  let localStats = { scattered: 0, gathered: 0 }
+
   // Create 5 buckets for ranges 0-19, 20-39, 40-59, 60-79, 80-99
-  const buckets = [[], [], [], [], []];
-  
+  const buckets = [[], [], [], [], []]
+
   // Phase 1: Scatter elements into buckets
   for (let i = 0; i < n; i++) {
-    const val = a[i];
-    const bucketIndex = Math.floor(val / 20);
-    
+    const val = a[i]
+    const bucketIndex = Math.floor(val / 20)
+
     yield {
       array: [...a],
       buckets: buckets.map(b => [...b]),
@@ -31,16 +31,16 @@ export function* bucketSort(arr) {
       currentBucketIdx: bucketIndex,
       phase: 'SCATTER',
       description: `Scattering ${val}: Fits in range ${bucketIndex * 20}-${bucketIndex * 20 + 19}`,
-      stats: { ...localStats }
-    };
-    
+      stats: { ...localStats },
+    }
+
     // Move element to bucket
-    buckets[bucketIndex].push(val);
-    localStats.scattered++;
-    
+    buckets[bucketIndex].push(val)
+    localStats.scattered++
+
     // Mark element as moved in array
-    a[i] = null;
-    
+    a[i] = null
+
     yield {
       array: [...a],
       buckets: buckets.map(b => [...b]),
@@ -48,70 +48,70 @@ export function* bucketSort(arr) {
       currentBucketIdx: bucketIndex,
       phase: 'SCATTER',
       description: `Added ${val} to bucket ${bucketIndex}`,
-      stats: { ...localStats }
-    };
+      stats: { ...localStats },
+    }
   }
-  
+
   // Phase 2: Sort each bucket
   for (let i = 0; i < buckets.length; i++) {
-    if (buckets[i].length === 0) continue;
-    
+    if (buckets[i].length === 0) continue
+
     yield {
       array: [...a],
       buckets: buckets.map(b => [...b]),
       currentBucketIdx: i,
       phase: 'SORT',
       description: `Sorting Bucket ${i} (${i * 20}-${i * 20 + 19})`,
-      stats: { ...localStats }
-    };
-    
+      stats: { ...localStats },
+    }
+
     // Sort bucket using insertion sort (good for small arrays)
-    buckets[i].sort((x, y) => x - y);
-    
+    buckets[i].sort((x, y) => x - y)
+
     yield {
       array: [...a],
       buckets: buckets.map(b => [...b]),
       currentBucketIdx: i,
       phase: 'SORT',
       description: `Sorted Bucket ${i}`,
-      stats: { ...localStats }
-    };
+      stats: { ...localStats },
+    }
   }
-  
+
   // Phase 3: Gather elements back into array
-  let k = 0;
+  let k = 0
   for (let i = 0; i < buckets.length; i++) {
     for (let j = 0; j < buckets[i].length; j++) {
-      const val = buckets[i][j];
-      
+      const val = buckets[i][j]
+
       yield {
         array: [...a],
-        buckets: buckets.map((b, idx) => 
-          idx === i ? [...b.slice(0, j), "✓", ...b.slice(j + 1)] : [...b]
+        buckets: buckets.map((b, idx) =>
+          idx === i ? [...b.slice(0, j), '✓', ...b.slice(j + 1)] : [...b]
         ),
         currentBucketIdx: i,
         phase: 'GATHER',
         description: `Gathering ${val} from Bucket ${i}`,
-        stats: { ...localStats }
-      };
-      
-      a[k] = val;
-      localStats.gathered++;
-      k++;
-      
+        stats: { ...localStats },
+      }
+
+      a[k] = val
+      localStats.gathered++
+      k++
+
       yield {
         array: [...a],
-        buckets: buckets.map((b, idx) => 
+        buckets: buckets.map((b, idx) =>
           idx === i ? [...b.slice(0, j + 1), ...b.slice(j + 1)] : [...b]
         ),
         currentBucketIdx: i,
         phase: 'GATHER',
         description: `Placed ${val} at position ${k - 1}`,
-        stats: { ...localStats }
-      };
+        stats: { ...localStats },
+      }
     }
   }
-  
+
   yield {
     array: [...a],
     buckets: buckets.map(b => [...b]),
@@ -119,13 +119,13 @@ export function* bucketSort(arr) {
     currentBucketIdx: -1,
     phase: 'COMPLETE',
     description: 'Bucket Sort Complete',
-    stats: { ...localStats }
-  };
+    stats: { ...localStats },
+  }
 }
 
 /**
  * Algorithm information for Bucket Sort
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -146,13 +146,14 @@ export const bucketSortInfo = {
     time: {
       best: 'O(n + k)',
       average: 'O(n + k)',
-      worst: 'O(n²)'
+      worst: 'O(n²)',
     },
-    space: 'O(n + k)'
+    space: 'O(n + k)',
   },
   stable: true,
   inPlace: false,
-  description: 'A distribution sorting algorithm that works by distributing elements into buckets and sorting each bucket individually. Works best when input is uniformly distributed.',
+  description:
+    'A distribution sorting algorithm that works by distributing elements into buckets and sorting each bucket individually. Works best when input is uniformly distributed.',
   code: {
     javascript: `
 function bucketSort(arr) {
@@ -228,12 +229,12 @@ public static void bucketSort(int[] arr) {
             arr[k++] = buckets[i].get(j);
         }
     }
-}`
+}`,
   },
   useCases: [
     'When input is uniformly distributed over a range',
     'For floating point numbers in a known range',
     'When additional memory usage is acceptable',
-    'For sorting data that fits naturally into buckets'
-  ]
+    'For sorting data that fits naturally into buckets',
+  ],
 }

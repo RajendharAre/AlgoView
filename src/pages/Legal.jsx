@@ -7,26 +7,26 @@ const legalPages = [
     title: 'Privacy Policy',
     description: 'How we collect, use, and protect your data.',
     icon: ShieldCheck,
-    to: '/privacy'
+    to: '/privacy',
   },
   {
     title: 'Terms of Service',
     description: 'Rules, responsibilities, and platform usage terms.',
     icon: FileText,
-    to: '/terms'
+    to: '/terms',
   },
   {
     title: 'Cookie Policy',
     description: 'How cookies and similar technologies are used.',
     icon: Cookie,
-    to: '/cookies'
+    to: '/cookies',
   },
   {
     title: 'Contact',
     description: 'Reach support for account, billing, and product queries.',
     icon: Mail,
-    to: '/contact'
-  }
+    to: '/contact',
+  },
 ]
 
 export default function Legal() {
@@ -43,7 +43,9 @@ export default function Legal() {
             <Scale className="h-4 w-4" />
             Legal Center
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">Legal and Compliance</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
+            Legal and Compliance
+          </h1>
           <p className="mt-4 text-slate-600 text-base sm:text-lg">
             Review our policies and legal terms in one place. These documents explain your rights,
             responsibilities, and how AlgoView handles data and platform usage.

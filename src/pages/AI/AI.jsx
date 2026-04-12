@@ -4,117 +4,116 @@
  * Follows strict separation of concerns pattern - routing logic only
  */
 
-import { useEffect, useState } from 'react';
-import './styles/markdown.css';
-import { Header } from './components/Header';
-import { ChatWindow } from './components/ChatWindow';
-import { ChatInput } from './components/ChatInput';
-import { ChatSidebar } from './components/ChatSidebar';
-import ChatDeletePopup from './components/ChatDeletePopup';
-import { useChatHistoryFirebase } from './hooks/useChatHistoryFirebase';
-import { useChatInput } from './hooks/useChatInput';
-import { generateResponse } from './utils/responseGenerator';
-import { Menu } from 'lucide-react';
+import { useEffect, useState } from 'react'
+import './styles/markdown.css'
+import { Header } from './components/Header'
+import { ChatWindow } from './components/ChatWindow'
+import { ChatInput } from './components/ChatInput'
+import { ChatSidebar } from './components/ChatSidebar'
+import ChatDeletePopup from './components/ChatDeletePopup'
+import { useChatHistoryFirebase } from './hooks/useChatHistoryFirebase'
+import { useChatInput } from './hooks/useChatInput'
+import { generateResponse } from './utils/responseGenerator'
+import { Menu } from 'lucide-react'
 
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth'
 
 /**
  * AI Page Container Component
  * @returns {JSX.Element} Main AI chat interface
  */
 export default function AI() {
-  const { user: currentUser } = useAuth();
-  const [isShowingDeletePopup, setIsShowingDeletePopup] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+  const { user: currentUser } = useAuth()
+  const [isShowingDeletePopup, setIsShowingDeletePopup] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   const {
     chats,
-    messages: chatMessages, 
+    messages: chatMessages,
     activeChatId,
     loading: isLoading,
     isSending,
-    error, 
-    sendMessage: sendFirebaseMessage, 
+    error,
+    sendMessage: sendFirebaseMessage,
     createNewChat,
     selectChat,
     deleteChat,
-    clearError
-  } = useChatHistoryFirebase(currentUser);
+    clearError,
+  } = useChatHistoryFirebase(currentUser)
 
   // Initialize chat on first load if none exists
   useEffect(() => {
     if (!activeChatId && !isLoading && currentUser && chats.length === 0) {
-      createNewChat('AlgoView AI Chat');
+      createNewChat('AlgoView AI Chat')
     }
-  }, [activeChatId, isLoading, createNewChat, currentUser, chats.length]);
-  
-  const { input, setInput, clearInput } = useChatInput();
+  }, [activeChatId, isLoading, createNewChat, currentUser, chats.length])
+
+  const { input, setInput, clearInput } = useChatInput()
 
   // Handle message submission with ChatGPT-like behavior
-  const handleSubmit = async (content) => {
-    if (!content.trim() || isLoading || isSending || !activeChatId) return;
+  const handleSubmit = async content => {
+    if (!content.trim() || isLoading || isSending || !activeChatId) return
 
-    const userMessage = content.trim();
-    clearInput();
-    
+    const userMessage = content.trim()
+    clearInput()
+
     try {
       // Step 1: Send user message (optimistic update handled by hook)
-      console.log('📤 User message:', userMessage);
-      await sendFirebaseMessage('user', userMessage);
-      
+      console.log('📤 User message:', userMessage)
+      await sendFirebaseMessage('user', userMessage)
+
       // Step 2: Generate AI response with proper prompting
-      console.log('🤖 Generating AI response...');
-      const aiResponse = await generateResponse(userMessage);
-      console.log('✅ AI response generated');
-      
+      console.log('🤖 Generating AI response...')
+      const aiResponse = await generateResponse(userMessage)
+      console.log('✅ AI response generated')
+
       // Step 3: Send AI response (optimistic update handled by hook)
-      await sendFirebaseMessage('assistant', aiResponse);
-      
+      await sendFirebaseMessage('assistant', aiResponse)
     } catch (err) {
-      console.error('❌ Error in message handling:', err);
-      
+      console.error('❌ Error in message handling:', err)
+
       // Send a helpful error message
       const errorMessage = `I encountered an error while processing your request. This might be because:
 - The Gemini API key is not configured (add VITE_GEMINI_API_KEY to .env)
 - There's a network connectivity issue
 - The API service is temporarily unavailable
 
-Please try again, or make sure your API key is properly configured for better responses.`;
+Please try again, or make sure your API key is properly configured for better responses.`
       try {
-        await sendFirebaseMessage('assistant', errorMessage);
+        await sendFirebaseMessage('assistant', errorMessage)
       } catch (sendError) {
-        console.error('Failed to send error message:', sendError);
+        console.error('Failed to send error message:', sendError)
       }
     }
-  };
+  }
 
   // Handle copy functionality
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
-  };
+  const handleCopy = text => {
+    navigator.clipboard.writeText(text)
+  }
 
   // Handle clear chat (delete current chat)
   const handleClear = async () => {
     if (activeChatId) {
-      setIsShowingDeletePopup(true);
+      setIsShowingDeletePopup(true)
     }
-  };
+  }
 
   // Confirm deletion of the chat
   const handleConfirmDelete = async () => {
     if (activeChatId) {
       try {
-        await deleteChat(activeChatId);
+        await deleteChat(activeChatId)
       } catch (err) {
         // Error is handled by the hook
       }
     }
-  };
+  }
 
   // Clear error when user interacts
   const handleErrorClear = () => {
-    clearError();
-  };
+    clearError()
+  }
 
   return (
     <div
@@ -131,7 +130,7 @@ Please try again, or make sure your API key is properly configured for better re
         '--input-bg': '#ffffff',
         '--input-border': '#d1d5db',
         '--input-text': '#111827',
-        '--input-placeholder': '#6b7280'
+        '--input-placeholder': '#6b7280',
       }}
     >
       {/* Mobile sidebar overlay — covers full viewport */}
@@ -143,16 +142,24 @@ Please try again, or make sure your API key is properly configured for better re
       )}
 
       {/* Sidebar — slides in on mobile, static on desktop (~260 px) */}
-      <div className={`
+      <div
+        className={`
         fixed md:relative inset-y-0 left-0 z-50 md:z-auto
         transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
-      `}>
+      `}
+      >
         <ChatSidebar
           chats={chats}
           activeChatId={activeChatId}
-          onSelectChat={(id) => { selectChat(id); setSidebarOpen(false); }}
-          onCreateChat={(title) => { createNewChat(title); setSidebarOpen(false); }}
+          onSelectChat={id => {
+            selectChat(id)
+            setSidebarOpen(false)
+          }}
+          onCreateChat={title => {
+            createNewChat(title)
+            setSidebarOpen(false)
+          }}
           onDeleteChat={deleteChat}
           loading={isLoading}
           error={error}
@@ -185,11 +192,7 @@ Please try again, or make sure your API key is properly configured for better re
         </header>
 
         {/* Chat Window — fills remaining space */}
-        <ChatWindow
-          messages={chatMessages}
-          isLoading={isSending}
-          onCopy={handleCopy}
-        />
+        <ChatWindow messages={chatMessages} isLoading={isSending} onCopy={handleCopy} />
 
         {/* Input bar — sticks to bottom */}
         <div className="border-t border-[var(--bg-sidebar,#202123)] bg-[var(--bg-primary,#343541)] flex-shrink-0 sticky bottom-0">
@@ -229,5 +232,5 @@ Please try again, or make sure your API key is properly configured for better re
         />
       </div>
     </div>
-  );
+  )
 }

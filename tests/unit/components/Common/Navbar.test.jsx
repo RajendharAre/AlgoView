@@ -8,17 +8,17 @@ import Navbar from '../../../../src/components/Common/Navbar'
 // Mock the Firebase auth module
 vi.mock('../../../../src/lib/firebase', () => ({
   auth: {
-    signOut: vi.fn()
-  }
+    signOut: vi.fn(),
+  },
 }))
 
 // Mock the Firebase auth functions
 vi.mock('firebase/auth', () => ({
-  signOut: vi.fn()
+  signOut: vi.fn(),
 }))
 
 // Create a mock store
-const createMockStore = (preloadedState) => {
+const createMockStore = preloadedState => {
   return configureStore({
     reducer: {
       user: (state = { currentUser: null, loading: false, error: null }, action) => {
@@ -30,18 +30,18 @@ const createMockStore = (preloadedState) => {
           default:
             return state
         }
-      }
+      },
     },
-    preloadedState
+    preloadedState,
   })
 }
 
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }) => <div {...props}>{children}</div>
+    div: ({ children, ...props }) => <div {...props}>{children}</div>,
   },
-  AnimatePresence: ({ children }) => <div>{children}</div>
+  AnimatePresence: ({ children }) => <div>{children}</div>,
 }))
 
 describe('Navbar Component', () => {
@@ -92,15 +92,15 @@ describe('Navbar Component', () => {
     const mockUser = {
       uid: '123',
       email: 'test@example.com',
-      displayName: 'Test User'
+      displayName: 'Test User',
     }
 
     const storeWithUser = createMockStore({
       user: {
         currentUser: mockUser,
         loading: false,
-        error: null
-      }
+        error: null,
+      },
     })
 
     render(
@@ -114,7 +114,7 @@ describe('Navbar Component', () => {
     // Click on the user dropdown to reveal the menu
     const userButton = screen.getByRole('button', { name: /Test User/i })
     fireEvent.click(userButton)
-    
+
     expect(screen.getByText('Sign out')).toBeInTheDocument()
   })
 })

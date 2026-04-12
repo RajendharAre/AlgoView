@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Play, 
-  RotateCcw, 
-  BarChart3, 
-  Activity, 
+import React, { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import {
+  Play,
+  RotateCcw,
+  BarChart3,
+  Activity,
   RefreshCw,
   Lock,
   ArrowLeft,
-  History
-} from 'lucide-react';
-import ArrayVisualizer from './ArrayVisualizer';
+  History,
+} from 'lucide-react'
+import ArrayVisualizer from './ArrayVisualizer'
 
 /**
  * Sorting Algorithm Visualization Component
  * Provides a complete visualization interface for sorting algorithms
- * 
+ *
  * @param {Object} props - Component props
  * @param {Function} props.algorithmGenerator - Generator function for the sorting algorithm
  * @param {string} props.algorithmName - Name of the algorithm for display
@@ -32,25 +32,25 @@ const SortingVisualization = ({
   customColors = null,
   allowUserInput = true,
   onComplete = null,
-  complexityInfo = null
+  complexityInfo = null,
 }) => {
-  const [array, setArray] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [speedIndex, setSpeedIndex] = useState(2); // Default to 1.75x speed
-  const [isRunning, setIsRunning] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-  
-  // Algorithm Tracking State
-  const [comparing, setComparing] = useState([]); 
-  const [sortedIndices, setSortedIndices] = useState([]);
-  const [swapping, setSwapping] = useState([]);
-  const [stats, setStats] = useState({ comparisons: 0, swaps: 0 });
-  const [currentStep, setCurrentStep] = useState(`${algorithmName} ready`);
-  const [iteration, setIteration] = useState(0);
+  const [array, setArray] = useState([])
+  const [inputValue, setInputValue] = useState('')
+  const [speedIndex, setSpeedIndex] = useState(2) // Default to 1.75x speed
+  const [isRunning, setIsRunning] = useState(false)
+  const [isCompleted, setIsCompleted] = useState(false)
 
-  const speedRef = useRef(457); // 1.75x default
-  const isRunningRef = useRef(false);
-  const algorithmIteratorRef = useRef(null);
+  // Algorithm Tracking State
+  const [comparing, setComparing] = useState([])
+  const [sortedIndices, setSortedIndices] = useState([])
+  const [swapping, setSwapping] = useState([])
+  const [stats, setStats] = useState({ comparisons: 0, swaps: 0 })
+  const [currentStep, setCurrentStep] = useState(`${algorithmName} ready`)
+  const [iteration, setIteration] = useState(0)
+
+  const speedRef = useRef(457) // 1.75x default
+  const isRunningRef = useRef(false)
+  const algorithmIteratorRef = useRef(null)
 
   // Speed options matching the original component
   const SPEEDS = [
@@ -60,268 +60,272 @@ const SortingVisualization = ({
     { label: '2x', value: 400 },
     { label: '2.5x', value: 320 },
     { label: '3x', value: 266 },
-  ];
+  ]
 
   useEffect(() => {
-    speedRef.current = SPEEDS[speedIndex].value;
-  }, [speedIndex]);
+    speedRef.current = SPEEDS[speedIndex].value
+  }, [speedIndex])
 
   // Handle manual text input
-  const handleInputChange = (e) => {
-    if (isRunning) return;
-    
-    const val = e.target.value;
-    setInputValue(val);
-    
+  const handleInputChange = e => {
+    if (isRunning) return
+
+    const val = e.target.value
+    setInputValue(val)
+
     // Parse the string: filter out non-numbers and map to integers
-    const parsedArray = val.split(',')
+    const parsedArray = val
+      .split(',')
       .map(item => item.trim())
-      .filter(item => item !== "" && !isNaN(item))
-      .map(item => Math.min(Math.max(parseInt(item, 10), 5), 100)); // Clamp between 5 and 100
-    
-    setArray(parsedArray);
-    resetVisualization();
-  };
+      .filter(item => item !== '' && !isNaN(item))
+      .map(item => Math.min(Math.max(parseInt(item, 10), 5), 100)) // Clamp between 5 and 100
+
+    setArray(parsedArray)
+    resetVisualization()
+  }
 
   // Generate random data
   const generateRandomArray = () => {
-    if (isRunning) return;
-    const count = 12;
-    const newArray = Array.from({ length: count }, () => Math.floor(Math.random() * 80) + 10);
-    setArray(newArray);
-    setInputValue(newArray.join(', '));
-    resetVisualization();
-  };
+    if (isRunning) return
+    const count = 12
+    const newArray = Array.from({ length: count }, () => Math.floor(Math.random() * 80) + 10)
+    setArray(newArray)
+    setInputValue(newArray.join(', '))
+    resetVisualization()
+  }
 
   // Reset visualization state
   const resetVisualization = () => {
-    setIsRunning(false);
-    setIsCompleted(false);
-    isRunningRef.current = false;
-    setSortedIndices([]);
-    setComparing([]);
-    setSwapping([]);
-    setStats({ comparisons: 0, swaps: 0 });
-    setCurrentStep(`${algorithmName} ready`);
-    setIteration(0);
+    setIsRunning(false)
+    setIsCompleted(false)
+    isRunningRef.current = false
+    setSortedIndices([])
+    setComparing([])
+    setSwapping([])
+    setStats({ comparisons: 0, swaps: 0 })
+    setCurrentStep(`${algorithmName} ready`)
+    setIteration(0)
     if (algorithmIteratorRef.current) {
-      algorithmIteratorRef.current = null;
+      algorithmIteratorRef.current = null
     }
-  };
+  }
 
   // Reset everything
   const reset = () => {
-    resetVisualization();
+    resetVisualization()
     if (initialArray) {
-      setArray([...initialArray]);
-      setInputValue(initialArray.join(', '));
+      setArray([...initialArray])
+      setInputValue(initialArray.join(', '))
     } else {
-      generateRandomArray();
+      generateRandomArray()
     }
-  };
+  }
 
   useEffect(() => {
     // Initialize with either provided array or generate random
     if (initialArray) {
-      setArray([...initialArray]);
-      setInputValue(initialArray.join(', '));
+      setArray([...initialArray])
+      setInputValue(initialArray.join(', '))
     } else {
-      generateRandomArray();
+      generateRandomArray()
     }
-  }, [initialArray]);
+  }, [initialArray])
 
-  const sleep = () => new Promise(r => setTimeout(r, speedRef.current));
+  const sleep = () => new Promise(r => setTimeout(r, speedRef.current))
 
   // Normalize step data from different algorithm types to a consistent format
   const normalizeStepData = (step, arrayLength) => {
-    const normalized = { ...step };
-    
+    const normalized = { ...step }
+
     // Handle different algorithm formats
     if (step.keyIndex !== undefined) {
       // Insertion Sort format
-      normalized.compared = [];
+      normalized.compared = []
       if (step.comparingIndex !== null && step.comparingIndex !== undefined) {
-        normalized.compared.push(step.comparingIndex);
+        normalized.compared.push(step.comparingIndex)
       }
       if (step.keyIndex !== null && step.keyIndex !== undefined) {
-        normalized.compared.push(step.keyIndex);
+        normalized.compared.push(step.keyIndex)
       }
-      
-      normalized.swapping = [];
+
+      normalized.swapping = []
       if (step.shiftingIndex !== null && step.shiftingIndex !== undefined) {
-        normalized.swapping.push(step.shiftingIndex);
+        normalized.swapping.push(step.shiftingIndex)
       }
       if (step.placedIndex !== null && step.placedIndex !== undefined) {
-        normalized.swapping.push(step.placedIndex);
+        normalized.swapping.push(step.placedIndex)
       }
-      
+
       // Set sorted indices based on doneIndices
       if (Array.isArray(step.doneIndices)) {
-        normalized.doneIndex = step.doneIndices.length;
+        normalized.doneIndex = step.doneIndices.length
       }
     } else if (step.range !== undefined) {
       // Merge Sort format
-      normalized.compared = [];
+      normalized.compared = []
       if (step.comparing && Array.isArray(step.comparing) && step.comparing.length >= 3) {
         // Extract indices from comparing array
-        const [, leftIdx, rightIdx] = step.comparing;
+        const [, leftIdx, rightIdx] = step.comparing
         // Calculate actual indices based on range
-        if (typeof leftIdx === 'number') normalized.compared.push(leftIdx);
-        if (typeof rightIdx === 'number') normalized.compared.push(rightIdx);
+        if (typeof leftIdx === 'number') normalized.compared.push(leftIdx)
+        if (typeof rightIdx === 'number') normalized.compared.push(rightIdx)
       }
-      
-      normalized.swapping = [];
+
+      normalized.swapping = []
       if (step.mergedIndex !== null && step.mergedIndex !== undefined) {
-        normalized.swapping.push(step.mergedIndex);
+        normalized.swapping.push(step.mergedIndex)
       }
-      
+
       // For merge sort, sorted segments are determined by completed ranges
-      normalized.doneIndex = step.range[1] + 1; // Simplified for visualization
+      normalized.doneIndex = step.range[1] + 1 // Simplified for visualization
     } else if (step.pivotIndex !== undefined || step.partitioning !== undefined) {
       // Quick Sort format (if it has pivot/partitioning properties)
-      normalized.compared = [];
+      normalized.compared = []
       if (step.comparingIndex !== undefined) {
-        normalized.compared.push(step.comparingIndex);
+        normalized.compared.push(step.comparingIndex)
       }
       if (step.pivotIndex !== undefined) {
-        normalized.compared.push(step.pivotIndex);
+        normalized.compared.push(step.pivotIndex)
       }
-      
-      normalized.swapping = [];
+
+      normalized.swapping = []
       if (step.swappingIndices !== undefined && Array.isArray(step.swappingIndices)) {
-        normalized.swapping = [...step.swappingIndices];
+        normalized.swapping = [...step.swappingIndices]
       }
     } else {
       // Default format for bubble sort, selection sort, etc.
-      normalized.compared = Array.isArray(step.compared) ? [...step.compared] : [];
-      normalized.swapping = Array.isArray(step.swapping) ? [...step.swapping] : [];
-      
+      normalized.compared = Array.isArray(step.compared) ? [...step.compared] : []
+      normalized.swapping = Array.isArray(step.swapping) ? [...step.swapping] : []
+
       // Handle swapped property for backward compatibility
       if (Array.isArray(step.swapped)) {
-        normalized.swapping = [...step.swapped];
+        normalized.swapping = [...step.swapped]
       } else if (step.swapped === true && Array.isArray(step.compared)) {
-        normalized.swapping = [...step.compared];
+        normalized.swapping = [...step.compared]
       }
     }
-    
+
     // Ensure doneIndex is properly set
-    if (step.doneIndex === undefined && step.doneIndices !== undefined && Array.isArray(step.doneIndices)) {
-      normalized.doneIndex = step.doneIndices.length;
+    if (
+      step.doneIndex === undefined &&
+      step.doneIndices !== undefined &&
+      Array.isArray(step.doneIndices)
+    ) {
+      normalized.doneIndex = step.doneIndices.length
     }
-    
-    return normalized;
-  };
+
+    return normalized
+  }
 
   // Execute the sorting algorithm step by step
   const executeSort = async () => {
-    if (isRunning || array.length < 2) return;
-    
-    setIsRunning(true);
-    isRunningRef.current = true;
-    setIsCompleted(false);
-    
+    if (isRunning || array.length < 2) return
+
+    setIsRunning(true)
+    isRunningRef.current = true
+    setIsCompleted(false)
+
     // Create new iterator for the algorithm
-    algorithmIteratorRef.current = algorithmGenerator(array);
-    let localStats = { comparisons: 0, swaps: 0 };
-    let stepCount = 0;
+    algorithmIteratorRef.current = algorithmGenerator(array)
+    let localStats = { comparisons: 0, swaps: 0 }
+    let stepCount = 0
 
     try {
       while (true) {
-        if (!isRunningRef.current) break;
-        
-        const result = algorithmIteratorRef.current.next();
-        
+        if (!isRunningRef.current) break
+
+        const result = algorithmIteratorRef.current.next()
+
         if (result.done) {
           // Algorithm completed
-          break;
+          break
         }
 
-        const step = result.value;
-        stepCount++;
-        
+        const step = result.value
+        stepCount++
+
         // Normalize step data for different algorithm types
-        const normalizedStep = normalizeStepData(step, array.length);
-        
+        const normalizedStep = normalizeStepData(step, array.length)
+
         // Update visualization state based on normalized step data
         if (Array.isArray(normalizedStep.compared)) {
-          setComparing(normalizedStep.compared);
-          localStats.comparisons += normalizedStep.compared.length > 1 ? 1 : 0; // Count comparison if comparing two elements
+          setComparing(normalizedStep.compared)
+          localStats.comparisons += normalizedStep.compared.length > 1 ? 1 : 0 // Count comparison if comparing two elements
         }
-        
+
         if (Array.isArray(normalizedStep.swapping)) {
-          setSwapping(normalizedStep.swapping);
+          setSwapping(normalizedStep.swapping)
           if (normalizedStep.swapping.length > 0) {
-            localStats.swaps++;
+            localStats.swaps++
           }
         } else if (Array.isArray(normalizedStep.swapped)) {
           // For algorithms that yield swapped as array of indices
-          setSwapping(normalizedStep.swapped);
+          setSwapping(normalizedStep.swapped)
           if (normalizedStep.swapped.length > 0) {
-            localStats.swaps++;
+            localStats.swaps++
           }
         } else if (normalizedStep.swapped === true && Array.isArray(normalizedStep.compared)) {
           // For algorithms that yield swapped: true
-          setSwapping(normalizedStep.compared);
-          localStats.swaps++;
+          setSwapping(normalizedStep.compared)
+          localStats.swaps++
         }
-        
+
         if (step.doneIndex !== undefined) {
           // Mark elements as sorted
-          const newSorted = [];
+          const newSorted = []
           for (let i = 0; i < step.doneIndex; i++) {
-            newSorted.push(i);
+            newSorted.push(i)
           }
-          setSortedIndices(newSorted);
+          setSortedIndices(newSorted)
         }
-        
+
         // Update array if provided in step
         if (step.array) {
-          setArray([...step.array]);
-          setInputValue(step.array.join(', '));
+          setArray([...step.array])
+          setInputValue(step.array.join(', '))
         }
-        
-        setStats({ ...localStats });
-        setCurrentStep(step.description || `Step ${stepCount}`);
-        setIteration(stepCount);
-        
-        await sleep();
-        
+
+        setStats({ ...localStats })
+        setCurrentStep(step.description || `Step ${stepCount}`)
+        setIteration(stepCount)
+
+        await sleep()
+
         // Clear temporary states
-        setComparing([]);
-        setSwapping([]);
+        setComparing([])
+        setSwapping([])
       }
-      
+
       // Mark all elements as sorted when complete
-      const allSorted = Array.from({ length: array.length }, (_, i) => i);
-      setSortedIndices(allSorted);
-      setCurrentStep(`${algorithmName} completed!`);
-      setIsCompleted(true);
-      
+      const allSorted = Array.from({ length: array.length }, (_, i) => i)
+      setSortedIndices(allSorted)
+      setCurrentStep(`${algorithmName} completed!`)
+      setIsCompleted(true)
+
       if (onComplete) {
         onComplete({
           iterations: stepCount,
           comparisons: localStats.comparisons,
           swaps: localStats.swaps,
-          finalArray: array
-        });
+          finalArray: array,
+        })
       }
-      
     } catch (error) {
-      console.error('Error during sorting:', error);
-      setCurrentStep('Error occurred during sorting');
+      console.error('Error during sorting:', error)
+      setCurrentStep('Error occurred during sorting')
     } finally {
-      setIsRunning(false);
-      isRunningRef.current = false;
-      algorithmIteratorRef.current = null;
+      setIsRunning(false)
+      isRunningRef.current = false
+      algorithmIteratorRef.current = null
     }
-  };
+  }
 
   // Stop the current execution
   const stopExecution = () => {
-    isRunningRef.current = false;
-    setIsRunning(false);
-    setCurrentStep('Execution stopped');
-  };
+    isRunningRef.current = false
+    setIsRunning(false)
+    setCurrentStep('Execution stopped')
+  }
 
   return (
     <div className="flex flex-col-reverse md:flex-row min-h-screen md:h-full bg-gray-50 text-gray-900 font-sans overflow-auto md:overflow-hidden">
@@ -329,8 +333,8 @@ const SortingVisualization = ({
       <aside className="w-full md:w-80 bg-white border-t md:border-t-0 md:border-r border-gray-200 flex flex-col md:shrink-0 overflow-y-auto">
         <div className="p-6 border-b border-gray-100">
           <div className="flex items-center gap-3 mb-1">
-            <button 
-              onClick={() => window.history.back()} 
+            <button
+              onClick={() => window.history.back()}
               className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center text-white hover:bg-gray-800 transition-colors"
               aria-label="Go back to algorithms"
             >
@@ -354,8 +358,8 @@ const SortingVisualization = ({
                 key={s.label}
                 onClick={() => setSpeedIndex(idx)}
                 className={`px-2 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                  speedIndex === idx 
-                    ? 'bg-gray-900 text-white shadow-md' 
+                  speedIndex === idx
+                    ? 'bg-gray-900 text-white shadow-md'
                     : 'text-gray-500 hover:bg-gray-100'
                 }`}
               >
@@ -372,18 +376,18 @@ const SortingVisualization = ({
               <span className="flex items-center gap-2">Array Input</span>
               {isRunning && (
                 <span className="flex items-center gap-1 text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
-                  <Lock size={8}/> Locked
+                  <Lock size={8} /> Locked
                 </span>
               )}
             </h3>
-            <textarea 
+            <textarea
               value={inputValue}
               onChange={handleInputChange}
               disabled={isRunning}
               placeholder="e.g. 10, 45, 22, 8, 30"
               className={`w-full h-24 p-4 text-xs font-mono rounded-xl border transition-all resize-none outline-none focus:ring-2 ${
-                isRunning 
-                  ? 'bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed' 
+                isRunning
+                  ? 'bg-gray-50 border-gray-200 text-gray-400 cursor-not-allowed'
                   : 'bg-white border-gray-300 text-gray-900 focus:ring-gray-900 focus:border-transparent shadow-sm hover:border-gray-400'
               }`}
             />
@@ -396,24 +400,24 @@ const SortingVisualization = ({
         {/* Action Controls */}
         <div className="p-6 border-b border-gray-100">
           <div className="space-y-2">
-            <button 
+            <button
               onClick={executeSort}
               disabled={isRunning || array.length < 2 || isCompleted}
               className="w-full py-3 bg-gray-900 text-white rounded-xl flex items-center justify-center gap-2 font-bold text-xs disabled:opacity-30 transition-all hover:bg-gray-800"
             >
-              <Play size={14} fill="white" /> 
+              <Play size={14} fill="white" />
               {isRunning ? 'Running...' : isCompleted ? 'Completed' : 'Start Sorting'}
             </button>
             <div className="flex gap-2">
-              <button 
-                onClick={generateRandomArray} 
+              <button
+                onClick={generateRandomArray}
                 disabled={isRunning}
                 className="flex-1 py-2 bg-white border border-gray-200 text-gray-500 rounded-xl flex items-center justify-center gap-2 font-bold text-xs hover:bg-gray-50 transition-all disabled:opacity-30"
               >
                 <RefreshCw size={14} /> Random
               </button>
-              <button 
-                onClick={reset} 
+              <button
+                onClick={reset}
                 className="flex-1 py-2 bg-white border border-gray-200 text-gray-500 rounded-xl flex items-center justify-center gap-2 font-bold text-xs hover:bg-gray-50 transition-all"
               >
                 <RotateCcw size={14} /> Reset
@@ -424,13 +428,15 @@ const SortingVisualization = ({
 
         {/* Status & Stats */}
         <div className="flex-1 p-6 space-y-6">
-          <div className={`p-4 rounded-xl border-l-4 transition-all ${
-            isRunning 
-              ? 'bg-gray-900 text-white border-white shadow-md' 
-              : isCompleted 
-                ? 'bg-green-50 border-green-500' 
-                : 'bg-gray-50 border-gray-200'
-          }`}>
+          <div
+            className={`p-4 rounded-xl border-l-4 transition-all ${
+              isRunning
+                ? 'bg-gray-900 text-white border-white shadow-md'
+                : isCompleted
+                  ? 'bg-green-50 border-green-500'
+                  : 'bg-gray-50 border-gray-200'
+            }`}
+          >
             <p className="text-xs font-black uppercase opacity-60 tracking-widest mb-1">
               {isRunning ? 'Live Status' : isCompleted ? 'Completed' : 'Ready'}
             </p>
@@ -466,19 +472,19 @@ const SortingVisualization = ({
                   <>
                     {complexityInfo.time.worst && (
                       <div className="flex justify-between">
-                        <span>Worst:</span> 
+                        <span>Worst:</span>
                         <span className="font-mono">{complexityInfo.time.worst}</span>
                       </div>
                     )}
                     {complexityInfo.time.average && (
                       <div className="flex justify-between">
-                        <span>Avg:</span> 
+                        <span>Avg:</span>
                         <span className="font-mono">{complexityInfo.time.average}</span>
                       </div>
                     )}
                     {complexityInfo.time.best && (
                       <div className="flex justify-between">
-                        <span>Best:</span> 
+                        <span>Best:</span>
                         <span className="font-mono">{complexityInfo.time.best}</span>
                       </div>
                     )}
@@ -486,7 +492,7 @@ const SortingVisualization = ({
                 )}
                 {complexityInfo.space && (
                   <div className="flex justify-between">
-                    <span>Space:</span> 
+                    <span>Space:</span>
                     <span className="font-mono">{complexityInfo.space}</span>
                   </div>
                 )}
@@ -524,17 +530,15 @@ const SortingVisualization = ({
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
 
 // Legend Item Component
 const LegendItem = ({ color, label }) => (
   <div className="flex items-center gap-2">
     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }}></div>
-    <span className="text-xs font-black uppercase tracking-widest text-gray-500">
-      {label}
-    </span>
+    <span className="text-xs font-black uppercase tracking-widest text-gray-500">{label}</span>
   </div>
-);
+)
 
-export default SortingVisualization;
+export default SortingVisualization

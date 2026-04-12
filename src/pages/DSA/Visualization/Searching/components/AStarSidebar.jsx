@@ -23,8 +23,8 @@ const AStarSidebar = ({
       {/* Header */}
       <div className="p-6 border-b border-[#f1f3f5]">
         <div className="flex items-center gap-3 mb-1">
-          <button 
-            onClick={() => window.history.back()} 
+          <button
+            onClick={() => window.history.back()}
             className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center text-white hover:bg-gray-800 transition-colors"
             aria-label="Go back to algorithms"
           >
@@ -92,8 +92,8 @@ const AStarSidebar = ({
             finalPath.size > 0
               ? 'bg-green-50 border-green-500 text-green-700'
               : isRunning
-              ? 'bg-[#212529] text-white shadow-md'
-              : 'bg-[#f8f9faff] border-[#dee2e6]'
+                ? 'bg-[#212529] text-white shadow-md'
+                : 'bg-[#f8f9faff] border-[#dee2e6]'
           }`}
         >
           <p className="text-[9px] font-black uppercase opacity-60 mb-1 flex items-center gap-1">

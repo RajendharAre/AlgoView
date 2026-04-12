@@ -17,40 +17,49 @@ const DSADiscussions = () => {
   // Load discussions from Firebase in real-time
   useEffect(() => {
     // Listen to the discussions collection
-    const unsubscribe = onSnapshot(collection(db, 'discussions'), (querySnapshot) => {
-      const discussionsList = []
-      querySnapshot.forEach((doc) => {
-        const data = doc.data()
-        discussionsList.push({
-          id: doc.id,
-          ...data,
-          author: data.authorName,
-          lastActivity: data.lastActivity?.toDate ? data.lastActivity.toDate().toISOString() : (data.lastActivity instanceof Date ? data.lastActivity.toISOString() : data.lastActivity),
-          tags: data.tags || []
+    const unsubscribe = onSnapshot(
+      collection(db, 'discussions'),
+      querySnapshot => {
+        const discussionsList = []
+        querySnapshot.forEach(doc => {
+          const data = doc.data()
+          discussionsList.push({
+            id: doc.id,
+            ...data,
+            author: data.authorName,
+            lastActivity: data.lastActivity?.toDate
+              ? data.lastActivity.toDate().toISOString()
+              : data.lastActivity instanceof Date
+                ? data.lastActivity.toISOString()
+                : data.lastActivity,
+            tags: data.tags || [],
+          })
         })
-      })
-      
-      // Sort by lastActivity descending
-      discussionsList.sort((a, b) => {
-        const dateA = new Date(a.lastActivity);
-        const dateB = new Date(b.lastActivity);
-        return dateB - dateA; // Descending order
-      });
-      
-      setDiscussions(discussionsList)
-      setLoading(false)
-    }, (error) => {
-      console.error('Error fetching discussions:', error)
-      setLoading(false)
-    })
-    
+
+        // Sort by lastActivity descending
+        discussionsList.sort((a, b) => {
+          const dateA = new Date(a.lastActivity)
+          const dateB = new Date(b.lastActivity)
+          return dateB - dateA // Descending order
+        })
+
+        setDiscussions(discussionsList)
+        setLoading(false)
+      },
+      error => {
+        console.error('Error fetching discussions:', error)
+        setLoading(false)
+      }
+    )
+
     return () => unsubscribe()
   }, [])
 
   // Filter discussions based on search query
-  const filteredDiscussions = discussions.filter(discussion =>
-    discussion.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    discussion.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredDiscussions = discussions.filter(
+    discussion =>
+      discussion.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      discussion.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   )
 
   return (
@@ -66,7 +75,9 @@ const DSADiscussions = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Community Discussions</h1>
-                <p className="text-gray-600 mt-1">Connect with other learners and share knowledge</p>
+                <p className="text-gray-600 mt-1">
+                  Connect with other learners and share knowledge
+                </p>
               </div>
               <Link
                 to="/dsa/discussions/new"
@@ -85,7 +96,7 @@ const DSADiscussions = () => {
                 <input
                   type="text"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Search discussions..."
                 />
@@ -136,7 +147,7 @@ const DSADiscussions = () => {
                 <p className="text-gray-500 text-sm mt-2">Be the first to start a discussion!</p>
               </div>
             ) : (
-              filteredDiscussions.map((discussion) => (
+              filteredDiscussions.map(discussion => (
                 <div key={discussion.id} className="p-6 hover:bg-gray-50 transition-colors">
                   <div className="flex items-start gap-4">
                     <div className="flex flex-col items-center gap-1">
@@ -184,7 +195,8 @@ const DSADiscussions = () => {
                         {Math.floor(
                           (new Date().getTime() - new Date(discussion.lastActivity).getTime()) /
                             (1000 * 60 * 60)
-                        )}h ago
+                        )}
+                        h ago
                       </span>
                     </div>
                   </div>

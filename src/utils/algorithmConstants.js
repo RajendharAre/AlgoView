@@ -41,7 +41,7 @@ export const ALGORITHMS = {
     name: 'Bubble Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/bubbleSort').then(m => m.bubbleSort),
-    ...bubbleSortInfo
+    ...bubbleSortInfo,
   },
 
   insertionSort: {
@@ -49,7 +49,7 @@ export const ALGORITHMS = {
     name: 'Insertion Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/insertionSort').then(m => m.insertionSort),
-    ...insertionSortInfo
+    ...insertionSortInfo,
   },
 
   mergeSort: {
@@ -57,7 +57,7 @@ export const ALGORITHMS = {
     name: 'Merge Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/mergeSort').then(m => m.mergeSort),
-    ...mergeSortInfo
+    ...mergeSortInfo,
   },
 
   quickSort: {
@@ -65,7 +65,7 @@ export const ALGORITHMS = {
     name: 'Quick Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/quickSort').then(m => m.quickSort),
-    ...quickSortInfo
+    ...quickSortInfo,
   },
 
   selectionSort: {
@@ -73,7 +73,7 @@ export const ALGORITHMS = {
     name: 'Selection Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/selectionSort').then(m => m.selectionSort),
-    ...selectionSortInfo
+    ...selectionSortInfo,
   },
 
   linearSearch: {
@@ -81,7 +81,7 @@ export const ALGORITHMS = {
     name: 'Linear Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
     importFn: () => import('../algorithms/Searching/linearSearch').then(m => m.linearSearch),
-    ...linearSearchInfo
+    ...linearSearchInfo,
   },
 
   binarySearch: {
@@ -89,7 +89,7 @@ export const ALGORITHMS = {
     name: 'Binary Search',
     category: ALGORITHM_CATEGORIES.SEARCHING,
     importFn: () => import('../algorithms/Searching/binarySearch').then(m => m.binarySearch),
-    ...binarySearchInfo
+    ...binarySearchInfo,
   },
 
   aStar: {
@@ -97,7 +97,7 @@ export const ALGORITHMS = {
     name: 'A* Pathfinding',
     category: ALGORITHM_CATEGORIES.PATHFINDING,
     simpleVisualization: true,
-    ...astarInfo
+    ...astarInfo,
   },
 
   // Graph Algorithms
@@ -106,7 +106,7 @@ export const ALGORITHMS = {
     name: 'Breadth-First Search',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/bfs').then(m => m.bfs),
-    ...bfsInfo
+    ...bfsInfo,
   },
 
   dfs: {
@@ -114,15 +114,15 @@ export const ALGORITHMS = {
     name: 'Depth-First Search',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/dfs').then(m => m.dfs),
-    ...dfsInfo
+    ...dfsInfo,
   },
 
   dijkstra: {
     id: 'dijkstra',
-    name: 'Dijkstra\'s Algorithm',
+    name: "Dijkstra's Algorithm",
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/dijkstra').then(m => m.dijkstra),
-    ...dijkstraInfo
+    ...dijkstraInfo,
   },
 
   heapSort: {
@@ -130,7 +130,7 @@ export const ALGORITHMS = {
     name: 'Heap Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/heapSort').then(m => m.heapSort),
-    ...heapSortInfo
+    ...heapSortInfo,
   },
 
   bucketSort: {
@@ -138,7 +138,7 @@ export const ALGORITHMS = {
     name: 'Bucket Sort',
     category: ALGORITHM_CATEGORIES.SORTING,
     importFn: () => import('../algorithms/Sorting/bucketSort').then(m => m.bucketSort),
-    ...bucketSortInfo
+    ...bucketSortInfo,
   },
 
   bellmanFord: {
@@ -146,7 +146,7 @@ export const ALGORITHMS = {
     name: 'Bellman-Ford Algorithm',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/bellmanFord').then(m => m.bellmanFord),
-    ...bellmanFordInfo
+    ...bellmanFordInfo,
   },
 
   floydWarshall: {
@@ -154,7 +154,7 @@ export const ALGORITHMS = {
     name: 'Floyd-Warshall Algorithm',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../algorithms/Graph/floydWarshall').then(m => m.floydWarshall),
-    ...floydWarshallInfo
+    ...floydWarshallInfo,
   },
 
   graphColoring: {
@@ -162,23 +162,23 @@ export const ALGORITHMS = {
     name: 'Graph Coloring',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../pages/DSA/Visualization/Graph/GraphColoring').then(m => m.default),
-    ...graphColoringInfo
+    ...graphColoringInfo,
   },
 
   kruskal: {
     id: 'kruskal',
-    name: 'Kruskal\'s Algorithm',
+    name: "Kruskal's Algorithm",
     category: ALGORITHM_CATEGORIES.GRAPH,
     simpleVisualization: true,
-    ...kruskalInfo
+    ...kruskalInfo,
   },
 
   prim: {
     id: 'prim',
-    name: 'Prim\'s Algorithm',
+    name: "Prim's Algorithm",
     category: ALGORITHM_CATEGORIES.GRAPH,
     simpleVisualization: true,
-    ...primInfo
+    ...primInfo,
   },
 
   topologicalSort: {
@@ -186,15 +186,15 @@ export const ALGORITHMS = {
     name: 'Topological Sort',
     category: ALGORITHM_CATEGORIES.GRAPH,
     simpleVisualization: true,
-    ...topSortInfo
+    ...topSortInfo,
   },
 
   kosaraju: {
     id: 'kosaraju',
-    name: 'Kosaraju\'s Algorithm',
+    name: "Kosaraju's Algorithm",
     category: ALGORITHM_CATEGORIES.GRAPH,
     simpleVisualization: true,
-    ...kosarajuInfo
+    ...kosarajuInfo,
   },
 
   pagerank: {
@@ -202,7 +202,7 @@ export const ALGORITHMS = {
     name: 'PageRank',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../pages/DSA/Visualization/Graph/PageRank').then(m => m.default),
-    ...pageRankInfo
+    ...pageRankInfo,
   },
 
   climbingStairs: {
@@ -210,7 +210,7 @@ export const ALGORITHMS = {
     name: 'Climbing Stairs',
     category: ALGORITHM_CATEGORIES.DYNAMIC_PROGRAMMING,
     importFn: () => import('../pages/DSA/Visualization/DP/ClimbingStairs').then(m => m.default),
-    ...climbingStairsInfo
+    ...climbingStairsInfo,
   },
 
   fibonacci: {
@@ -218,7 +218,7 @@ export const ALGORITHMS = {
     name: 'Fibonacci Sequence',
     category: ALGORITHM_CATEGORIES.DYNAMIC_PROGRAMMING,
     importFn: () => import('../pages/DSA/Visualization/DP/Fibonacci').then(m => m.default),
-    ...fibonacciInfo
+    ...fibonacciInfo,
   },
 
   tsp: {
@@ -226,7 +226,7 @@ export const ALGORITHMS = {
     name: 'Traveling Salesman Problem',
     category: ALGORITHM_CATEGORIES.GRAPH,
     importFn: () => import('../pages/DSA/Visualization/Graph/TSP').then(m => m.default),
-    ...tspInfo
+    ...tspInfo,
   },
 }
 
@@ -234,29 +234,29 @@ export const ALGORITHMS = {
 export const getAlgorithmInfoById = id => {
   // Check if the ID exists exactly as provided
   if (ALGORITHMS.hasOwnProperty(id)) {
-    return ALGORITHMS[id];
+    return ALGORITHMS[id]
   }
-  
+
   // If no exact match, let's check for possible issues
   // Check if it's undefined or null
   if (id === undefined || id === null) {
-    return null;
+    return null
   }
-  
+
   // Check if it's an empty string
   if (id === '') {
-    return null;
+    return null
   }
-  
+
   // Check if there's a case mismatch
-  const lowerId = id.toLowerCase();
+  const lowerId = id.toLowerCase()
   for (const key in ALGORITHMS) {
     if (key.toLowerCase() === lowerId) {
-      return ALGORITHMS[key];
+      return ALGORITHMS[key]
     }
   }
-  
-  return null;
+
+  return null
 }
 
 // Extra helper: get all algorithms by category

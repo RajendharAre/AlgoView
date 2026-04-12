@@ -1,10 +1,24 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaSearch, FaTimes, FaSlidersH, FaChevronDown, FaThumbsUp, FaEye, FaCheckCircle } from 'react-icons/fa';
-import StyledDropdown from '../../../components/Common/StyledDropdown';
-import QAMarkdown from './QAMarkdown';
-import { sampleQAData, getQACategories, getQADifficulties, filterQAData } from '../../../utils/sampleQAData';
+import React, { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  FaArrowLeft,
+  FaSearch,
+  FaTimes,
+  FaSlidersH,
+  FaChevronDown,
+  FaThumbsUp,
+  FaEye,
+  FaCheckCircle,
+} from 'react-icons/fa'
+import StyledDropdown from '../../../components/Common/StyledDropdown'
+import QAMarkdown from './QAMarkdown'
+import {
+  sampleQAData,
+  getQACategories,
+  getQADifficulties,
+  filterQAData,
+} from '../../../utils/sampleQAData'
 
 // Semantic color tokens from grayscale palette
 const COLORS = {
@@ -26,29 +40,29 @@ const COLORS = {
   accent: {
     primary: '#343a40',
     secondary: '#6c757d',
-  }
-};
+  },
+}
 
 const DIFFICULTY_COLORS = {
-  'Beginner': { bg: '#d4edda', text: '#155724', border: '#c3e6cb' },
-  'Intermediate': { bg: '#fff3cd', text: '#856404', border: '#ffc107' },
-  'Advanced': { bg: '#f8d7da', text: '#721c24', border: '#f5c6cb' },
-};
+  Beginner: { bg: '#d4edda', text: '#155724', border: '#c3e6cb' },
+  Intermediate: { bg: '#fff3cd', text: '#856404', border: '#ffc107' },
+  Advanced: { bg: '#f8d7da', text: '#721c24', border: '#f5c6cb' },
+}
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 10
 
 export default function QAPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('');
-  const [sortBy, setSortBy] = useState('upvotes');
-  const [expandedId, setExpandedId] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedDifficulty, setSelectedDifficulty] = useState('')
+  const [sortBy, setSortBy] = useState('upvotes')
+  const [expandedId, setExpandedId] = useState(null)
+  const [currentPage, setCurrentPage] = useState(1)
 
-  const categories = getQACategories();
-  const difficulties = getQADifficulties();
+  const categories = getQACategories()
+  const difficulties = getQADifficulties()
 
   const filteredData = useMemo(() => {
     return filterQAData({
@@ -57,31 +71,31 @@ export default function QAPage() {
       category: selectedCategory,
       difficulty: selectedDifficulty,
       sortBy,
-    });
-  }, [searchQuery, selectedCategory, selectedDifficulty, sortBy]);
+    })
+  }, [searchQuery, selectedCategory, selectedDifficulty, sortBy])
 
   // Pagination
-  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
   const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredData.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredData, currentPage]);
+    const start = (currentPage - 1) * ITEMS_PER_PAGE
+    return filteredData.slice(start, start + ITEMS_PER_PAGE)
+  }, [filteredData, currentPage])
 
   // Reset to page 1 when filters change
   useMemo(() => {
-    setCurrentPage(1);
-  }, [searchQuery, selectedCategory, selectedDifficulty, sortBy]);
+    setCurrentPage(1)
+  }, [searchQuery, selectedCategory, selectedDifficulty, sortBy])
 
-  const toggleExpand = (id) => {
-    setExpandedId(prev => prev === id ? null : id);
-  };
+  const toggleExpand = id => {
+    setExpandedId(prev => (prev === id ? null : id))
+  }
 
   const clearFilters = () => {
-    setSearchQuery('');
-    setSelectedCategory('');
-    setSelectedDifficulty('');
-    setSortBy('upvotes');
-  };
+    setSearchQuery('')
+    setSelectedCategory('')
+    setSelectedDifficulty('')
+    setSortBy('upvotes')
+  }
 
   return (
     <div style={{ backgroundColor: COLORS.bg.primary, minHeight: '100vh' }}>
@@ -101,9 +115,12 @@ export default function QAPage() {
             <FaArrowLeft size={16} />
             Back to Development Hub
           </button>
-          <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold mb-2">Q&A Knowledge Base</h1>
+          <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold mb-2">
+            Q&A Knowledge Base
+          </h1>
           <p style={{ color: COLORS.text.secondary }} className="text-lg">
-            Curated interview questions and answers covering React, JavaScript, System Design, and more.
+            Curated interview questions and answers covering React, JavaScript, System Design, and
+            more.
           </p>
         </div>
       </motion.div>
@@ -132,7 +149,10 @@ export default function QAPage() {
             >
               <FaSlidersH size={14} />
             </div>
-            <span style={{ color: COLORS.text.primary }} className="text-sm font-semibold tracking-wide uppercase">
+            <span
+              style={{ color: COLORS.text.primary }}
+              className="text-sm font-semibold tracking-wide uppercase"
+            >
               Filters
             </span>
             <div style={{ backgroundColor: COLORS.border.light }} className="flex-1 h-px ml-2" />
@@ -141,28 +161,33 @@ export default function QAPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Search */}
             <div>
-              <label style={{ color: COLORS.text.secondary }} className="block text-xs font-semibold mb-1.5 uppercase tracking-wider">Search</label>
+              <label
+                style={{ color: COLORS.text.secondary }}
+                className="block text-xs font-semibold mb-1.5 uppercase tracking-wider"
+              >
+                Search
+              </label>
               <div className="relative group">
                 <input
                   type="text"
                   placeholder="Search questions..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   style={{
                     borderColor: COLORS.border.medium,
                     color: COLORS.text.primary,
                     backgroundColor: COLORS.bg.primary,
                   }}
                   className="w-full pl-4 pr-10 py-2.5 border rounded-lg text-sm transition-all duration-200 outline-none"
-                  onFocus={(e) => {
-                    e.target.style.borderColor = COLORS.accent.primary;
-                    e.target.style.boxShadow = `0 0 0 3px ${COLORS.accent.primary}20`;
-                    e.target.style.backgroundColor = '#ffffff';
+                  onFocus={e => {
+                    e.target.style.borderColor = COLORS.accent.primary
+                    e.target.style.boxShadow = `0 0 0 3px ${COLORS.accent.primary}20`
+                    e.target.style.backgroundColor = '#ffffff'
                   }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = COLORS.border.medium;
-                    e.target.style.boxShadow = 'none';
-                    e.target.style.backgroundColor = COLORS.bg.primary;
+                  onBlur={e => {
+                    e.target.style.borderColor = COLORS.border.medium
+                    e.target.style.boxShadow = 'none'
+                    e.target.style.backgroundColor = COLORS.bg.primary
                   }}
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none group-focus-within:pointer-events-auto">
@@ -190,9 +215,9 @@ export default function QAPage() {
               value={selectedCategory}
               options={[
                 { value: '', label: 'All Categories' },
-                ...categories.map(cat => ({ value: cat, label: cat }))
+                ...categories.map(cat => ({ value: cat, label: cat })),
               ]}
-              onChange={(val) => setSelectedCategory(val)}
+              onChange={val => setSelectedCategory(val)}
               placeholder="All Categories"
               labelStyle={{ color: COLORS.text.secondary }}
               buttonStyle={{
@@ -209,9 +234,9 @@ export default function QAPage() {
               value={selectedDifficulty}
               options={[
                 { value: '', label: 'All Levels' },
-                ...difficulties.map(diff => ({ value: diff, label: diff }))
+                ...difficulties.map(diff => ({ value: diff, label: diff })),
               ]}
-              onChange={(val) => setSelectedDifficulty(val)}
+              onChange={val => setSelectedDifficulty(val)}
               placeholder="All Levels"
               labelStyle={{ color: COLORS.text.secondary }}
               buttonStyle={{
@@ -232,7 +257,7 @@ export default function QAPage() {
                 { value: 'newest', label: 'Newest' },
                 { value: 'difficulty', label: 'Difficulty' },
               ]}
-              onChange={(val) => setSortBy(val)}
+              onChange={val => setSortBy(val)}
               placeholder="Sort By"
               labelStyle={{ color: COLORS.text.secondary }}
               buttonStyle={{
@@ -286,17 +311,18 @@ export default function QAPage() {
                   <div
                     style={{
                       backgroundColor: '#ffffff',
-                      borderColor: expandedId === item.id ? COLORS.accent.primary : COLORS.border.light,
+                      borderColor:
+                        expandedId === item.id ? COLORS.accent.primary : COLORS.border.light,
                     }}
                     className="border rounded-xl overflow-hidden transition-all duration-200"
-                    onMouseEnter={(e) => {
+                    onMouseEnter={e => {
                       if (expandedId !== item.id) {
-                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'
                       }
                     }}
-                    onMouseLeave={(e) => {
+                    onMouseLeave={e => {
                       if (expandedId !== item.id) {
-                        e.currentTarget.style.boxShadow = 'none';
+                        e.currentTarget.style.boxShadow = 'none'
                       }
                     }}
                   >
@@ -304,9 +330,17 @@ export default function QAPage() {
                     <button
                       onClick={() => toggleExpand(item.id)}
                       className="w-full flex items-start gap-4 p-5 text-left transition-colors"
-                      style={{ backgroundColor: expandedId === item.id ? COLORS.bg.primary : '#ffffff' }}
-                      onMouseEnter={(e) => { if (expandedId !== item.id) e.currentTarget.style.backgroundColor = COLORS.bg.primary; }}
-                      onMouseLeave={(e) => { if (expandedId !== item.id) e.currentTarget.style.backgroundColor = '#ffffff'; }}
+                      style={{
+                        backgroundColor: expandedId === item.id ? COLORS.bg.primary : '#ffffff',
+                      }}
+                      onMouseEnter={e => {
+                        if (expandedId !== item.id)
+                          e.currentTarget.style.backgroundColor = COLORS.bg.primary
+                      }}
+                      onMouseLeave={e => {
+                        if (expandedId !== item.id)
+                          e.currentTarget.style.backgroundColor = '#ffffff'
+                      }}
                     >
                       {/* Number badge */}
                       <div
@@ -342,17 +376,30 @@ export default function QAPage() {
                             {item.category}
                           </span>
                           {item.isVerified && (
-                            <FaCheckCircle className="text-green-500" size={13} title="Verified answer" />
+                            <FaCheckCircle
+                              className="text-green-500"
+                              size={13}
+                              title="Verified answer"
+                            />
                           )}
                         </div>
-                        <h3 style={{ color: COLORS.text.primary }} className="text-[15px] font-semibold leading-snug">
+                        <h3
+                          style={{ color: COLORS.text.primary }}
+                          className="text-[15px] font-semibold leading-snug"
+                        >
                           {item.question}
                         </h3>
                         <div className="flex items-center gap-4 mt-2">
-                          <span style={{ color: COLORS.text.muted }} className="flex items-center gap-1 text-xs">
+                          <span
+                            style={{ color: COLORS.text.muted }}
+                            className="flex items-center gap-1 text-xs"
+                          >
                             <FaThumbsUp size={11} /> {item.upvotes}
                           </span>
-                          <span style={{ color: COLORS.text.muted }} className="flex items-center gap-1 text-xs">
+                          <span
+                            style={{ color: COLORS.text.muted }}
+                            className="flex items-center gap-1 text-xs"
+                          >
                             <FaEye size={11} /> {item.views}
                           </span>
                           <span style={{ color: COLORS.text.muted }} className="text-xs">
@@ -419,23 +466,25 @@ export default function QAPage() {
 
                 <div className="flex gap-1">
                   {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-                    const pageNum = currentPage - 2 + i;
-                    if (pageNum < 1 || pageNum > totalPages) return null;
+                    const pageNum = currentPage - 2 + i
+                    if (pageNum < 1 || pageNum > totalPages) return null
 
                     return (
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
                         style={{
-                          backgroundColor: currentPage === pageNum ? COLORS.accent.primary : COLORS.bg.primary,
-                          color: currentPage === pageNum ? COLORS.bg.primary : COLORS.text.secondary,
+                          backgroundColor:
+                            currentPage === pageNum ? COLORS.accent.primary : COLORS.bg.primary,
+                          color:
+                            currentPage === pageNum ? COLORS.bg.primary : COLORS.text.secondary,
                           borderColor: COLORS.border.medium,
                         }}
                         className="px-3 py-2 rounded-lg border"
                       >
                         {pageNum}
                       </button>
-                    );
+                    )
                   })}
                 </div>
 
@@ -475,9 +524,10 @@ export default function QAPage() {
           }}
           className="mt-8 p-4 border rounded-lg text-center text-sm"
         >
-          <strong style={{ color: COLORS.text.secondary }}>Tip:</strong> Click on any question to reveal the detailed answer. Use filters to narrow down by category or difficulty level.
+          <strong style={{ color: COLORS.text.secondary }}>Tip:</strong> Click on any question to
+          reveal the detailed answer. Use filters to narrow down by category or difficulty level.
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -209,6 +209,27 @@ service cloud.firestore {
                                        request.auth.email == 'arerajendhar33@gmail.com';
     }
 
+    // INTERVIEW REVIEWS COLLECTION
+    // Users can submit reviews and ratings for their interviews
+    // Backend server stores reviews from interviews
+    match /interviewReviews/{reviewId} {
+      // Public can read all reviews (to show ratings/testimonials)
+      allow read: if true;
+      
+      // Allow creates from:
+      // 1. Authenticated users submitting their own reviews
+      // 2. Backend server (using API key) for interview reviews
+      allow create: if true;
+      
+      // Users can update only their own reviews
+      allow update: if request.auth != null && 
+                   request.auth.uid == resource.data.userId;
+      
+      // Users can delete only their own reviews
+      allow delete: if request.auth != null && 
+                   request.auth.uid == resource.data.userId;
+    }
+
     // Catch-all: deny access to any unspecified paths
     match /{document=**} {
       allow read, write: if false;

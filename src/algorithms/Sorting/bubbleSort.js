@@ -2,11 +2,11 @@
 
 /**
  * Bubble Sort Algorithm
- * 
+ *
  * A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements
  * and swaps them if they are in the wrong order. The pass through the list is repeated until
  * the list is sorted.
- * 
+ *
  * @param {number[]} arr - Array of numbers to sort
  * @yields {Object} - Step information for visualization
  * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
@@ -67,7 +67,7 @@ export function* bubbleSort(arr) {
 
 /**
  * Algorithm information for Bubble Sort
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -88,13 +88,14 @@ export const bubbleSortInfo = {
     time: {
       best: 'O(n)',
       average: 'O(n²)',
-      worst: 'O(n²)'
+      worst: 'O(n²)',
     },
-    space: 'O(1)'
+    space: 'O(1)',
   },
   stable: true,
   inPlace: true,
-  description: 'A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.',
+  description:
+    'A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.',
   code: {
     javascript: `
 function bubbleSort(arr) {
@@ -128,12 +129,12 @@ public static void bubbleSort(int[] arr) {
             }
         }
     }
-}`
+}`,
   },
   useCases: [
     'Educational purposes to teach sorting concepts',
     'Small datasets where simplicity is preferred over efficiency',
     'When the data is already mostly sorted',
-    'When simplicity of implementation is more important than performance'
-  ]
+    'When simplicity of implementation is more important than performance',
+  ],
 }

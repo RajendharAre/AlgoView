@@ -27,7 +27,9 @@ const Kosaraju = () => {
   const [isRunning, setIsRunning] = useState(false)
   const [speedIndex, setSpeedIndex] = useState(1)
   const [phase, setPhase] = useState('IDLE')
-  const [currentStep, setCurrentStep] = useState('Build a directed graph to find its Strongly Connected Components.')
+  const [currentStep, setCurrentStep] = useState(
+    'Build a directed graph to find its Strongly Connected Components.'
+  )
   const [activeNode, setActiveNode] = useState(null)
 
   const speedRef = useRef(SPEEDS[1].value)
@@ -51,18 +53,21 @@ const Kosaraju = () => {
   /**
    * Handle canvas click for ADD mode
    */
-  const handleCanvasClick = useCallback((e) => {
-    e.stopPropagation()
-    if (isRunning || mode !== 'ADD') return
-    const rect = canvasRef.current?.getBoundingClientRect()
-    if (!rect) return
+  const handleCanvasClick = useCallback(
+    e => {
+      e.stopPropagation()
+      if (isRunning || mode !== 'ADD') return
+      const rect = canvasRef.current?.getBoundingClientRect()
+      if (!rect) return
 
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
 
-    setNodes(prev => [...prev, { id: prev.length, x, y, label: prev.length.toString() }])
-    resetAlgoState()
-  }, [mode, isRunning, resetAlgoState])
+      setNodes(prev => [...prev, { id: prev.length, x, y, label: prev.length.toString() }])
+      resetAlgoState()
+    },
+    [mode, isRunning, resetAlgoState]
+  )
 
   /**
    * Handle node click for linking and operations
@@ -72,7 +77,9 @@ const Kosaraju = () => {
     if (isRunning) return
 
     if (mode === 'DELETE') {
-      const newNodes = nodes.filter(n => n.id !== node.id).map((n, i) => ({ ...n, id: i, label: i.toString() }))
+      const newNodes = nodes
+        .filter(n => n.id !== node.id)
+        .map((n, i) => ({ ...n, id: i, label: i.toString() }))
       setNodes(newNodes)
       setEdges(prev =>
         prev
@@ -92,7 +99,9 @@ const Kosaraju = () => {
         const exists = edges.some(edge => edge.u === linkSource && edge.v === node.id)
         if (!exists) {
           setEdges(prev => [...prev, { u: linkSource, v: node.id }])
-          setCurrentStep(`Directed edge ${nodes.find(n => n.id === linkSource)?.label}→${node.label} added`)
+          setCurrentStep(
+            `Directed edge ${nodes.find(n => n.id === linkSource)?.label}→${node.label} added`
+          )
         } else {
           setCurrentStep('Edge already exists')
         }
@@ -191,13 +200,17 @@ const Kosaraju = () => {
       if (!localVisited2.has(uId)) {
         const currentGroup = []
         setCurrentScc([])
-        setCurrentStep(`Pass 2: Popping Node ${nodes.find(n => n.id === uId)?.label} from stack to find new SCC.`)
+        setCurrentStep(
+          `Pass 2: Popping Node ${nodes.find(n => n.id === uId)?.label} from stack to find new SCC.`
+        )
         await sleep()
         await dfs2(uId, localVisited2, currentGroup)
         groups.push(currentGroup)
         setSccGroups([...groups])
         setCurrentScc([])
-        setCurrentStep(`SCC Found: {${currentGroup.map(id => nodes.find(n => n.id === id)?.label).join(', ')}}`)
+        setCurrentStep(
+          `SCC Found: {${currentGroup.map(id => nodes.find(n => n.id === id)?.label).join(', ')}}`
+        )
         await sleep()
       }
     }
@@ -238,7 +251,10 @@ const Kosaraju = () => {
       />
 
       {/* Canvas - RIGHT */}
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
+      <main
+        className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0"
+        onClick={handleCanvasClick}
+      >
         <KosarajuCanvas
           ref={canvasRef}
           nodes={nodes}

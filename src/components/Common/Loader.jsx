@@ -1,24 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const Loader = () => {
   return (
     <StyledWrapper>
       <div className="spinner">
-        <div />   
-        <div />    
-        <div />    
-        <div />    
-        <div />    
-        <div />    
-        <div />    
-        <div />    
-        <div />    
-        <div />    
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -97,6 +97,6 @@ const StyledWrapper = styled.div`
       opacity: 1;
     }
   }
-`;
+`
 
-export default Loader;
+export default Loader

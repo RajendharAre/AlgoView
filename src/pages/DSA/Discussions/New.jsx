@@ -16,29 +16,32 @@ const DSADiscussionNew = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    
+
     if (!user) {
       setError('You must be logged in to post a discussion')
       return
     }
-    
+
     if (!title.trim() || !content.trim()) {
       setError('Title and content are required')
       return
     }
-    
+
     setLoading(true)
     setError('')
-    
+
     try {
       // Parse tags from comma-separated string
-      const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag)
-      
+      const tagsArray = tags
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag)
+
       // Create discussion document
       const discussionRef = doc(db, 'discussions', Date.now().toString())
-      
+
       await setDoc(discussionRef, {
         title: title.trim(),
         content: content.trim(),
@@ -49,9 +52,9 @@ const DSADiscussionNew = () => {
         updatedAt: serverTimestamp(),
         replies: 0,
         views: 0,
-        lastActivity: serverTimestamp()
+        lastActivity: serverTimestamp(),
       })
-      
+
       // Navigate to the discussions list
       navigate('/dsa/discussions')
     } catch (err) {
@@ -72,7 +75,9 @@ const DSADiscussionNew = () => {
         >
           <div className="p-6 border-b border-gray-200">
             <h1 className="text-2xl font-bold text-gray-900">Start a New Discussion</h1>
-            <p className="text-gray-600 mt-1">Share your thoughts and questions with the community</p>
+            <p className="text-gray-600 mt-1">
+              Share your thoughts and questions with the community
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -81,7 +86,7 @@ const DSADiscussionNew = () => {
                 {error}
               </div>
             )}
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Discussion Title
@@ -89,7 +94,7 @@ const DSADiscussionNew = () => {
               <input
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={e => setTitle(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter a clear and descriptive title"
                 required
@@ -97,12 +102,10 @@ const DSADiscussionNew = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Content
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
               <textarea
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={e => setContent(e.target.value)}
                 rows={12}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Share your thoughts, ask questions, or start a discussion..."
@@ -111,15 +114,13 @@ const DSADiscussionNew = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tags
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
               <div className="flex items-center gap-2">
                 <Tag size={16} className="text-gray-400" />
                 <input
                   type="text"
                   value={tags}
-                  onChange={(e) => setTags(e.target.value)}
+                  onChange={e => setTags(e.target.value)}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Add tags separated by commas (e.g., algorithms, data-structures, sorting)"
                 />
@@ -135,7 +136,7 @@ const DSADiscussionNew = () => {
                   type="submit"
                   disabled={loading}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                    loading 
+                    loading
                       ? 'bg-blue-400 text-white cursor-not-allowed'
                       : 'bg-blue-600 text-white hover:bg-blue-700'
                   }`}
@@ -149,7 +150,8 @@ const DSADiscussionNew = () => {
                     <>
                       <Send size={16} />
                       Post Discussion
-                    </>)}
+                    </>
+                  )}
                 </button>
                 <button
                   type="button"

@@ -3,10 +3,10 @@
  * Provides common testing utilities, mock implementations, and test data
  */
 
-import { vi } from 'vitest';
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest'
+import { render } from '@testing-library/react'
+import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 
 // Mock Firebase services
 export const mockFirebase = {
@@ -14,13 +14,13 @@ export const mockFirebase = {
     currentUser: {
       uid: 'test-user-123',
       email: 'test@example.com',
-      displayName: 'Test User'
+      displayName: 'Test User',
     },
-    onAuthStateChanged: vi.fn((callback) => {
-      callback(mockFirebase.auth.currentUser);
-      return () => {};
+    onAuthStateChanged: vi.fn(callback => {
+      callback(mockFirebase.auth.currentUser)
+      return () => {}
     }),
-    signOut: vi.fn().mockResolvedValue(undefined)
+    signOut: vi.fn().mockResolvedValue(undefined),
   },
   db: {
     collection: vi.fn(),
@@ -32,9 +32,9 @@ export const mockFirebase = {
     onSnapshot: vi.fn(),
     query: vi.fn(),
     orderBy: vi.fn(),
-    serverTimestamp: vi.fn(() => new Date())
-  }
-};
+    serverTimestamp: vi.fn(() => new Date()),
+  },
+}
 
 // Mock Firestore functions
 export const mockFirestore = {
@@ -48,14 +48,14 @@ export const mockFirestore = {
     callback({
       docs: [],
       size: 0,
-      empty: true
-    });
-    return () => {};
+      empty: true,
+    })
+    return () => {}
   }),
   query: vi.fn(),
   orderBy: vi.fn(),
-  serverTimestamp: vi.fn(() => new Date())
-};
+  serverTimestamp: vi.fn(() => new Date()),
+}
 
 // Mock authentication state
 export const mockAuthState = {
@@ -63,10 +63,10 @@ export const mockAuthState = {
     uid: 'test-user-123',
     email: 'test@example.com',
     displayName: 'Test User',
-    photoURL: null
+    photoURL: null,
   },
-  unauthenticated: null
-};
+  unauthenticated: null,
+}
 
 // Test data fixtures
 export const testFixtures = {
@@ -76,20 +76,20 @@ export const testFixtures = {
       id: 'msg-1',
       role: 'user',
       content: 'Hello, explain merge sort',
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     assistantMessage: {
       id: 'msg-2',
       role: 'assistant',
       content: '<p>Merge Sort is a divide and conquer algorithm...</p>',
-      createdAt: new Date()
+      createdAt: new Date(),
     },
     emptyMessage: {
       id: 'msg-3',
       role: 'user',
       content: '',
-      createdAt: new Date()
-    }
+      createdAt: new Date(),
+    },
   },
 
   // Test chats
@@ -102,8 +102,8 @@ export const testFixtures = {
         userId: 'test-user-123',
         createdAt: new Date(),
         updatedAt: new Date(),
-        lastMessage: 'Hello there'
-      }
+        lastMessage: 'Hello there',
+      },
     ],
     multipleChats: [
       {
@@ -112,7 +112,7 @@ export const testFixtures = {
         userId: 'test-user-123',
         createdAt: new Date(Date.now() - 3600000),
         updatedAt: new Date(Date.now() - 1800000),
-        lastMessage: 'Hello'
+        lastMessage: 'Hello',
       },
       {
         id: 'chat-2',
@@ -120,9 +120,9 @@ export const testFixtures = {
         userId: 'test-user-123',
         createdAt: new Date(Date.now() - 1800000),
         updatedAt: new Date(),
-        lastMessage: 'How are you?'
-      }
-    ]
+        lastMessage: 'How are you?',
+      },
+    ],
   },
 
   // Test users
@@ -130,90 +130,90 @@ export const testFixtures = {
     authenticated: {
       uid: 'test-user-123',
       email: 'test@example.com',
-      displayName: 'Test User'
+      displayName: 'Test User',
     },
-    unauthenticated: null
-  }
-};
+    unauthenticated: null,
+  },
+}
 
 // Custom render function with providers
 export const renderWithProviders = (ui, { router = true, ...renderOptions } = {}) => {
   const Wrapper = ({ children }) => {
     if (router) {
-      return <BrowserRouter>{children}</BrowserRouter>;
+      return <BrowserRouter>{children}</BrowserRouter>
     }
-    return children;
-  };
+    return children
+  }
 
-  return render(ui, { wrapper: Wrapper, ...renderOptions });
-};
+  return render(ui, { wrapper: Wrapper, ...renderOptions })
+}
 
 // Mock console methods to reduce test noise
 export const mockConsole = () => {
-  const originalConsole = { ...console };
-  console.log = vi.fn();
-  console.warn = vi.fn();
-  console.error = vi.fn();
-  return originalConsole;
-};
+  const originalConsole = { ...console }
+  console.log = vi.fn()
+  console.warn = vi.fn()
+  console.error = vi.fn()
+  return originalConsole
+}
 
 // Restore console methods
-export const restoreConsole = (originalConsole) => {
-  Object.assign(console, originalConsole);
-};
+export const restoreConsole = originalConsole => {
+  Object.assign(console, originalConsole)
+}
 
 // Wait for async operations
 export const waitForAsync = async (callback, timeout = 1000) => {
   return new Promise((resolve, reject) => {
-    const startTime = Date.now();
-    
+    const startTime = Date.now()
+
     const check = () => {
       try {
-        const result = callback();
+        const result = callback()
         if (result) {
-          resolve(result);
+          resolve(result)
         } else if (Date.now() - startTime > timeout) {
-          reject(new Error('Timeout waiting for async operation'));
+          reject(new Error('Timeout waiting for async operation'))
         } else {
-          setTimeout(check, 10);
+          setTimeout(check, 10)
         }
       } catch (error) {
-        reject(error);
+        reject(error)
       }
-    };
-    
-    check();
-  });
-};
+    }
+
+    check()
+  })
+}
 
 // Mock resize observer for testing auto-resizing components
 export const mockResizeObserver = () => {
-  const originalResizeObserver = window.ResizeObserver;
-  
+  const originalResizeObserver = window.ResizeObserver
+
   window.ResizeObserver = vi.fn().mockImplementation(() => ({
     observe: vi.fn(),
     unobserve: vi.fn(),
-    disconnect: vi.fn()
-  }));
-  
+    disconnect: vi.fn(),
+  }))
+
   return () => {
-    window.ResizeObserver = originalResizeObserver;
-  };
-};
+    window.ResizeObserver = originalResizeObserver
+  }
+}
 
 // Mock scroll behavior
 export const mockScrollBehavior = () => {
-  const originalScrollTo = window.scrollTo;
-  const originalScrollIntoView = Element.prototype.scrollIntoView;
-  
-  window.scrollTo = vi.fn();
-  Element.prototype.scrollIntoView = vi.fn();
-  
+  const originalScrollTo = window.scrollTo
+  const originalScrollIntoView = Element.prototype.scrollIntoView
+
+  window.scrollTo = vi.fn()
+  Element.prototype.scrollIntoView = vi.fn()
+
   return () => {
-    window.scrollTo = originalScrollTo;
-    Element.prototype.scrollIntoView = originalScrollIntoView;
-  };
-};
+    window.scrollTo = originalScrollTo
+    Element.prototype.scrollIntoView = originalScrollIntoView
+  }
+}
 
 // Create mock event handlers
 export const createMockHandlers = () => ({
@@ -224,36 +224,36 @@ export const createMockHandlers = () => ({
   onSelectChat: vi.fn(),
   onCreateChat: vi.fn().mockResolvedValue('new-chat-id'),
   onDeleteChat: vi.fn().mockResolvedValue(undefined),
-  onError: vi.fn()
-});
+  onError: vi.fn(),
+})
 
 // Test helpers for common assertions
 export const testHelpers = {
   // Check if element has specific classes
   hasClasses: (element, classes) => {
-    const classList = element.className.split(' ');
-    return classes.every(cls => classList.includes(cls));
+    const classList = element.className.split(' ')
+    return classes.every(cls => classList.includes(cls))
   },
 
   // Check if element contains text
   containsText: (element, text) => {
-    return element.textContent.includes(text);
+    return element.textContent.includes(text)
   },
 
   // Wait for element to appear
   waitForElement: async (query, options = {}) => {
-    const { timeout = 1000, interval = 50 } = options;
-    const startTime = Date.now();
-    
+    const { timeout = 1000, interval = 50 } = options
+    const startTime = Date.now()
+
     while (Date.now() - startTime < timeout) {
-      const element = query();
-      if (element) return element;
-      await new Promise(resolve => setTimeout(resolve, interval));
+      const element = query()
+      if (element) return element
+      await new Promise(resolve => setTimeout(resolve, interval))
     }
-    
-    throw new Error('Element not found within timeout');
-  }
-};
+
+    throw new Error('Element not found within timeout')
+  },
+}
 
 export default {
   mockFirebase,
@@ -267,5 +267,5 @@ export default {
   mockResizeObserver,
   mockScrollBehavior,
   createMockHandlers,
-  testHelpers
-};
+  testHelpers,
+}

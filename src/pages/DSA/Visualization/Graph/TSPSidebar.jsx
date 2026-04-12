@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Play,
   RotateCcw,
@@ -11,8 +11,8 @@ import {
   Circle,
   ArrowLeft,
   MapPin,
-} from 'lucide-react';
-import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection';
+} from 'lucide-react'
+import TimeComplexitySection from '../../../../components/Visualisation/TimeComplexitySection'
 
 const ToolButton = ({ active, onClick, disabled, icon, label, desc, danger }) => (
   <button
@@ -29,8 +29,8 @@ const ToolButton = ({ active, onClick, disabled, icon, label, desc, danger }) =>
         active
           ? 'bg-white/20 text-white'
           : danger
-          ? 'bg-red-50 text-red-500'
-          : 'bg-[#f1f3f5] text-[#6c757d]'
+            ? 'bg-red-50 text-red-500'
+            : 'bg-[#f1f3f5] text-[#6c757d]'
       }`}
     >
       {icon}
@@ -39,12 +39,14 @@ const ToolButton = ({ active, onClick, disabled, icon, label, desc, danger }) =>
       <div className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}>
         {label}
       </div>
-      <div className={`text-[8px] font-medium leading-none mt-0.5 truncate ${active ? 'text-white/60' : 'text-[#adb5bd]'}`}>
+      <div
+        className={`text-[8px] font-medium leading-none mt-0.5 truncate ${active ? 'text-white/60' : 'text-[#adb5bd]'}`}
+      >
         {desc}
       </div>
     </div>
   </button>
-);
+)
 
 const TSPSidebar = ({
   mode,
@@ -164,19 +166,21 @@ const TSPSidebar = ({
         <section className="space-y-3 md:space-y-4 pt-4 border-t border-[#f1f3f5]">
           <div
             className={`p-3 md:p-4 rounded-xl border-l-4 transition-all ${
-              isRunning
-                ? 'bg-[#212529] text-white shadow-md'
-                : 'bg-[#f8f9faff] border-[#dee2e6]'
+              isRunning ? 'bg-[#212529] text-white shadow-md' : 'bg-[#f8f9faff] border-[#dee2e6]'
             }`}
           >
             <p className="text-[8px] sm:text-[9px] font-black uppercase opacity-60 mb-1 flex items-center gap-1">
               <Info size={10} /> Live Log
             </p>
-            <p className="text-[9px] md:text-[11px] font-bold leading-relaxed h-12 md:h-14 overflow-hidden">{status}</p>
+            <p className="text-[9px] md:text-[11px] font-bold leading-relaxed h-12 md:h-14 overflow-hidden">
+              {status}
+            </p>
           </div>
 
           <div className="p-3 md:p-4 bg-white border border-[#dee2e6] rounded-xl text-center shadow-sm">
-            <p className="text-[8px] sm:text-[9px] font-black text-[#adb5bd] uppercase mb-1">Current Best Cost</p>
+            <p className="text-[8px] sm:text-[9px] font-black text-[#adb5bd] uppercase mb-1">
+              Current Best Cost
+            </p>
             <div className="text-2xl md:text-3xl font-black font-mono text-[#212529]">
               {minCost === Infinity ? '---' : minCost}
             </div>
@@ -193,9 +197,7 @@ const TSPSidebar = ({
                     <span className="font-black px-1.5 py-0.5 bg-[#f8f9faff] rounded border">
                       {nodes.find(n => n.id === id)?.label}
                     </span>
-                    {idx < bestPath.length - 1 && (
-                      <span className="text-[#adb5bd]">→</span>
-                    )}
+                    {idx < bestPath.length - 1 && <span className="text-[#adb5bd]">→</span>}
                   </React.Fragment>
                 ))}
               </div>
@@ -213,7 +215,7 @@ const TSPSidebar = ({
         </section>
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default TSPSidebar;
+export default TSPSidebar

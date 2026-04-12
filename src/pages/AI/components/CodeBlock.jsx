@@ -4,29 +4,25 @@
  * Much faster and cleaner than string manipulation
  */
 
-import React from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Copy, Check } from 'lucide-react';
+import React from 'react'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { Copy, Check } from 'lucide-react'
 
 const CodeBlock = ({ language = 'text', code = '' }) => {
-  const [copied, setCopied] = React.useState(false);
+  const [copied, setCopied] = React.useState(false)
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="code-block-container">
       <div className="code-block-header">
         <span className="code-language">{language}</span>
-        <button
-          onClick={handleCopy}
-          className="code-copy-button"
-          title="Copy code"
-        >
+        <button onClick={handleCopy} className="code-copy-button" title="Copy code">
           {copied ? (
             <>
               <Check size={16} />
@@ -56,7 +52,7 @@ const CodeBlock = ({ language = 'text', code = '' }) => {
         {code.trim()}
       </SyntaxHighlighter>
     </div>
-  );
-};
+  )
+}
 
-export default CodeBlock;
+export default CodeBlock

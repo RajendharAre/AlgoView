@@ -1,25 +1,62 @@
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, BarChart, GitBranch, Shuffle, Database, Lock, BookOpen, Search } from 'lucide-react'
+import {
+  ArrowLeft,
+  BarChart,
+  GitBranch,
+  Shuffle,
+  Database,
+  Lock,
+  BookOpen,
+  Search,
+} from 'lucide-react'
 
 const DSAAlgorithmCategory = () => {
   const { category } = useParams()
 
   const categoryInfo = {
-    sorting: { name: 'Sorting Algorithms', icon: Shuffle, description: 'Algorithms for arranging elements in a specific order' },
-    searching: { name: 'Searching Algorithms', icon: Search, description: 'Algorithms for finding specific elements in data structures' },
-    graph: { name: 'Graph Algorithms', icon: GitBranch, description: 'Algorithms for traversing and analyzing graph structures' },
-    tree: { name: 'Tree Algorithms', icon: BookOpen, description: 'Algorithms for working with tree data structures' },
-    dynamic: { name: 'Dynamic Programming', icon: BarChart, description: 'Algorithms that solve complex problems by breaking them down' },
-    greedy: { name: 'Greedy Algorithms', icon: Database, description: 'Algorithms that make locally optimal choices' },
-    backtracking: { name: 'Backtracking Algorithms', icon: Lock, description: 'Algorithms that explore all possible solutions' }
+    sorting: {
+      name: 'Sorting Algorithms',
+      icon: Shuffle,
+      description: 'Algorithms for arranging elements in a specific order',
+    },
+    searching: {
+      name: 'Searching Algorithms',
+      icon: Search,
+      description: 'Algorithms for finding specific elements in data structures',
+    },
+    graph: {
+      name: 'Graph Algorithms',
+      icon: GitBranch,
+      description: 'Algorithms for traversing and analyzing graph structures',
+    },
+    tree: {
+      name: 'Tree Algorithms',
+      icon: BookOpen,
+      description: 'Algorithms for working with tree data structures',
+    },
+    dynamic: {
+      name: 'Dynamic Programming',
+      icon: BarChart,
+      description: 'Algorithms that solve complex problems by breaking them down',
+    },
+    greedy: {
+      name: 'Greedy Algorithms',
+      icon: Database,
+      description: 'Algorithms that make locally optimal choices',
+    },
+    backtracking: {
+      name: 'Backtracking Algorithms',
+      icon: Lock,
+      description: 'Algorithms that explore all possible solutions',
+    },
   }
 
-  const categoryData = categoryInfo[category] || { 
-    name: 'Algorithms', 
-    icon: BookOpen, 
-    description: 'Collection of algorithms' 
+  const categoryData = categoryInfo[category] || {
+    name: 'Algorithms',
+    icon: BookOpen,
+    description: 'Collection of algorithms',
   }
 
   const Icon = categoryData.icon
@@ -27,45 +64,175 @@ const DSAAlgorithmCategory = () => {
   // Sample algorithms for each category
   const algorithmsByCategory = {
     sorting: [
-      { id: 'bubbleSort', name: 'Bubble Sort', difficulty: 'Easy', description: 'Simple sorting algorithm that repeatedly steps through the list' },
-      { id: 'bucketSort', name: 'Bucket Sort', difficulty: 'Medium', description: 'Sorting algorithm that distributes elements into buckets' },
-      { id: 'heapSort', name: 'Heap Sort', difficulty: 'Medium', description: 'Sorting algorithm that uses heap data structure' },
-      { id: 'insertionSort', name: 'Insertion Sort', difficulty: 'Easy', description: 'Simple sorting algorithm that builds final sorted array' },
-      { id: 'mergeSort', name: 'Merge Sort', difficulty: 'Medium', description: 'Efficient, stable sorting algorithm using divide-and-conquer' },
-      { id: 'quickSort', name: 'Quick Sort', difficulty: 'Medium', description: 'Highly efficient sorting algorithm using partitioning' },
-      { id: 'selectionSort', name: 'Selection Sort', difficulty: 'Easy', description: 'In-place comparison sorting algorithm' }
+      {
+        id: 'bubbleSort',
+        name: 'Bubble Sort',
+        difficulty: 'Easy',
+        description: 'Simple sorting algorithm that repeatedly steps through the list',
+      },
+      {
+        id: 'bucketSort',
+        name: 'Bucket Sort',
+        difficulty: 'Medium',
+        description: 'Sorting algorithm that distributes elements into buckets',
+      },
+      {
+        id: 'heapSort',
+        name: 'Heap Sort',
+        difficulty: 'Medium',
+        description: 'Sorting algorithm that uses heap data structure',
+      },
+      {
+        id: 'insertionSort',
+        name: 'Insertion Sort',
+        difficulty: 'Easy',
+        description: 'Simple sorting algorithm that builds final sorted array',
+      },
+      {
+        id: 'mergeSort',
+        name: 'Merge Sort',
+        difficulty: 'Medium',
+        description: 'Efficient, stable sorting algorithm using divide-and-conquer',
+      },
+      {
+        id: 'quickSort',
+        name: 'Quick Sort',
+        difficulty: 'Medium',
+        description: 'Highly efficient sorting algorithm using partitioning',
+      },
+      {
+        id: 'selectionSort',
+        name: 'Selection Sort',
+        difficulty: 'Easy',
+        description: 'In-place comparison sorting algorithm',
+      },
     ],
     searching: [
-      { id: 'aStar', name: 'A* Pathfinding', difficulty: 'Hard', description: 'Informed search algorithm that finds optimal paths in grid environments' },
-      { id: 'binarySearch', name: 'Binary Search', difficulty: 'Easy', description: 'Search algorithm that finds position of target in sorted array' },
-      { id: 'linearSearch', name: 'Linear Search', difficulty: 'Easy', description: 'Simple search algorithm that checks each element' }
+      {
+        id: 'aStar',
+        name: 'A* Pathfinding',
+        difficulty: 'Hard',
+        description: 'Informed search algorithm that finds optimal paths in grid environments',
+      },
+      {
+        id: 'binarySearch',
+        name: 'Binary Search',
+        difficulty: 'Easy',
+        description: 'Search algorithm that finds position of target in sorted array',
+      },
+      {
+        id: 'linearSearch',
+        name: 'Linear Search',
+        difficulty: 'Easy',
+        description: 'Simple search algorithm that checks each element',
+      },
     ],
     graph: [
-      { id: 'bellmanFord', name: 'Bellman Ford Algorithm', difficulty: 'Hard', description: 'Algorithm for computing shortest paths in weighted graph' },
-      { id: 'bfs', name: 'Breadth First Search', difficulty: 'Medium', description: 'Graph traversal algorithm exploring neighbor nodes first' },
-      { id: 'dfs', name: 'Depth First Search', difficulty: 'Medium', description: 'Graph traversal algorithm exploring as far as possible' },
-      { id: 'dijkstra', name: 'Dijkstra Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
-      { id: 'floydWarshall', name: 'Floyd Warshall Algorithm', difficulty: 'Hard', description: 'Algorithm for finding shortest paths in weighted graph' },
-      { id: 'graphColoring', name: 'Graph Coloring', difficulty: 'Medium', description: 'Greedy algorithm for assigning colors to vertices ensuring no adjacent vertices share the same color' },
-      { id: 'kosaraju', name: 'Kosaraju\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding all strongly connected components in directed graphs' },
-      { id: 'kruskal', name: 'Kruskal Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
-      { id: 'pagerank', name: 'PageRank', difficulty: 'Medium', description: 'Link analysis algorithm that evaluates node importance based on incoming links' },
-      { id: 'prim', name: 'Prim\'s Algorithm', difficulty: 'Hard', description: 'Algorithm for finding minimum spanning tree' },
-      { id: 'topologicalSort', name: 'Topological Sort', difficulty: 'Medium', description: 'Algorithm for linear ordering of vertices in directed acyclic graphs' },
-      { id: 'tsp', name: 'Traveling Salesman Problem', difficulty: 'Hard', description: 'Backtracking algorithm that finds the shortest route visiting each city exactly once and returning to start' }
+      {
+        id: 'bellmanFord',
+        name: 'Bellman Ford Algorithm',
+        difficulty: 'Hard',
+        description: 'Algorithm for computing shortest paths in weighted graph',
+      },
+      {
+        id: 'bfs',
+        name: 'Breadth First Search',
+        difficulty: 'Medium',
+        description: 'Graph traversal algorithm exploring neighbor nodes first',
+      },
+      {
+        id: 'dfs',
+        name: 'Depth First Search',
+        difficulty: 'Medium',
+        description: 'Graph traversal algorithm exploring as far as possible',
+      },
+      {
+        id: 'dijkstra',
+        name: 'Dijkstra Algorithm',
+        difficulty: 'Hard',
+        description: 'Algorithm for finding shortest paths in weighted graph',
+      },
+      {
+        id: 'floydWarshall',
+        name: 'Floyd Warshall Algorithm',
+        difficulty: 'Hard',
+        description: 'Algorithm for finding shortest paths in weighted graph',
+      },
+      {
+        id: 'graphColoring',
+        name: 'Graph Coloring',
+        difficulty: 'Medium',
+        description:
+          'Greedy algorithm for assigning colors to vertices ensuring no adjacent vertices share the same color',
+      },
+      {
+        id: 'kosaraju',
+        name: "Kosaraju's Algorithm",
+        difficulty: 'Hard',
+        description: 'Algorithm for finding all strongly connected components in directed graphs',
+      },
+      {
+        id: 'kruskal',
+        name: 'Kruskal Algorithm',
+        difficulty: 'Hard',
+        description: 'Algorithm for finding minimum spanning tree',
+      },
+      {
+        id: 'pagerank',
+        name: 'PageRank',
+        difficulty: 'Medium',
+        description:
+          'Link analysis algorithm that evaluates node importance based on incoming links',
+      },
+      {
+        id: 'prim',
+        name: "Prim's Algorithm",
+        difficulty: 'Hard',
+        description: 'Algorithm for finding minimum spanning tree',
+      },
+      {
+        id: 'topologicalSort',
+        name: 'Topological Sort',
+        difficulty: 'Medium',
+        description: 'Algorithm for linear ordering of vertices in directed acyclic graphs',
+      },
+      {
+        id: 'tsp',
+        name: 'Traveling Salesman Problem',
+        difficulty: 'Hard',
+        description:
+          'Backtracking algorithm that finds the shortest route visiting each city exactly once and returning to start',
+      },
     ],
     dynamic: [
-      { id: 'climbingStairs', name: 'Climbing Stairs', difficulty: 'Easy', description: 'DP algorithm that counts the number of ways to climb stairs with 1 or 2 steps at a time' },
-      { id: 'fibonacci', name: 'Fibonacci Sequence', difficulty: 'Easy', description: 'DP algorithm that generates the Fibonacci sequence using bottom-up dynamic programming' }
-    ]
+      {
+        id: 'climbingStairs',
+        name: 'Climbing Stairs',
+        difficulty: 'Easy',
+        description:
+          'DP algorithm that counts the number of ways to climb stairs with 1 or 2 steps at a time',
+      },
+      {
+        id: 'fibonacci',
+        name: 'Fibonacci Sequence',
+        difficulty: 'Easy',
+        description:
+          'DP algorithm that generates the Fibonacci sequence using bottom-up dynamic programming',
+      },
+    ],
   }
 
-  const algorithms = (algorithmsByCategory[category] || []).slice().sort((a, b) => a.name.localeCompare(b.name))
+  const algorithms = (algorithmsByCategory[category] || [])
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
     <div className="p-6">
       <div className="mb-8">
-        <Link to="/dsa/algorithms" className="flex items-center text-blue-600 hover:text-blue-700 mb-4">
+        <Link
+          to="/dsa/algorithms"
+          className="flex items-center text-blue-600 hover:text-blue-700 mb-4"
+        >
           <ArrowLeft size={18} className="mr-2" />
           Back to All Algorithms
         </Link>
@@ -95,13 +262,15 @@ const DSAAlgorithmCategory = () => {
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">{algorithm.name}</h3>
               </div>
-              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                algorithm.difficulty === 'Easy' 
-                  ? 'bg-green-100 text-green-800' 
-                  : algorithm.difficulty === 'Medium' 
-                    ? 'bg-yellow-100 text-yellow-800' 
-                    : 'bg-red-100 text-red-800'
-              }`}>
+              <span
+                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  algorithm.difficulty === 'Easy'
+                    ? 'bg-green-100 text-green-800'
+                    : algorithm.difficulty === 'Medium'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-red-100 text-red-800'
+                }`}
+              >
                 {algorithm.difficulty}
               </span>
             </div>

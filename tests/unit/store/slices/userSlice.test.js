@@ -8,7 +8,7 @@ import userSlice, {
   loginWithGoogle,
   loginWithGitHub,
   signOut,
-  initializeAuthListener
+  initializeAuthListener,
 } from '../../../src/store/slices/userSlice'
 
 // Mock Firebase functions
@@ -27,14 +27,14 @@ vi.mock('firebase/auth', () => ({
   GithubAuthProvider: mockGithubAuthProvider,
   signInWithPopup: (...args) => mockSignInWithPopup(...args),
   signOut: (...args) => mockSignOut(...args),
-  onAuthStateChanged: (...args) => mockOnAuthStateChanged(...args)
+  onAuthStateChanged: (...args) => mockOnAuthStateChanged(...args),
 }))
 
 describe('userSlice', () => {
   const initialState = {
     currentUser: null,
     loading: true,
-    error: null
+    error: null,
   }
 
   it('should return the initial state', () => {
@@ -135,13 +135,13 @@ describe('userSlice', () => {
             displayName: 'Test User',
             email: 'test@example.com',
             phoneNumber: null,
-            photoURL: 'https://example.com/photo.jpg'
-          }
+            photoURL: 'https://example.com/photo.jpg',
+          },
         ],
         metadata: {
           creationTime: '2023-01-01T00:00:00.000Z',
-          lastSignInTime: '2023-01-02T00:00:00.000Z'
-        }
+          lastSignInTime: '2023-01-02T00:00:00.000Z',
+        },
       }
 
       // Import the extractUserData function from the actual slice
@@ -163,13 +163,13 @@ describe('userSlice', () => {
             displayName: 'Test User',
             email: 'test@example.com',
             phoneNumber: null,
-            photoURL: 'https://example.com/photo.jpg'
-          }
+            photoURL: 'https://example.com/photo.jpg',
+          },
         ],
         metadata: {
           creationTime: '2023-01-01T00:00:00.000Z',
-          lastSignInTime: '2023-01-02T00:00:00.000Z'
-        }
+          lastSignInTime: '2023-01-02T00:00:00.000Z',
+        },
       })
     })
 

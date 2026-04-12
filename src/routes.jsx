@@ -34,9 +34,15 @@ const DSAContributeNew = lazy(() => import('./pages/DSA/Contribute/New'))
 const DSADiscussions = lazy(() => import('./pages/DSA/Discussions'))
 const DSADiscussionDetail = lazy(() => import('./pages/DSA/Discussions/Discussion'))
 const DSADiscussionNew = lazy(() => import('./pages/DSA/Discussions/New'))
-const AlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/AlgorithmVisualization'));
-const DynamicAlgorithmVisualization = lazy(() => import('./pages/DSA/Visualization/DynamicAlgorithmVisualization'));
-const SelectionSortVisualization = lazy(() => import('./pages/DSA/Visualization/Sorting/SelectionSort'))
+const AlgorithmVisualization = lazy(
+  () => import('./pages/DSA/Visualization/AlgorithmVisualization')
+)
+const DynamicAlgorithmVisualization = lazy(
+  () => import('./pages/DSA/Visualization/DynamicAlgorithmVisualization')
+)
+const SelectionSortVisualization = lazy(
+  () => import('./pages/DSA/Visualization/Sorting/SelectionSort')
+)
 const Development = lazy(() => import('./pages/Development'))
 const TutorialsList = lazy(() => import('./pages/Development/Tutorials/TutorialsList'))
 const CodeExamplesList = lazy(() => import('./pages/Development/CodeExamples/CodeExamplesList'))
@@ -58,11 +64,12 @@ const AnalyticsDashboard = lazy(() => import('./pages/Analytics/AnalyticsDashboa
 const Blog = lazy(() => import('./pages/Blog/Blog'))
 const BlogPost = lazy(() => import('./pages/Blog/BlogPost'))
 const WriteBlog = lazy(() => import('./pages/Blog/WriteBlog'))
+const Interview = lazy(() => import('./pages/Interview'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const Unauthorized = lazy(() => import('./pages/Unauthorized'))
 
 const AdminRoute = ({ children }) => {
-  const { currentUser, loading } = useSelector((state) => state.user)
+  const { currentUser, loading } = useSelector(state => state.user)
 
   if (loading) {
     return <Loader />
@@ -77,18 +84,18 @@ const AdminRoute = ({ children }) => {
 
 // Public route wrapper
 const PublicRoute = ({ children }) => {
-  const { currentUser, loading } = useSelector((state) => state.user)
-  
+  const { currentUser, loading } = useSelector(state => state.user)
+
   // Show loading spinner while checking auth status
   if (loading) {
     return <Loader />
   }
-  
+
   // If user is authenticated, redirect to dashboard
   if (currentUser) {
     return <Navigate to="/dashboard" replace />
   }
-  
+
   return children
 }
 
@@ -100,7 +107,7 @@ export const router = createBrowserRouter([
       <Suspense fallback={<Loader />}>
         <AdminLogin />
       </Suspense>
-    )
+    ),
   },
   {
     path: '/admin/dashboard',
@@ -110,7 +117,7 @@ export const router = createBrowserRouter([
           <AdminDashboard />
         </Suspense>
       </AdminRoute>
-    )
+    ),
   },
   {
     path: '/',
@@ -123,7 +130,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Home />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'about',
@@ -131,7 +138,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <About />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'features',
@@ -139,7 +146,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Features />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'documentation',
@@ -147,7 +154,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Documentation />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'support',
@@ -155,7 +162,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Support />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'legal',
@@ -163,7 +170,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Legal />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'privacy',
@@ -171,7 +178,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <PrivacyPolicy />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'terms',
@@ -179,7 +186,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <TermsOfService />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'cookies',
@@ -187,7 +194,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <CookiePolicy />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'contact',
@@ -195,7 +202,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Contact />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'blog',
@@ -203,7 +210,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Blog />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'blog/:slug',
@@ -211,7 +218,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <BlogPost />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'blog/write',
@@ -219,7 +226,15 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <WriteBlog />
           </Suspense>
-        )
+        ),
+      },
+      {
+        path: 'interview',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Interview />
+          </Suspense>
+        ),
       },
       {
         path: 'login',
@@ -229,7 +244,7 @@ export const router = createBrowserRouter([
               <Auth />
             </Suspense>
           </PublicRoute>
-        )
+        ),
       },
       {
         path: 'register',
@@ -239,7 +254,7 @@ export const router = createBrowserRouter([
               <Auth />
             </Suspense>
           </PublicRoute>
-        )
+        ),
       },
       {
         path: 'forgot-password',
@@ -249,9 +264,9 @@ export const router = createBrowserRouter([
               <ForgotPassword />
             </Suspense>
           </PublicRoute>
-        )
+        ),
       },
-      
+
       // Protected routes
       {
         path: 'dashboard',
@@ -261,7 +276,7 @@ export const router = createBrowserRouter([
               <Dashboard />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'dsa',
@@ -280,7 +295,7 @@ export const router = createBrowserRouter([
                 {/* Empty element for the main DSA page */}
                 <div></div>
               </Suspense>
-            )
+            ),
           },
           {
             path: 'algorithms',
@@ -288,7 +303,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAAlgorithms />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'algorithms/:category',
@@ -296,7 +311,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAAlgorithmCategory />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'problems',
@@ -304,7 +319,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAProblems />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'problems/:sheetId',
@@ -312,7 +327,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAProblemSheet />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'practice',
@@ -320,7 +335,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAPractice />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'practice/:problemId',
@@ -328,7 +343,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAProblemPractice />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'contribute',
@@ -336,7 +351,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAContribute />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'contribute/new',
@@ -344,7 +359,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSAContributeNew />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'discussions',
@@ -352,7 +367,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSADiscussions />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'discussions/:discussionId',
@@ -360,7 +375,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSADiscussionDetail />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'discussions/new',
@@ -368,7 +383,7 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <DSADiscussionNew />
               </Suspense>
-            )
+            ),
           },
           {
             path: 'visualization/:algorithmId',
@@ -376,10 +391,10 @@ export const router = createBrowserRouter([
               <Suspense fallback={<Loader />}>
                 <AlgorithmVisualization />
               </Suspense>
-            )
-          }
+            ),
+          },
           // Removed Rewards routes as requested
-        ]
+        ],
       },
       {
         path: 'development',
@@ -389,7 +404,7 @@ export const router = createBrowserRouter([
               <Development />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/tutorials',
@@ -399,7 +414,7 @@ export const router = createBrowserRouter([
               <TutorialsList />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/tutorials/:tutorialId',
@@ -409,7 +424,7 @@ export const router = createBrowserRouter([
               <TutorialReadingPage />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/code-examples',
@@ -419,7 +434,7 @@ export const router = createBrowserRouter([
               <CodeExamplesList />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/videos',
@@ -429,7 +444,7 @@ export const router = createBrowserRouter([
               <VideosPage />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/documentation',
@@ -439,7 +454,7 @@ export const router = createBrowserRouter([
               <DocumentationPage />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/community',
@@ -449,7 +464,7 @@ export const router = createBrowserRouter([
               <CommunityPage />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'development/qa',
@@ -459,7 +474,7 @@ export const router = createBrowserRouter([
               <QAPage />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'ideas',
@@ -469,7 +484,7 @@ export const router = createBrowserRouter([
               <Ideas />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'ai',
@@ -479,7 +494,7 @@ export const router = createBrowserRouter([
               <AI />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'ideas/:ideaId',
@@ -489,7 +504,7 @@ export const router = createBrowserRouter([
               <IdeaDetail />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'ideas/new',
@@ -499,7 +514,7 @@ export const router = createBrowserRouter([
               <NewIdea />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'references',
@@ -509,7 +524,7 @@ export const router = createBrowserRouter([
               <References />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'profile',
@@ -519,7 +534,7 @@ export const router = createBrowserRouter([
               <Profile />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'profile/:userId',
@@ -529,7 +544,7 @@ export const router = createBrowserRouter([
               <UserProfile />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'settings',
@@ -539,7 +554,7 @@ export const router = createBrowserRouter([
               <Settings />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'payment',
@@ -549,7 +564,7 @@ export const router = createBrowserRouter([
               <Payment />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
       {
         path: 'analytics',
@@ -559,9 +574,9 @@ export const router = createBrowserRouter([
               <AnalyticsDashboard />
             </Suspense>
           </ProtectedRoute>
-        )
+        ),
       },
-      
+
       // Error routes
       {
         path: '404',
@@ -569,7 +584,7 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <NotFound />
           </Suspense>
-        )
+        ),
       },
       {
         path: 'unauthorized',
@@ -577,9 +592,9 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <Unauthorized />
           </Suspense>
-        )
+        ),
       },
-      
+
       // 404 Not Found
       {
         path: '*',
@@ -587,10 +602,10 @@ export const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <NotFound />
           </Suspense>
-        )
-      }
-    ]
-  }
+        ),
+      },
+    ],
+  },
 ])
 
 export default router

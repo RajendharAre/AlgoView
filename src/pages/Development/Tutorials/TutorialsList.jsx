@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaArrowLeft, FaSearch, FaTimes, FaChevronDown, FaSlidersH } from 'react-icons/fa';
-import TutorialCard from './TutorialCard';
-import StyledDropdown from '../../../components/Common/StyledDropdown';
-import { useContentFilter, usePagination } from '../../../hooks/useContentFilter';
-import { sampleTutorials } from '../../../utils/sampleData';
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { FaArrowLeft, FaSearch, FaTimes, FaChevronDown, FaSlidersH } from 'react-icons/fa'
+import TutorialCard from './TutorialCard'
+import StyledDropdown from '../../../components/Common/StyledDropdown'
+import { useContentFilter, usePagination } from '../../../hooks/useContentFilter'
+import { sampleTutorials } from '../../../utils/sampleData'
 
 // Semantic color tokens from grayscale palette
 const COLORS = {
@@ -27,18 +27,18 @@ const COLORS = {
   accent: {
     primary: '#343a40', // gunmetal
     secondary: '#6c757d', // slate-grey
-  }
-};
+  },
+}
 
 export default function TutorialsList() {
-  const navigate = useNavigate();
-  const [tutorials, setTutorials] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
+  const [tutorials, setTutorials] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setTutorials(sampleTutorials);
-    setLoading(false);
-  }, []);
+    setTutorials(sampleTutorials)
+    setLoading(false)
+  }, [])
 
   const {
     searchTerm,
@@ -49,13 +49,13 @@ export default function TutorialsList() {
     sort,
     updateSort,
     results,
-    count
+    count,
   } = useContentFilter(
     tutorials,
     ['title', 'description', 'tags'],
     { category: '', difficulty: '' },
     { field: 'rating', order: 'desc' }
-  );
+  )
 
   const {
     currentPage,
@@ -65,18 +65,18 @@ export default function TutorialsList() {
     hasNextPage,
     hasPrevPage,
     nextPage,
-    prevPage
-  } = usePagination(results, 12);
+    prevPage,
+  } = usePagination(results, 12)
 
-  const categories = ['Web', 'DevOps', 'AI', 'Cloud'];
-  const difficulties = ['Beginner', 'Intermediate', 'Advanced'];
+  const categories = ['Web', 'DevOps', 'AI', 'Cloud']
+  const difficulties = ['Beginner', 'Intermediate', 'Advanced']
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-96">
         <div style={{ color: COLORS.text.tertiary }}>Loading tutorials...</div>
       </div>
-    );
+    )
   }
 
   return (
@@ -97,7 +97,9 @@ export default function TutorialsList() {
             <FaArrowLeft size={16} />
             Back to Development Hub
           </button>
-          <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold mb-2">Tutorials</h1>
+          <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold mb-2">
+            Tutorials
+          </h1>
           <p style={{ color: COLORS.text.secondary }} className="text-lg">
             Comprehensive step-by-step guides covering Web Development, DevOps, and more.
           </p>
@@ -127,7 +129,10 @@ export default function TutorialsList() {
             >
               <FaSlidersH size={14} />
             </div>
-            <span style={{ color: COLORS.text.primary }} className="text-sm font-semibold tracking-wide uppercase">
+            <span
+              style={{ color: COLORS.text.primary }}
+              className="text-sm font-semibold tracking-wide uppercase"
+            >
               Filters
             </span>
             <div style={{ backgroundColor: COLORS.border.light }} className="flex-1 h-px ml-2" />
@@ -136,28 +141,33 @@ export default function TutorialsList() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Search */}
             <div>
-              <label style={{ color: COLORS.text.secondary }} className="block text-xs font-semibold mb-1.5 uppercase tracking-wider">Search</label>
+              <label
+                style={{ color: COLORS.text.secondary }}
+                className="block text-xs font-semibold mb-1.5 uppercase tracking-wider"
+              >
+                Search
+              </label>
               <div className="relative group">
                 <input
                   type="text"
                   placeholder="Search tutorials..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   style={{
                     borderColor: COLORS.border.medium,
                     color: COLORS.text.primary,
                     backgroundColor: COLORS.bg.primary,
                   }}
                   className="w-full pl-4 pr-10 py-2.5 border rounded-lg text-sm transition-all duration-200 outline-none"
-                  onFocus={(e) => {
-                    e.target.style.borderColor = COLORS.accent.primary;
-                    e.target.style.boxShadow = `0 0 0 3px ${COLORS.accent.primary}20`;
-                    e.target.style.backgroundColor = '#ffffff';
+                  onFocus={e => {
+                    e.target.style.borderColor = COLORS.accent.primary
+                    e.target.style.boxShadow = `0 0 0 3px ${COLORS.accent.primary}20`
+                    e.target.style.backgroundColor = '#ffffff'
                   }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = COLORS.border.medium;
-                    e.target.style.boxShadow = 'none';
-                    e.target.style.backgroundColor = COLORS.bg.primary;
+                  onBlur={e => {
+                    e.target.style.borderColor = COLORS.border.medium
+                    e.target.style.boxShadow = 'none'
+                    e.target.style.backgroundColor = COLORS.bg.primary
                   }}
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none group-focus-within:pointer-events-auto">
@@ -185,9 +195,9 @@ export default function TutorialsList() {
               value={filters.category || ''}
               options={[
                 { value: '', label: 'All Categories' },
-                ...categories.map(cat => ({ value: cat, label: cat }))
+                ...categories.map(cat => ({ value: cat, label: cat })),
               ]}
-              onChange={(val) => updateFilter('category', val)}
+              onChange={val => updateFilter('category', val)}
               placeholder="All Categories"
               labelStyle={{ color: COLORS.text.secondary }}
               buttonStyle={{
@@ -204,9 +214,9 @@ export default function TutorialsList() {
               value={filters.difficulty || ''}
               options={[
                 { value: '', label: 'All Levels' },
-                ...difficulties.map(diff => ({ value: diff, label: diff }))
+                ...difficulties.map(diff => ({ value: diff, label: diff })),
               ]}
-              onChange={(val) => updateFilter('difficulty', val)}
+              onChange={val => updateFilter('difficulty', val)}
               placeholder="All Levels"
               labelStyle={{ color: COLORS.text.secondary }}
               buttonStyle={{
@@ -225,9 +235,9 @@ export default function TutorialsList() {
                 { value: 'rating', label: 'Highest Rated' },
                 { value: 'duration', label: 'Duration' },
                 { value: 'views', label: 'Most Viewed' },
-                { value: 'createdAt', label: 'Newest' }
+                { value: 'createdAt', label: 'Newest' },
               ]}
-              onChange={(val) => updateSort(val, sort.order)}
+              onChange={val => updateSort(val, sort.order)}
               placeholder="Sort By"
               labelStyle={{ color: COLORS.text.secondary }}
               buttonStyle={{
@@ -302,23 +312,25 @@ export default function TutorialsList() {
 
                 <div className="flex gap-1">
                   {Array.from({ length: Math.min(5, totalPages) }).map((_, i) => {
-                    const pageNum = currentPage - 2 + i;
-                    if (pageNum < 1 || pageNum > totalPages) return null;
+                    const pageNum = currentPage - 2 + i
+                    if (pageNum < 1 || pageNum > totalPages) return null
 
                     return (
                       <button
                         key={pageNum}
                         onClick={() => goToPage(pageNum)}
                         style={{
-                          backgroundColor: currentPage === pageNum ? COLORS.accent.primary : COLORS.bg.primary,
-                          color: currentPage === pageNum ? COLORS.bg.primary : COLORS.text.secondary,
-                          borderColor: COLORS.border.medium
+                          backgroundColor:
+                            currentPage === pageNum ? COLORS.accent.primary : COLORS.bg.primary,
+                          color:
+                            currentPage === pageNum ? COLORS.bg.primary : COLORS.text.secondary,
+                          borderColor: COLORS.border.medium,
                         }}
                         className={`px-3 py-2 rounded-lg border`}
                       >
                         {pageNum}
                       </button>
-                    );
+                    )
                   })}
                 </div>
 
@@ -350,5 +362,5 @@ export default function TutorialsList() {
         )}
       </div>
     </div>
-  );
+  )
 }

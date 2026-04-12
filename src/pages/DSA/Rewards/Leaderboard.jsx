@@ -24,7 +24,7 @@ const DSARewardsLeaderboard = () => {
     return {
       name: 'You',
       points: 1150,
-      rank: 12
+      rank: 12,
     }
   }
 
@@ -45,11 +45,7 @@ const DSARewardsLeaderboard = () => {
                 <p className="text-gray-600 mt-1">Top contributors ranked by points</p>
               </div>
               <div className="flex items-center gap-2">
-                <select
-                  value={timeRange}
-                  onChange={(e) => setTimeRange(e.target.value)}
-                  className=""
-                >
+                <select value={timeRange} onChange={e => setTimeRange(e.target.value)} className="">
                   <option value="weekly">This Week</option>
                   <option value="monthly">This Month</option>
                   <option value="all-time">All Time</option>
@@ -79,7 +75,7 @@ const DSARewardsLeaderboard = () => {
 
             {/* Leaderboard */}
             <div className="space-y-3">
-              {leaderboard.map((user) => (
+              {leaderboard.map(user => (
                 <div
                   key={user.id}
                   className={`flex items-center gap-4 p-4 rounded-lg border ${

@@ -2,20 +2,20 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Menu, 
-  X, 
-  User, 
-  LogOut, 
-  Settings, 
-  Home, 
-  BookOpen, 
+import {
+  Menu,
+  X,
+  User,
+  LogOut,
+  Settings,
+  Home,
+  BookOpen,
   Code,
   LogIn,
   ChevronDown,
   Lightbulb,
   Info,
-  Brain
+  Brain,
 } from 'lucide-react'
 import { signOut } from '../../store/slices/userSlice'
 import NotificationBell from './NotificationBell'
@@ -24,51 +24,51 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
   const [dsaDropdownOpen, setDsaDropdownOpen] = useState(false)
-  const { currentUser, loading } = useSelector((state) => state.user)
+  const { currentUser, loading } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  
+
   const dsaDropdownRef = useRef(null)
   const userDropdownRef = useRef(null)
-  
+
   // Close DSA dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (dsaDropdownRef.current && !dsaDropdownRef.current.contains(event.target)) {
-        setDsaDropdownOpen(false);
+        setDsaDropdownOpen(false)
       }
-    };
-    
+    }
+
     // Add event listener when dropdown is open
     if (dsaDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
-    
+
     // Cleanup event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [dsaDropdownOpen]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [dsaDropdownOpen])
 
   // Close user dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
-        setUserDropdownOpen(false);
+        setUserDropdownOpen(false)
       }
-    };
-    
+    }
+
     // Add event listener when dropdown is open
     if (userDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
-    
+
     // Cleanup event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [userDropdownOpen]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [userDropdownOpen])
 
   const handleSignOut = async () => {
     try {
@@ -83,37 +83,37 @@ const Navbar = () => {
 
   // Handle DSA dropdown state based on navigation
   useEffect(() => {
-    const isDSARoute = location.pathname.startsWith('/dsa');
-    
+    const isDSARoute = location.pathname.startsWith('/dsa')
+
     // If we're navigating away from DSA section, close the dropdown
     if (!isDSARoute && dsaDropdownOpen) {
-      setDsaDropdownOpen(false);
+      setDsaDropdownOpen(false)
     }
     // When on the main DSA page, ensure dropdown stays open
     else if (location.pathname === '/dsa') {
-      setDsaDropdownOpen(true);
+      setDsaDropdownOpen(true)
     }
     // When on DSA sub-pages, don't interfere with user's choice
   }, [location.pathname])
 
   // Check if current route matches nav item
-  const isActive = (path) => {
+  const isActive = path => {
     if (path === '/') return location.pathname === '/'
     return location.pathname === path || location.pathname.startsWith(path + '/')
   }
 
   const navItems = [
     { name: 'Home', path: '/', icon: Home },
-    { 
-      name: 'DSA', 
-      path: '/dsa', 
+    {
+      name: 'DSA',
+      path: '/dsa',
       icon: BookOpen,
       dropdown: [
         { name: 'Algorithms', path: '/dsa/algorithms' },
         { name: 'Problems', path: '/dsa/problems' },
         { name: 'Practice', path: '/dsa/practice' },
         { name: 'Discussions', path: '/dsa/discussions' },
-      ]
+      ],
     },
     { name: 'Development', path: '/development', icon: Code },
     { name: 'Ideas', path: '/ideas', icon: Lightbulb },
@@ -128,18 +128,14 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <img 
-                src="/logo.png" 
-                alt="AlgoView Logo" 
-                className="h-10 w-10 object-contain"
-              />
+              <img src="/logo.png" alt="AlgoView Logo" className="h-10 w-10 object-contain" />
               <span className="text-xl font-bold text-gray-900">AlgoView</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
+            {navItems.map(item => {
               const Icon = item.icon
               return (
                 <div key={item.name} className="relative">
@@ -152,19 +148,19 @@ const Navbar = () => {
                             ? 'text-gray-900 bg-gray-200 font-semibold'
                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                         }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setDsaDropdownOpen(!dsaDropdownOpen);
+                        onClick={e => {
+                          e.preventDefault()
+                          setDsaDropdownOpen(!dsaDropdownOpen)
                         }}
                       >
                         <Icon className="h-4 w-4 mr-2" />
                         <span className="text-sm font-medium">{item.name}</span>
                         <ChevronDown className="h-4 w-4 ml-1" />
                       </Link>
-                                        
+
                       {dsaDropdownOpen && (
                         <div className="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden py-1">
-                          {item.dropdown.map((subItem) => (
+                          {item.dropdown.map(subItem => (
                             <Link
                               key={subItem.name}
                               to={subItem.path}
@@ -199,7 +195,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             {/* Notification Bell */}
             <NotificationBell />
-            
+
             {loading ? (
               <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div>
             ) : currentUser ? (
@@ -209,9 +205,9 @@ const Navbar = () => {
                   className="flex items-center space-x-2 focus:outline-none"
                 >
                   {currentUser.photoURL ? (
-                    <img 
-                      src={currentUser.photoURL} 
-                      alt={currentUser.displayName || 'User'} 
+                    <img
+                      src={currentUser.photoURL}
+                      alt={currentUser.displayName || 'User'}
                       className="h-8 w-8 rounded-full"
                     />
                   ) : (
@@ -231,7 +227,9 @@ const Navbar = () => {
                       className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden py-1"
                     >
                       <div className="px-4 py-3 border-b border-gray-100">
-                        <p className="text-sm font-medium text-gray-900 truncate">{currentUser.displayName || 'User'}</p>
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {currentUser.displayName || 'User'}
+                        </p>
                         <p className="text-xs text-gray-500 truncate">{currentUser.email}</p>
                       </div>
                       <Link
@@ -286,11 +284,7 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden ml-4 p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
             >
-              {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
@@ -306,7 +300,7 @@ const Navbar = () => {
             className="md:hidden bg-white border-t border-gray-200"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navItems.map((item) => {
+              {navItems.map(item => {
                 const Icon = item.icon
                 return (
                   <div key={item.name}>
@@ -319,19 +313,21 @@ const Navbar = () => {
                               ? 'text-gray-900 bg-gray-200'
                               : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
                           }`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setDsaDropdownOpen(!dsaDropdownOpen);
+                          onClick={e => {
+                            e.preventDefault()
+                            setDsaDropdownOpen(!dsaDropdownOpen)
                           }}
                         >
                           <Icon className="h-5 w-5 mr-3" />
                           {item.name}
-                          <ChevronDown className={`h-4 w-4 ml-auto transition-transform ${dsaDropdownOpen ? 'rotate-180' : ''}`} />
+                          <ChevronDown
+                            className={`h-4 w-4 ml-auto transition-transform ${dsaDropdownOpen ? 'rotate-180' : ''}`}
+                          />
                         </Link>
-                                            
+
                         {dsaDropdownOpen && (
                           <div className="pl-6 space-y-1">
-                            {item.dropdown.map((subItem) => (
+                            {item.dropdown.map(subItem => (
                               <Link
                                 key={subItem.name}
                                 to={subItem.path}

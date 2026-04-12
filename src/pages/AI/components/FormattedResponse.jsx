@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { extractPlainText } from '../utils/markdownRenderer';
-import CodeBlock from './CodeBlock';
-import { Download, Copy, Check } from 'lucide-react';
+import React, { useState } from 'react'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { extractPlainText } from '../utils/markdownRenderer'
+import CodeBlock from './CodeBlock'
+import { Download, Copy, Check } from 'lucide-react'
 
 /**
  * FormattedResponse Component
@@ -13,42 +13,39 @@ import { Download, Copy, Check } from 'lucide-react';
  */
 
 const FormattedResponse = ({ content }) => {
-  const [copyStatus, setCopyStatus] = useState(false);
-  const [downloadStatus, setDownloadStatus] = useState(false);
+  const [copyStatus, setCopyStatus] = useState(false)
+  const [downloadStatus, setDownloadStatus] = useState(false)
 
   if (!content || typeof content !== 'string') {
     return (
-      <div
-        style={{ color: 'var(--text-secondary, #8e8ea0)' }}
-        className="italic text-sm"
-      >
+      <div style={{ color: 'var(--text-secondary, #8e8ea0)' }} className="italic text-sm">
         No response
       </div>
-    );
+    )
   }
 
   // Handle copy
   const handleCopy = () => {
-    const plainText = extractPlainText(content);
+    const plainText = extractPlainText(content)
     navigator.clipboard.writeText(plainText).then(() => {
-      setCopyStatus(true);
-      setTimeout(() => setCopyStatus(false), 2000);
-    });
-  };
+      setCopyStatus(true)
+      setTimeout(() => setCopyStatus(false), 2000)
+    })
+  }
 
   // Handle download
   const handleDownload = () => {
-    const plainText = extractPlainText(content);
-    const element = document.createElement('a');
-    const file = new Blob([plainText], { type: 'text/plain;charset=utf-8' });
-    element.href = URL.createObjectURL(file);
-    element.download = `response_${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    setDownloadStatus(true);
-    setTimeout(() => setDownloadStatus(false), 2000);
-  };
+    const plainText = extractPlainText(content)
+    const element = document.createElement('a')
+    const file = new Blob([plainText], { type: 'text/plain;charset=utf-8' })
+    element.href = URL.createObjectURL(file)
+    element.download = `response_${new Date().toISOString().split('T')[0]}.txt`
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
+    setDownloadStatus(true)
+    setTimeout(() => setDownloadStatus(false), 2000)
+  }
 
   return (
     <div className="text-sm markdown-content text-[var(--text-primary,#ececf1)] space-y-3 overflow-hidden">
@@ -80,38 +77,35 @@ const FormattedResponse = ({ content }) => {
         components={{
           /* ── Fenced code blocks → CodeBlock with syntax highlighting ── */
           pre({ children }) {
-            const childArray = React.Children.toArray(children);
-            const child = childArray[0];
+            const childArray = React.Children.toArray(children)
+            const child = childArray[0]
 
             if (child && typeof child === 'object' && child.props) {
-              const className = child.props.className || '';
-              const match = /language-(\w+)/.exec(className);
-              const language = match ? match[1] : 'text';
-              const codeText = String(child.props.children || '').replace(
-                /\n$/,
-                '',
-              );
-              return <CodeBlock language={language} code={codeText} />;
+              const className = child.props.className || ''
+              const match = /language-(\w+)/.exec(className)
+              const language = match ? match[1] : 'text'
+              const codeText = String(child.props.children || '').replace(/\n$/, '')
+              return <CodeBlock language={language} code={codeText} />
             }
-            return <pre>{children}</pre>;
+            return <pre>{children}</pre>
           },
 
           /* ── Inline code → styled <code> ── */
           code({ children, className, ...props }) {
-            const match = /language-(\w+)/.exec(className || '');
+            const match = /language-(\w+)/.exec(className || '')
             if (match) {
               // Block code inside <pre> — keep className so pre() can read it
               return (
                 <code className={className} {...props}>
                   {children}
                 </code>
-              );
+              )
             }
             return (
               <code className="inline-code" {...props}>
                 {children}
               </code>
-            );
+            )
           },
 
           /* ── Tables → scrollable wrapper div (matches markdown.css) ── */
@@ -120,7 +114,7 @@ const FormattedResponse = ({ content }) => {
               <div className="markdown-table">
                 <table>{children}</table>
               </div>
-            );
+            )
           },
 
           /* ── Links → open in new tab ── */
@@ -135,14 +129,14 @@ const FormattedResponse = ({ content }) => {
               >
                 {children}
               </a>
-            );
+            )
           },
         }}
       >
         {content}
       </Markdown>
     </div>
-  );
-};
+  )
+}
 
-export default FormattedResponse;
+export default FormattedResponse

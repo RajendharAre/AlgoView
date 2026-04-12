@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaArrowLeft, FaVideo } from 'react-icons/fa';
-import VideoCard from './VideoCard';
-import VideoModal from './VideoModal';
-import VideoFilters from './VideoFilters';
-import { videosConfig, getTopics, getDifficulties } from '../../../utils/videosConfig';
+import React, { useState, useMemo, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { FaArrowLeft, FaVideo } from 'react-icons/fa'
+import VideoCard from './VideoCard'
+import VideoModal from './VideoModal'
+import VideoFilters from './VideoFilters'
+import { videosConfig, getTopics, getDifficulties } from '../../../utils/videosConfig'
 
 // Color scheme
 const COLORS = {
@@ -22,8 +22,8 @@ const COLORS = {
   },
   accent: {
     primary: '#343a40',
-  }
-};
+  },
+}
 
 /**
  * VideosPage Component
@@ -31,65 +31,65 @@ const COLORS = {
  * Implements lazy loading and performance optimization
  */
 export default function VideosPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // State Management
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTopic, setSelectedTopic] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('');
+  const [selectedVideo, setSelectedVideo] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedTopic, setSelectedTopic] = useState('')
+  const [selectedDifficulty, setSelectedDifficulty] = useState('')
 
   // Get filter options
-  const topics = useMemo(() => getTopics(), []);
-  const difficulties = useMemo(() => getDifficulties(), []);
+  const topics = useMemo(() => getTopics(), [])
+  const difficulties = useMemo(() => getDifficulties(), [])
 
   // Filter and search videos
   const filteredVideos = useMemo(() => {
     return videosConfig.filter(video => {
       // Search filter
       if (searchTerm.trim()) {
-        const searchLower = searchTerm.toLowerCase();
+        const searchLower = searchTerm.toLowerCase()
         const matchesSearch =
           video.title.toLowerCase().includes(searchLower) ||
           video.description.toLowerCase().includes(searchLower) ||
-          video.topic.toLowerCase().includes(searchLower);
+          video.topic.toLowerCase().includes(searchLower)
 
-        if (!matchesSearch) return false;
+        if (!matchesSearch) return false
       }
 
       // Topic filter
       if (selectedTopic && video.topic !== selectedTopic) {
-        return false;
+        return false
       }
 
       // Difficulty filter
       if (selectedDifficulty && video.difficulty !== selectedDifficulty) {
-        return false;
+        return false
       }
 
-      return true;
-    });
-  }, [searchTerm, selectedTopic, selectedDifficulty]);
+      return true
+    })
+  }, [searchTerm, selectedTopic, selectedDifficulty])
 
   // Handle video play
-  const handlePlayVideo = useCallback((video) => {
-    setSelectedVideo(video);
-    setIsModalOpen(true);
-  }, []);
+  const handlePlayVideo = useCallback(video => {
+    setSelectedVideo(video)
+    setIsModalOpen(true)
+  }, [])
 
   // Close modal
   const handleCloseModal = useCallback(() => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedVideo(null), 300); // delay to allow animation
-  }, []);
+    setIsModalOpen(false)
+    setTimeout(() => setSelectedVideo(null), 300) // delay to allow animation
+  }, [])
 
   // Clear all filters
   const handleClearFilters = useCallback(() => {
-    setSearchTerm('');
-    setSelectedTopic('');
-    setSelectedDifficulty('');
-  }, []);
+    setSearchTerm('')
+    setSelectedTopic('')
+    setSelectedDifficulty('')
+  }, [])
 
   return (
     <div style={{ backgroundColor: COLORS.bg.primary, minHeight: '100vh' }}>
@@ -99,7 +99,7 @@ export default function VideosPage() {
         animate={{ opacity: 1, y: 0 }}
         style={{
           backgroundColor: COLORS.bg.primary,
-          borderBottomColor: COLORS.border.light
+          borderBottomColor: COLORS.border.light,
         }}
         className="border-b py-8"
       >
@@ -128,7 +128,8 @@ export default function VideosPage() {
               </h1>
             </div>
             <p style={{ color: COLORS.text.secondary }} className="text-lg mt-2">
-              Curated video courses from top platforms for visual learners. Master new skills with hands-on video content.
+              Curated video courses from top platforms for visual learners. Master new skills with
+              hands-on video content.
             </p>
           </div>
         </div>
@@ -136,7 +137,6 @@ export default function VideosPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
         {/* Filters Section */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -167,7 +167,7 @@ export default function VideosPage() {
             transition={{ delay: 0.2 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {filteredVideos.map((video) => (
+            {filteredVideos.map(video => (
               <VideoCard
                 key={video.id}
                 video={video}
@@ -186,7 +186,7 @@ export default function VideosPage() {
             <div
               style={{
                 backgroundColor: COLORS.bg.secondary,
-                borderColor: COLORS.border.light
+                borderColor: COLORS.border.light,
               }}
               className="rounded-xl p-8 border-2 border-dashed text-center"
             >
@@ -205,7 +205,7 @@ export default function VideosPage() {
                 onClick={handleClearFilters}
                 style={{
                   backgroundColor: COLORS.accent.primary,
-                  color: '#ffffff'
+                  color: '#ffffff',
                 }}
                 className="px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
               >
@@ -217,11 +217,7 @@ export default function VideosPage() {
       </div>
 
       {/* Video Modal */}
-      <VideoModal
-        video={selectedVideo}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
+      <VideoModal video={selectedVideo} isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
-  );
+  )
 }

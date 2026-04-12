@@ -3,8 +3,8 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Sidebar from '../components/layout/Sidebar'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePageMeta } from '../hooks/usePageMeta'
-import { 
-  Menu, 
+import {
+  Menu,
   X,
   Shuffle,
   Search as SearchIcon,
@@ -12,7 +12,7 @@ import {
   Binary,
   BarChart,
   Database,
-  Lock
+  Lock,
 } from 'lucide-react'
 import { SiThealgorithms } from 'react-icons/si'
 
@@ -42,13 +42,14 @@ const DSA = () => {
     tree: Binary,
     dynamic: BarChart,
     greedy: Database,
-    backtracking: Lock
+    backtracking: Lock,
   }
 
   // Determine if current route needs the sidebar
-  const showSidebar = location.pathname.startsWith('/dsa/algorithms') || 
-                    location.pathname === '/dsa' || 
-                    location.pathname === '/dsa/';
+  const showSidebar =
+    location.pathname.startsWith('/dsa/algorithms') ||
+    location.pathname === '/dsa' ||
+    location.pathname === '/dsa/'
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -57,14 +58,14 @@ const DSA = () => {
         <>
           {/* Collapsed sidebar - shows icons only */}
           {sidebarCollapsed && (
-            <motion.div 
+            <motion.div
               initial={{ width: 0 }}
               animate={{ width: 60 }}
               exit={{ width: 0 }}
               className="hidden md:flex flex-col bg-white border-r border-gray-200 z-10"
             >
               <div className="p-3 border-b border-gray-200 flex justify-center">
-                <button 
+                <button
                   onClick={toggleSidebarCollapse}
                   className="p-2 rounded-md text-gray-700 hover:bg-gray-100"
                 >
@@ -74,8 +75,8 @@ const DSA = () => {
               <div className="flex-1 overflow-y-auto py-2">
                 {Object.entries(categoryIcons).map(([id, Icon]) => (
                   <div key={id} className="flex justify-center p-3">
-                    <Icon 
-                      size={20} 
+                    <Icon
+                      size={20}
                       className="text-gray-500 cursor-pointer hover:text-gray-700"
                       onClick={() => {
                         setSidebarCollapsed(false)
@@ -93,8 +94,8 @@ const DSA = () => {
             {!sidebarCollapsed && (
               <>
                 {/* Desktop sidebar */}
-                <motion.div 
-                  data-testid="sidebar" 
+                <motion.div
+                  data-testid="sidebar"
                   initial={{ width: 0 }}
                   animate={{ width: 320 }}
                   exit={{ width: 0 }}
@@ -102,7 +103,7 @@ const DSA = () => {
                 >
                   <div className="flex items-center justify-between p-4 border-b border-gray-200">
                     <h2 className="text-lg font-semibold text-gray-900">Algorithms</h2>
-                    <button 
+                    <button
                       onClick={toggleSidebarCollapse}
                       className="p-1 rounded-md text-gray-700 hover:bg-gray-100"
                     >
@@ -125,11 +126,14 @@ const DSA = () => {
               exit={{ x: -320 }}
               className="md:hidden fixed inset-0 z-50 pt-16"
             >
-              <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)}></div>
+              <div
+                className="fixed inset-0 bg-gray-600 bg-opacity-75"
+                onClick={() => setSidebarOpen(false)}
+              ></div>
               <div className="relative flex-1 flex flex-col w-80 bg-white h-full">
                 <div className="flex items-center justify-between p-4 border-b border-gray-200">
                   <h2 className="text-lg font-semibold text-gray-900">Algorithms</h2>
-                  <button 
+                  <button
                     onClick={() => setSidebarOpen(false)}
                     className="p-1 rounded-md text-gray-700 hover:bg-gray-100"
                   >
@@ -162,14 +166,18 @@ const DSA = () => {
               <h1 className="text-xl font-semibold text-gray-900">Data Structures & Algorithms</h1>
             ) : (
               <h1 className="text-xl font-semibold text-gray-900">
-                {location.pathname.includes('/problems') ? 'Problems' :
-                 location.pathname.includes('/practice') ? 'Practice' :
-                 location.pathname.includes('/discussions') ? 'Discussions' : 'DSA'}
+                {location.pathname.includes('/problems')
+                  ? 'Problems'
+                  : location.pathname.includes('/practice')
+                    ? 'Practice'
+                    : location.pathname.includes('/discussions')
+                      ? 'Discussions'
+                      : 'DSA'}
               </h1>
             )}
           </div>
         </div>
-        
+
         <div className="flex-1 overflow-auto">
           {/* Show default message when on main DSA page */}
           {location.pathname === '/dsa' || location.pathname === '/dsa/' ? (

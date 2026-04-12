@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { 
-  Search, 
-  Shuffle, 
-  GitBranch, 
+import {
+  Search,
+  Shuffle,
+  GitBranch,
   BarChart,
-  Search as SearchIcon, 
+  Search as SearchIcon,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
 } from 'lucide-react'
 
 const Sidebar = () => {
@@ -19,7 +19,7 @@ const Sidebar = () => {
     tree: false,
     dynamic: false,
     greedy: false,
-    backtracking: false
+    backtracking: false,
   })
 
   const location = useLocation()
@@ -27,44 +27,47 @@ const Sidebar = () => {
   // Handle navigation and category expansion/collapse
   useEffect(() => {
     // Check if we're in the DSA section with algorithm routes
-    const isDSAAlgorithmRoute = location.pathname.includes('bubbleSort') || 
-                               location.pathname.includes('selectionSort') ||
-                               location.pathname.includes('insertionSort') ||
-                               location.pathname.includes('mergeSort') ||
-                               location.pathname.includes('quickSort') ||
-                               location.pathname.includes('heapSort') ||
-                               location.pathname.includes('bucketSort') ||
-                               location.pathname.includes('linearSearch') || 
-                               location.pathname.includes('binarySearch') ||
-                               location.pathname.includes('aStar') ||
-                               location.pathname.includes('dfs') || 
-                               location.pathname.includes('bfs') || 
-                               location.pathname.includes('dijkstra') ||
-                               location.pathname.includes('bellmanFord') ||
-                               location.pathname.includes('floydWarshall') ||
-                               location.pathname.includes('kruskal') ||
-                               location.pathname.includes('prim') ||
-                               location.pathname.includes('topologicalSort') ||
-                               location.pathname.includes('kosaraju') ||
-                               location.pathname.includes('graphColoring') ||
-                               location.pathname.includes('pagerank') ||
-                               location.pathname.includes('tsp') ||
-                               location.pathname.includes('climbingStairs') ||
-                               location.pathname.includes('fibonacci') ||
-                               location.pathname.includes('coinChange') ||
-                               location.pathname.includes('knapsack') ||
-                               location.pathname.includes('longestCommonSubsequence') ||
-                               location.pathname.includes('editDistance');
-    
+    const isDSAAlgorithmRoute =
+      location.pathname.includes('bubbleSort') ||
+      location.pathname.includes('selectionSort') ||
+      location.pathname.includes('insertionSort') ||
+      location.pathname.includes('mergeSort') ||
+      location.pathname.includes('quickSort') ||
+      location.pathname.includes('heapSort') ||
+      location.pathname.includes('bucketSort') ||
+      location.pathname.includes('linearSearch') ||
+      location.pathname.includes('binarySearch') ||
+      location.pathname.includes('aStar') ||
+      location.pathname.includes('dfs') ||
+      location.pathname.includes('bfs') ||
+      location.pathname.includes('dijkstra') ||
+      location.pathname.includes('bellmanFord') ||
+      location.pathname.includes('floydWarshall') ||
+      location.pathname.includes('kruskal') ||
+      location.pathname.includes('prim') ||
+      location.pathname.includes('topologicalSort') ||
+      location.pathname.includes('kosaraju') ||
+      location.pathname.includes('graphColoring') ||
+      location.pathname.includes('pagerank') ||
+      location.pathname.includes('tsp') ||
+      location.pathname.includes('climbingStairs') ||
+      location.pathname.includes('fibonacci') ||
+      location.pathname.includes('coinChange') ||
+      location.pathname.includes('knapsack') ||
+      location.pathname.includes('longestCommonSubsequence') ||
+      location.pathname.includes('editDistance')
+
     if (isDSAAlgorithmRoute) {
       // Auto-expand the category that matches the current route
-      if (location.pathname.includes('bubbleSort') || 
-          location.pathname.includes('selectionSort') ||
-          location.pathname.includes('insertionSort') ||
-          location.pathname.includes('mergeSort') ||
-          location.pathname.includes('quickSort') ||
-          location.pathname.includes('heapSort') ||
-          location.pathname.includes('bucketSort')) {
+      if (
+        location.pathname.includes('bubbleSort') ||
+        location.pathname.includes('selectionSort') ||
+        location.pathname.includes('insertionSort') ||
+        location.pathname.includes('mergeSort') ||
+        location.pathname.includes('quickSort') ||
+        location.pathname.includes('heapSort') ||
+        location.pathname.includes('bucketSort')
+      ) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: true,
@@ -73,11 +76,13 @@ const Sidebar = () => {
           tree: false,
           dynamic: false,
           greedy: false,
-          backtracking: false
-        }));
-      } else if (location.pathname.includes('linearSearch') || 
-                 location.pathname.includes('binarySearch') ||
-                 location.pathname.includes('aStar')) {
+          backtracking: false,
+        }))
+      } else if (
+        location.pathname.includes('linearSearch') ||
+        location.pathname.includes('binarySearch') ||
+        location.pathname.includes('aStar')
+      ) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -86,20 +91,22 @@ const Sidebar = () => {
           tree: false,
           dynamic: false,
           greedy: false,
-          backtracking: false
-        }));
-      } else if (location.pathname.includes('dfs') || 
-                 location.pathname.includes('bfs') || 
-                 location.pathname.includes('dijkstra') ||
-                 location.pathname.includes('bellmanFord') ||
-                 location.pathname.includes('floydWarshall') ||
-                 location.pathname.includes('graphColoring') ||
-                 location.pathname.includes('kruskal') ||
-                 location.pathname.includes('prim') ||
-                 location.pathname.includes('topologicalSort') ||
-                 location.pathname.includes('kosaraju') ||
-                 location.pathname.includes('pagerank') ||
-                 location.pathname.includes('tsp')) {
+          backtracking: false,
+        }))
+      } else if (
+        location.pathname.includes('dfs') ||
+        location.pathname.includes('bfs') ||
+        location.pathname.includes('dijkstra') ||
+        location.pathname.includes('bellmanFord') ||
+        location.pathname.includes('floydWarshall') ||
+        location.pathname.includes('graphColoring') ||
+        location.pathname.includes('kruskal') ||
+        location.pathname.includes('prim') ||
+        location.pathname.includes('topologicalSort') ||
+        location.pathname.includes('kosaraju') ||
+        location.pathname.includes('pagerank') ||
+        location.pathname.includes('tsp')
+      ) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -108,14 +115,16 @@ const Sidebar = () => {
           tree: false,
           dynamic: false,
           greedy: false,
-          backtracking: false
-        }));
-      } else if (location.pathname.includes('fibonacci') ||
-                 location.pathname.includes('coinChange') ||
-                 location.pathname.includes('climbingStairs') ||
-                 location.pathname.includes('knapsack') ||
-                 location.pathname.includes('longestCommonSubsequence') ||
-                 location.pathname.includes('editDistance')) {
+          backtracking: false,
+        }))
+      } else if (
+        location.pathname.includes('fibonacci') ||
+        location.pathname.includes('coinChange') ||
+        location.pathname.includes('climbingStairs') ||
+        location.pathname.includes('knapsack') ||
+        location.pathname.includes('longestCommonSubsequence') ||
+        location.pathname.includes('editDistance')
+      ) {
         setExpandedCategories(prev => ({
           ...prev,
           sorting: false,
@@ -124,39 +133,39 @@ const Sidebar = () => {
           tree: false,
           dynamic: true, // DP algorithms
           greedy: false,
-          backtracking: false
-        }));
+          backtracking: false,
+        }))
       }
     } else {
       // If navigating away from DSA section, close all dropdowns
       setExpandedCategories(prev => {
-        const newExpanded = {};
+        const newExpanded = {}
         Object.keys(prev).forEach(key => {
-          newExpanded[key] = false;
-        });
-        return newExpanded;
-      });
+          newExpanded[key] = false
+        })
+        return newExpanded
+      })
     }
   }, [location.pathname])
 
   // Toggle category with controlled behavior - only one open at a time
-  const toggleCategory = (category) => {
+  const toggleCategory = category => {
     setExpandedCategories(prev => {
       // If the clicked category is already open, close it
       if (prev[category]) {
         return {
           ...prev,
-          [category]: false
-        };
+          [category]: false,
+        }
       } else {
         // Close all categories and open only the clicked one
-        const newExpanded = {};
+        const newExpanded = {}
         Object.keys(prev).forEach(key => {
-          newExpanded[key] = key === category;
-        });
-        return newExpanded;
+          newExpanded[key] = key === category
+        })
+        return newExpanded
       }
-    });
+    })
   }
 
   const categories = [
@@ -171,8 +180,8 @@ const Sidebar = () => {
         { id: 'insertionSort', name: 'Insertion Sort' },
         { id: 'mergeSort', name: 'Merge Sort' },
         { id: 'quickSort', name: 'Quick Sort' },
-        { id: 'selectionSort', name: 'Selection Sort' }
-      ]
+        { id: 'selectionSort', name: 'Selection Sort' },
+      ],
     },
     {
       id: 'searching',
@@ -181,8 +190,8 @@ const Sidebar = () => {
       algorithms: [
         { id: 'aStar', name: 'A* Pathfinding' },
         { id: 'binarySearch', name: 'Binary Search' },
-        { id: 'linearSearch', name: 'Linear Search' }
-      ]
+        { id: 'linearSearch', name: 'Linear Search' },
+      ],
     },
     {
       id: 'graph',
@@ -195,13 +204,13 @@ const Sidebar = () => {
         { id: 'dijkstra', name: 'Dijkstra Algorithm' },
         { id: 'floydWarshall', name: 'Floyd-Warshall Algorithm' },
         { id: 'graphColoring', name: 'Graph Coloring' },
-        { id: 'kosaraju', name: 'Kosaraju\'s Algorithm' },
-        { id: 'kruskal', name: 'Kruskal\'s Algorithm' },
+        { id: 'kosaraju', name: "Kosaraju's Algorithm" },
+        { id: 'kruskal', name: "Kruskal's Algorithm" },
         { id: 'pagerank', name: 'PageRank' },
-        { id: 'prim', name: 'Prim\'s Algorithm' },
+        { id: 'prim', name: "Prim's Algorithm" },
         { id: 'topologicalSort', name: 'Topological Sort' },
-        { id: 'tsp', name: 'Traveling Salesman Problem' }
-      ]
+        { id: 'tsp', name: 'Traveling Salesman Problem' },
+      ],
     },
     {
       id: 'dynamic',
@@ -213,22 +222,22 @@ const Sidebar = () => {
         { id: 'editDistance', name: 'Edit Distance' },
         { id: 'fibonacci', name: 'Fibonacci' },
         { id: 'knapsack', name: '0/1 Knapsack' },
-        { id: 'longestCommonSubsequence', name: 'Longest Common Subsequence' }
-      ]
-    }
+        { id: 'longestCommonSubsequence', name: 'Longest Common Subsequence' },
+      ],
+    },
   ]
 
-  const filteredCategories = categories.map(category => {
-    const filteredAlgorithms = category.algorithms
-      .filter(algorithm =>
-        algorithm.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .sort((a, b) => a.name.localeCompare(b.name))
-    return {
-      ...category,
-      algorithms: filteredAlgorithms
-    }
-  }).filter(category => category.algorithms.length > 0 || searchTerm === '')
+  const filteredCategories = categories
+    .map(category => {
+      const filteredAlgorithms = category.algorithms
+        .filter(algorithm => algorithm.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) => a.name.localeCompare(b.name))
+      return {
+        ...category,
+        algorithms: filteredAlgorithms,
+      }
+    })
+    .filter(category => category.algorithms.length > 0 || searchTerm === '')
 
   return (
     <div className="flex flex-col h-full">
@@ -240,7 +249,7 @@ const Sidebar = () => {
             placeholder="Search algorithms..."
             className="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
           />
           <Search className="absolute right-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none" />
         </div>
@@ -248,10 +257,10 @@ const Sidebar = () => {
 
       {/* Categories */}
       <div className="flex-1 overflow-y-auto">
-        {filteredCategories.map((category) => {
+        {filteredCategories.map(category => {
           const Icon = category.icon
           const isExpanded = expandedCategories[category.id]
-          
+
           return (
             <div key={category.id} className="border-b border-gray-100">
               <button
@@ -268,10 +277,10 @@ const Sidebar = () => {
                   <ChevronRight className="h-5 w-5 text-gray-400" />
                 )}
               </button>
-              
+
               {isExpanded && (
                 <div className="pb-2">
-                  {category.algorithms.map((algorithm) => (
+                  {category.algorithms.map(algorithm => (
                     <Link
                       key={algorithm.id}
                       to={`/dsa/visualization/${algorithm.id}`}

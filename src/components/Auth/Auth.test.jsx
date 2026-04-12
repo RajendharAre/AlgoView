@@ -39,17 +39,17 @@ describe('Auth Component', () => {
 
   it('renders the Auth component with login form by default', () => {
     renderAuth()
-    
+
     expect(screen.getByText('Sign In')).toBeInTheDocument()
     expect(screen.getByText('Sign Up')).toBeInTheDocument()
   })
 
   it('switches to register form when Sign Up tab is clicked', () => {
     renderAuth()
-    
+
     // Click on Sign Up tab
     fireEvent.click(screen.getByText('Sign Up'))
-    
+
     // Check that we can still find both tabs
     expect(screen.getByText('Sign In')).toBeInTheDocument()
     expect(screen.getByText('Sign Up')).toBeInTheDocument()
@@ -57,13 +57,13 @@ describe('Auth Component', () => {
 
   it('switches to login form when Sign In tab is clicked', () => {
     renderAuth()
-    
+
     // First switch to register form
     fireEvent.click(screen.getByText('Sign Up'))
-    
+
     // Then switch back to login form
     fireEvent.click(screen.getByText('Sign In'))
-    
+
     // Check that we can still find both tabs
     expect(screen.getByText('Sign In')).toBeInTheDocument()
     expect(screen.getByText('Sign Up')).toBeInTheDocument()

@@ -2,13 +2,13 @@
  * Unit tests for Algorithm Utilities
  */
 
-import { 
-  createStep, 
-  validateInput, 
-  generateRandomArray, 
+import {
+  createStep,
+  validateInput,
+  generateRandomArray,
   delay,
   STEP_TYPES,
-  algorithmGenerator
+  algorithmGenerator,
 } from '../../../src/utils/algorithmUtils'
 
 describe('Algorithm Utilities', () => {
@@ -16,14 +16,14 @@ describe('Algorithm Utilities', () => {
     test('should create a step object with default values', () => {
       const array = [1, 2, 3]
       const step = createStep(array)
-      
+
       expect(step).toHaveProperty('array')
       expect(step).toHaveProperty('compared')
       expect(step).toHaveProperty('swapped')
       expect(step).toHaveProperty('description')
       expect(step).toHaveProperty('type')
       expect(step).toHaveProperty('timestamp')
-      
+
       expect(step.array).toEqual(array)
       expect(step.compared).toEqual([])
       expect(step.swapped).toEqual([])
@@ -37,11 +37,11 @@ describe('Algorithm Utilities', () => {
         compared: [0, 1],
         swapped: [0, 1],
         description: 'Swapped elements',
-        type: STEP_TYPES.SWAP
+        type: STEP_TYPES.SWAP,
       }
-      
+
       const step = createStep(array, options)
-      
+
       expect(step.array).toEqual(array)
       expect(step.compared).toEqual([0, 1])
       expect(step.swapped).toEqual([0, 1])
@@ -52,10 +52,10 @@ describe('Algorithm Utilities', () => {
     test('should create a copy of the array to avoid mutation', () => {
       const originalArray = [1, 2, 3]
       const step = createStep(originalArray)
-      
+
       // Modify the original array
       originalArray.push(4)
-      
+
       // Step array should not be affected
       expect(step.array).toEqual([1, 2, 3])
       expect(step.array).not.toEqual(originalArray)
@@ -103,7 +103,7 @@ describe('Algorithm Utilities', () => {
   describe('generateRandomArray', () => {
     test('should generate array with default parameters', () => {
       const array = generateRandomArray()
-      
+
       expect(Array.isArray(array)).toBe(true)
       expect(array.length).toBe(10)
       array.forEach(element => {
@@ -115,13 +115,13 @@ describe('Algorithm Utilities', () => {
 
     test('should generate array with custom size', () => {
       const array = generateRandomArray(5)
-      
+
       expect(array.length).toBe(5)
     })
 
     test('should generate array with custom range', () => {
       const array = generateRandomArray(10, 50, 60)
-      
+
       array.forEach(element => {
         expect(element).toBeGreaterThanOrEqual(50)
         expect(element).toBeLessThanOrEqual(60)
@@ -139,7 +139,7 @@ describe('Algorithm Utilities', () => {
       const start = Date.now()
       await delay(10)
       const end = Date.now()
-      
+
       // Allow for some tolerance
       expect(end - start).toBeGreaterThanOrEqual(5)
     })
@@ -164,7 +164,7 @@ describe('Algorithm Utilities', () => {
     test('should return a generator function', () => {
       const mockAlgorithm = jest.fn()
       const generator = algorithmGenerator(mockAlgorithm)
-      
+
       expect(typeof generator).toBe('function')
       // Test that it returns a generator
       const gen = generator()

@@ -46,7 +46,9 @@ const TimeComplexitySection = ({ complexityInfo }) => {
         {spaceInfo && (
           <div className="flex justify-between">
             <span>Space:</span>
-            <span className="font-mono">{typeof spaceInfo === 'string' ? spaceInfo : spaceInfo.value || 'N/A'}</span>
+            <span className="font-mono">
+              {typeof spaceInfo === 'string' ? spaceInfo : spaceInfo.value || 'N/A'}
+            </span>
           </div>
         )}
       </div>

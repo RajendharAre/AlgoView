@@ -7,7 +7,7 @@ describe('Redux Store', () => {
     expect(store).toBeDefined()
     expect(typeof store.dispatch).toBe('function')
     expect(typeof store.getState).toBe('function')
-    
+
     // Check that all expected slices are in the state
     const state = store.getState()
     expect(state).toHaveProperty('user')
@@ -22,7 +22,7 @@ describe('Redux Store', () => {
     expect(state.user).toEqual({
       currentUser: null,
       loading: true,
-      error: null
+      error: null,
     })
   })
 
@@ -36,7 +36,7 @@ describe('Redux Store', () => {
       inputData: [5, 2, 8, 1, 9, 3],
       searchTarget: 8,
       steps: [],
-      visualizationData: null
+      visualizationData: null,
     })
   })
 
@@ -46,14 +46,14 @@ describe('Redux Store', () => {
       theme: 'light',
       sidebarOpen: true,
       modalOpen: false,
-      notifications: []
+      notifications: [],
     })
   })
 
   it('should dispatch actions and update state', () => {
     // Test that we can dispatch actions
     const initialState = store.getState()
-    
+
     // The store should be functional, but we won't test specific actions
     // here as that's covered in individual slice tests
     expect(initialState).toBeDefined()

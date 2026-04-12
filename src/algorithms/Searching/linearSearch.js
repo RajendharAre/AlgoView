@@ -34,7 +34,7 @@ export function* linearSearch(arr, target) {
 
 /**
  * Algorithm information for Linear Search
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -55,13 +55,14 @@ export const linearSearchInfo = {
     time: {
       best: 'O(1)',
       average: 'O(n)',
-      worst: 'O(n)'
+      worst: 'O(n)',
     },
-    space: 'O(1)'
+    space: 'O(1)',
   },
   stable: true,
   inPlace: true,
-  description: 'A simple search algorithm that checks each element in a list sequentially until a match is found or the whole list has been searched.',
+  description:
+    'A simple search algorithm that checks each element in a list sequentially until a match is found or the whole list has been searched.',
   code: {
     javascript: `
 function linearSearch(arr, target) {
@@ -86,12 +87,12 @@ public static int linearSearch(int[] arr, int target) {
         }
     }
     return -1; // Element not found
-}`
+}`,
   },
   useCases: [
     'Small datasets where simplicity is preferred',
     'Unsorted data where other search algorithms cannot be used',
     'When the cost of sorting exceeds the cost of sequential search',
-    'Educational purposes to demonstrate basic search concepts'
-  ]
+    'Educational purposes to demonstrate basic search concepts',
+  ],
 }

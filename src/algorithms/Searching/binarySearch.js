@@ -4,9 +4,9 @@
 
 // Generator function for binary search visualization steps
 export function* binarySearch(arr, target) {
-  let left = 0;
-  let right = arr.length - 1;
-  let comparisons = 0;
+  let left = 0
+  let right = arr.length - 1
+  let comparisons = 0
 
   // Initial state
   yield {
@@ -17,13 +17,13 @@ export function* binarySearch(arr, target) {
     foundIndex: -1,
     target: target,
     comparisons: comparisons,
-    currentStep: "Starting Binary Search",
-    searchFailed: false
-  };
+    currentStep: 'Starting Binary Search',
+    searchFailed: false,
+  }
 
   while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    comparisons++;
+    const mid = Math.floor((left + right) / 2)
+    comparisons++
 
     // Show mid calculation
     yield {
@@ -35,8 +35,8 @@ export function* binarySearch(arr, target) {
       target: target,
       comparisons: comparisons,
       currentStep: `Mid index: ${mid}. Comparing ${arr[mid]} with ${target}.`,
-      searchFailed: false
-    };
+      searchFailed: false,
+    }
 
     if (arr[mid] === target) {
       // Target found
@@ -49,9 +49,9 @@ export function* binarySearch(arr, target) {
         target: target,
         comparisons: comparisons,
         currentStep: `Target ${target} found at index ${mid}.`,
-        searchFailed: false
-      };
-      return;
+        searchFailed: false,
+      }
+      return
     }
 
     if (arr[mid] < target) {
@@ -65,9 +65,9 @@ export function* binarySearch(arr, target) {
         target: target,
         comparisons: comparisons,
         currentStep: `${arr[mid]} < ${target}: Moving Low pointer to ${mid + 1}`,
-        searchFailed: false
-      };
-      left = mid + 1;
+        searchFailed: false,
+      }
+      left = mid + 1
     } else {
       // Move right pointer
       yield {
@@ -79,9 +79,9 @@ export function* binarySearch(arr, target) {
         target: target,
         comparisons: comparisons,
         currentStep: `${arr[mid]} > ${target}: Moving High pointer to ${mid - 1}`,
-        searchFailed: false
-      };
-      right = mid - 1;
+        searchFailed: false,
+      }
+      right = mid - 1
     }
   }
 
@@ -95,8 +95,8 @@ export function* binarySearch(arr, target) {
     target: target,
     comparisons: comparisons,
     currentStep: `Target ${target} not found in array.`,
-    searchFailed: true
-  };
+    searchFailed: true,
+  }
 }
 
 // Algorithm info object
@@ -107,19 +107,20 @@ export const binarySearchInfo = {
     time: {
       best: 'O(1)',
       average: 'O(log n)',
-      worst: 'O(log n)'
+      worst: 'O(log n)',
     },
-    space: 'O(1)'
+    space: 'O(1)',
   },
   description: 'Binary search is an efficient algorithm for finding an item in a sorted array.',
-  explanation: 'Binary search works by repeatedly dividing in half the portion of the array that could contain the item, until you\'ve narrowed down the possible locations to just one.',
+  explanation:
+    "Binary search works by repeatedly dividing in half the portion of the array that could contain the item, until you've narrowed down the possible locations to just one.",
   steps: [
     'Array must be sorted',
     'Compare target with middle element',
     'If equal, return index',
     'If target is smaller, search left half',
     'If target is larger, search right half',
-    'Repeat until found or search space is empty'
+    'Repeat until found or search space is empty',
   ],
-  generator: binarySearch
-};
+  generator: binarySearch,
+}

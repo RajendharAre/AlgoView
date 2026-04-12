@@ -4,30 +4,30 @@ import { MoreHorizontal, BookOpen, Code, Globe, FileQuestion } from 'lucide-reac
 
 const AlgorithmCard = ({ algorithm }) => {
   const [showMenu, setShowMenu] = useState(false)
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef(null)
 
   // Close menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       // Check if click is outside both the menu and the trigger button
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowMenu(false);
+        setShowMenu(false)
       }
-    };
+    }
 
     // Add event listener when menu is open
     if (showMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
 
     // Cleanup event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showMenu]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showMenu])
 
   // Map difficulty levels to styles
-  const getDifficultyStyle = (difficulty) => {
+  const getDifficultyStyle = difficulty => {
     switch (difficulty) {
       case 'Easy':
         return 'bg-green-100 text-green-800'
@@ -41,18 +41,23 @@ const AlgorithmCard = ({ algorithm }) => {
   }
 
   // Map categories to badges
-  const getCategoryBadge = (category) => {
+  const getCategoryBadge = category => {
     const categoryMap = {
       sorting: { name: 'Sorting', color: 'bg-blue-100 text-blue-800' },
       searching: { name: 'Searching', color: 'bg-purple-100 text-purple-800' },
       graph: { name: 'Graph', color: 'bg-green-100 text-green-800' },
       dp: { name: 'Dynamic Programming', color: 'bg-yellow-100 text-yellow-800' },
-      pathfinding: { name: 'Pathfinding', color: 'bg-indigo-100 text-indigo-800' }
+      pathfinding: { name: 'Pathfinding', color: 'bg-indigo-100 text-indigo-800' },
     }
-    
-    const categoryInfo = categoryMap[category] || { name: category, color: 'bg-gray-100 text-gray-800' }
+
+    const categoryInfo = categoryMap[category] || {
+      name: category,
+      color: 'bg-gray-100 text-gray-800',
+    }
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryInfo.color}`}>
+      <span
+        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryInfo.color}`}
+      >
         {categoryInfo.name}
       </span>
     )
@@ -66,7 +71,9 @@ const AlgorithmCard = ({ algorithm }) => {
           <div className="mt-2 flex flex-wrap gap-2">
             {getCategoryBadge(algorithm.category)}
             {algorithm.difficulty && (
-              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getDifficultyStyle(algorithm.difficulty)}`}>
+              <span
+                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getDifficultyStyle(algorithm.difficulty)}`}
+              >
                 {algorithm.difficulty}
               </span>
             )}
@@ -79,11 +86,9 @@ const AlgorithmCard = ({ algorithm }) => {
           >
             <MoreHorizontal size={20} />
           </button>
-          
+
           {showMenu && (
-            <div 
-              className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
-            >
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200">
               <button className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 <BookOpen size={16} className="mr-2" />
                 View Article
@@ -104,14 +109,16 @@ const AlgorithmCard = ({ algorithm }) => {
           )}
         </div>
       </div>
-      
+
       <p className="text-gray-600 mb-4 text-sm">{algorithm.description}</p>
-      
+
       {algorithm.complexity && (
         <div className="mb-4 text-sm">
           <div className="flex justify-between text-gray-500">
             <span>Time:</span>
-            <span className="font-medium text-gray-900">{algorithm.complexity.time?.average || 'N/A'}</span>
+            <span className="font-medium text-gray-900">
+              {algorithm.complexity.time?.average || 'N/A'}
+            </span>
           </div>
           <div className="flex justify-between text-gray-500">
             <span>Space:</span>
@@ -119,7 +126,7 @@ const AlgorithmCard = ({ algorithm }) => {
           </div>
         </div>
       )}
-      
+
       <div className="flex justify-between items-center">
         <Link
           to={`/dsa/visualization/${algorithm.id}`}

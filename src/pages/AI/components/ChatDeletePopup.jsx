@@ -3,15 +3,15 @@
  * Shows top-center with dark overlay
  */
 
-import { AlertTriangle, X } from 'lucide-react';
+import { AlertTriangle, X } from 'lucide-react'
 
 const ChatDeletePopup = ({ isOpen, onClose, onConfirm, chatTitle = 'this chat' }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   const handleConfirm = async () => {
-    await onConfirm();
-    onClose();
-  };
+    await onConfirm()
+    onClose()
+  }
 
   return (
     <div className="fixed top-0 left-0 right-0 flex justify-center pt-6 z-50">
@@ -27,7 +27,9 @@ const ChatDeletePopup = ({ isOpen, onClose, onConfirm, chatTitle = 'this chat' }
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-semibold text-red-200">Delete Chat?</h3>
-            <p className="text-sm text-[var(--text-secondary,#8e8ea0)] mt-1 truncate">{chatTitle}</p>
+            <p className="text-sm text-[var(--text-secondary,#8e8ea0)] mt-1 truncate">
+              {chatTitle}
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -62,7 +64,7 @@ const ChatDeletePopup = ({ isOpen, onClose, onConfirm, chatTitle = 'this chat' }
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatDeletePopup;
+export default ChatDeletePopup

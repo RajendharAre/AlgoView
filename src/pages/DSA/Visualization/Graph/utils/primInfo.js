@@ -4,29 +4,31 @@
  */
 
 export const primInfo = {
-  name: 'Prim\'s Algorithm',
+  name: "Prim's Algorithm",
   category: 'graph',
   complexity: {
     time: {
       best: 'O(V² + E)',
       average: 'O(V² + E)',
-      worst: 'O(V² + E)'
+      worst: 'O(V² + E)',
     },
-    space: 'O(V)'
+    space: 'O(V)',
   },
   timeComplexity: {
     best: 'O(V²)',
     average: 'O(V²)',
     worst: 'O(V²)',
-    explanation: 'Find minimum cost unvisited vertex V times: O(V²). Update costs: O(E). Total: O(V²) for dense graphs.'
+    explanation:
+      'Find minimum cost unvisited vertex V times: O(V²). Update costs: O(E). Total: O(V²) for dense graphs.',
   },
   spaceComplexity: {
     value: 'O(V)',
-    explanation: 'Stores visited set, min cost array, and parent pointers for each vertex.'
+    explanation: 'Stores visited set, min cost array, and parent pointers for each vertex.',
   },
   stable: false,
   inPlace: false,
-  description: 'Prim\'s algorithm is a greedy algorithm that finds a minimum spanning tree (MST) for a weighted undirected graph. Starting from a root node, it repeatedly adds the minimum weight edge that connects a vertex in the MST to a vertex outside the MST.',
+  description:
+    "Prim's algorithm is a greedy algorithm that finds a minimum spanning tree (MST) for a weighted undirected graph. Starting from a root node, it repeatedly adds the minimum weight edge that connects a vertex in the MST to a vertex outside the MST.",
   code: {
     javascript: `
 function prim(graph, startNode) {
@@ -164,7 +166,7 @@ public List<Edge> prim(Graph graph, int startNode) {
     }
     
     return mst;
-}`
+}`,
   },
   useCases: [
     'Finding minimum spanning trees efficiently',
@@ -172,7 +174,7 @@ public List<Edge> prim(Graph graph, int startNode) {
     'Real-time MST computation where the starting point is given',
     'Image processing and clustering',
     'Finding connected components',
-    'Sparse graph optimization'
+    'Sparse graph optimization',
   ],
   keyPoints: [
     'Grows MST outward from a single starting node',
@@ -180,6 +182,6 @@ public List<Edge> prim(Graph graph, int startNode) {
     'No union-find structure needed (unlike Kruskal)',
     'Naturally handles dense graphs well',
     'Time complexity depends on graph representation',
-    'Can be optimized with priority queues for better performance'
-  ]
+    'Can be optimized with priority queues for better performance',
+  ],
 }

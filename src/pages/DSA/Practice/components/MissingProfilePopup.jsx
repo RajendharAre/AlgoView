@@ -1,7 +1,7 @@
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react'
 
 const MissingProfilePopup = ({ isOpen, onClose, onNavigateToProfile }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -13,9 +13,7 @@ const MissingProfilePopup = ({ isOpen, onClose, onNavigateToProfile }) => {
             </div>
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              LeetCode Profile Required
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">LeetCode Profile Required</h3>
             <p className="text-sm text-gray-600 mb-6">
               Please add your LeetCode profile in your profile settings to continue.
             </p>
@@ -37,7 +35,7 @@ const MissingProfilePopup = ({ isOpen, onClose, onNavigateToProfile }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MissingProfilePopup;
+export default MissingProfilePopup

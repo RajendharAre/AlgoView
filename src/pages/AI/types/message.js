@@ -5,16 +5,16 @@
 export const MESSAGE_ROLES = {
   USER: 'user',
   ASSISTANT: 'assistant',
-  SYSTEM: 'system'
-};
+  SYSTEM: 'system',
+}
 
 export const MESSAGE_TYPES = {
   WELCOME: 'welcome',
   RESPONSE: 'response',
   CODE: 'code',
   QUESTION: 'question',
-  SYSTEM: 'system'
-};
+  SYSTEM: 'system',
+}
 
 /**
  * @typedef {Object} Message

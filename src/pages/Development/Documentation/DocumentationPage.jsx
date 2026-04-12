@@ -1,16 +1,16 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaArrowLeft } from 'react-icons/fa';
+import React, { useState, useCallback, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { FaArrowLeft } from 'react-icons/fa'
 import {
   documentationConfig,
   getDocCategories,
   getDocDifficulties,
-  filterDocumentation
-} from '@/utils/documentationConfig';
-import DocumentationFilters from './components/DocumentationFilters';
-import DocumentationList from './components/DocumentationList';
-import DocumentationViewer from './components/DocumentationViewer';
+  filterDocumentation,
+} from '@/utils/documentationConfig'
+import DocumentationFilters from './components/DocumentationFilters'
+import DocumentationList from './components/DocumentationList'
+import DocumentationViewer from './components/DocumentationViewer'
 
 // Semantic color tokens from grayscale palette
 const COLORS = {
@@ -32,8 +32,8 @@ const COLORS = {
   accent: {
     primary: '#343a40', // gunmetal
     secondary: '#6c757d', // slate-grey
-  }
-};
+  },
+}
 
 /**
  * DocumentationPage Component
@@ -41,20 +41,20 @@ const COLORS = {
  * Similar to LeetCode problem list, developer portal aesthetic
  */
 const DocumentationPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // Filter state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedDifficulty, setSelectedDifficulty] = useState('All')
 
   // Viewer state
-  const [selectedDoc, setSelectedDoc] = useState(null);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState(null)
+  const [isViewerOpen, setIsViewerOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Get filter options
-  const categories = useMemo(() => getDocCategories(), []);
-  const difficulties = useMemo(() => getDocDifficulties(), []);
+  const categories = useMemo(() => getDocCategories(), [])
+  const difficulties = useMemo(() => getDocDifficulties(), [])
 
   // Filter documentation
   const filteredDocumentation = useMemo(() => {
@@ -62,32 +62,32 @@ const DocumentationPage = () => {
       docs: documentationConfig,
       searchQuery,
       category: selectedCategory,
-      difficulty: selectedDifficulty
-    });
-  }, [searchQuery, selectedCategory, selectedDifficulty]);
+      difficulty: selectedDifficulty,
+    })
+  }, [searchQuery, selectedCategory, selectedDifficulty])
 
   // Handle row click
-  const handleRowClick = useCallback((doc) => {
+  const handleRowClick = useCallback(doc => {
     // External links - open in new tab immediately
     if (!doc.embedAllowed) {
-      window.open(doc.docUrl, '_blank', 'noopener,noreferrer');
-      return;
+      window.open(doc.docUrl, '_blank', 'noopener,noreferrer')
+      return
     }
 
     // Embeddable content - open in viewer
-    setSelectedDoc(doc);
-    setIsLoading(true);
-    setIsViewerOpen(true);
+    setSelectedDoc(doc)
+    setIsLoading(true)
+    setIsViewerOpen(true)
     // Simulate loading (iframe will load asynchronously)
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+    const timer = setTimeout(() => setIsLoading(false), 1500)
+    return () => clearTimeout(timer)
+  }, [])
 
   // Handle viewer close
   const handleViewerClose = useCallback(() => {
-    setIsViewerOpen(false);
-    setTimeout(() => setSelectedDoc(null), 300);
-  }, []);
+    setIsViewerOpen(false)
+    setTimeout(() => setSelectedDoc(null), 300)
+  }, [])
 
   return (
     <div style={{ backgroundColor: COLORS.bg.primary, minHeight: '100vh' }}>
@@ -96,9 +96,9 @@ const DocumentationPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        style={{ 
-          backgroundColor: COLORS.bg.primary, 
-          borderBottomColor: COLORS.border.light 
+        style={{
+          backgroundColor: COLORS.bg.primary,
+          borderBottomColor: COLORS.border.light,
         }}
         className="border-b py-8"
       >
@@ -111,9 +111,12 @@ const DocumentationPage = () => {
             <FaArrowLeft size={16} />
             Back to Development Hub
           </button>
-          <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold mb-2">Documentation</h1>
+          <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold mb-2">
+            Documentation
+          </h1>
           <p style={{ color: COLORS.text.secondary }} className="text-lg">
-            Comprehensive knowledge base & reference materials covering React, JavaScript, Node.js, Firebase, and more.
+            Comprehensive knowledge base & reference materials covering React, JavaScript, Node.js,
+            Firebase, and more.
           </p>
         </div>
       </motion.div>
@@ -147,12 +150,15 @@ const DocumentationPage = () => {
               animate={{ opacity: 1, y: 0 }}
               style={{
                 backgroundColor: 'rgba(52, 58, 64, 0.05)',
-                borderColor: COLORS.border.light
+                borderColor: COLORS.border.light,
               }}
               className="mb-6 p-4 border rounded-lg text-sm"
             >
-              <strong style={{ color: COLORS.text.primary }}>Filtered results:</strong> 
-              <span style={{ color: COLORS.text.secondary }}> Showing {filteredDocumentation.length} of {documentationConfig.length} entries</span>
+              <strong style={{ color: COLORS.text.primary }}>Filtered results:</strong>
+              <span style={{ color: COLORS.text.secondary }}>
+                {' '}
+                Showing {filteredDocumentation.length} of {documentationConfig.length} entries
+              </span>
             </motion.div>
           )}
 
@@ -175,7 +181,19 @@ const DocumentationPage = () => {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm"
       >
         <p className="flex items-center justify-center gap-1.5">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
           Tip: Click on any documentation entry to open it. External links open in a new tab.
         </p>
       </motion.div>
@@ -188,7 +206,7 @@ const DocumentationPage = () => {
         isLoading={isLoading}
       />
     </div>
-  );
-};
+  )
+}
 
-export default DocumentationPage;
+export default DocumentationPage

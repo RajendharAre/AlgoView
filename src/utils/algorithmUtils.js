@@ -16,12 +16,12 @@ export const STEP_TYPES = {
   SPLIT: 'split',
   INSERT: 'insert',
   DELETE: 'delete',
-  SEARCH: 'search'
+  SEARCH: 'search',
 }
 
 /**
  * Creates a standardized step object for algorithm visualization
- * 
+ *
  * @param {number[]} array - The current state of the array
  * @param {Object} options - Optional properties for the step
  * @param {number[]} options.compared - Indices being compared
@@ -38,13 +38,13 @@ export const createStep = (array, options = {}) => {
     swapped: options.swapped || [],
     description: options.description || '',
     type: options.type || STEP_TYPES.VISIT,
-    timestamp: options.timestamp || Date.now()
+    timestamp: options.timestamp || Date.now(),
   }
 }
 
 /**
  * Validates input based on the specified type
- * 
+ *
  * @param {*} input - The input to validate
  * @param {string} type - The type of validation to perform
  * @returns {boolean} Whether the input is valid
@@ -68,7 +68,7 @@ export const validateInput = (input, type) => {
 
 /**
  * Generates a random array of integers
- * 
+ *
  * @param {number} size - Size of the array (default: 10)
  * @param {number} min - Minimum value (default: 1)
  * @param {number} max - Maximum value (default: 100)
@@ -79,51 +79,49 @@ export const generateRandomArray = (size = 10, min = 1, max = 100) => {
   if (!validateInput(size, 'positive_integer')) {
     throw new Error('Size must be a positive integer')
   }
-  
+
   if (!validateInput(min, 'number') || !validateInput(max, 'number')) {
     throw new Error('Min and max must be numbers')
   }
-  
+
   if (min >= max) {
     throw new Error('Min must be less than max')
   }
-  
-  return Array.from({ length: size }, () => 
-    Math.floor(Math.random() * (max - min + 1)) + min
-  )
+
+  return Array.from({ length: size }, () => Math.floor(Math.random() * (max - min + 1)) + min)
 }
 
 /**
  * Creates a delay for controlled execution
- * 
+ *
  * @param {number} ms - Milliseconds to delay
  * @returns {Promise} Promise that resolves after the specified delay
  */
-export const delay = (ms) => {
+export const delay = ms => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 /**
  * Base generator function template for algorithm implementations
- * 
+ *
  * @param {Function} algorithmFn - The algorithm function to wrap
  * @returns {Function} Generator function that yields steps
  */
-export const algorithmGenerator = (algorithmFn) => {
+export const algorithmGenerator = algorithmFn => {
   return function* (...args) {
     // This is a template that algorithm implementations should follow
     // Actual implementations will have their own specific logic
-    yield createStep([], { 
+    yield createStep([], {
       description: 'Algorithm started',
-      type: STEP_TYPES.VISIT
+      type: STEP_TYPES.VISIT,
     })
-    
+
     // Algorithm-specific implementation would go here
     // yield* algorithmFn(...args)
-    
-    yield createStep([], { 
+
+    yield createStep([], {
       description: 'Algorithm completed',
-      type: STEP_TYPES.SORTED
+      type: STEP_TYPES.SORTED,
     })
   }
 }

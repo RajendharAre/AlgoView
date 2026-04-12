@@ -31,7 +31,7 @@ export const ThemeProvider = ({ children }) => {
 
     // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleChange = (e) => {
+    const handleChange = e => {
       if (mode === THEME_MODES.SYSTEM) {
         setIsDark(e.matches)
         setTheme(mode)
@@ -54,7 +54,7 @@ export const ThemeProvider = ({ children }) => {
     setTheme(newMode)
   }
 
-  const setThemeMode = (newMode) => {
+  const setThemeMode = newMode => {
     setMode(newMode)
     setTheme(newMode)
   }

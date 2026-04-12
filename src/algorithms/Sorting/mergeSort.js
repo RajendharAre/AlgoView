@@ -2,10 +2,10 @@
 
 /**
  * Merge Sort Algorithm
- * 
+ *
  * A divide and conquer algorithm that divides the input array into two halves,
  * calls itself for the two halves, and then merges the two sorted halves.
- * 
+ *
  * @param {number[]} arr - Array of numbers to sort
  * @yields {Object} - Step information for visualization
  * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
@@ -106,7 +106,7 @@ export function* mergeSort(arr) {
 
 /**
  * Algorithm information for Merge Sort
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -127,13 +127,14 @@ export const mergeSortInfo = {
     time: {
       best: 'O(n log n)',
       average: 'O(n log n)',
-      worst: 'O(n log n)'
+      worst: 'O(n log n)',
     },
-    space: 'O(n)'
+    space: 'O(n)',
   },
   stable: true,
   inPlace: false,
-  description: 'A divide and conquer algorithm that divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.',
+  description:
+    'A divide and conquer algorithm that divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.',
   code: {
     javascript: `
 function mergeSort(arr) {
@@ -213,12 +214,12 @@ public static int[] merge(int[] left, int[] right) {
     while (j < right.length) result[k++] = right[j++];
     
     return result;
-}`
+}`,
   },
   useCases: [
     'Large datasets where consistent O(n log n) performance is needed',
     'When stable sorting is required',
-    'External sorting when data doesn\'t fit in memory',
-    'When predictable performance is more important than memory usage'
-  ]
+    "External sorting when data doesn't fit in memory",
+    'When predictable performance is more important than memory usage',
+  ],
 }

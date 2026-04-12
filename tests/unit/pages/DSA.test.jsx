@@ -8,15 +8,15 @@ import DSA from '../../../src/pages/DSA'
 // 🧩 Mock Sidebar
 vi.mock('../../../src/components/layout/Sidebar', () => ({
   __esModule: true,
-  default: () => <div data-testid="sidebar">Sidebar Component</div>
+  default: () => <div data-testid="sidebar">Sidebar Component</div>,
 }))
 
 // 🧩 Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }) => <div {...props}>{children}</div>
+    div: ({ children, ...props }) => <div {...props}>{children}</div>,
   },
-  AnimatePresence: ({ children }) => <div>{children}</div>
+  AnimatePresence: ({ children }) => <div>{children}</div>,
 }))
 
 // 🧩 Mock lucide-react icons
@@ -30,7 +30,7 @@ vi.mock('lucide-react', () => ({
   Binary: () => <div data-testid="binary-icon" />,
   BarChart: () => <div data-testid="bar-chart-icon" />,
   Database: () => <div data-testid="database-icon" />,
-  Lock: () => <div data-testid="lock-icon" />
+  Lock: () => <div data-testid="lock-icon" />,
 }))
 
 // 🧩 Mock react-router-dom once (and control useLocation dynamically)
@@ -38,7 +38,7 @@ vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
-    useLocation: vi.fn()
+    useLocation: vi.fn(),
   }
 })
 
@@ -48,8 +48,8 @@ const mockUseLocation = vi.mocked(useLocation)
 const createMockStore = () =>
   configureStore({
     reducer: {
-      user: (state = { currentUser: null, loading: false, error: null }) => state
-    }
+      user: (state = { currentUser: null, loading: false, error: null }) => state,
+    },
   })
 
 describe('DSA Page', () => {
@@ -90,7 +90,7 @@ describe('DSA Page', () => {
 
   it('shows collapsed sidebar icons when on visualization page', () => {
     mockUseLocation.mockReturnValue({
-      pathname: '/dsa/visualization/bubbleSort'
+      pathname: '/dsa/visualization/bubbleSort',
     })
 
     render(

@@ -1,14 +1,14 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer')
 
-const isValidEmail = (email) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
+const isValidEmail = email => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
 
 const createTransporter = () => {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env
 
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    throw new Error('SMTP environment variables are not fully configured');
+    throw new Error('SMTP environment variables are not fully configured')
   }
 
   return nodemailer.createTransport({
@@ -19,29 +19,29 @@ const createTransporter = () => {
       user: SMTP_USER,
       pass: SMTP_PASS,
     },
-  });
-};
+  })
+}
 
 const sendSupportEmail = async (req, res) => {
   try {
-    const { name, email, topic, subject, message, source } = req.body;
+    const { name, email, topic, subject, message, source } = req.body
 
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Name, email, and message are required.' });
+      return res.status(400).json({ error: 'Name, email, and message are required.' })
     }
 
     if (!isValidEmail(email)) {
-      return res.status(400).json({ error: 'Please provide a valid email address.' });
+      return res.status(400).json({ error: 'Please provide a valid email address.' })
     }
 
-    const safeTopic = topic || 'general';
-    const safeSubject = subject || `Support request from ${name}`;
-    const safeSource = source || 'website';
+    const safeTopic = topic || 'general'
+    const safeSubject = subject || `Support request from ${name}`
+    const safeSource = source || 'website'
 
-    const transporter = createTransporter();
+    const transporter = createTransporter()
 
-    const toAddress = process.env.SUPPORT_TO_EMAIL || process.env.SMTP_USER;
-    const fromAddress = process.env.SUPPORT_FROM_EMAIL || process.env.SMTP_USER;
+    const toAddress = process.env.SUPPORT_TO_EMAIL || process.env.SMTP_USER
+    const fromAddress = process.env.SUPPORT_FROM_EMAIL || process.env.SMTP_USER
 
     const text = [
       'New support/contact request received',
@@ -54,7 +54,7 @@ const sendSupportEmail = async (req, res) => {
       '',
       'Message:',
       message,
-    ].join('\n');
+    ].join('\n')
 
     await transporter.sendMail({
       from: fromAddress,
@@ -74,20 +74,25 @@ const sendSupportEmail = async (req, res) => {
           <p style="white-space: pre-wrap;"><strong>Message:</strong><br/>${message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
         </div>
       `,
-    });
+    })
 
-    return res.status(200).json({ success: true, message: 'Support request sent successfully.' });
+    return res.status(200).json({ success: true, message: 'Support request sent successfully.' })
   } catch (error) {
-    console.error('Support email error:', error.message);
+    console.error('Support email error:', error.message)
 
     if (error.message.includes('SMTP environment variables')) {
-      return res.status(500).json({ error: 'Support email service is not configured yet. Please set SMTP variables on the server.' });
+      return res.status(500).json({
+        error:
+          'Support email service is not configured yet. Please set SMTP variables on the server.',
+      })
     }
 
-    return res.status(500).json({ error: 'Unable to send your request right now. Please try again shortly.' });
+    return res
+      .status(500)
+      .json({ error: 'Unable to send your request right now. Please try again shortly.' })
   }
-};
+}
 
 module.exports = {
   sendSupportEmail,
-};
+}

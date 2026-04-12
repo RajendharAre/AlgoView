@@ -8,7 +8,7 @@ import uiSlice, {
   closeModal,
   addNotification,
   removeNotification,
-  clearNotifications
+  clearNotifications,
 } from '../../../src/store/slices/uiSlice'
 
 describe('uiSlice', () => {
@@ -16,7 +16,7 @@ describe('uiSlice', () => {
     theme: 'light',
     sidebarOpen: true,
     modalOpen: false,
-    notifications: []
+    notifications: [],
   }
 
   it('should return the initial state', () => {
@@ -26,7 +26,7 @@ describe('uiSlice', () => {
   it('should handle toggleTheme', () => {
     const actual = uiSlice(initialState, toggleTheme())
     expect(actual.theme).toBe('dark')
-    
+
     const actual2 = uiSlice(actual, toggleTheme())
     expect(actual2.theme).toBe('light')
   })
@@ -39,7 +39,7 @@ describe('uiSlice', () => {
   it('should handle toggleSidebar', () => {
     const actual = uiSlice(initialState, toggleSidebar())
     expect(actual.sidebarOpen).toBe(false)
-    
+
     const actual2 = uiSlice(actual, toggleSidebar())
     expect(actual2.sidebarOpen).toBe(true)
   })
@@ -47,7 +47,7 @@ describe('uiSlice', () => {
   it('should handle setSidebarOpen', () => {
     const actual = uiSlice(initialState, setSidebarOpen(false))
     expect(actual.sidebarOpen).toBe(false)
-    
+
     const actual2 = uiSlice(actual, setSidebarOpen(true))
     expect(actual2.sidebarOpen).toBe(true)
   })
@@ -67,9 +67,9 @@ describe('uiSlice', () => {
     const notification = {
       title: 'Test Notification',
       message: 'This is a test notification',
-      type: 'info'
+      type: 'info',
     }
-    
+
     const actual = uiSlice(initialState, addNotification(notification))
     expect(actual.notifications).toHaveLength(1)
     expect(actual.notifications[0]).toMatchObject(notification)
@@ -82,10 +82,10 @@ describe('uiSlice', () => {
       notifications: [
         { id: 1, title: 'Notification 1' },
         { id: 2, title: 'Notification 2' },
-        { id: 3, title: 'Notification 3' }
-      ]
+        { id: 3, title: 'Notification 3' },
+      ],
     }
-    
+
     const actual = uiSlice(stateWithNotifications, removeNotification(2))
     expect(actual.notifications).toHaveLength(2)
     expect(actual.notifications.find(n => n.id === 2)).toBeUndefined()
@@ -96,10 +96,10 @@ describe('uiSlice', () => {
       ...initialState,
       notifications: [
         { id: 1, title: 'Notification 1' },
-        { id: 2, title: 'Notification 2' }
-      ]
+        { id: 2, title: 'Notification 2' },
+      ],
     }
-    
+
     const actual = uiSlice(stateWithNotifications, clearNotifications())
     expect(actual.notifications).toHaveLength(0)
   })

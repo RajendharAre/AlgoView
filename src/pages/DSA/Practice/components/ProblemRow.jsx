@@ -1,10 +1,10 @@
-import { CheckCircle, Star, RefreshCw } from 'lucide-react';
+import { CheckCircle, Star, RefreshCw } from 'lucide-react'
 
 const DIFFICULTY_COLORS = {
   Easy: 'text-green-600 bg-green-50',
   Medium: 'text-amber-600 bg-amber-50',
   Hard: 'text-red-600 bg-red-50',
-};
+}
 
 const ProblemRow = ({
   problem,
@@ -84,14 +84,11 @@ const ProblemRow = ({
           }`}
           title="Bookmark problem"
         >
-          <Star
-            className="h-4 w-4"
-            fill={isFavorite ? 'currentColor' : 'none'}
-          />
+          <Star className="h-4 w-4" fill={isFavorite ? 'currentColor' : 'none'} />
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProblemRow;
+export default ProblemRow

@@ -1,190 +1,210 @@
-import { useState, useEffect, useRef } from 'react';
-import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore';
-import { db, auth } from '../../lib/firebase';
-import { FaTimes, FaWrench, FaBullhorn, FaStar } from 'react-icons/fa';
+import { useState, useEffect, useRef } from 'react'
+import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore'
+import { db, auth } from '../../lib/firebase'
+import { FaTimes, FaWrench, FaBullhorn, FaStar } from 'react-icons/fa'
 
 const NotificationBanner = () => {
-  const [allNotifications, setAllNotifications] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [userId, setUserId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const unsubscribesRef = useRef([]);
+  const [allNotifications, setAllNotifications] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [userId, setUserId] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const unsubscribesRef = useRef([])
 
   // Get current user
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUserId(user?.uid || null);
-    });
-    return () => unsubscribe();
-  }, []);
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setUserId(user?.uid || null)
+    })
+    return () => unsubscribe()
+  }, [])
 
   // Fetch both global important notifications AND user-specific important notifications
   useEffect(() => {
     if (!userId) {
-      setAllNotifications([]);
-      setLoading(false);
-      unsubscribesRef.current.forEach(unsub => unsub());
-      unsubscribesRef.current = [];
-      return;
+      setAllNotifications([])
+      setLoading(false)
+      unsubscribesRef.current.forEach(unsub => unsub())
+      unsubscribesRef.current = []
+      return
     }
 
     try {
-      setLoading(true);
-      const combinedNotifications = [];
-      let globalLoaded = false;
-      let userLoaded = false;
+      setLoading(true)
+      const combinedNotifications = []
+      let globalLoaded = false
+      let userLoaded = false
 
       // Cleanup previous listeners
-      unsubscribesRef.current.forEach(unsub => unsub());
-      unsubscribesRef.current = [];
+      unsubscribesRef.current.forEach(unsub => unsub())
+      unsubscribesRef.current = []
 
       // 1. Listen to GLOBAL important notifications (maintenance, announcements)
       const globalQuery = query(
         collection(db, 'notifications'),
         where('active', '==', true),
         where('type', 'in', ['maintenance', 'announcement'])
-      );
+      )
 
       const unsubGlobal = onSnapshot(
         globalQuery,
-        (snapshot) => {
+        snapshot => {
           const globalNotifs = snapshot.docs.map(doc => ({
             id: `global_${doc.id}`,
             originalId: doc.id,
             ...doc.data(),
-            source: 'global'
-          }));
-          
-          const filtered = combinedNotifications.filter(n => n.source !== 'global');
-          filtered.push(...globalNotifs);
-          combinedNotifications.length = 0;
-          combinedNotifications.push(...filtered);
-          
-          globalLoaded = true;
-          updateNotifications(combinedNotifications);
-          if (userLoaded) setLoading(false);
+            source: 'global',
+          }))
+
+          const filtered = combinedNotifications.filter(n => n.source !== 'global')
+          filtered.push(...globalNotifs)
+          combinedNotifications.length = 0
+          combinedNotifications.push(...filtered)
+
+          globalLoaded = true
+          updateNotifications(combinedNotifications)
+          if (userLoaded) setLoading(false)
         },
-        (error) => {
-          console.error('Error fetching global important notifications:', error);
-          globalLoaded = true;
-          if (userLoaded) setLoading(false);
+        error => {
+          console.error('Error fetching global important notifications:', error)
+          globalLoaded = true
+          if (userLoaded) setLoading(false)
         }
-      );
-      unsubscribesRef.current.push(unsubGlobal);
+      )
+      unsubscribesRef.current.push(unsubGlobal)
 
       // 2. Listen to USER-SPECIFIC important notifications (high priority, etc)
-      const userNotifRef = collection(db, 'users', userId, 'notifications');
+      const userNotifRef = collection(db, 'users', userId, 'notifications')
       const userQuery = query(
         userNotifRef,
         where('status', '!=', 'deleted'),
         where('priority', '==', 'high')
-      );
+      )
 
       const unsubUser = onSnapshot(
         userQuery,
-        (snapshot) => {
+        snapshot => {
           const userNotifs = snapshot.docs.map(doc => ({
             id: `user_${doc.id}`,
             originalId: doc.id,
             ...doc.data(),
-            source: 'user'
-          }));
-          
-          const filtered = combinedNotifications.filter(n => n.source !== 'user');
-          filtered.push(...userNotifs);
-          combinedNotifications.length = 0;
-          combinedNotifications.push(...filtered);
-          
-          userLoaded = true;
-          updateNotifications(combinedNotifications);
-          if (globalLoaded) setLoading(false);
+            source: 'user',
+          }))
+
+          const filtered = combinedNotifications.filter(n => n.source !== 'user')
+          filtered.push(...userNotifs)
+          combinedNotifications.length = 0
+          combinedNotifications.push(...filtered)
+
+          userLoaded = true
+          updateNotifications(combinedNotifications)
+          if (globalLoaded) setLoading(false)
         },
-        (error) => {
-          console.error('Error fetching user important notifications:', error);
-          userLoaded = true;
-          if (globalLoaded) setLoading(false);
+        error => {
+          console.error('Error fetching user important notifications:', error)
+          userLoaded = true
+          if (globalLoaded) setLoading(false)
         }
-      );
-      unsubscribesRef.current.push(unsubUser);
+      )
+      unsubscribesRef.current.push(unsubUser)
 
       function updateNotifications(notifications) {
         // Sort: maintenance > announcement > others, then by date
         const sorted = notifications.sort((a, b) => {
-          const typeOrder = { maintenance: 0, announcement: 1 };
-          const aOrder = typeOrder[a.type] || 2;
-          const bOrder = typeOrder[b.type] || 2;
-          
-          if (aOrder !== bOrder) return aOrder - bOrder;
-          
-          const dateA = a.createdAt?.toMillis?.() || 0;
-          const dateB = b.createdAt?.toMillis?.() || 0;
-          return dateB - dateA;
-        });
+          const typeOrder = { maintenance: 0, announcement: 1 }
+          const aOrder = typeOrder[a.type] || 2
+          const bOrder = typeOrder[b.type] || 2
 
-        setAllNotifications(sorted);
-        setCurrentIndex(0);
+          if (aOrder !== bOrder) return aOrder - bOrder
+
+          const dateA = a.createdAt?.toMillis?.() || 0
+          const dateB = b.createdAt?.toMillis?.() || 0
+          return dateB - dateA
+        })
+
+        setAllNotifications(sorted)
+        setCurrentIndex(0)
       }
 
       return () => {
-        unsubscribesRef.current.forEach(unsub => unsub());
-        unsubscribesRef.current = [];
-      };
+        unsubscribesRef.current.forEach(unsub => unsub())
+        unsubscribesRef.current = []
+      }
     } catch (error) {
-      console.error('Setup error:', error);
-      setLoading(false);
+      console.error('Setup error:', error)
+      setLoading(false)
     }
-  }, [userId]);
+  }, [userId])
 
   // Mark notification as deleted (soft delete)
-  const handleClose = async (notificationId) => {
-    if (!userId) return;
-    
+  const handleClose = async notificationId => {
+    if (!userId) return
+
     try {
-      const notification = allNotifications.find(n => n.id === notificationId);
-      if (!notification) return;
+      const notification = allNotifications.find(n => n.id === notificationId)
+      if (!notification) return
 
       if (notification.source === 'user') {
         // User-specific notification
-        const notifRef = doc(db, 'users', userId, 'notifications', notification.originalId);
-        await updateDoc(notifRef, { status: 'deleted' });
+        const notifRef = doc(db, 'users', userId, 'notifications', notification.originalId)
+        await updateDoc(notifRef, { status: 'deleted' })
       } else if (notification.source === 'global') {
         // For global notifications, we'd need to track per-user dismissal
         // For now, just move to next
       }
     } catch (error) {
-      console.error('Error closing notification:', error);
+      console.error('Error closing notification:', error)
     }
-  };
+  }
 
   // Don't show banner if user not logged in or no notifications
   if (!userId) {
-    return null;
+    return null
   }
 
   const visibleNotifications = allNotifications.filter(n => {
-    if (n.source === 'global') return n.active === true;
-    if (n.source === 'user') return n.status !== 'deleted';
-    return true;
-  });
-  
-  if (visibleNotifications.length === 0) return null;
+    if (n.source === 'global') return n.active === true
+    if (n.source === 'user') return n.status !== 'deleted'
+    return true
+  })
 
-  const notification = visibleNotifications[currentIndex];
-  if (!notification) return null;
+  if (visibleNotifications.length === 0) return null
+
+  const notification = visibleNotifications[currentIndex]
+  if (!notification) return null
 
   // Get icon and color based on type
   const typeConfig = {
-    maintenance: { Icon: FaWrench, bgColor: 'bg-yellow-50', borderColor: 'border-yellow-300', textColor: 'text-yellow-900', badgeColor: 'bg-yellow-100 text-yellow-800' },
-    announcement: { Icon: FaBullhorn, bgColor: 'bg-blue-50', borderColor: 'border-blue-300', textColor: 'text-blue-900', badgeColor: 'bg-blue-100 text-blue-800' },
-    update: { Icon: FaStar, bgColor: 'bg-purple-50', borderColor: 'border-purple-300', textColor: 'text-purple-900', badgeColor: 'bg-purple-100 text-purple-800' }
-  };
+    maintenance: {
+      Icon: FaWrench,
+      bgColor: 'bg-yellow-50',
+      borderColor: 'border-yellow-300',
+      textColor: 'text-yellow-900',
+      badgeColor: 'bg-yellow-100 text-yellow-800',
+    },
+    announcement: {
+      Icon: FaBullhorn,
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-300',
+      textColor: 'text-blue-900',
+      badgeColor: 'bg-blue-100 text-blue-800',
+    },
+    update: {
+      Icon: FaStar,
+      bgColor: 'bg-purple-50',
+      borderColor: 'border-purple-300',
+      textColor: 'text-purple-900',
+      badgeColor: 'bg-purple-100 text-purple-800',
+    },
+  }
 
-  const config = typeConfig[notification.type] || typeConfig.announcement;
-  const IconComponent = config.Icon;
-  const isGlobal = notification.source === 'global';
+  const config = typeConfig[notification.type] || typeConfig.announcement
+  const IconComponent = config.Icon
+  const isGlobal = notification.source === 'global'
 
   return (
-    <div className={`${config.bgColor} border-b-2 ${config.borderColor} ${config.textColor} px-4 py-3 shadow-md`}>
+    <div
+      className={`${config.bgColor} border-b-2 ${config.borderColor} ${config.textColor} px-4 py-3 shadow-md`}
+    >
       <div className="max-w-6xl mx-auto flex items-start justify-between gap-4">
         {/* Left: Icon + Content */}
         <div className="flex items-start gap-3 flex-1 min-w-0">
@@ -195,7 +215,9 @@ const NotificationBanner = () => {
             {/* Title with Badge */}
             <div className="flex items-center gap-2 flex-wrap mb-1">
               <h3 className="font-bold text-lg">{notification.title}</h3>
-              <span className={`text-xs px-2 py-1 rounded-full font-semibold ${config.badgeColor} whitespace-nowrap`}>
+              <span
+                className={`text-xs px-2 py-1 rounded-full font-semibold ${config.badgeColor} whitespace-nowrap`}
+              >
                 {notification.type.toUpperCase()} • {notification.priority?.toUpperCase()}
               </span>
               {isGlobal && (
@@ -253,7 +275,7 @@ const NotificationBanner = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default NotificationBanner;
+export default NotificationBanner

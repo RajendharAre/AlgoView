@@ -8,18 +8,20 @@ export const pageRankInfo = {
   name: 'PageRank',
   category: 'graph',
   difficulty: 'Medium',
-  description: 'PageRank is a link analysis algorithm that evaluates the importance of nodes in a directed graph based on incoming links. Nodes become more important if they receive links from other important nodes.',
+  description:
+    'PageRank is a link analysis algorithm that evaluates the importance of nodes in a directed graph based on incoming links. Nodes become more important if they receive links from other important nodes.',
 
   timeComplexity: {
     best: 'O(V + E)',
     average: 'O(k(V + E))',
     worst: 'O(k(V + E))',
-    explanation: 'Each iteration processes all vertices and edges. k is the number of iterations needed for convergence (typically 10-30).'
+    explanation:
+      'Each iteration processes all vertices and edges. k is the number of iterations needed for convergence (typically 10-30).',
   },
 
   spaceComplexity: {
     value: 'O(V + E)',
-    explanation: 'Stores rank values for each vertex and adjacency list for the graph.'
+    explanation: 'Stores rank values for each vertex and adjacency list for the graph.',
   },
 
   algorithm: {
@@ -32,8 +34,8 @@ export const pageRankInfo = {
       '   - Apply damping factor (0.85) to prevent zero ranks',
       '   - Add random teleport probability (0.15)',
       '3. Repeat until convergence or max iterations',
-      '4. Final ranks represent node importance'
-    ]
+      '4. Final ranks represent node importance',
+    ],
   },
 
   properties: {
@@ -49,14 +51,14 @@ export const pageRankInfo = {
     'Citation network importance',
     'Recommendation systems',
     'Knowledge graph entity ranking',
-    'Academic paper impact assessment'
+    'Academic paper impact assessment',
   ],
 
   assumptions: [
     'Graph may contain cycles',
     'Directed graph (links have direction)',
     'All nodes are reachable (via teleportation)',
-    'No self-links assumed in ideal case'
+    'No self-links assumed in ideal case',
   ],
 
   relatedAlgorithms: ['HITS', 'Betweenness Centrality', 'Eigenvector Centrality'],
@@ -65,8 +67,8 @@ export const pageRankInfo = {
     nodeSize: 'Proportional to rank',
     color: 'Monochromatic gray scale',
     animation: 'Rank distribution animation',
-    leaderboard: 'Live ranking table'
-  }
+    leaderboard: 'Live ranking table',
+  },
 }
 
 export default pageRankInfo

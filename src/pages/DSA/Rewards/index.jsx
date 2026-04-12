@@ -15,7 +15,7 @@ const DSARewards = () => {
     { id: 1, action: 'Completed Two Sum problem', points: 50, date: '2023-06-15' },
     { id: 2, action: 'Submitted algorithm explanation', points: 100, date: '2023-06-14' },
     { id: 3, action: 'Participated in discussion', points: 20, date: '2023-06-13' },
-    { id: 4, action: 'Solved Binary Search problem', points: 50, date: '2023-06-12' }
+    { id: 4, action: 'Solved Binary Search problem', points: 50, date: '2023-06-12' },
   ]
 
   return (
@@ -127,7 +127,8 @@ const DSARewards = () => {
                         <div>
                           <h3 className="font-medium text-gray-900">Contribute Content</h3>
                           <p className="text-sm text-gray-600 mt-1">
-                            Earn 50-200 points for submitting explanations, tutorials, or visualizations
+                            Earn 50-200 points for submitting explanations, tutorials, or
+                            visualizations
                           </p>
                         </div>
                       </div>
@@ -140,7 +141,8 @@ const DSARewards = () => {
                         <div>
                           <h3 className="font-medium text-gray-900">Participate in Discussions</h3>
                           <p className="text-sm text-gray-600 mt-1">
-                            Earn 10-50 points for asking questions, answering, or contributing to discussions
+                            Earn 10-50 points for asking questions, answering, or contributing to
+                            discussions
                           </p>
                         </div>
                       </div>
@@ -188,8 +190,11 @@ const DSARewards = () => {
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activities</h2>
                 <div className="space-y-3">
-                  {recentActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  {recentActivities.map(activity => (
+                    <div
+                      key={activity.id}
+                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                    >
                       <div>
                         <p className="font-medium text-gray-900">{activity.action}</p>
                         <p className="text-sm text-gray-500">{activity.date}</p>

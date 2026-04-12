@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react'
+import { ChevronDown, Check } from 'lucide-react'
 
 export default function StyledDropdown({
   label,
@@ -13,55 +13,52 @@ export default function StyledDropdown({
   itemStyle,
   accentColor = '#3b82f6',
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const contentRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef(null)
+  const contentRef = useRef(null)
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   // Handle keyboard navigation
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = e => {
       if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
     if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown)
+      return () => document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen]);
+  }, [isOpen])
 
-  const handleSelect = (optionValue) => {
-    onChange(optionValue);
-    setIsOpen(false);
-  };
+  const handleSelect = optionValue => {
+    onChange(optionValue)
+    setIsOpen(false)
+  }
 
   // Get display text for selected value
   const getDisplayText = () => {
-    if (!value) return placeholder;
-    const selectedOption = options.find(opt => opt.value === value);
-    return selectedOption ? selectedOption.label : placeholder;
-  };
+    if (!value) return placeholder
+    const selectedOption = options.find(opt => opt.value === value)
+    return selectedOption ? selectedOption.label : placeholder
+  }
 
   return (
-    <div 
-      className="dropdown relative w-full" 
-      ref={dropdownRef}
-    >
+    <div className="dropdown relative w-full" ref={dropdownRef}>
       {label && (
         <label
           style={labelStyle}
@@ -100,15 +97,13 @@ export default function StyledDropdown({
           className="dropdown-content absolute left-0 right-0 top-full mt-2.5 bg-white border-2 border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden max-h-96 overflow-y-auto"
         >
           {options.length === 0 ? (
-            <div className="px-4 py-3 text-center text-sm text-gray-500">
-              No options available
-            </div>
+            <div className="px-4 py-3 text-center text-sm text-gray-500">No options available</div>
           ) : (
             options.map((option, idx) => (
               <button
                 key={option.value || idx}
                 onClick={() => handleSelect(option.value)}
-                onMouseDown={(e) => e.preventDefault()}
+                onMouseDown={e => e.preventDefault()}
                 style={{
                   ...itemStyle,
                   borderLeftColor: value === option.value ? accentColor : 'transparent',
@@ -120,14 +115,12 @@ export default function StyledDropdown({
                 }`}
               >
                 <span>{option.label}</span>
-                {value === option.value && (
-                  <Check size={16} style={{ color: accentColor }} />
-                )}
+                {value === option.value && <Check size={16} style={{ color: accentColor }} />}
               </button>
             ))
           )}
         </div>
       )}
     </div>
-  );
+  )
 }

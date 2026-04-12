@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app'
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 // Firebase config
 const firebaseConfig = {
@@ -9,16 +9,17 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
-};
+}
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
 const sampleBlogs = [
   {
-    title: "Understanding Big O Notation: A Complete Guide for Beginners",
-    slug: "understanding-big-o-notation-complete-guide",
-    excerpt: "Learn how to analyze algorithm efficiency using Big O notation. Master time and space complexity concepts that every developer must know.",
+    title: 'Understanding Big O Notation: A Complete Guide for Beginners',
+    slug: 'understanding-big-o-notation-complete-guide',
+    excerpt:
+      'Learn how to analyze algorithm efficiency using Big O notation. Master time and space complexity concepts that every developer must know.',
     content: `# Understanding Big O Notation: A Complete Guide for Beginners
 
 Big O notation is fundamental to computer science and algorithm design. It helps us understand how algorithms scale as the input size grows.
@@ -110,19 +111,21 @@ function binarySearch(arr, target) {
 - Practice analyzing algorithms to build intuition
 
 Master Big O notation and you'll write more efficient code!`,
-    category: "DSA & Algorithms",
-    tags: ["Big O", "Complexity Analysis", "Algorithms", "Beginner"],
-    keywords: "Big O notation, time complexity, space complexity, algorithm analysis, computer science",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Big O', 'Complexity Analysis', 'Algorithms', 'Beginner'],
+    keywords:
+      'Big O notation, time complexity, space complexity, algorithm analysis, computer science',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 245,
-    readTime: "8 min"
+    readTime: '8 min',
   },
   {
-    title: "Bubble Sort Explained: Step-by-Step Tutorial with Visualizations",
-    slug: "bubble-sort-explained-tutorial",
-    excerpt: "Master the fundamentals of sorting with our comprehensive bubble sort guide. Includes code examples and interactive visualizations.",
+    title: 'Bubble Sort Explained: Step-by-Step Tutorial with Visualizations',
+    slug: 'bubble-sort-explained-tutorial',
+    excerpt:
+      'Master the fundamentals of sorting with our comprehensive bubble sort guide. Includes code examples and interactive visualizations.',
     content: `# Bubble Sort Explained: Step-by-Step Tutorial
 
 Bubble Sort is one of the simplest sorting algorithms and a perfect starting point for learning about sorting.
@@ -209,19 +212,20 @@ function optimizedBubbleSort(arr) {
 ✗ Performance-critical applications
 
 Use AlgoView's interactive visualizer to see bubble sort in action!`,
-    category: "DSA & Algorithms",
-    tags: ["Sorting", "Bubble Sort", "Algorithms", "Tutorial"],
-    keywords: "bubble sort, sorting algorithm, algorithm tutorial, step-by-step guide",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Sorting', 'Bubble Sort', 'Algorithms', 'Tutorial'],
+    keywords: 'bubble sort, sorting algorithm, algorithm tutorial, step-by-step guide',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 189,
-    readTime: "6 min"
+    readTime: '6 min',
   },
   {
-    title: "Binary Search: The Fast Way to Find Elements",
-    slug: "binary-search-complete-guide",
-    excerpt: "Discover how binary search achieves O(log n) time complexity. Perfect for sorted arrays and interview preparation.",
+    title: 'Binary Search: The Fast Way to Find Elements',
+    slug: 'binary-search-complete-guide',
+    excerpt:
+      'Discover how binary search achieves O(log n) time complexity. Perfect for sorted arrays and interview preparation.',
     content: `# Binary Search: Find Elements in Logarithmic Time
 
 Binary search is one of the most elegant and efficient algorithms for searching in sorted arrays.
@@ -304,19 +308,20 @@ function binarySearchRecursive(arr, target, left = 0, right = arr.length - 1) {
 ## Practice Problem
 
 Implement a function that finds the first position where a target value should be inserted in a sorted array to keep it sorted.`,
-    category: "DSA & Algorithms",
-    tags: ["Binary Search", "Searching", "Algorithms", "Intermediate"],
-    keywords: "binary search, search algorithm, logarithmic time, divide and conquer",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Binary Search', 'Searching', 'Algorithms', 'Intermediate'],
+    keywords: 'binary search, search algorithm, logarithmic time, divide and conquer',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 312,
-    readTime: "7 min"
+    readTime: '7 min',
   },
   {
-    title: "Dynamic Programming 101: Solve Problems with Memoization",
-    slug: "dynamic-programming-memoization",
-    excerpt: "Learn dynamic programming concepts and memoization techniques to optimize recursive solutions dramatically.",
+    title: 'Dynamic Programming 101: Solve Problems with Memoization',
+    slug: 'dynamic-programming-memoization',
+    excerpt:
+      'Learn dynamic programming concepts and memoization techniques to optimize recursive solutions dramatically.',
     content: `# Dynamic Programming 101: Solve Problems Efficiently
 
 Dynamic Programming (DP) is a powerful technique for solving optimization problems by breaking them into simpler subproblems.
@@ -398,19 +403,20 @@ function fibTab(n) {
 ✗ Problems without optimal substructure
 
 Master DP with AlgoView's interactive tutorials!`,
-    category: "DSA & Algorithms",
-    tags: ["Dynamic Programming", "Optimization", "Algorithms", "Advanced"],
-    keywords: "dynamic programming, memoization, tabulation, optimization problem",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Dynamic Programming', 'Optimization', 'Algorithms', 'Advanced'],
+    keywords: 'dynamic programming, memoization, tabulation, optimization problem',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 156,
-    readTime: "9 min"
+    readTime: '9 min',
   },
   {
-    title: "Mastering Arrays and Linked Lists: Core Data Structures",
-    slug: "arrays-linked-lists-data-structures",
-    excerpt: "Comprehensive guide comparing arrays and linked lists. Understand when to use each data structure for optimal performance.",
+    title: 'Mastering Arrays and Linked Lists: Core Data Structures',
+    slug: 'arrays-linked-lists-data-structures',
+    excerpt:
+      'Comprehensive guide comparing arrays and linked lists. Understand when to use each data structure for optimal performance.',
     content: `# Arrays and Linked Lists: Choosing the Right Data Structure
 
 Arrays and linked lists are fundamental data structures with different strengths and weaknesses.
@@ -534,19 +540,20 @@ class LinkedList {
 3. Practice implementing operations
 4. Think about space vs time trade-off
 5. Consider cache locality in discussions`,
-    category: "DSA & Algorithms",
-    tags: ["Data Structures", "Arrays", "Linked Lists", "Intermediate"],
-    keywords: "arrays, linked lists, data structures, comparison, when to use",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Data Structures', 'Arrays', 'Linked Lists', 'Intermediate'],
+    keywords: 'arrays, linked lists, data structures, comparison, when to use',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 278,
-    readTime: "8 min"
+    readTime: '8 min',
   },
   {
-    title: "Graph Algorithms: BFS, DFS, and Dijkstra Explained",
-    slug: "graph-algorithms-bfs-dfs-dijkstra",
-    excerpt: "Master essential graph traversal and shortest path algorithms. Complete with implementations and real-world applications.",
+    title: 'Graph Algorithms: BFS, DFS, and Dijkstra Explained',
+    slug: 'graph-algorithms-bfs-dfs-dijkstra',
+    excerpt:
+      'Master essential graph traversal and shortest path algorithms. Complete with implementations and real-world applications.',
     content: `# Graph Algorithms: BFS, DFS, and Dijkstra
 
 Graphs are everywhere in computer science. Learn the most important graph algorithms.
@@ -667,19 +674,20 @@ function dijkstra(graph, start) {
 - **Dijkstra**: GPS/Maps, network routing
 
 Use AlgoView to visualize these algorithms in action!`,
-    category: "DSA & Algorithms",
-    tags: ["Graphs", "Algorithms", "BFS", "DFS", "Dijkstra"],
-    keywords: "graph algorithms, BFS, DFS, Dijkstra, shortest path, traversal",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Graphs', 'Algorithms', 'BFS', 'DFS', 'Dijkstra'],
+    keywords: 'graph algorithms, BFS, DFS, Dijkstra, shortest path, traversal',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 401,
-    readTime: "11 min"
+    readTime: '11 min',
   },
   {
-    title: "JavaScript ES6 Features Every Developer Should Know",
-    slug: "javascript-es6-features-guide",
-    excerpt: "Learn modern JavaScript features: arrow functions, destructuring, promises, async/await, and more. Essential for web development.",
+    title: 'JavaScript ES6 Features Every Developer Should Know',
+    slug: 'javascript-es6-features-guide',
+    excerpt:
+      'Learn modern JavaScript features: arrow functions, destructuring, promises, async/await, and more. Essential for web development.',
     content: `# JavaScript ES6 Features: Modern Development Guide
 
 ES6 (ECMAScript 2015) revolutionized JavaScript. Let's explore must-know features.
@@ -867,19 +875,20 @@ Math.max(...numbers); // 3
 6. Understand promises for async operations
 
 Master ES6 and write cleaner, more maintainable code!`,
-    category: "Web Development",
-    tags: ["JavaScript", "ES6", "Web Development", "Beginner"],
-    keywords: "ES6, JavaScript, arrow functions, async/await, destructuring, modern JavaScript",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'Web Development',
+    tags: ['JavaScript', 'ES6', 'Web Development', 'Beginner'],
+    keywords: 'ES6, JavaScript, arrow functions, async/await, destructuring, modern JavaScript',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 523,
-    readTime: "12 min"
+    readTime: '12 min',
   },
   {
-    title: "React Hooks Guide: useState, useEffect, and Custom Hooks",
-    slug: "react-hooks-complete-guide",
-    excerpt: "Master React Hooks to write functional components with state and side effects. Includes custom hooks patterns.",
+    title: 'React Hooks Guide: useState, useEffect, and Custom Hooks',
+    slug: 'react-hooks-complete-guide',
+    excerpt:
+      'Master React Hooks to write functional components with state and side effects. Includes custom hooks patterns.',
     content: `# React Hooks: Modern Functional Component Development
 
 Hooks let you use state and other features in functional components. They're essential modern React.
@@ -1075,19 +1084,20 @@ function Counter() {
 - ✗ Don't ignore lint warnings
 
 Master hooks and write cleaner React code!`,
-    category: "Web Development",
-    tags: ["React", "Hooks", "Web Development", "Frontend"],
-    keywords: "React Hooks, useState, useEffect, custom hooks, functional components",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'Web Development',
+    tags: ['React', 'Hooks', 'Web Development', 'Frontend'],
+    keywords: 'React Hooks, useState, useEffect, custom hooks, functional components',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 456,
-    readTime: "13 min"
+    readTime: '13 min',
   },
   {
-    title: "Time Complexity vs Space Complexity: Finding the Balance",
-    slug: "time-complexity-space-complexity-tradeoff",
-    excerpt: "Understand the fundamental trade-off between time and space complexity. Learn optimization strategies for real-world programs.",
+    title: 'Time Complexity vs Space Complexity: Finding the Balance',
+    slug: 'time-complexity-space-complexity-tradeoff',
+    excerpt:
+      'Understand the fundamental trade-off between time and space complexity. Learn optimization strategies for real-world programs.',
     content: `# Time vs Space Complexity: The Trade-Off
 
 Every programmer must understand the fundamental tension between time and space efficiency.
@@ -1271,42 +1281,42 @@ For a web app with 1 million user queries:
 Remember: "Premature optimization is the root of all evil" - Donald Knuth
 
 Make conscious choices about this trade-off!`,
-    category: "DSA & Algorithms",
-    tags: ["Complexity Analysis", "Optimization", "Time Complexity", "Space Complexity"],
-    keywords: "time complexity, space complexity, trade-off, optimization, memoization",
-    authorEmail: "admin@algovieww.me",
-    authorId: "admin-user",
-    status: "published",
+    category: 'DSA & Algorithms',
+    tags: ['Complexity Analysis', 'Optimization', 'Time Complexity', 'Space Complexity'],
+    keywords: 'time complexity, space complexity, trade-off, optimization, memoization',
+    authorEmail: 'admin@algovieww.me',
+    authorId: 'admin-user',
+    status: 'published',
     views: 334,
-    readTime: "10 min"
-  }
-];
+    readTime: '10 min',
+  },
+]
 
 const populateBlogs = async () => {
   try {
-    console.log('📝 Starting to populate sample blogs...');
-    
-    const blogsRef = collection(db, 'blogs');
-    let count = 0;
+    console.log('📝 Starting to populate sample blogs...')
+
+    const blogsRef = collection(db, 'blogs')
+    let count = 0
 
     for (const blog of sampleBlogs) {
       const docData = {
         ...blog,
         createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      };
+        updatedAt: serverTimestamp(),
+      }
 
-      await addDoc(blogsRef, docData);
-      count++;
-      console.log(`✅ Added blog ${count}/${sampleBlogs.length}: ${blog.title}`);
+      await addDoc(blogsRef, docData)
+      count++
+      console.log(`✅ Added blog ${count}/${sampleBlogs.length}: ${blog.title}`)
     }
 
-    console.log(`\n✨ Successfully added ${count} sample blogs!`);
-    process.exit(0);
+    console.log(`\n✨ Successfully added ${count} sample blogs!`)
+    process.exit(0)
   } catch (error) {
-    console.error('❌ Error populating blogs:', error);
-    process.exit(1);
+    console.error('❌ Error populating blogs:', error)
+    process.exit(1)
   }
-};
+}
 
-populateBlogs();
+populateBlogs()

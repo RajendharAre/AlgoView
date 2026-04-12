@@ -1,42 +1,37 @@
-import React, { memo, useEffect } from 'react';
-import { FaTimes, FaExternalLinkAlt, FaSpinner } from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { memo, useEffect } from 'react'
+import { FaTimes, FaExternalLinkAlt, FaSpinner } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
 
 /**
  * DocumentationViewer Component
  * Modal/drawer for viewing embedded documentation
  * Handles both embedded iframe content and opening external links
  */
-const DocumentationViewer = memo(({
-  isOpen,
-  onClose,
-  documentation,
-  isLoading
-}) => {
+const DocumentationViewer = memo(({ isOpen, onClose, documentation, isLoading }) => {
   // Early returns BEFORE any hooks
   if (!documentation || !isOpen || !documentation.embedAllowed) {
-    return null;
+    return null
   }
 
-  const { title, description, docUrl } = documentation;
+  const { title, description, docUrl } = documentation
 
   // Now we can safely call hooks (always in same order)
   // Close on escape key
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = e => {
       if (e.key === 'Escape') {
-        onClose();
+        onClose()
       }
-    };
+    }
 
-    document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEscape)
+    document.body.style.overflow = 'hidden'
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [onClose]);
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
+  }, [onClose])
 
   return (
     <AnimatePresence>
@@ -58,7 +53,7 @@ const DocumentationViewer = memo(({
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 top-12 bottom-12 left-12 right-12 z-50 flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <div className="w-full h-full max-w-6xl bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col">
               {/* Modal Header */}
@@ -80,7 +75,10 @@ const DocumentationViewer = memo(({
               <div className="flex-1 overflow-hidden relative">
                 {isLoading && (
                   <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
-                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity }}>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    >
                       <FaSpinner size={32} className="text-blue-500" />
                     </motion.div>
                   </div>
@@ -101,7 +99,11 @@ const DocumentationViewer = memo(({
               {/* Modal Footer */}
               <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
                 <p className="text-xs text-gray-600">
-                  Press <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-medium">ESC</kbd> to close
+                  Press{' '}
+                  <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-medium">
+                    ESC
+                  </kbd>{' '}
+                  to close
                 </p>
                 <a
                   href={docUrl}
@@ -118,9 +120,9 @@ const DocumentationViewer = memo(({
         </>
       )}
     </AnimatePresence>
-  );
-});
+  )
+})
 
-DocumentationViewer.displayName = 'DocumentationViewer';
+DocumentationViewer.displayName = 'DocumentationViewer'
 
-export default DocumentationViewer;
+export default DocumentationViewer

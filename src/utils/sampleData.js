@@ -3,14 +3,15 @@
 
 export const sampleTutorials = [
   {
-    id: "react-hooks",
-    title: "React Hooks - Complete Guide",
-    description: "Learn useState, useEffect, useContext, useRef and custom hooks with practical examples for modern React development.",
-    category: "Web",
-    difficulty: "Beginner",
+    id: 'react-hooks',
+    title: 'React Hooks - Complete Guide',
+    description:
+      'Learn useState, useEffect, useContext, useRef and custom hooks with practical examples for modern React development.',
+    category: 'Web',
+    difficulty: 'Beginner',
     duration: 20,
-    author: "AlgoView Team",
-    tags: ["react", "hooks", "frontend"],
+    author: 'AlgoView Team',
+    tags: ['react', 'hooks', 'frontend'],
     content: `<h2>React Hooks</h2><p>Master modern React development with hooks...</p>`,
     fullContent: `## Introduction to React Hooks
 
@@ -175,18 +176,20 @@ Hooks make React development more intuitive and composable. Practice building cu
     rating: 4.9,
     ratingCount: 312,
     isPremium: false,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FReactJS.webp?alt=media",
-    localImageUrl: "/images/tutorials/ReactJS.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FReactJS.webp?alt=media',
+    localImageUrl: '/images/tutorials/ReactJS.webp',
   },
   {
-    id: "nodejs-rest-api",
-    title: "Node.js REST API Development",
-    description: "Build production-ready REST APIs with Node.js, Express, and MongoDB. Covers authentication, validation, and deployment.",
-    category: "Web",
-    difficulty: "Intermediate",
+    id: 'nodejs-rest-api',
+    title: 'Node.js REST API Development',
+    description:
+      'Build production-ready REST APIs with Node.js, Express, and MongoDB. Covers authentication, validation, and deployment.',
+    category: 'Web',
+    difficulty: 'Intermediate',
     duration: 30,
-    author: "AlgoView Team",
-    tags: ["nodejs", "express", "api", "backend"],
+    author: 'AlgoView Team',
+    tags: ['nodejs', 'express', 'api', 'backend'],
     content: `<h2>REST API with Node.js</h2><p>Build robust APIs with Express...</p>`,
     fullContent: `## Building REST APIs with Node.js & Express
 
@@ -322,18 +325,20 @@ Build on these foundations to create scalable, production-ready APIs!`,
     rating: 4.8,
     ratingCount: 245,
     isPremium: false,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FNodeJS.webp?alt=media",
-    localImageUrl: "/images/tutorials/NodeJS.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FNodeJS.webp?alt=media',
+    localImageUrl: '/images/tutorials/NodeJS.webp',
   },
   {
-    id: "css-grid-flexbox",
-    title: "CSS Grid & Flexbox Mastery",
-    description: "Master modern CSS layout techniques with Grid and Flexbox. Build responsive layouts for any screen size.",
-    category: "Web",
-    difficulty: "Beginner",
+    id: 'css-grid-flexbox',
+    title: 'CSS Grid & Flexbox Mastery',
+    description:
+      'Master modern CSS layout techniques with Grid and Flexbox. Build responsive layouts for any screen size.',
+    category: 'Web',
+    difficulty: 'Beginner',
     duration: 18,
-    author: "AlgoView Team",
-    tags: ["css", "grid", "flexbox", "responsive"],
+    author: 'AlgoView Team',
+    tags: ['css', 'grid', 'flexbox', 'responsive'],
     content: `<h2>CSS Grid & Flexbox</h2><p>Modern layout techniques...</p>`,
     fullContent: `## CSS Grid & Flexbox — Modern Layout Mastery
 
@@ -448,18 +453,20 @@ Both Flexbox and Grid are essential tools. Use **Flexbox** for components and on
     rating: 4.7,
     ratingCount: 198,
     isPremium: false,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FCSSFlexBox.webp?alt=media",
-    localImageUrl: "/images/tutorials/CSSFlexBox.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FCSSFlexBox.webp?alt=media',
+    localImageUrl: '/images/tutorials/CSSFlexBox.webp',
   },
   {
-    id: "typescript-react",
-    title: "TypeScript for React Developers",
-    description: "Add type safety to your React projects with TypeScript. Covers generics, interfaces, and advanced patterns.",
-    category: "Web",
-    difficulty: "Intermediate",
+    id: 'typescript-react',
+    title: 'TypeScript for React Developers',
+    description:
+      'Add type safety to your React projects with TypeScript. Covers generics, interfaces, and advanced patterns.',
+    category: 'Web',
+    difficulty: 'Intermediate',
     duration: 25,
-    author: "AlgoView Team",
-    tags: ["typescript", "react", "types"],
+    author: 'AlgoView Team',
+    tags: ['typescript', 'react', 'types'],
     content: `<h2>TypeScript with React</h2><p>Type-safe React development...</p>`,
     fullContent: `## TypeScript for React — Type-Safe Development
 
@@ -553,18 +560,20 @@ TypeScript catches errors early and makes refactoring safe. Start with strict mo
     rating: 4.8,
     ratingCount: 189,
     isPremium: false,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FTypeScript.webp?alt=media",
-    localImageUrl: "/images/tutorials/TypeScript.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FTypeScript.webp?alt=media',
+    localImageUrl: '/images/tutorials/TypeScript.webp',
   },
   {
-    id: "docker-containerization",
-    title: "Docker & Containerization",
-    description: "Learn Docker from scratch. Build, ship, and run applications in containers with Docker Compose and best practices.",
-    category: "DevOps",
-    difficulty: "Intermediate",
+    id: 'docker-containerization',
+    title: 'Docker & Containerization',
+    description:
+      'Learn Docker from scratch. Build, ship, and run applications in containers with Docker Compose and best practices.',
+    category: 'DevOps',
+    difficulty: 'Intermediate',
     duration: 28,
-    author: "AlgoView Team",
-    tags: ["docker", "containers", "devops"],
+    author: 'AlgoView Team',
+    tags: ['docker', 'containers', 'devops'],
     content: `<h2>Docker Essentials</h2><p>Containerize your applications...</p>`,
     fullContent: `## Docker & Containerization
 
@@ -677,18 +686,20 @@ Docker simplifies deployment and ensures consistency across environments!`,
     rating: 4.6,
     ratingCount: 167,
     isPremium: false,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FDockerContainer.webp?alt=media",
-    localImageUrl: "/images/tutorials/DockerContainer.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FDockerContainer.webp?alt=media',
+    localImageUrl: '/images/tutorials/DockerContainer.webp',
   },
   {
-    id: "nextjs-fullstack",
-    title: "Next.js Full-Stack Development",
-    description: "Build full-stack web applications with Next.js 14. Server components, API routes, and deployment strategies.",
-    category: "Web",
-    difficulty: "Advanced",
+    id: 'nextjs-fullstack',
+    title: 'Next.js Full-Stack Development',
+    description:
+      'Build full-stack web applications with Next.js 14. Server components, API routes, and deployment strategies.',
+    category: 'Web',
+    difficulty: 'Advanced',
     duration: 35,
-    author: "AlgoView Team",
-    tags: ["nextjs", "react", "fullstack", "ssr"],
+    author: 'AlgoView Team',
+    tags: ['nextjs', 'react', 'fullstack', 'ssr'],
     content: `<h2>Next.js Full-Stack</h2><p>Modern full-stack development...</p>`,
     fullContent: `## Next.js 14 — Full-Stack React Framework
 
@@ -783,18 +794,20 @@ Next.js is the go-to framework for full-stack React applications!`,
     rating: 4.9,
     ratingCount: 287,
     isPremium: true,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FNextJS.webp?alt=media",
-    localImageUrl: "/images/tutorials/NextJS.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FNextJS.webp?alt=media',
+    localImageUrl: '/images/tutorials/NextJS.webp',
   },
   {
-    id: "tailwind-css",
-    title: "Tailwind CSS Advanced Techniques",
-    description: "Go beyond basics with Tailwind CSS. Custom plugins, design systems, dark mode, and animation patterns.",
-    category: "Web",
-    difficulty: "Beginner",
+    id: 'tailwind-css',
+    title: 'Tailwind CSS Advanced Techniques',
+    description:
+      'Go beyond basics with Tailwind CSS. Custom plugins, design systems, dark mode, and animation patterns.',
+    category: 'Web',
+    difficulty: 'Beginner',
     duration: 15,
-    author: "AlgoView Team",
-    tags: ["tailwind", "css", "design-system"],
+    author: 'AlgoView Team',
+    tags: ['tailwind', 'css', 'design-system'],
     content: `<h2>Tailwind CSS Advanced</h2><p>Master utility-first CSS...</p>`,
     fullContent: `## Tailwind CSS — Utility-First Mastery
 
@@ -908,18 +921,20 @@ Tailwind CSS accelerates UI development while maintaining full design control!`,
     rating: 4.8,
     ratingCount: 143,
     isPremium: false,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FTailWindCSS.webp?alt=media",
-    localImageUrl: "/images/tutorials/TailWindCSS.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FTailWindCSS.webp?alt=media',
+    localImageUrl: '/images/tutorials/TailWindCSS.webp',
   },
   {
-    id: "cicd-github-actions",
-    title: "CI/CD Pipeline with GitHub Actions",
-    description: "Automate testing, building, and deployment with GitHub Actions. Covers workflows, secrets, and deployment strategies.",
-    category: "DevOps",
-    difficulty: "Advanced",
+    id: 'cicd-github-actions',
+    title: 'CI/CD Pipeline with GitHub Actions',
+    description:
+      'Automate testing, building, and deployment with GitHub Actions. Covers workflows, secrets, and deployment strategies.',
+    category: 'DevOps',
+    difficulty: 'Advanced',
     duration: 32,
-    author: "AlgoView Team",
-    tags: ["ci-cd", "github-actions", "automation"],
+    author: 'AlgoView Team',
+    tags: ['ci-cd', 'github-actions', 'automation'],
     content: `<h2>CI/CD with GitHub Actions</h2><p>Automate your deployment pipeline...</p>`,
     fullContent: `## CI/CD with GitHub Actions
 
@@ -1037,18 +1052,20 @@ GitHub Actions makes CI/CD accessible and integrated with your code!`,
     rating: 4.7,
     ratingCount: 156,
     isPremium: true,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FDockerContainer.webp?alt=media",
-    localImageUrl: "/images/tutorials/DockerContainer.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FDockerContainer.webp?alt=media',
+    localImageUrl: '/images/tutorials/DockerContainer.webp',
   },
   {
-    id: "mongodb-mongoose",
-    title: "MongoDB & Mongoose Complete Guide",
-    description: "Learn MongoDB with Mongoose ODM. Schema design, queries, aggregation pipeline, and performance optimization.",
-    category: "Web",
-    difficulty: "Intermediate",
+    id: 'mongodb-mongoose',
+    title: 'MongoDB & Mongoose Complete Guide',
+    description:
+      'Learn MongoDB with Mongoose ODM. Schema design, queries, aggregation pipeline, and performance optimization.',
+    category: 'Web',
+    difficulty: 'Intermediate',
     duration: 22,
-    author: "AlgoView Team",
-    tags: ["mongodb", "mongoose", "database", "backend"],
+    author: 'AlgoView Team',
+    tags: ['mongodb', 'mongoose', 'database', 'backend'],
     content: `<h2>MongoDB & Mongoose</h2><p>Master NoSQL database development...</p>`,
     fullContent: `## MongoDB & Mongoose — NoSQL Database Guide
 
@@ -1152,18 +1169,20 @@ MongoDB + Mongoose gives you flexible schema design with powerful querying!`,
     rating: 4.8,
     ratingCount: 203,
     isPremium: true,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FMongoDB.webp?alt=media",
-    localImageUrl: "/images/tutorials/MongoDB.webp"
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FMongoDB.webp?alt=media',
+    localImageUrl: '/images/tutorials/MongoDB.webp',
   },
   {
-    id: "aws-cloud-deployment",
-    title: "AWS Cloud Deployment Guide",
-    description: "Deploy web applications on AWS. EC2, S3, Lambda, CloudFront, and infrastructure as code with Terraform.",
-    category: "Cloud",
-    difficulty: "Advanced",
+    id: 'aws-cloud-deployment',
+    title: 'AWS Cloud Deployment Guide',
+    description:
+      'Deploy web applications on AWS. EC2, S3, Lambda, CloudFront, and infrastructure as code with Terraform.',
+    category: 'Cloud',
+    difficulty: 'Advanced',
     duration: 40,
-    author: "AlgoView Team",
-    tags: ["aws", "cloud", "deployment", "terraform"],
+    author: 'AlgoView Team',
+    tags: ['aws', 'cloud', 'deployment', 'terraform'],
     content: `<h2>AWS Deployment</h2><p>Cloud infrastructure for developers...</p>`,
     fullContent: `## AWS Cloud Deployment Guide
 
@@ -1269,15 +1288,16 @@ Start with S3 + CloudFront for static sites, EC2 for full control, and Lambda fo
     rating: 4.7,
     ratingCount: 267,
     isPremium: true,
-    imageUrl: "https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FAWSCloud.webp?alt=media",
-    localImageUrl: "/images/tutorials/AWSCloud.webp"
-  }
-];
+    imageUrl:
+      'https://firebasestorage.googleapis.com/v0/b/algorithm-visualizer-b963c.firebasestorage.app/o/tutorials%2FAWSCloud.webp?alt=media',
+    localImageUrl: '/images/tutorials/AWSCloud.webp',
+  },
+]
 
 export const sampleCodeExamples = [
   {
-    title: "React Custom Hook - useLocalStorage",
-    description: "Reusable custom hook for persisting state in localStorage",
+    title: 'React Custom Hook - useLocalStorage',
+    description: 'Reusable custom hook for persisting state in localStorage',
     code: `import { useState, useEffect } from 'react';
 
 function useLocalStorage(key, initialValue) {
@@ -1303,15 +1323,15 @@ function useLocalStorage(key, initialValue) {
 }
 
 export default useLocalStorage;`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "localStorage"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'localStorage'],
     copies: 287,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "Express.js REST API with CRUD",
-    description: "Complete REST API boilerplate with Express and error handling",
+    title: 'Express.js REST API with CRUD',
+    description: 'Complete REST API boilerplate with Express and error handling',
     code: `const express = require('express');
 const router = express.Router();
 
@@ -1337,15 +1357,15 @@ router.post('/items', async (req, res) => {
 });
 
 module.exports = router;`,
-    language: "javascript",
-    complexity: "O(n)",
-    tags: ["express", "api", "rest", "backend"],
+    language: 'javascript',
+    complexity: 'O(n)',
+    tags: ['express', 'api', 'rest', 'backend'],
     copies: 198,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "Python Flask API with JWT Auth",
-    description: "Secure Flask API endpoint with JWT token authentication",
+    title: 'Python Flask API with JWT Auth',
+    description: 'Secure Flask API endpoint with JWT token authentication',
     code: `from flask import Flask, request, jsonify
 from functools import wraps
 import jwt
@@ -1370,15 +1390,15 @@ def token_required(f):
 @token_required
 def protected():
     return jsonify({'message': 'Access granted'})`,
-    language: "python",
-    complexity: "O(1)",
-    tags: ["flask", "jwt", "authentication", "python"],
+    language: 'python',
+    complexity: 'O(1)',
+    tags: ['flask', 'jwt', 'authentication', 'python'],
     copies: 167,
-    rating: 4.7
+    rating: 4.7,
   },
   {
-    title: "React useReducer State Pattern",
-    description: "Complex state management with useReducer and TypeScript-style actions",
+    title: 'React useReducer State Pattern',
+    description: 'Complex state management with useReducer and TypeScript-style actions',
     code: `import { useReducer } from 'react';
 
 const initialState = { items: [], loading: false, error: null };
@@ -1406,15 +1426,15 @@ function useItemManager() {
 }
 
 export default useItemManager;`,
-    language: "javascript",
-    complexity: "O(n)",
-    tags: ["react", "useReducer", "state-management"],
+    language: 'javascript',
+    complexity: 'O(n)',
+    tags: ['react', 'useReducer', 'state-management'],
     copies: 234,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "Go HTTP Server with Middleware",
-    description: "Production-ready Go HTTP server with logging and CORS middleware",
+    title: 'Go HTTP Server with Middleware',
+    description: 'Production-ready Go HTTP server with logging and CORS middleware',
     code: `package main
 
 import (
@@ -1448,15 +1468,15 @@ func main() {
   handler := loggingMiddleware(corsMiddleware(mux))
   log.Fatal(http.ListenAndServe(":8080", handler))
 }`,
-    language: "go",
-    complexity: "O(1)",
-    tags: ["go", "http", "middleware", "backend"],
+    language: 'go',
+    complexity: 'O(1)',
+    tags: ['go', 'http', 'middleware', 'backend'],
     copies: 145,
-    rating: 4.6
+    rating: 4.6,
   },
   {
-    title: "Two Pointers Algorithm - Remove Duplicates",
-    description: "Interview classic: Remove duplicates from sorted array in-place",
+    title: 'Two Pointers Algorithm - Remove Duplicates',
+    description: 'Interview classic: Remove duplicates from sorted array in-place',
     code: `function removeDuplicates(nums) {
   if (nums.length === 0) return 0;
   
@@ -1475,15 +1495,15 @@ func main() {
 // Time: O(n), Space: O(1)
 const arr = [1, 1, 2, 2, 3, 4, 4, 5];
 console.log(removeDuplicates(arr));  // Output: 5`,
-    language: "javascript",
-    complexity: "O(n)",
-    tags: ["algorithms", "two-pointers", "interview"],
+    language: 'javascript',
+    complexity: 'O(n)',
+    tags: ['algorithms', 'two-pointers', 'interview'],
     copies: 412,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "Binary Search Implementation",
-    description: "Efficient searching in sorted arrays - fundamental interview question",
+    title: 'Binary Search Implementation',
+    description: 'Efficient searching in sorted arrays - fundamental interview question',
     code: `function binarySearch(arr, target) {
   let left = 0;
   let right = arr.length - 1;
@@ -1506,15 +1526,15 @@ console.log(removeDuplicates(arr));  // Output: 5`,
 // Time: O(log n), Space: O(1)
 const sorted = [1, 3, 5, 7, 9, 11, 13];
 console.log(binarySearch(sorted, 7));  // Output: 3`,
-    language: "javascript",
-    complexity: "O(log n)",
-    tags: ["algorithms", "binary-search", "interview"],
+    language: 'javascript',
+    complexity: 'O(log n)',
+    tags: ['algorithms', 'binary-search', 'interview'],
     copies: 356,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "LRU Cache Implementation - System Design",
-    description: "Least Recently Used Cache with O(1) get and set operations",
+    title: 'LRU Cache Implementation - System Design',
+    description: 'Least Recently Used Cache with O(1) get and set operations',
     code: `class LRUCache {
   constructor(capacity) {
     this.capacity = capacity;
@@ -1545,15 +1565,15 @@ const lru = new LRUCache(2);
 lru.set(1, 'a');
 lru.set(2, 'b');
 console.log(lru.get(1));  // 'a'`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["system-design", "cache", "data-structures"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['system-design', 'cache', 'data-structures'],
     copies: 298,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "Rate Limiter - System Design Pattern",
-    description: "Token bucket rate limiting for API endpoints - production pattern",
+    title: 'Rate Limiter - System Design Pattern',
+    description: 'Token bucket rate limiting for API endpoints - production pattern',
     code: `class RateLimiter {
   constructor(maxRequests, windowMs) {
     this.maxRequests = maxRequests;
@@ -1581,15 +1601,15 @@ console.log(lru.get(1));  // 'a'`,
 
 const limiter = new RateLimiter(5, 60000);  // 5 requests per minute
 console.log(limiter.isAllowed('user1'));  // true`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["system-design", "rate-limiting", "nodejs"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['system-design', 'rate-limiting', 'nodejs'],
     copies: 234,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "Database Connection Pool - Node.js",
-    description: "Efficient database connection pooling for production applications",
+    title: 'Database Connection Pool - Node.js',
+    description: 'Efficient database connection pooling for production applications',
     code: `const mysql = require('mysql2/promise');
 
 class ConnectionPool {
@@ -1625,15 +1645,15 @@ class ConnectionPool {
 
 const pool = new ConnectionPool({ host: 'localhost', user: 'root', password: '', database: 'mydb' });
 const users = await pool.query('SELECT * FROM users WHERE id = ?', [1]);`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["nodejs", "database", "connection-pooling"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['nodejs', 'database', 'connection-pooling'],
     copies: 187,
-    rating: 4.7
+    rating: 4.7,
   },
   {
-    title: "SQL Query Optimization - DBMS",
-    description: "Optimized SQL queries with indexing strategies and query patterns",
+    title: 'SQL Query Optimization - DBMS',
+    description: 'Optimized SQL queries with indexing strategies and query patterns',
     code: `-- Index creation for performance optimization
 CREATE INDEX idx_user_email ON users(email);
 CREATE INDEX idx_order_user_date ON orders(user_id, created_at);
@@ -1663,15 +1683,15 @@ SELECT id, name, amount,
   ROW_NUMBER() OVER (ORDER BY amount DESC) as rank
 FROM orders
 WHERE year = 2025;`,
-    language: "sql",
-    complexity: "O(n log n)",
-    tags: ["dbms", "sql", "optimization"],
+    language: 'sql',
+    complexity: 'O(n log n)',
+    tags: ['dbms', 'sql', 'optimization'],
     copies: 312,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "Sliding Window Pattern - String Matching",
-    description: "Optimal sliding window for substring and array problems",
+    title: 'Sliding Window Pattern - String Matching',
+    description: 'Optimal sliding window for substring and array problems',
     code: `function longestSubstringWithoutRepeating(s) {
   const charIndex = new Map();
   let maxLength = 0;
@@ -1695,15 +1715,15 @@ WHERE year = 2025;`,
 console.log(longestSubstringWithoutRepeating("abcabcbb"));  // 3
 console.log(longestSubstringWithoutRepeating("bbbbb"));     // 1
 console.log(longestSubstringWithoutRepeating("pwwkew"));    // 3`,
-    language: "javascript",
-    complexity: "O(n)",
-    tags: ["algorithms", "sliding-window", "interview"],
+    language: 'javascript',
+    complexity: 'O(n)',
+    tags: ['algorithms', 'sliding-window', 'interview'],
     copies: 289,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "Event Emitter Pattern - Node.js",
-    description: "Custom event-driven architecture implementation",
+    title: 'Event Emitter Pattern - Node.js',
+    description: 'Custom event-driven architecture implementation',
     code: `class EventEmitter {
   constructor() {
     this.events = {};
@@ -1734,15 +1754,15 @@ console.log(longestSubstringWithoutRepeating("pwwkew"));    // 3`,
 const emitter = new EventEmitter();
 emitter.on('user:login', (user) => console.log(\`\${user} logged in\`));
 emitter.emit('user:login', 'John');  // Output: "John logged in"`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["nodejs", "design-patterns", "event-driven"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['nodejs', 'design-patterns', 'event-driven'],
     copies: 223,
-    rating: 4.7
+    rating: 4.7,
   },
   {
-    title: "Cursor-based Pagination - Node.js",
-    description: "Efficient pagination pattern for large datasets",
+    title: 'Cursor-based Pagination - Node.js',
+    description: 'Efficient pagination pattern for large datasets',
     code: `async function getPaginatedUsers(cursor = null, limit = 20) {
   let query = 'SELECT * FROM users';
   let params = [];
@@ -1775,15 +1795,15 @@ app.get('/users', async (req, res) => {
   const result = await getPaginatedUsers(cursor);
   res.json(result);
 });`,
-    language: "javascript",
-    complexity: "O(n)",
-    tags: ["nodejs", "pagination", "database"],
+    language: 'javascript',
+    complexity: 'O(n)',
+    tags: ['nodejs', 'pagination', 'database'],
     copies: 198,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "Worker Threads - Node.js CPU Intensive Tasks",
-    description: "Handle blocking CPU operations without freezing the event loop",
+    title: 'Worker Threads - Node.js CPU Intensive Tasks',
+    description: 'Handle blocking CPU operations without freezing the event loop',
     code: `const { Worker } = require('worker_threads');
 const path = require('path');
 
@@ -1819,15 +1839,15 @@ parentPort.on('message', (data) => {
   const result = data.numbers.reduce((a, b) => a + b, 0);
   parentPort.postMessage(result);
 });`,
-    language: "javascript",
-    complexity: "O(n)",
-    tags: ["nodejs", "performance", "concurrency"],
+    language: 'javascript',
+    complexity: 'O(n)',
+    tags: ['nodejs', 'performance', 'concurrency'],
     copies: 156,
-    rating: 4.7
+    rating: 4.7,
   },
   {
-    title: "React useContext - Global State Management",
-    description: "Manage global state without Redux using React Context API",
+    title: 'React useContext - Global State Management',
+    description: 'Manage global state without Redux using React Context API',
     code: `import React, { createContext, useContext, useState } from 'react';
 
 // Create context
@@ -1866,15 +1886,15 @@ function App() {
     </div>
   );
 }`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "context-api", "state-management"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'context-api', 'state-management'],
     copies: 323,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "React useMemo - Performance Optimization",
-    description: "Prevent unnecessary recalculations with useMemo hook",
+    title: 'React useMemo - Performance Optimization',
+    description: 'Prevent unnecessary recalculations with useMemo hook',
     code: `import React, { useMemo, useState } from 'react';
 
 // Expensive computation
@@ -1907,15 +1927,15 @@ function ShoppingCart({ items, taxRate }) {
 }
 
 export default ShoppingCart;`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "performance", "optimization"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'performance', 'optimization'],
     copies: 287,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "React useCallback - Memoize Functions",
-    description: "Prevent function recreation to optimize child component renders",
+    title: 'React useCallback - Memoize Functions',
+    description: 'Prevent function recreation to optimize child component renders',
     code: `import React, { useCallback, useState, memo } from 'react';
 
 // Memoized child component
@@ -1948,15 +1968,15 @@ function ParentComponent() {
 }
 
 export default ParentComponent;`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "callback", "performance"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'callback', 'performance'],
     copies: 245,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "React useRef - DOM Access and Mutable Values",
-    description: "Access DOM elements directly and persist values without causing re-renders",
+    title: 'React useRef - DOM Access and Mutable Values',
+    description: 'Access DOM elements directly and persist values without causing re-renders',
     code: `import React, { useRef, useState } from 'react';
 
 function TextInput() {
@@ -1997,15 +2017,15 @@ function TextInput() {
 }
 
 export default TextInput;`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "useRef", "dom-access"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'useRef', 'dom-access'],
     copies: 267,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "React Custom Hook - useAsync",
-    description: "Reusable hook for handling async operations with loading and error states",
+    title: 'React Custom Hook - useAsync',
+    description: 'Reusable hook for handling async operations with loading and error states',
     code: `import { useState, useEffect } from 'react';
 
 function useAsync(asyncFunction, immediate = true) {
@@ -2051,15 +2071,15 @@ function UserProfile({ userId }) {
 }
 
 export { useAsync };`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "custom-hooks", "async"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'custom-hooks', 'async'],
     copies: 298,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "React useEffect - Advanced Patterns",
-    description: "Master useEffect with cleanup, dependencies, and common patterns",
+    title: 'React useEffect - Advanced Patterns',
+    description: 'Master useEffect with cleanup, dependencies, and common patterns',
     code: `import { useEffect, useState } from 'react';
 
 function AdvancedEffectExample() {
@@ -2111,15 +2131,15 @@ function AdvancedEffectExample() {
 }
 
 export default AdvancedEffectExample;`,
-    language: "javascript",
-    complexity: "O(1)",
-    tags: ["react", "hooks", "useEffect", "lifecycle"],
+    language: 'javascript',
+    complexity: 'O(1)',
+    tags: ['react', 'hooks', 'useEffect', 'lifecycle'],
     copies: 234,
-    rating: 4.9
+    rating: 4.9,
   },
   {
-    title: "SQL Transactions - ACID Compliance",
-    description: "Implement atomic transactions for data consistency",
+    title: 'SQL Transactions - ACID Compliance',
+    description: 'Implement atomic transactions for data consistency',
     code: `-- Explicit transaction with COMMIT and ROLLBACK
 START TRANSACTION;
 
@@ -2149,15 +2169,15 @@ START TRANSACTION;
   
   INSERT INTO logs (message) VALUES ('Operation completed');
 COMMIT;`,
-    language: "sql",
-    complexity: "O(n)",
-    tags: ["dbms", "sql", "transactions", "acid"],
+    language: 'sql',
+    complexity: 'O(n)',
+    tags: ['dbms', 'sql', 'transactions', 'acid'],
     copies: 213,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "SQL Window Functions - Advanced Analytics",
-    description: "Perform complex analytics with ROW_NUMBER, RANK, and DENSE_RANK",
+    title: 'SQL Window Functions - Advanced Analytics',
+    description: 'Perform complex analytics with ROW_NUMBER, RANK, and DENSE_RANK',
     code: `-- ROW_NUMBER - Unique sequential number
 SELECT 
   employee_id, 
@@ -2190,15 +2210,15 @@ SELECT
   SUM(daily_sales) OVER (ORDER BY date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as running_total
 FROM sales
 ORDER BY date;`,
-    language: "sql",
-    complexity: "O(n log n)",
-    tags: ["dbms", "sql", "window-functions", "analytics"],
+    language: 'sql',
+    complexity: 'O(n log n)',
+    tags: ['dbms', 'sql', 'window-functions', 'analytics'],
     copies: 189,
-    rating: 4.8
+    rating: 4.8,
   },
   {
-    title: "SQL Subqueries and CTEs - Complex Queries",
-    description: "Master Common Table Expressions and correlated subqueries",
+    title: 'SQL Subqueries and CTEs - Complex Queries',
+    description: 'Master Common Table Expressions and correlated subqueries',
     code: `-- Common Table Expression (CTE)
 WITH active_users AS (
   SELECT id, name, email, created_at
@@ -2242,15 +2262,15 @@ SELECT
   (SELECT AVG(amount) FROM orders WHERE user_id = o.user_id) as user_avg
 FROM orders o
 WHERE o.amount > (SELECT AVG(amount) FROM orders);`,
-    language: "sql",
-    complexity: "O(n²)",
-    tags: ["dbms", "sql", "cte", "subqueries"],
+    language: 'sql',
+    complexity: 'O(n²)',
+    tags: ['dbms', 'sql', 'cte', 'subqueries'],
     copies: 167,
-    rating: 4.7
+    rating: 4.7,
   },
   {
-    title: "SQL JSON Operations - Data Extraction",
-    description: "Work with JSON data types in modern SQL databases",
+    title: 'SQL JSON Operations - Data Extraction',
+    description: 'Work with JSON data types in modern SQL databases',
     code: `-- Extract JSON values
 SELECT 
   id,
@@ -2291,15 +2311,15 @@ SELECT
   jsonb_array_elements(tags) as tag
 FROM items
 WHERE tags IS NOT NULL;`,
-    language: "sql",
-    complexity: "O(n)",
-    tags: ["dbms", "sql", "json", "postgresql"],
+    language: 'sql',
+    complexity: 'O(n)',
+    tags: ['dbms', 'sql', 'json', 'postgresql'],
     copies: 145,
-    rating: 4.7
+    rating: 4.7,
   },
   {
-    title: "SQL Performance - Query Execution Plans",
-    description: "Analyze and optimize query performance with EXPLAIN",
+    title: 'SQL Performance - Query Execution Plans',
+    description: 'Analyze and optimize query performance with EXPLAIN',
     code: `-- Analyze query execution plan
 EXPLAIN ANALYZE
 SELECT u.id, u.name, COUNT(o.id) as total_orders
@@ -2334,198 +2354,199 @@ SELECT
   idx_scan
 FROM pg_stat_user_indexes
 ORDER BY idx_scan DESC;`,
-    language: "sql",
-    complexity: "O(1)",
-    tags: ["dbms", "sql", "performance", "profiling"],
+    language: 'sql',
+    complexity: 'O(1)',
+    tags: ['dbms', 'sql', 'performance', 'profiling'],
     copies: 178,
-    rating: 4.8
-  }
-];
+    rating: 4.8,
+  },
+]
 
 export const sampleVideoCourses = [
   {
-    title: "Data Structures & Algorithms Complete Course",
-    platform: "YouTube",
-    url: "https://www.youtube.com/watch?v=example1",
-    thumbnail: "https://via.placeholder.com/300x170?text=DSA+Course",
-    duration: "15 hours",
-    category: "DSA",
-    author: "freeCodeCamp",
+    title: 'Data Structures & Algorithms Complete Course',
+    platform: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=example1',
+    thumbnail: 'https://via.placeholder.com/300x170?text=DSA+Course',
+    duration: '15 hours',
+    category: 'DSA',
+    author: 'freeCodeCamp',
     rating: 4.9,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "JavaScript Advanced Concepts",
-    platform: "YouTube",
-    url: "https://www.youtube.com/watch?v=example2",
-    thumbnail: "https://via.placeholder.com/300x170?text=JS+Advanced",
-    duration: "8 hours",
-    category: "Web",
-    author: "Web Dev Simplified",
+    title: 'JavaScript Advanced Concepts',
+    platform: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=example2',
+    thumbnail: 'https://via.placeholder.com/300x170?text=JS+Advanced',
+    duration: '8 hours',
+    category: 'Web',
+    author: 'Web Dev Simplified',
     rating: 4.8,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "Leetcode Problem Solving Masterclass",
-    platform: "Udemy",
-    url: "https://www.udemy.com/example3",
-    thumbnail: "https://via.placeholder.com/300x170?text=Leetcode",
-    duration: "12 hours",
-    category: "DSA",
-    author: "Coding Interview Expert",
+    title: 'Leetcode Problem Solving Masterclass',
+    platform: 'Udemy',
+    url: 'https://www.udemy.com/example3',
+    thumbnail: 'https://via.placeholder.com/300x170?text=Leetcode',
+    duration: '12 hours',
+    category: 'DSA',
+    author: 'Coding Interview Expert',
     rating: 4.7,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "React JS Complete Guide 2024",
-    platform: "Udemy",
-    url: "https://www.udemy.com/example4",
-    thumbnail: "https://via.placeholder.com/300x170?text=React+2024",
-    duration: "50 hours",
-    category: "Web",
-    author: "Acadmind",
+    title: 'React JS Complete Guide 2024',
+    platform: 'Udemy',
+    url: 'https://www.udemy.com/example4',
+    thumbnail: 'https://via.placeholder.com/300x170?text=React+2024',
+    duration: '50 hours',
+    category: 'Web',
+    author: 'Acadmind',
     rating: 4.9,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "System Design Interview Preparation",
-    platform: "YouTube",
-    url: "https://www.youtube.com/watch?v=example5",
-    thumbnail: "https://via.placeholder.com/300x170?text=System+Design",
-    duration: "10 hours",
-    category: "DevOps",
-    author: "TechLead",
+    title: 'System Design Interview Preparation',
+    platform: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=example5',
+    thumbnail: 'https://via.placeholder.com/300x170?text=System+Design',
+    duration: '10 hours',
+    category: 'DevOps',
+    author: 'TechLead',
     rating: 4.6,
-    isPremium: true
-  }
-];
+    isPremium: true,
+  },
+]
 
 export const sampleDocs = [
   {
-    title: "MDN Web Docs - JavaScript",
-    category: "JavaScript",
-    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
-    description: "Official Mozilla documentation for JavaScript",
-    type: "official",
+    title: 'MDN Web Docs - JavaScript',
+    category: 'JavaScript',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
+    description: 'Official Mozilla documentation for JavaScript',
+    type: 'official',
     rating: 4.9,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "React Official Documentation",
-    category: "React",
-    url: "https://react.dev",
+    title: 'React Official Documentation',
+    category: 'React',
+    url: 'https://react.dev',
     description: "React's official documentation and guides",
-    type: "official",
+    type: 'official',
     rating: 4.9,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "Node.js Documentation",
-    category: "Node.js",
-    url: "https://nodejs.org/docs/",
-    description: "Complete Node.js API documentation",
-    type: "official",
+    title: 'Node.js Documentation',
+    category: 'Node.js',
+    url: 'https://nodejs.org/docs/',
+    description: 'Complete Node.js API documentation',
+    type: 'official',
     rating: 4.8,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "Python Official Documentation",
-    category: "Python",
-    url: "https://docs.python.org/3/",
-    description: "Python 3 official documentation",
-    type: "official",
+    title: 'Python Official Documentation',
+    category: 'Python',
+    url: 'https://docs.python.org/3/',
+    description: 'Python 3 official documentation',
+    type: 'official',
     rating: 4.9,
-    isPremium: false
+    isPremium: false,
   },
   {
-    title: "Firebase Documentation",
-    category: "Firebase",
-    url: "https://firebase.google.com/docs",
-    description: "Firebase platform documentation",
-    type: "official",
+    title: 'Firebase Documentation',
+    category: 'Firebase',
+    url: 'https://firebase.google.com/docs',
+    description: 'Firebase platform documentation',
+    type: 'official',
     rating: 4.7,
-    isPremium: false
-  }
-];
+    isPremium: false,
+  },
+]
 
 export const sampleCommunity = [
   {
-    platform: "Discord",
-    name: "AlgoView Community",
-    url: "https://discord.gg/algoview",
+    platform: 'Discord',
+    name: 'AlgoView Community',
+    url: 'https://discord.gg/algoview',
     members: 5234,
-    description: "Official AlgoView community server for discussions and help"
+    description: 'Official AlgoView community server for discussions and help',
   },
   {
-    platform: "Telegram",
-    name: "AlgoView DSA Group",
-    url: "https://t.me/algoviewdsa",
+    platform: 'Telegram',
+    name: 'AlgoView DSA Group',
+    url: 'https://t.me/algoviewdsa',
     members: 8956,
-    description: "Telegram group for quick tips and problem discussions"
+    description: 'Telegram group for quick tips and problem discussions',
   },
   {
-    platform: "Reddit",
-    name: "r/AlgoView",
-    url: "https://reddit.com/r/algoview",
+    platform: 'Reddit',
+    name: 'r/AlgoView',
+    url: 'https://reddit.com/r/algoview',
     members: 12500,
-    description: "Reddit community for sharing resources and asking questions"
+    description: 'Reddit community for sharing resources and asking questions',
   },
   {
-    platform: "GitHub",
-    name: "AlgoView Repository",
-    url: "https://github.com/algoview",
+    platform: 'GitHub',
+    name: 'AlgoView Repository',
+    url: 'https://github.com/algoview',
     members: 3400,
-    description: "Open source code and solutions on GitHub"
-  }
-];
+    description: 'Open source code and solutions on GitHub',
+  },
+]
 
 export const sampleQA = [
   {
-    question: "What is the difference between DFS and BFS?",
-    description: "I'm confused about when to use DFS vs BFS. Can someone explain the key differences?",
-    category: "Graphs",
+    question: 'What is the difference between DFS and BFS?',
+    description:
+      "I'm confused about when to use DFS vs BFS. Can someone explain the key differences?",
+    category: 'Graphs',
     answers: [
       {
-        text: "DFS uses a stack (or recursion) and explores as far as possible along each branch, while BFS uses a queue and explores level by level...",
-        author: "Expert User",
-        votes: 245
-      }
+        text: 'DFS uses a stack (or recursion) and explores as far as possible along each branch, while BFS uses a queue and explores level by level...',
+        author: 'Expert User',
+        votes: 245,
+      },
     ],
     views: 3421,
     votes: 456,
     isPremium: false,
-    difficulty: "Intermediate"
+    difficulty: 'Intermediate',
   },
   {
-    question: "How to approach dynamic programming problems?",
+    question: 'How to approach dynamic programming problems?',
     description: "I struggle with identifying DP problems. What's the systematic approach?",
-    category: "Dynamic Programming",
+    category: 'Dynamic Programming',
     answers: [
       {
-        text: "The key is to identify overlapping subproblems and optimal substructure...",
-        author: "DP Master",
-        votes: 312
-      }
+        text: 'The key is to identify overlapping subproblems and optimal substructure...',
+        author: 'DP Master',
+        votes: 312,
+      },
     ],
     views: 5678,
     votes: 678,
     isPremium: false,
-    difficulty: "Advanced"
+    difficulty: 'Advanced',
   },
   {
-    question: "Best way to learn React hooks?",
+    question: 'Best way to learn React hooks?',
     description: "I'm new to React. Should I learn class components first or go straight to hooks?",
-    category: "React",
+    category: 'React',
     answers: [
       {
-        text: "Modern React recommends learning hooks first as they are the current standard...",
-        author: "React Dev",
-        votes: 189
-      }
+        text: 'Modern React recommends learning hooks first as they are the current standard...',
+        author: 'React Dev',
+        votes: 189,
+      },
     ],
     views: 2345,
     votes: 289,
     isPremium: false,
-    difficulty: "Beginner"
-  }
-];
+    difficulty: 'Beginner',
+  },
+]

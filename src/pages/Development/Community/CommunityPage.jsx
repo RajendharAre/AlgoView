@@ -1,15 +1,15 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FaArrowLeft, FaUsers } from 'react-icons/fa';
-import CommunityCard from './CommunityCard';
-import CommunityFilters from './CommunityFilters';
+import React, { useState, useMemo, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { FaArrowLeft, FaUsers } from 'react-icons/fa'
+import CommunityCard from './CommunityCard'
+import CommunityFilters from './CommunityFilters'
 import {
   communityConfig,
   getCommunityPlatforms,
   getCommunityCategories,
   filterCommunities,
-} from '../../../utils/communityConfig';
+} from '../../../utils/communityConfig'
 
 // Semantic color tokens — matches Development Hub grayscale palette
 const COLORS = {
@@ -27,7 +27,7 @@ const COLORS = {
   accent: {
     primary: '#343a40',
   },
-};
+}
 
 /**
  * CommunityPage
@@ -35,16 +35,16 @@ const COLORS = {
  * Follows the same layout pattern as VideosPage / DocumentationPage.
  */
 export default function CommunityPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // Filter state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedPlatform, setSelectedPlatform] = useState('All');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedPlatform, setSelectedPlatform] = useState('All')
+  const [selectedCategory, setSelectedCategory] = useState('All')
 
   // Derived data
-  const platforms = useMemo(() => getCommunityPlatforms(), []);
-  const categories = useMemo(() => getCommunityCategories(), []);
+  const platforms = useMemo(() => getCommunityPlatforms(), [])
+  const categories = useMemo(() => getCommunityCategories(), [])
 
   const filteredCommunities = useMemo(
     () =>
@@ -54,15 +54,15 @@ export default function CommunityPage() {
         platform: selectedPlatform,
         category: selectedCategory,
       }),
-    [searchQuery, selectedPlatform, selectedCategory],
-  );
+    [searchQuery, selectedPlatform, selectedCategory]
+  )
 
   // Handlers
   const handleClearFilters = useCallback(() => {
-    setSearchQuery('');
-    setSelectedPlatform('All');
-    setSelectedCategory('All');
-  }, []);
+    setSearchQuery('')
+    setSelectedPlatform('All')
+    setSelectedCategory('All')
+  }, [])
 
   return (
     <div style={{ backgroundColor: COLORS.bg.primary, minHeight: '100vh' }}>
@@ -96,20 +96,13 @@ export default function CommunityPage() {
               >
                 <FaUsers size={24} style={{ color: COLORS.accent.primary }} />
               </div>
-              <h1
-                style={{ color: COLORS.text.primary }}
-                className="text-4xl font-bold"
-              >
+              <h1 style={{ color: COLORS.text.primary }} className="text-4xl font-bold">
                 Community
               </h1>
             </div>
-            <p
-              style={{ color: COLORS.text.secondary }}
-              className="text-lg mt-2 max-w-3xl"
-            >
-              Connect with developers across Discord, Reddit, GitHub, Stack
-              Overflow, Telegram, and more. Find your tribe and start
-              contributing.
+            <p style={{ color: COLORS.text.secondary }} className="text-lg mt-2 max-w-3xl">
+              Connect with developers across Discord, Reddit, GitHub, Stack Overflow, Telegram, and
+              more. Find your tribe and start contributing.
             </p>
           </div>
         </div>
@@ -151,9 +144,7 @@ export default function CommunityPage() {
           >
             <span style={{ color: COLORS.text.secondary }} className="text-sm">
               Showing{' '}
-              <strong style={{ color: COLORS.text.primary }}>
-                {filteredCommunities.length}
-              </strong>{' '}
+              <strong style={{ color: COLORS.text.primary }}>{filteredCommunities.length}</strong>{' '}
               of {communityConfig.length} communities
             </span>
             <button
@@ -175,11 +166,7 @@ export default function CommunityPage() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filteredCommunities.map((community, idx) => (
-              <CommunityCard
-                key={community.id}
-                community={community}
-                index={idx}
-              />
+              <CommunityCard key={community.id} community={community} index={idx} />
             ))}
           </motion.div>
         ) : (
@@ -190,18 +177,11 @@ export default function CommunityPage() {
             className="flex flex-col items-center justify-center py-24 text-center"
           >
             <FaUsers size={48} style={{ color: '#ced4da' }} className="mb-4" />
-            <h3
-              style={{ color: COLORS.text.primary }}
-              className="text-xl font-bold mb-2"
-            >
+            <h3 style={{ color: COLORS.text.primary }} className="text-xl font-bold mb-2">
               No communities found
             </h3>
-            <p
-              style={{ color: COLORS.text.secondary }}
-              className="text-sm max-w-md mb-6"
-            >
-              Try adjusting your filters or search query to find the community
-              you're looking for.
+            <p style={{ color: COLORS.text.secondary }} className="text-sm max-w-md mb-6">
+              Try adjusting your filters or search query to find the community you're looking for.
             </p>
             <button
               onClick={handleClearFilters}
@@ -217,5 +197,5 @@ export default function CommunityPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

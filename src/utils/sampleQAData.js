@@ -110,7 +110,7 @@ function LikeButton({ postId }) {
   },
   {
     id: 'qa-react-004',
-    question: 'How does React\'s reconciliation algorithm work?',
+    question: "How does React's reconciliation algorithm work?",
     answer: `React's reconciliation (diffing) algorithm uses two key heuristics to achieve O(n) performance:
 
 **1. Different types → Different trees**
@@ -455,7 +455,7 @@ class Dog extends Animal {
   // ─── Node.js & Backend ─────────────────────────────
   {
     id: 'qa-node-001',
-    question: 'How does Node.js handle concurrent requests if it\'s single-threaded?',
+    question: "How does Node.js handle concurrent requests if it's single-threaded?",
     answer: `Node.js uses a **single-threaded event loop** combined with **non-blocking I/O** to handle thousands of concurrent connections efficiently.
 
 **How it works:**
@@ -1494,60 +1494,61 @@ await cookieStore.set({ name: 'token', value: 'abc123', expires: Date.now() + 36
     createdAt: '2026-01-19',
     isVerified: true,
   },
-];
+]
 
 // Helper functions
 export const getQACategories = () => {
-  const categories = new Set(sampleQAData.map(q => q.category));
-  return Array.from(categories).sort();
-};
+  const categories = new Set(sampleQAData.map(q => q.category))
+  return Array.from(categories).sort()
+}
 
-export const getQADifficulties = () => ['Beginner', 'Intermediate', 'Advanced'];
+export const getQADifficulties = () => ['Beginner', 'Intermediate', 'Advanced']
 
 export const filterQAData = ({
   data = sampleQAData,
   searchQuery = '',
   category = '',
   difficulty = '',
-  sortBy = 'upvotes'
+  sortBy = 'upvotes',
 }) => {
-  let filtered = [...data];
+  let filtered = [...data]
 
   if (searchQuery.trim()) {
-    const query = searchQuery.toLowerCase();
-    filtered = filtered.filter(q =>
-      q.question.toLowerCase().includes(query) ||
-      q.answer.toLowerCase().includes(query) ||
-      q.tags.some(tag => tag.toLowerCase().includes(query))
-    );
+    const query = searchQuery.toLowerCase()
+    filtered = filtered.filter(
+      q =>
+        q.question.toLowerCase().includes(query) ||
+        q.answer.toLowerCase().includes(query) ||
+        q.tags.some(tag => tag.toLowerCase().includes(query))
+    )
   }
 
   if (category && category !== 'All') {
-    filtered = filtered.filter(q => q.category === category);
+    filtered = filtered.filter(q => q.category === category)
   }
 
   if (difficulty && difficulty !== 'All') {
-    filtered = filtered.filter(q => q.difficulty === difficulty);
+    filtered = filtered.filter(q => q.difficulty === difficulty)
   }
 
   // Sort
   switch (sortBy) {
     case 'upvotes':
-      filtered.sort((a, b) => b.upvotes - a.upvotes);
-      break;
+      filtered.sort((a, b) => b.upvotes - a.upvotes)
+      break
     case 'views':
-      filtered.sort((a, b) => b.views - a.views);
-      break;
+      filtered.sort((a, b) => b.views - a.views)
+      break
     case 'newest':
-      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      break;
+      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      break
     case 'difficulty':
-      const diffOrder = { 'Beginner': 0, 'Intermediate': 1, 'Advanced': 2 };
-      filtered.sort((a, b) => diffOrder[a.difficulty] - diffOrder[b.difficulty]);
-      break;
+      const diffOrder = { Beginner: 0, Intermediate: 1, Advanced: 2 }
+      filtered.sort((a, b) => diffOrder[a.difficulty] - diffOrder[b.difficulty])
+      break
     default:
-      break;
+      break
   }
 
-  return filtered;
-};
+  return filtered
+}

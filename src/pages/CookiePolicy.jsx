@@ -5,18 +5,18 @@ const cookieTypes = [
   {
     type: 'Essential Cookies',
     purpose: 'Required for login, security, and core site functionality.',
-    examples: 'Session tokens, authentication state'
+    examples: 'Session tokens, authentication state',
   },
   {
     type: 'Performance Cookies',
     purpose: 'Help us understand feature usage and improve performance.',
-    examples: 'Analytics events, page timing'
+    examples: 'Analytics events, page timing',
   },
   {
     type: 'Preference Cookies',
     purpose: 'Remember your settings and personalized experience.',
-    examples: 'Theme choice, language selection'
-  }
+    examples: 'Theme choice, language selection',
+  },
 ]
 
 export default function CookiePolicy() {
@@ -39,12 +39,18 @@ export default function CookiePolicy() {
           <div className="mt-8 space-y-7 text-slate-700 leading-7">
             <section>
               <h2 className="text-xl font-semibold text-slate-900">1. What Are Cookies?</h2>
-              <p className="mt-2">Cookies are small text files stored on your device to help websites remember your session and preferences.</p>
+              <p className="mt-2">
+                Cookies are small text files stored on your device to help websites remember your
+                session and preferences.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">2. How We Use Cookies</h2>
-              <p className="mt-2">We use cookies to keep you logged in, improve site performance, understand usage trends, and personalize your experience.</p>
+              <p className="mt-2">
+                We use cookies to keep you logged in, improve site performance, understand usage
+                trends, and personalize your experience.
+              </p>
             </section>
 
             <section>
@@ -59,7 +65,7 @@ export default function CookiePolicy() {
                     </tr>
                   </thead>
                   <tbody>
-                    {cookieTypes.map((row) => (
+                    {cookieTypes.map(row => (
                       <tr key={row.type} className="border-t border-slate-200">
                         <td className="px-4 py-3 font-medium text-slate-900">{row.type}</td>
                         <td className="px-4 py-3">{row.purpose}</td>
@@ -73,7 +79,10 @@ export default function CookiePolicy() {
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">4. Managing Cookies</h2>
-              <p className="mt-2">You can control or delete cookies through browser settings. Disabling essential cookies may impact login and core platform functionality.</p>
+              <p className="mt-2">
+                You can control or delete cookies through browser settings. Disabling essential
+                cookies may impact login and core platform functionality.
+              </p>
             </section>
           </div>
         </motion.div>

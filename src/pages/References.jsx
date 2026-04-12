@@ -12,7 +12,7 @@ const References = () => {
     { id: 'data-structures', name: 'Data Structures' },
     { id: 'mathematics', name: 'Mathematics' },
     { id: 'system-design', name: 'System Design' },
-    { id: 'interviews', name: 'Interview Prep' }
+    { id: 'interviews', name: 'Interview Prep' },
   ]
 
   const resources = [
@@ -24,7 +24,7 @@ const References = () => {
       type: 'Book',
       author: 'Cormen, Leiserson, Rivest, Stein',
       year: '2022',
-      link: '#'
+      link: '#',
     },
     {
       id: 2,
@@ -34,17 +34,18 @@ const References = () => {
       type: 'Book',
       author: 'Steven Skiena',
       year: '2020',
-      link: '#'
+      link: '#',
     },
     {
       id: 3,
       title: 'Data Structures and Algorithms in JavaScript',
-      description: 'Comprehensive guide to implementing data structures and algorithms using JavaScript.',
+      description:
+        'Comprehensive guide to implementing data structures and algorithms using JavaScript.',
       category: 'data-structures',
       type: 'Online Course',
       author: 'Educative',
       year: '2023',
-      link: '#'
+      link: '#',
     },
     {
       id: 4,
@@ -54,7 +55,7 @@ const References = () => {
       type: 'Cheat Sheet',
       author: 'Bigocheatsheet.com',
       year: '2023',
-      link: '#'
+      link: '#',
     },
     {
       id: 5,
@@ -64,7 +65,7 @@ const References = () => {
       type: 'GitHub Repo',
       author: ' Donne Martin',
       year: '2023',
-      link: '#'
+      link: '#',
     },
     {
       id: 6,
@@ -74,7 +75,7 @@ const References = () => {
       type: 'Book',
       author: 'Gayle Laakmann McDowell',
       year: '2020',
-      link: '#'
+      link: '#',
     },
     {
       id: 7,
@@ -84,7 +85,7 @@ const References = () => {
       type: 'Course',
       author: 'MIT OpenCourseWare',
       year: '2023',
-      link: '#'
+      link: '#',
     },
     {
       id: 8,
@@ -94,14 +95,15 @@ const References = () => {
       type: 'Book',
       author: 'Gang of Four',
       year: '2020',
-      link: '#'
-    }
+      link: '#',
+    },
   ]
 
   const filteredResources = resources.filter(resource => {
-    const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          resource.author.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesSearch =
+      resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      resource.author.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = selectedCategory === 'all' || resource.category === selectedCategory
     return matchesSearch && matchesCategory
   })
@@ -110,21 +112,21 @@ const References = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="text-center mb-12">
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
         >
           Reference Library
         </motion.h1>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="text-xl text-gray-600 max-w-3xl mx-auto"
         >
-          Comprehensive collection of books, courses, and resources to support your learning 
-          journey in algorithms, data structures, and computer science.
+          Comprehensive collection of books, courses, and resources to support your learning journey
+          in algorithms, data structures, and computer science.
         </motion.p>
       </div>
 
@@ -136,22 +138,24 @@ const References = () => {
               type="text"
               placeholder="Search resources..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
               className="block w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={e => setSelectedCategory(e.target.value)}
               className=""
             >
               {categories.map(category => (
-                <option key={category.id} value={category.id}>{category.name}</option>
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
               ))}
             </select>
           </div>
@@ -178,19 +182,15 @@ const References = () => {
                   <Bookmark size={18} />
                 </button>
               </div>
-              
+
               <h3 className="text-xl font-semibold text-gray-900 mb-2">{resource.title}</h3>
               <p className="text-gray-600 mb-4">{resource.description}</p>
-              
+
               <div className="flex items-center justify-between mb-4">
-                <div className="text-sm text-gray-500">
-                  by {resource.author}
-                </div>
-                <div className="text-sm text-gray-500">
-                  {resource.year}
-                </div>
+                <div className="text-sm text-gray-500">by {resource.author}</div>
+                <div className="text-sm text-gray-500">{resource.year}</div>
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
                   {categories.find(cat => cat.id === resource.category)?.name}

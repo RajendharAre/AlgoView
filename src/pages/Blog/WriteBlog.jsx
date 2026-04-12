@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { submitBlog } from '../../services/blogsService';
-import { trackEvent } from '../../lib/analytics';
-import usePageMeta from '../../hooks/usePageMeta';
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ArrowLeft } from 'lucide-react'
+import { useSelector } from 'react-redux'
+import { submitBlog } from '../../services/blogsService'
+import { trackEvent } from '../../lib/analytics'
+import usePageMeta from '../../hooks/usePageMeta'
 
 const WriteBlog = () => {
-  const navigate = useNavigate();
-  const { currentUser } = useSelector(state => state.user);
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate()
+  const { currentUser } = useSelector(state => state.user)
+  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
@@ -18,138 +18,152 @@ const WriteBlog = () => {
     category: 'DSA',
     tags: '',
     keywords: '',
-    relatedVisualizer: ''
-  });
-  const [errors, setErrors] = useState({});
+    relatedVisualizer: '',
+  })
+  const [errors, setErrors] = useState({})
 
   // Set page metadata
   usePageMeta({
     title: 'Write a Blog Post - AlgoView',
-    description: 'Share your knowledge with the AlgoView community. Write blog posts about algorithms, DSA, and web development.'
-  });
+    description:
+      'Share your knowledge with the AlgoView community. Write blog posts about algorithms, DSA, and web development.',
+  })
 
   useEffect(() => {
     // Check if user is authenticated
     if (!currentUser) {
-      navigate('/login');
-      return;
+      navigate('/login')
+      return
     }
 
     // Debug: log user info
     console.log('📝 WriteBlog - Current user:', {
       uid: currentUser.uid,
       email: currentUser.email,
-      isPremium: currentUser.isPremium
-    });
+      isPremium: currentUser.isPremium,
+    })
 
     // For now, allow any authenticated user to write blogs
     // In production, you can add subscription checks here
     trackEvent('blog_write_page_loaded', {
-      userEmail: currentUser.email
-    });
-  }, [currentUser, navigate]);
+      userEmail: currentUser.email,
+    })
+  }, [currentUser, navigate])
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = e => {
+    const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: value
-    }));
+      [name]: value,
+    }))
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
-        [name]: ''
-      }));
+        [name]: '',
+      }))
     }
-  };
+  }
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = {}
 
-    if (!formData.title.trim()) newErrors.title = 'Title is required';
-    else if (formData.title.length < 10) newErrors.title = 'Title must be at least 10 characters';
+    if (!formData.title.trim()) newErrors.title = 'Title is required'
+    else if (formData.title.length < 10) newErrors.title = 'Title must be at least 10 characters'
 
-    if (!formData.excerpt.trim()) newErrors.excerpt = 'Excerpt is required';
-    else if (formData.excerpt.length < 20) newErrors.excerpt = 'Excerpt must be at least 20 characters';
+    if (!formData.excerpt.trim()) newErrors.excerpt = 'Excerpt is required'
+    else if (formData.excerpt.length < 20)
+      newErrors.excerpt = 'Excerpt must be at least 20 characters'
 
-    if (!formData.content.trim()) newErrors.content = 'Content is required';
-    else if (formData.content.length < 100) newErrors.content = 'Content must be at least 100 characters';
+    if (!formData.content.trim()) newErrors.content = 'Content is required'
+    else if (formData.content.length < 100)
+      newErrors.content = 'Content must be at least 100 characters'
 
-    if (!formData.category) newErrors.category = 'Category is required';
-    if (!formData.tags.trim()) newErrors.tags = 'At least one tag is required';
-    if (!formData.keywords.trim()) newErrors.keywords = 'SEO keywords are required';
+    if (!formData.category) newErrors.category = 'Category is required'
+    if (!formData.tags.trim()) newErrors.tags = 'At least one tag is required'
+    if (!formData.keywords.trim()) newErrors.keywords = 'SEO keywords are required'
 
-    return newErrors;
-  };
+    return newErrors
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    const newErrors = validateForm();
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      setErrors(newErrors)
+      return
     }
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
       // Debug log
       console.log('📝 Attempting to submit blog with:', {
         userId: currentUser?.uid,
         email: currentUser?.email,
-        userObject: currentUser
-      });
+        userObject: currentUser,
+      })
 
       // Check if user has uid
       if (!currentUser?.uid) {
-        throw new Error('User ID not found. Please refresh and log in again.');
+        throw new Error('User ID not found. Please refresh and log in again.')
       }
 
       // Submit to Firebase
-      const result = await submitBlog(formData, currentUser.uid, currentUser.email);
+      const result = await submitBlog(formData, currentUser.uid, currentUser.email)
 
-      console.log('📝 Blog submission result:', result);
+      console.log('📝 Blog submission result:', result)
 
       if (result.success) {
         trackEvent('blog_post_submitted', {
           title: formData.title,
           category: formData.category,
-          contentLength: formData.content.length
-        });
+          contentLength: formData.content.length,
+        })
 
-        setSubmitted(true);
+        setSubmitted(true)
         setTimeout(() => {
-          navigate('/blog');
-        }, 2000);
+          navigate('/blog')
+        }, 2000)
       } else {
-        setErrors({ submit: result.error || 'Failed to submit blog' });
+        setErrors({ submit: result.error || 'Failed to submit blog' })
       }
     } catch (error) {
-      console.error('Error submitting blog:', error);
-      setErrors({ submit: error.message || 'An error occurred while submitting your blog' });
+      console.error('Error submitting blog:', error)
+      setErrors({ submit: error.message || 'An error occurred while submitting your blog' })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   if (submitted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white rounded-lg shadow-lg p-8 text-center max-w-md">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="w-8 h-8 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Blog Post Submitted!</h2>
           <p className="text-gray-600 mb-4">
-            Your blog post has been submitted for review. Our team will verify it and publish once approved.
+            Your blog post has been submitted for review. Our team will verify it and publish once
+            approved.
           </p>
           <p className="text-sm text-gray-500">Redirecting to blog...</p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -181,9 +195,7 @@ const WriteBlog = () => {
 
             {/* Title */}
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Post Title *
-              </label>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Post Title *</label>
               <input
                 type="text"
                 name="title"
@@ -202,9 +214,7 @@ const WriteBlog = () => {
 
             {/* Excerpt */}
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Excerpt *
-              </label>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Excerpt *</label>
               <textarea
                 name="excerpt"
                 value={formData.excerpt}
@@ -216,9 +226,7 @@ const WriteBlog = () => {
                 rows="3"
               />
               {errors.excerpt && <p className="text-red-600 text-sm mt-1">{errors.excerpt}</p>}
-              <p className="text-sm text-gray-500 mt-1">
-                {formData.excerpt.length}/300 characters
-              </p>
+              <p className="text-sm text-gray-500 mt-1">{formData.excerpt.length}/300 characters</p>
             </div>
 
             {/* Content */}
@@ -251,9 +259,7 @@ const WriteBlog = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               {/* Category */}
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Category *
-                </label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Category *</label>
                 <select
                   name="category"
                   value={formData.category}
@@ -303,7 +309,9 @@ const WriteBlog = () => {
                 }`}
               />
               {errors.keywords && <p className="text-red-600 text-sm mt-1">{errors.keywords}</p>}
-              <p className="text-sm text-gray-500 mt-1">Help readers find your post through search engines</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Help readers find your post through search engines
+              </p>
             </div>
 
             {/* Related Visualizer */}
@@ -356,7 +364,7 @@ const WriteBlog = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WriteBlog;
+export default WriteBlog

@@ -36,7 +36,7 @@ const PageRank = () => {
 
   // --- Graph Management ---
 
-  const handleCanvasClick = (e) => {
+  const handleCanvasClick = e => {
     if (isRunning || mode !== 'ADD') return
     const rect = svgRef.current.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -152,7 +152,7 @@ const PageRank = () => {
   }
 
   // Helper for node sizing based on rank
-  const getRadius = (rank) => {
+  const getRadius = rank => {
     const base = 22
     const scale = nodes.length > 0 ? rank * nodes.length : 1
     return Math.max(18, Math.min(50, base * scale))
@@ -188,7 +188,10 @@ const PageRank = () => {
       />
 
       {/* Main Workspace */}
-      <main className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0" onClick={handleCanvasClick}>
+      <main
+        className="flex-1 relative bg-[#f8f9faff] overflow-hidden min-h-[300px] md:min-h-0"
+        onClick={handleCanvasClick}
+      >
         <svg ref={svgRef} className="w-full h-full cursor-crosshair">
           <defs>
             <marker
@@ -319,7 +322,9 @@ const PageRank = () => {
             <LegendItem color={COLORS.platinum} label="Relative Rank (Size)" />
             <div className="flex items-center gap-1.5">
               <TrendingUp size={12} className="text-[#6c757d]" />
-              <span className="text-[9px] font-black uppercase text-[#6c757d]">Iterative Convergence</span>
+              <span className="text-[9px] font-black uppercase text-[#6c757d]">
+                Iterative Convergence
+              </span>
             </div>
           </div>
           <div className="w-full h-px bg-[#dee2e6] opacity-50"></div>
@@ -337,7 +342,10 @@ const PageRank = () => {
 
 const LegendItem = ({ color, label, border }) => (
   <div className="flex items-center gap-2">
-    <div className={`w-3 h-3 rounded-full ${border ? 'border border-[#dee2e6]' : ''}`} style={{ backgroundColor: color }}></div>
+    <div
+      className={`w-3 h-3 rounded-full ${border ? 'border border-[#dee2e6]' : ''}`}
+      style={{ backgroundColor: color }}
+    ></div>
     <span className="text-[9px] font-black uppercase text-[#6c757d] tracking-wide">{label}</span>
   </div>
 )

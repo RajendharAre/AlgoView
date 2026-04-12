@@ -3,25 +3,25 @@ export const APP_COLORS = {
     primary: '#f8f9fa',
     secondary: '#e9ecef',
     tertiary: '#dee2e6',
-    surface: '#ffffff'
+    surface: '#ffffff',
   },
   text: {
     primary: '#212529',
     secondary: '#495057',
     tertiary: '#6c757d',
-    muted: '#adb5bd'
+    muted: '#adb5bd',
   },
   border: {
     light: '#dee2e6',
-    medium: '#ced4da'
+    medium: '#ced4da',
   },
   accent: {
     primary: '#343a40',
     secondary: '#495057',
     success: '#10b981',
     warning: '#f59e0b',
-    green: '#8ed500'
-  }
+    green: '#8ed500',
+  },
 }
 
 export const APP_SHADOWS = {
@@ -31,5 +31,5 @@ export const APP_SHADOWS = {
   lg: '0 10px 15px -3px rgba(0, 0, 0, 0.12)',
   xl: '0 20px 25px -5px rgba(0, 0, 0, 0.15)',
   soft: '0 10px 24px -14px rgba(33, 37, 41, 0.2)',
-  card: '0 16px 36px -22px rgba(33, 37, 41, 0.28)'
+  card: '0 16px 36px -22px rgba(33, 37, 41, 0.28)',
 }

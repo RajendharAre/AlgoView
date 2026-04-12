@@ -21,37 +21,58 @@ export default function TermsOfService() {
           <div className="mt-8 space-y-7 text-slate-700 leading-7">
             <section>
               <h2 className="text-xl font-semibold text-slate-900">1. Acceptance of Terms</h2>
-              <p className="mt-2">By accessing or using AlgoView, you agree to these Terms of Service. If you do not agree, you should not use the platform.</p>
+              <p className="mt-2">
+                By accessing or using AlgoView, you agree to these Terms of Service. If you do not
+                agree, you should not use the platform.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">2. User Accounts</h2>
-              <p className="mt-2">You are responsible for maintaining account confidentiality and for all activity under your account. Provide accurate registration details and update them when needed.</p>
+              <p className="mt-2">
+                You are responsible for maintaining account confidentiality and for all activity
+                under your account. Provide accurate registration details and update them when
+                needed.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">3. Acceptable Use</h2>
-              <p className="mt-2">You agree not to misuse the service, attempt unauthorized access, distribute malicious content, or violate laws and third-party rights while using AlgoView.</p>
+              <p className="mt-2">
+                You agree not to misuse the service, attempt unauthorized access, distribute
+                malicious content, or violate laws and third-party rights while using AlgoView.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">4. Intellectual Property</h2>
-              <p className="mt-2">Platform content, design, and software are protected by intellectual property laws. You may not reproduce or distribute proprietary materials without permission.</p>
+              <p className="mt-2">
+                Platform content, design, and software are protected by intellectual property laws.
+                You may not reproduce or distribute proprietary materials without permission.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">5. Service Availability</h2>
-              <p className="mt-2">We may modify, suspend, or discontinue features at any time. We do not guarantee uninterrupted availability or error-free operation.</p>
+              <p className="mt-2">
+                We may modify, suspend, or discontinue features at any time. We do not guarantee
+                uninterrupted availability or error-free operation.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">6. Limitation of Liability</h2>
-              <p className="mt-2">To the maximum extent allowed by law, AlgoView is not liable for indirect, incidental, or consequential damages arising from use of the service.</p>
+              <p className="mt-2">
+                To the maximum extent allowed by law, AlgoView is not liable for indirect,
+                incidental, or consequential damages arising from use of the service.
+              </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-slate-900">7. Contact</h2>
-              <p className="mt-2">For legal questions about these terms, contact support@algoview.app.</p>
+              <p className="mt-2">
+                For legal questions about these terms, contact support@algoview.app.
+              </p>
             </section>
           </div>
         </motion.div>

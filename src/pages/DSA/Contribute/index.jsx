@@ -11,7 +11,7 @@ const DSAContribute = () => {
     totalContributions: 127,
     acceptedSubmissions: 89,
     pendingReview: 12,
-    communityImpact: 2450
+    communityImpact: 2450,
   }
 
   // Mock recent contributions
@@ -22,7 +22,7 @@ const DSAContribute = () => {
       type: 'Article',
       status: 'Published',
       date: '2023-06-15',
-      likes: 42
+      likes: 42,
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ const DSAContribute = () => {
       type: 'Visualization',
       status: 'Published',
       date: '2023-06-12',
-      likes: 28
+      likes: 28,
     },
     {
       id: 3,
@@ -38,8 +38,8 @@ const DSAContribute = () => {
       type: 'Tutorial',
       status: 'Review',
       date: '2023-06-10',
-      likes: 0
-    }
+      likes: 0,
+    },
   ]
 
   return (
@@ -169,7 +169,8 @@ const DSAContribute = () => {
                       </div>
                       <h3 className="font-medium text-gray-900 mb-2">Share Knowledge</h3>
                       <p className="text-sm text-gray-600">
-                        Help others learn by sharing your understanding of algorithms and data structures.
+                        Help others learn by sharing your understanding of algorithms and data
+                        structures.
                       </p>
                     </div>
                     <div className="p-5 border border-gray-200 rounded-lg">
@@ -178,7 +179,8 @@ const DSAContribute = () => {
                       </div>
                       <h3 className="font-medium text-gray-900 mb-2">Build Your Reputation</h3>
                       <p className="text-sm text-gray-600">
-                        Gain recognition in the community and showcase your expertise to potential employers.
+                        Gain recognition in the community and showcase your expertise to potential
+                        employers.
                       </p>
                     </div>
                     <div className="p-5 border border-gray-200 rounded-lg">
@@ -237,9 +239,11 @@ const DSAContribute = () => {
               </div>
             ) : activeTab === 'contributions' ? (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">My Recent Contributions</h2>
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                  My Recent Contributions
+                </h2>
                 <div className="space-y-3">
-                  {recentContributions.map((contribution) => (
+                  {recentContributions.map(contribution => (
                     <div key={contribution.id} className="p-4 border border-gray-200 rounded-lg">
                       <div className="flex items-center justify-between">
                         <div>
@@ -273,7 +277,9 @@ const DSAContribute = () => {
               </div>
             ) : (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">Contribution Guidelines</h2>
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                  Contribution Guidelines
+                </h2>
                 <div className="prose max-w-none">
                   <div className="space-y-4">
                     <div>
@@ -290,7 +296,10 @@ const DSAContribute = () => {
                       <ul className="list-disc list-inside text-sm text-gray-600 space-y-1 mt-2">
                         <li>Focus on educational value rather than self-promotion</li>
                         <li>Avoid promotional language or links to commercial products</li>
-                        <li>Respect intellectual property and cite sources when referencing external material</li>
+                        <li>
+                          Respect intellectual property and cite sources when referencing external
+                          material
+                        </li>
                         <li>Maintain a respectful and inclusive tone in all contributions</li>
                       </ul>
                     </div>
@@ -299,7 +308,9 @@ const DSAContribute = () => {
                       <ul className="list-disc list-inside text-sm text-gray-600 space-y-1 mt-2">
                         <li>All submissions are reviewed by our moderation team</li>
                         <li>You'll receive feedback within 3-5 business days</li>
-                        <li>Accepted contributions will be published and shared with the community</li>
+                        <li>
+                          Accepted contributions will be published and shared with the community
+                        </li>
                         <li>Rejected submissions will include detailed feedback for improvement</li>
                       </ul>
                     </div>

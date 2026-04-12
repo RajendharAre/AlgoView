@@ -9,12 +9,8 @@ const ProblemHeader = ({
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              LeetCode Practice
-            </h1>
-            <p className="text-gray-600">
-              Master data structures and algorithms
-            </p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">LeetCode Practice</h1>
+            <p className="text-gray-600">Master data structures and algorithms</p>
           </div>
           {leetcodeUsername && (
             <div className="text-right">
@@ -27,12 +23,8 @@ const ProblemHeader = ({
         {/* Progress Bar */}
         <div className="mt-8">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-medium text-gray-700">
-              Progress
-            </span>
-            <span className="text-sm font-semibold text-blue-600">
-              {completionPercentage}%
-            </span>
+            <span className="text-sm font-medium text-gray-700">Progress</span>
+            <span className="text-sm font-semibold text-blue-600">{completionPercentage}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
@@ -46,7 +38,7 @@ const ProblemHeader = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProblemHeader;
+export default ProblemHeader

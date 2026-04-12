@@ -3,8 +3,19 @@
  * Handles all Firestore operations for the AI chat system
  */
 
-import { collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, doc, updateDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../../lib/firebase';
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
+  serverTimestamp,
+  doc,
+  updateDoc,
+  getDoc,
+} from 'firebase/firestore'
+import { db } from '../../../lib/firebase'
 
 /**
  * Create a new chat session
@@ -17,12 +28,12 @@ export async function createChatSession(userId, title = 'New Chat') {
     const chatRef = await addDoc(collection(db, 'users', userId, 'chats'), {
       title,
       createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    });
-    return chatRef.id;
+      updatedAt: serverTimestamp(),
+    })
+    return chatRef.id
   } catch (error) {
-    console.error('Error creating chat session:', error);
-    throw new Error('Failed to create chat session');
+    console.error('Error creating chat session:', error)
+    throw new Error('Failed to create chat session')
   }
 }
 
@@ -37,16 +48,16 @@ export async function createChatSession(userId, title = 'New Chat') {
  */
 export async function addMessage(userId, chatId, messageData) {
   try {
-    const messagesRef = collection(db, 'users', userId, 'chats', chatId, 'messages');
+    const messagesRef = collection(db, 'users', userId, 'chats', chatId, 'messages')
     const messageRef = await addDoc(messagesRef, {
       role: messageData.role,
       content: messageData.content,
-      createdAt: serverTimestamp()
-    });
-    return messageRef.id;
+      createdAt: serverTimestamp(),
+    })
+    return messageRef.id
   } catch (error) {
-    console.error('Error adding message:', error);
-    throw new Error('Failed to send message');
+    console.error('Error adding message:', error)
+    throw new Error('Failed to send message')
   }
 }
 
@@ -60,27 +71,27 @@ export async function addMessage(userId, chatId, messageData) {
  */
 export function subscribeToMessages(userId, chatId, callback, limitCount = 50) {
   try {
-    const messagesRef = collection(db, 'users', userId, 'chats', chatId, 'messages');
-    const q = query(
-      messagesRef,
-      orderBy('createdAt', 'asc'),
-      limit(limitCount)
-    );
+    const messagesRef = collection(db, 'users', userId, 'chats', chatId, 'messages')
+    const q = query(messagesRef, orderBy('createdAt', 'asc'), limit(limitCount))
 
-    return onSnapshot(q, (snapshot) => {
-      const messages = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate() || new Date()
-      }));
-      callback(messages);
-    }, (error) => {
-      console.error('Error subscribing to messages:', error);
-      callback([], error);
-    });
+    return onSnapshot(
+      q,
+      snapshot => {
+        const messages = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate() || new Date(),
+        }))
+        callback(messages)
+      },
+      error => {
+        console.error('Error subscribing to messages:', error)
+        callback([], error)
+      }
+    )
   } catch (error) {
-    console.error('Error setting up message subscription:', error);
-    throw new Error('Failed to subscribe to messages');
+    console.error('Error setting up message subscription:', error)
+    throw new Error('Failed to subscribe to messages')
   }
 }
 
@@ -92,12 +103,12 @@ export function subscribeToMessages(userId, chatId, callback, limitCount = 50) {
  */
 export async function updateChatTimestamp(userId, chatId) {
   try {
-    const chatRef = doc(db, 'users', userId, 'chats', chatId);
+    const chatRef = doc(db, 'users', userId, 'chats', chatId)
     await updateDoc(chatRef, {
-      updatedAt: serverTimestamp()
-    });
+      updatedAt: serverTimestamp(),
+    })
   } catch (error) {
-    console.error('Error updating chat timestamp:', error);
+    console.error('Error updating chat timestamp:', error)
     // Don't throw error as this is non-critical
   }
 }
@@ -110,21 +121,21 @@ export async function updateChatTimestamp(userId, chatId) {
  */
 export async function getChatSession(userId, chatId) {
   try {
-    const chatRef = doc(db, 'users', userId, 'chats', chatId);
-    const chatSnap = await getDoc(chatRef);
-    
+    const chatRef = doc(db, 'users', userId, 'chats', chatId)
+    const chatSnap = await getDoc(chatRef)
+
     if (chatSnap.exists()) {
       return {
         id: chatSnap.id,
         ...chatSnap.data(),
         createdAt: chatSnap.data().createdAt?.toDate() || new Date(),
-        updatedAt: chatSnap.data().updatedAt?.toDate() || new Date()
-      };
+        updatedAt: chatSnap.data().updatedAt?.toDate() || new Date(),
+      }
     }
-    return null;
+    return null
   } catch (error) {
-    console.error('Error getting chat session:', error);
-    throw new Error('Failed to get chat session');
+    console.error('Error getting chat session:', error)
+    throw new Error('Failed to get chat session')
   }
 }
 
@@ -133,8 +144,8 @@ export function formatMessageForStorage(message) {
   return {
     role: message.role,
     content: message.content,
-    createdAt: serverTimestamp()
-  };
+    createdAt: serverTimestamp(),
+  }
 }
 
 // Helper function to format message for display
@@ -144,6 +155,6 @@ export function formatMessageForDisplay(firestoreMessage) {
     content: firestoreMessage.content,
     role: firestoreMessage.role,
     timestamp: firestoreMessage.createdAt,
-    type: firestoreMessage.role
-  };
+    type: firestoreMessage.role,
+  }
 }

@@ -1,21 +1,21 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { usePageMeta } from '../hooks/usePageMeta';
-import { FaBook, FaCode, FaVideo, FaFileAlt, FaUsers, FaQuestionCircle } from 'react-icons/fa';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { usePageMeta } from '../hooks/usePageMeta'
+import { FaBook, FaCode, FaVideo, FaFileAlt, FaUsers, FaQuestionCircle } from 'react-icons/fa'
 import { APP_COLORS } from '../constants/sitePalette'
 
-const COLORS = APP_COLORS;
+const COLORS = APP_COLORS
 
 export default function Development() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // Set page meta tags for SEO
   usePageMeta(
     'Web Development Tutorials, Code Examples & Learning Resources - AlgoView',
     'Complete web development learning path with tutorials, code examples, videos, documentation, and community resources. Learn frontend, backend, DevOps, and more.',
     'web development, tutorials, code examples, learning resources, developer community, coding guides'
-  );
+  )
 
   const sections = [
     {
@@ -24,7 +24,7 @@ export default function Development() {
       icon: FaBook,
       description: 'Comprehensive step-by-step guides covering Web Development, DevOps, and more.',
       accentColor: COLORS.accent.primary,
-      path: '/development/tutorials'
+      path: '/development/tutorials',
     },
     {
       id: 'codes',
@@ -32,7 +32,7 @@ export default function Development() {
       icon: FaCode,
       description: 'Ready-to-use code snippets with syntax highlighting in multiple languages.',
       accentColor: COLORS.accent.primary,
-      path: '/development/code-examples'
+      path: '/development/code-examples',
     },
     {
       id: 'videos',
@@ -40,7 +40,7 @@ export default function Development() {
       icon: FaVideo,
       description: 'Curated video courses from top platforms for visual learners.',
       accentColor: COLORS.accent.primary,
-      path: '/development/videos'
+      path: '/development/videos',
     },
     {
       id: 'docs',
@@ -48,7 +48,7 @@ export default function Development() {
       icon: FaFileAlt,
       description: 'Official documentation and reference guides for popular technologies.',
       accentColor: COLORS.accent.primary,
-      path: '/development/documentation'
+      path: '/development/documentation',
     },
     {
       id: 'community',
@@ -56,7 +56,7 @@ export default function Development() {
       icon: FaUsers,
       description: 'Connect with developers on Discord, Telegram, Reddit, and GitHub.',
       accentColor: COLORS.accent.primary,
-      path: '/development/community'
+      path: '/development/community',
     },
     {
       id: 'qa',
@@ -64,9 +64,9 @@ export default function Development() {
       icon: FaQuestionCircle,
       description: 'Popular questions and answers from the community.',
       accentColor: COLORS.accent.primary,
-      path: '/development/qa'
-    }
-  ];
+      path: '/development/qa',
+    },
+  ]
 
   return (
     <div style={{ backgroundColor: COLORS.bg.primary }}>
@@ -78,9 +78,15 @@ export default function Development() {
         className="bg-white border-b py-12"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-2" style={{ color: COLORS.text.primary }}>Development Hub</h1>
+          <h1
+            className="text-2xl sm:text-4xl font-bold mb-2"
+            style={{ color: COLORS.text.primary }}
+          >
+            Development Hub
+          </h1>
           <p className="text-lg max-w-3xl" style={{ color: COLORS.text.secondary }}>
-            Master Web Development, DevOps, and more with tutorials, code examples, video courses, and community resources.
+            Master Web Development, DevOps, and more with tutorials, code examples, video courses,
+            and community resources.
           </p>
         </div>
       </motion.div>
@@ -94,7 +100,7 @@ export default function Development() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {sections.map((section, index) => {
-            const Icon = section.icon;
+            const Icon = section.icon
             return (
               <motion.div
                 key={section.id}
@@ -103,9 +109,15 @@ export default function Development() {
                 transition={{ delay: index * 0.1 }}
                 className="group"
               >
-                <div style={{ backgroundColor: COLORS.bg.primary, borderColor: COLORS.border.light }} className="h-full rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div
+                  style={{ backgroundColor: COLORS.bg.primary, borderColor: COLORS.border.light }}
+                  className="h-full rounded-lg border overflow-hidden hover:shadow-lg transition-all duration-300"
+                >
                   {/* Color Header */}
-                  <div style={{ backgroundColor: COLORS.bg.secondary }} className="h-24 flex items-center justify-center">
+                  <div
+                    style={{ backgroundColor: COLORS.bg.secondary }}
+                    className="h-24 flex items-center justify-center"
+                  >
                     <Icon className="text-4xl" style={{ color: section.accentColor }} />
                   </div>
 
@@ -114,7 +126,10 @@ export default function Development() {
                     <h3 className="text-xl font-bold mb-2" style={{ color: COLORS.text.primary }}>
                       {section.label}
                     </h3>
-                    <p className="text-sm mb-6 line-clamp-3" style={{ color: COLORS.text.secondary }}>
+                    <p
+                      className="text-sm mb-6 line-clamp-3"
+                      style={{ color: COLORS.text.secondary }}
+                    >
                       {section.description}
                     </p>
 
@@ -131,7 +146,7 @@ export default function Development() {
                   </div>
                 </div>
               </motion.div>
-            );
+            )
           })}
         </motion.div>
       </div>
@@ -146,15 +161,35 @@ export default function Development() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <StatCard icon={FaBook} label="Tutorials" value="50+" accentColor={COLORS.accent.primary} />
-            <StatCard icon={FaCode} label="Code Examples" value="100+" accentColor={COLORS.accent.secondary} />
-            <StatCard icon={FaVideo} label="Video Courses" value="200+" accentColor={COLORS.accent.primary} />
-            <StatCard icon={FaUsers} label="Community Members" value="10K+" accentColor={COLORS.accent.primary} />
+            <StatCard
+              icon={FaBook}
+              label="Tutorials"
+              value="50+"
+              accentColor={COLORS.accent.primary}
+            />
+            <StatCard
+              icon={FaCode}
+              label="Code Examples"
+              value="100+"
+              accentColor={COLORS.accent.secondary}
+            />
+            <StatCard
+              icon={FaVideo}
+              label="Video Courses"
+              value="200+"
+              accentColor={COLORS.accent.primary}
+            />
+            <StatCard
+              icon={FaUsers}
+              label="Community Members"
+              value="10K+"
+              accentColor={COLORS.accent.primary}
+            />
           </div>
         </div>
       </motion.div>
     </div>
-  );
+  )
 }
 
 function StatCard({ icon: Icon, label, value, accentColor }) {
@@ -165,8 +200,12 @@ function StatCard({ icon: Icon, label, value, accentColor }) {
       className="rounded-lg p-6 border text-center"
     >
       <Icon className="text-3xl mx-auto mb-3" style={{ color: accentColor }} />
-      <div className="text-2xl font-bold" style={{ color: COLORS.text.primary }}>{value}</div>
-      <div className="text-sm mt-1" style={{ color: COLORS.text.secondary }}>{label}</div>
+      <div className="text-2xl font-bold" style={{ color: COLORS.text.primary }}>
+        {value}
+      </div>
+      <div className="text-sm mt-1" style={{ color: COLORS.text.secondary }}>
+        {label}
+      </div>
     </motion.div>
-  );
+  )
 }

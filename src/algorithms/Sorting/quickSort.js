@@ -2,12 +2,12 @@
 
 /**
  * Quick Sort Algorithm
- * 
+ *
  * A divide-and-conquer algorithm that picks an element as a pivot and partitions
  * the given array around the picked pivot. The key process is the partition() function,
  * which places the pivot element at its correct position in the sorted array and puts
  * all smaller elements to the left of the pivot and all greater elements to the right.
- * 
+ *
  * @param {number[]} arr - Array of numbers to sort
  * @yields {Object} - Step information for visualization
  * @returns {Generator<Object, void, unknown>} - Generator that yields visualization steps
@@ -85,7 +85,7 @@ export function* quickSort(arr) {
 
 /**
  * Algorithm information for Quick Sort
- * 
+ *
  * @type {Object}
  * @property {string} name - Name of the algorithm
  * @property {string} category - Category of the algorithm
@@ -106,13 +106,14 @@ export const quickSortInfo = {
     time: {
       best: 'O(n log n)',
       average: 'O(n log n)',
-      worst: 'O(n²)'
+      worst: 'O(n²)',
     },
-    space: 'O(log n)'
+    space: 'O(log n)',
   },
   stable: false,
   inPlace: true,
-  description: 'A divide-and-conquer algorithm that picks an element as a pivot and partitions the given array around the picked pivot.',
+  description:
+    'A divide-and-conquer algorithm that picks an element as a pivot and partitions the given array around the picked pivot.',
   code: {
     javascript: `
 function quickSort(arr, low = 0, high = arr.length - 1) {
@@ -180,12 +181,12 @@ public static int partition(int[] arr, int low, int high) {
     arr[i] = arr[high];
     arr[high] = temp;
     return i;
-}`
+}`,
   },
   useCases: [
     'General-purpose sorting when average-case performance is important',
     'When memory usage needs to be minimized (in-place sorting)',
     'Cache-efficient algorithms due to good locality of reference',
-    'Randomized versions provide good expected performance on any input'
-  ]
+    'Randomized versions provide good expected performance on any input',
+  ],
 }

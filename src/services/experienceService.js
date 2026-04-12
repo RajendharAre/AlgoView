@@ -11,7 +11,18 @@ import { db } from '../lib/firebase'
 
 const experiencesCollection = collection(db, 'platformExperiences')
 
-export const submitPlatformExperience = async ({ user, name, role, specificRole, institution, rating, emotions, experience, timestamp, status }) => {
+export const submitPlatformExperience = async ({
+  user,
+  name,
+  role,
+  specificRole,
+  institution,
+  rating,
+  emotions,
+  experience,
+  timestamp,
+  status,
+}) => {
   const resolvedRole = role || 'student'
   const payload = {
     userId: user?.uid || null,
@@ -33,22 +44,18 @@ export const submitPlatformExperience = async ({ user, name, role, specificRole,
 }
 
 export const getApprovedExperiencesListener = (callback, errorHandler) => {
-  const q = query(
-    experiencesCollection,
-    where('status', '==', 'approved'),
-    limit(24)
-  )
+  const q = query(experiencesCollection, where('status', '==', 'approved'), limit(24))
 
   return onSnapshot(
     q,
-    (snapshot) => {
+    snapshot => {
       const experiences = []
-      snapshot.forEach((doc) => {
+      snapshot.forEach(doc => {
         experiences.push({ id: doc.id, ...doc.data() })
       })
       callback(experiences)
     },
-    (error) => {
+    error => {
       console.error('Error fetching approved experiences:', error)
       if (errorHandler) errorHandler(error)
     }

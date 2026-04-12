@@ -12,9 +12,9 @@ const Payment = () => {
         'Access to basic algorithms',
         'Limited visualizations per day',
         'Community support',
-        'Basic profile'
+        'Basic profile',
       ],
-      popular: false
+      popular: false,
     },
     {
       name: 'Pro',
@@ -27,9 +27,9 @@ const Payment = () => {
         'Priority support',
         'Advanced profile',
         'Save and share visualizations',
-        'Early access to new features'
+        'Early access to new features',
       ],
-      popular: true
+      popular: true,
     },
     {
       name: 'Enterprise',
@@ -42,49 +42,51 @@ const Payment = () => {
         'Custom organization branding',
         'Dedicated account manager',
         'API access',
-        'Advanced analytics'
+        'Advanced analytics',
       ],
-      popular: false
-    }
+      popular: false,
+    },
   ]
 
   const benefits = [
     {
       icon: Star,
       title: 'Premium Content',
-      description: 'Access to exclusive algorithms and advanced visualizations not available in the free tier.'
+      description:
+        'Access to exclusive algorithms and advanced visualizations not available in the free tier.',
     },
     {
       icon: Shield,
       title: 'Secure Payments',
-      description: 'All transactions are secured with industry-standard encryption and fraud protection.'
+      description:
+        'All transactions are secured with industry-standard encryption and fraud protection.',
     },
     {
       icon: Zap,
       title: 'Instant Activation',
-      description: 'Your premium features are activated immediately after payment confirmation.'
-    }
+      description: 'Your premium features are activated immediately after payment confirmation.',
+    },
   ]
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
       <div className="text-center mb-16">
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
         >
           Choose Your Plan
         </motion.h1>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="text-xl text-gray-600 max-w-3xl mx-auto"
         >
-          Unlock the full potential of AlgoView with our premium plans. 
-          Start learning algorithms at your own pace with unlimited access to all features.
+          Unlock the full potential of AlgoView with our premium plans. Start learning algorithms at
+          your own pace with unlimited access to all features.
         </motion.p>
       </div>
 
@@ -98,8 +100,8 @@ const Payment = () => {
             transition={{ delay: 0.1 * index }}
             whileHover={{ y: -5 }}
             className={`relative bg-white rounded-xl shadow-md border ${
-              plan.popular 
-                ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-20' 
+              plan.popular
+                ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-20'
                 : 'border-gray-200'
             }`}
           >
@@ -108,7 +110,7 @@ const Payment = () => {
                 MOST POPULAR
               </div>
             )}
-            
+
             <div className="p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
               <div className="mb-4">
@@ -116,7 +118,7 @@ const Payment = () => {
                 <span className="text-gray-600">/{plan.period}</span>
               </div>
               <p className="text-gray-600 mb-6">{plan.description}</p>
-              
+
               <ul className="space-y-3 mb-8">
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-center">
@@ -125,7 +127,7 @@ const Payment = () => {
                   </li>
                 ))}
               </ul>
-              
+
               <button
                 className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-300 ${
                   plan.popular
@@ -142,7 +144,9 @@ const Payment = () => {
 
       {/* Benefits */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
-        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-12">Why Choose Premium?</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-12">
+          Why Choose Premium?
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon
@@ -174,9 +178,7 @@ const Payment = () => {
           <div className="h-8 w-8 bg-gray-200 rounded"></div>
           <div className="h-8 w-8 bg-gray-200 rounded"></div>
         </div>
-        <p className="text-gray-500 mt-4">
-          All payments are secured with 256-bit SSL encryption
-        </p>
+        <p className="text-gray-500 mt-4">All payments are secured with 256-bit SSL encryption</p>
       </div>
     </div>
   )

@@ -8,83 +8,85 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 
 const Dashboard = () => {
-  const { currentUser } = useSelector((state) => state.user)
-  const { user } = useAuth();
+  const { currentUser } = useSelector(state => state.user)
+  const { user } = useAuth()
   const [dashboardData, setDashboardData] = useState({
     stats: {
       algorithmsMastered: 0,
       hoursPracticed: 0,
       ideasExplored: 0,
-      resourcesSaved: 0
+      resourcesSaved: 0,
     },
     recentActivity: [],
     completedProblems: 0,
-    totalProblems: 0
-  });
+    totalProblems: 0,
+  })
 
   useEffect(() => {
-    if (!user) return;
-    
-    const unsubscribe = onSnapshot(doc(db, 'users', user.uid), (docSnap) => {
+    if (!user) return
+
+    const unsubscribe = onSnapshot(doc(db, 'users', user.uid), docSnap => {
       if (docSnap.exists()) {
-        const userData = docSnap.data();
-        
+        const userData = docSnap.data()
+
         // Calculate stats based on user data
-        let completedProblems = 0;
-        let hoursPracticed = 0;
-        let ideasExplored = 0;
-        let resourcesSaved = 0;
-        
+        let completedProblems = 0
+        let hoursPracticed = 0
+        let ideasExplored = 0
+        let resourcesSaved = 0
+
         // Count completed problems
         if (userData.completedProblems) {
           completedProblems = Object.keys(userData.completedProblems).filter(
             problemId => userData.completedProblems[problemId]
-          ).length;
+          ).length
         }
-        
+
         // Calculate hours practiced (placeholder - would need actual time tracking)
         // For now, we'll estimate based on number of completed problems
-        hoursPracticed = Math.min(200, Math.floor(completedProblems * 0.5)); // Approximate 0.5 hours per problem
-        
+        hoursPracticed = Math.min(200, Math.floor(completedProblems * 0.5)) // Approximate 0.5 hours per problem
+
         // Count ideas explored (would come from a separate ideas collection)
         // For now, using a placeholder based on activity level
-        ideasExplored = Math.min(50, Math.floor(completedProblems * 0.3));
-        
+        ideasExplored = Math.min(50, Math.floor(completedProblems * 0.3))
+
         // Count resources saved (would come from user's saved items)
         // For now, using a placeholder based on activity
-        resourcesSaved = Math.min(100, Math.floor(completedProblems * 0.7));
-        
+        resourcesSaved = Math.min(100, Math.floor(completedProblems * 0.7))
+
         // Update dashboard data
         setDashboardData({
           stats: {
             algorithmsMastered: completedProblems,
             hoursPracticed: hoursPracticed,
             ideasExplored: ideasExplored,
-            resourcesSaved: resourcesSaved
+            resourcesSaved: resourcesSaved,
           },
           recentActivity: [
             {
               id: 1,
               action: `Completed ${completedProblems} algorithms`,
               time: 'Just now',
-              type: 'problem-completion'
+              type: 'problem-completion',
             },
             // Add more activity items based on user data
-            ...(userData.sessions ? Object.entries(userData.sessions).map(([problemId, session], idx) => ({
-              id: idx + 2,
-              action: `Started solving ${problemId.replace(/-/g, ' ')}`,
-              time: new Date(session.clickedAt).toLocaleString(),
-              type: 'problem-start'
-            })) : [])
+            ...(userData.sessions
+              ? Object.entries(userData.sessions).map(([problemId, session], idx) => ({
+                  id: idx + 2,
+                  action: `Started solving ${problemId.replace(/-/g, ' ')}`,
+                  time: new Date(session.clickedAt).toLocaleString(),
+                  type: 'problem-start',
+                }))
+              : []),
           ].slice(0, 4), // Limit to 4 recent activities
           completedProblems,
-          totalProblems: completedProblems // Simplified for now
-        });
+          totalProblems: completedProblems, // Simplified for now
+        })
       }
-    });
-    
-    return () => unsubscribe();
-  }, [user]);
+    })
+
+    return () => unsubscribe()
+  }, [user])
 
   // // Original static data (kept for reference)
   // const stats = [
@@ -105,14 +107,14 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Welcome Section */}
       <div className="mb-8">
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-2xl sm:text-3xl font-bold text-gray-900"
         >
           Welcome back, {currentUser?.displayName || currentUser?.email?.split('@')[0] || 'User'}!
         </motion.h1>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -124,13 +126,28 @@ const Dashboard = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {
-          [
-            { name: 'Algorithms Mastered', value: (dashboardData.stats.algorithmsMastered || 0).toString(), icon: SiThealgorithms },
-            { name: 'Hours Practiced', value: (dashboardData.stats.hoursPracticed || 0).toString(), icon: TrendingUp },
-            { name: 'Ideas Shared', value: (dashboardData.stats.ideasExplored || 0).toString(), icon: Lightbulb },
-            { name: 'Resources Saved', value: (dashboardData.stats.resourcesSaved || 0).toString(), icon: BookOpen }
-          ].map((stat, index) => {
+        {[
+          {
+            name: 'Algorithms Mastered',
+            value: (dashboardData.stats.algorithmsMastered || 0).toString(),
+            icon: SiThealgorithms,
+          },
+          {
+            name: 'Hours Practiced',
+            value: (dashboardData.stats.hoursPracticed || 0).toString(),
+            icon: TrendingUp,
+          },
+          {
+            name: 'Ideas Shared',
+            value: (dashboardData.stats.ideasExplored || 0).toString(),
+            icon: Lightbulb,
+          },
+          {
+            name: 'Resources Saved',
+            value: (dashboardData.stats.resourcesSaved || 0).toString(),
+            icon: BookOpen,
+          },
+        ].map((stat, index) => {
           const Icon = stat.icon
           return (
             <motion.div
@@ -165,7 +182,7 @@ const Dashboard = () => {
           >
             <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
             <div className="space-y-4">
-              {dashboardData.recentActivity.map((activity) => (
+              {dashboardData.recentActivity.map(activity => (
                 <div key={activity.id} className="flex items-start">
                   <div className="flex-shrink-0 h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
                     <div className="h-2 w-2 rounded-full bg-blue-600"></div>

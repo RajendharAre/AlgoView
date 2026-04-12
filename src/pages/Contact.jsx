@@ -9,15 +9,15 @@ const channels = [
     detail: 'support@algoview.app',
     description: 'Best for account, billing, and technical issues.',
     icon: Mail,
-    href: 'mailto:support@algoview.app'
+    href: 'mailto:support@algoview.app',
   },
   {
     title: 'Community Help',
     detail: 'Development Community',
     description: 'Get help from maintainers and learners.',
     icon: MessageCircle,
-    href: '/development/community'
-  }
+    href: '/development/community',
+  },
 ]
 
 export default function Contact() {
@@ -25,18 +25,18 @@ export default function Contact() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
+    setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setSubmitting(true)
     setError('')
@@ -45,7 +45,7 @@ export default function Contact() {
       await sendSupportRequest({
         ...form,
         topic: 'contact',
-        source: 'contact-page'
+        source: 'contact-page',
       })
       setSubmitted(true)
     } catch (err) {
@@ -107,14 +107,19 @@ export default function Contact() {
             className="lg:col-span-3 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm"
           >
             <h2 className="text-2xl font-semibold text-slate-900 mb-2">Send a message</h2>
-            <p className="text-sm text-slate-600 mb-6">Fill this form and then send your request to support email. Backend email delivery can be added next.</p>
+            <p className="text-sm text-slate-600 mb-6">
+              Fill this form and then send your request to support email. Backend email delivery can
+              be added next.
+            </p>
 
             {submitted ? (
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800 flex items-start gap-3">
                 <CheckCircle2 className="h-5 w-5 mt-0.5" />
                 <div>
                   <p className="font-semibold">Message sent</p>
-                  <p className="text-sm mt-1">Thanks for contacting us. Your message has been delivered to the support inbox.</p>
+                  <p className="text-sm mt-1">
+                    Thanks for contacting us. Your message has been delivered to the support inbox.
+                  </p>
                 </div>
               </div>
             ) : (

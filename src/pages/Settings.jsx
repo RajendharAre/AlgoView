@@ -16,16 +16,16 @@ const Settings = () => {
       email: true,
       ideas: true,
       discussions: true,
-      achievements: true
+      achievements: true,
     },
     security: {
-      twoFactor: false
+      twoFactor: false,
     },
     language: 'en',
     privacy: {
       profilePublic: true,
-      showActivity: true
-    }
+      showActivity: true,
+    },
   })
 
   // Load user settings from Firebase
@@ -49,7 +49,7 @@ const Settings = () => {
     }
   }
 
-  const handleSave = async (e) => {
+  const handleSave = async e => {
     e.preventDefault()
     if (!user) return
 
@@ -59,7 +59,7 @@ const Settings = () => {
     try {
       await updateDoc(doc(db, 'users', user.uid), {
         settings: formData,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       })
       setSaveStatus('success')
       setTimeout(() => setSaveStatus(null), 3000)
@@ -72,22 +72,22 @@ const Settings = () => {
     }
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const { name, value, type, checked } = e.target
     const keys = name.split('.')
-    
+
     if (keys.length === 2) {
       setFormData(prev => ({
         ...prev,
         [keys[0]]: {
           ...prev[keys[0]],
-          [keys[1]]: type === 'checkbox' ? checked : value
-        }
+          [keys[1]]: type === 'checkbox' ? checked : value,
+        },
       }))
     } else {
       setFormData(prev => ({
         ...prev,
-        [name]: type === 'checkbox' ? checked : value
+        [name]: type === 'checkbox' ? checked : value,
       }))
     }
   }
@@ -115,8 +115,8 @@ const Settings = () => {
                   { id: 'notifications', label: 'Notifications', icon: Bell },
                   { id: 'security', label: 'Security', icon: Lock },
                   { id: 'privacy', label: 'Privacy', icon: MdOutlinePrivacyTip },
-                  { id: 'language', label: 'Language', icon: Globe }
-                ].map((tab) => {
+                  { id: 'language', label: 'Language', icon: Globe },
+                ].map(tab => {
                   const Icon = typeof tab.icon === 'string' ? null : tab.icon
                   return (
                     <button
@@ -128,11 +128,7 @@ const Settings = () => {
                           : 'text-gray-700 hover:bg-gray-100 md:border-transparent'
                       }`}
                     >
-                      {Icon ? (
-                        <Icon size={18} />
-                      ) : (
-                        <span className="text-lg">{tab.icon}</span>
-                      )}
+                      {Icon ? <Icon size={18} /> : <span className="text-lg">{tab.icon}</span>}
                       <span>{tab.label}</span>
                     </button>
                   )
@@ -151,8 +147,12 @@ const Settings = () => {
                     className="space-y-6"
                   >
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900 mb-4">Notification Preferences</h2>
-                      <p className="text-sm text-gray-600 mb-6">Choose which notifications you'd like to receive</p>
+                      <h2 className="text-xl font-bold text-gray-900 mb-4">
+                        Notification Preferences
+                      </h2>
+                      <p className="text-sm text-gray-600 mb-6">
+                        Choose which notifications you'd like to receive
+                      </p>
                     </div>
 
                     <div className="space-y-4">
@@ -160,24 +160,24 @@ const Settings = () => {
                         {
                           id: 'email',
                           label: 'Email Notifications',
-                          description: 'Get notified via email about important updates'
+                          description: 'Get notified via email about important updates',
                         },
                         {
                           id: 'ideas',
                           label: 'Ideas & Discussions',
-                          description: 'Receive updates when someone replies to your ideas'
+                          description: 'Receive updates when someone replies to your ideas',
                         },
                         {
                           id: 'discussions',
                           label: 'Discussion Forums',
-                          description: 'Get notified about discussion thread activity'
+                          description: 'Get notified about discussion thread activity',
                         },
                         {
                           id: 'achievements',
                           label: 'Achievements',
-                          description: 'Celebrate milestones and achievements'
-                        }
-                      ].map((notif) => (
+                          description: 'Celebrate milestones and achievements',
+                        },
+                      ].map(notif => (
                         <div
                           key={notif.id}
                           className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors"
@@ -217,10 +217,14 @@ const Settings = () => {
                     <div className="space-y-4">
                       {/* Change Password */}
                       <div className="p-4 border border-gray-200 rounded-xl">
-                        <h3 className="text-sm font-semibold text-gray-900 mb-4">Change Password</h3>
+                        <h3 className="text-sm font-semibold text-gray-900 mb-4">
+                          Change Password
+                        </h3>
                         <div className="space-y-3">
                           <div>
-                            <label className="block text-xs font-medium text-gray-700 mb-1">Current Password</label>
+                            <label className="block text-xs font-medium text-gray-700 mb-1">
+                              Current Password
+                            </label>
                             <input
                               type="password"
                               placeholder="••••••••"
@@ -228,7 +232,9 @@ const Settings = () => {
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-700 mb-1">New Password</label>
+                            <label className="block text-xs font-medium text-gray-700 mb-1">
+                              New Password
+                            </label>
                             <input
                               type="password"
                               placeholder="••••••••"
@@ -236,7 +242,9 @@ const Settings = () => {
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-700 mb-1">Confirm Password</label>
+                            <label className="block text-xs font-medium text-gray-700 mb-1">
+                              Confirm Password
+                            </label>
                             <input
                               type="password"
                               placeholder="••••••••"
@@ -249,8 +257,12 @@ const Settings = () => {
                       {/* Two-Factor Authentication */}
                       <div className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
                         <div>
-                          <h3 className="text-sm font-semibold text-gray-900">Two-Factor Authentication</h3>
-                          <p className="text-xs text-gray-600 mt-1">Add an extra layer of security to your account</p>
+                          <h3 className="text-sm font-semibold text-gray-900">
+                            Two-Factor Authentication
+                          </h3>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Add an extra layer of security to your account
+                          </p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
@@ -276,14 +288,18 @@ const Settings = () => {
                   >
                     <div>
                       <h2 className="text-xl font-bold text-gray-900 mb-4">Privacy Settings</h2>
-                      <p className="text-sm text-gray-600 mb-6">Control who can see your information</p>
+                      <p className="text-sm text-gray-600 mb-6">
+                        Control who can see your information
+                      </p>
                     </div>
 
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
                         <div>
                           <h3 className="text-sm font-semibold text-gray-900">Public Profile</h3>
-                          <p className="text-xs text-gray-600 mt-1">Allow others to view your profile</p>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Allow others to view your profile
+                          </p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
@@ -300,7 +316,9 @@ const Settings = () => {
                       <div className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
                         <div>
                           <h3 className="text-sm font-semibold text-gray-900">Show Activity</h3>
-                          <p className="text-xs text-gray-600 mt-1">Display your recent learning activity</p>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Display your recent learning activity
+                          </p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input

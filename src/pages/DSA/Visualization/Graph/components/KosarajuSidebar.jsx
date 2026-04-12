@@ -56,7 +56,9 @@ const KosarajuSidebar = ({
         {icon}
       </div>
       <div className="overflow-hidden">
-        <div className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}>
+        <div
+          className={`text-[11px] font-bold truncate ${active ? 'text-white' : 'text-[#212529]'}`}
+        >
           {label}
         </div>
         <div
@@ -84,7 +86,9 @@ const KosarajuSidebar = ({
           </button>
           <h1 className="text-base font-bold tracking-tight">Kosaraju SCC</h1>
         </div>
-        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">Two-Pass Detection</p>
+        <p className="text-[10px] text-[#6c757d] uppercase tracking-widest font-black ml-11">
+          Two-Pass Detection
+        </p>
       </div>
 
       {/* Speed Controls */}
@@ -218,10 +222,16 @@ const KosarajuSidebar = ({
             Discovered SCCs
           </h4>
           {sccGroups.map((group, idx) => (
-            <div key={idx} className="flex flex-wrap items-center gap-1 p-2 bg-white rounded-xl border border-[#dee2e6] animate-in fade-in">
+            <div
+              key={idx}
+              className="flex flex-wrap items-center gap-1 p-2 bg-white rounded-xl border border-[#dee2e6] animate-in fade-in"
+            >
               <span className="text-[8px] font-black mr-1 text-[#adb5bd]">#{idx + 1}:</span>
               {group.map(id => (
-                <div key={id} className="px-1.5 py-0.5 bg-[#f1f3f5] text-[#212529] text-[9px] font-bold rounded border border-[#dee2e6]">
+                <div
+                  key={id}
+                  className="px-1.5 py-0.5 bg-[#f1f3f5] text-[#212529] text-[9px] font-bold rounded border border-[#dee2e6]"
+                >
                   {nodes.find(n => n.id === id)?.label}
                 </div>
               ))}

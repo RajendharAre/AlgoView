@@ -14,10 +14,11 @@ const DSADiscussionDetail = () => {
     author: 'Alex Johnson',
     authorAvatar: null,
     createdAt: '2023-06-15T10:30:00Z',
-    content: 'I\'ve been struggling with dynamic programming concepts, especially with identifying overlapping subproblems. Could someone explain a systematic approach to recognize when a problem can be solved using DP?',
+    content:
+      "I've been struggling with dynamic programming concepts, especially with identifying overlapping subproblems. Could someone explain a systematic approach to recognize when a problem can be solved using DP?",
     tags: ['dynamic-programming', 'algorithms', 'beginner'],
     likes: 24,
-    replies: 8
+    replies: 8,
   }
 
   // Mock replies data
@@ -26,21 +27,23 @@ const DSADiscussionDetail = () => {
       id: '1',
       author: 'Sarah Chen',
       authorAvatar: null,
-      content: 'Great question! The key insight is to look for problems that ask for an optimal result (maximum, minimum, number of ways, etc.) and can be broken down into similar subproblems.',
+      content:
+        'Great question! The key insight is to look for problems that ask for an optimal result (maximum, minimum, number of ways, etc.) and can be broken down into similar subproblems.',
       createdAt: '2023-06-15T11:15:00Z',
-      likes: 12
+      likes: 12,
     },
     {
       id: '2',
       author: 'Mike Rodriguez',
       authorAvatar: null,
-      content: 'I recommend starting with classic DP problems like Fibonacci, Coin Change, and Knapsack. Once you understand the pattern, it becomes easier to identify.',
+      content:
+        'I recommend starting with classic DP problems like Fibonacci, Coin Change, and Knapsack. Once you understand the pattern, it becomes easier to identify.',
       createdAt: '2023-06-15T12:30:00Z',
-      likes: 8
-    }
+      likes: 8,
+    },
   ]
 
-  const handleReply = (e) => {
+  const handleReply = e => {
     e.preventDefault()
     // Handle reply submission
     console.log('Reply submitted:', reply)
@@ -63,7 +66,11 @@ const DSADiscussionDetail = () => {
                 <div className="flex items-center gap-4 mt-3">
                   <div className="flex items-center gap-2">
                     {discussion.authorAvatar ? (
-                      <img src={discussion.authorAvatar} alt={discussion.author} className="w-8 h-8 rounded-full" />
+                      <img
+                        src={discussion.authorAvatar}
+                        alt={discussion.author}
+                        className="w-8 h-8 rounded-full"
+                      />
                     ) : (
                       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
                         <User size={16} className="text-blue-600" />
@@ -76,7 +83,10 @@ const DSADiscussionDetail = () => {
                   </span>
                   <div className="flex items-center gap-1">
                     {discussion.tags.map((tag, index) => (
-                      <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                      >
                         {tag}
                       </span>
                     ))}
@@ -115,16 +125,18 @@ const DSADiscussionDetail = () => {
           {/* Replies */}
           <div className="border-t border-gray-200">
             <div className="p-6 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">
-                {discussion.replies} Replies
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900">{discussion.replies} Replies</h2>
             </div>
 
-            {replies.map((reply) => (
+            {replies.map(reply => (
               <div key={reply.id} className="p-6 border-b border-gray-100">
                 <div className="flex items-start gap-4">
                   {reply.authorAvatar ? (
-                    <img src={reply.authorAvatar} alt={reply.author} className="w-10 h-10 rounded-full" />
+                    <img
+                      src={reply.authorAvatar}
+                      alt={reply.author}
+                      className="w-10 h-10 rounded-full"
+                    />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
                       <User size={18} className="text-green-600" />
@@ -160,7 +172,7 @@ const DSADiscussionDetail = () => {
                   <div className="flex-1">
                     <textarea
                       value={reply}
-                      onChange={(e) => setReply(e.target.value)}
+                      onChange={e => setReply(e.target.value)}
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Write a reply..."

@@ -7,7 +7,8 @@ const fibonacciInfo = {
   name: 'Fibonacci Sequence',
   category: 'Dynamic Programming',
   difficulty: 'Easy',
-  description: 'Generate Fibonacci sequence using bottom-up dynamic programming. Each number is the sum of the two preceding ones.',
+  description:
+    'Generate Fibonacci sequence using bottom-up dynamic programming. Each number is the sum of the two preceding ones.',
 
   // Time & Space Complexity
   complexity: {
@@ -68,6 +69,6 @@ const fibonacciInfo = {
   return dp[n]
 }`,
   },
-};
+}
 
-export default fibonacciInfo;
+export default fibonacciInfo

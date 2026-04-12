@@ -4,16 +4,17 @@
  */
 
 const tspInfo = {
-  description: 'Backtracking algorithm that finds the shortest possible route visiting each city exactly once and returning to the starting city',
+  description:
+    'Backtracking algorithm that finds the shortest possible route visiting each city exactly once and returning to the starting city',
   timeComplexity: {
     best: 'O(n!)',
     average: 'O(n!)',
     worst: 'O(n!)',
-    explanation: 'Must explore factorial permutations of cities with pruning optimization'
+    explanation: 'Must explore factorial permutations of cities with pruning optimization',
   },
   spaceComplexity: {
     value: 'O(n)',
-    explanation: 'Space for recursion stack and visited set tracking'
+    explanation: 'Space for recursion stack and visited set tracking',
   },
   algorithmSteps: [
     'Start from depot (source city)',
@@ -22,14 +23,14 @@ const tspInfo = {
     'Prune branches where current cost exceeds best known cost',
     'When all cities visited, calculate return distance to depot',
     'Update best route if current total cost is better',
-    'Return optimal cycle and minimum cost'
+    'Return optimal cycle and minimum cost',
   ],
   properties: {
     npHard: true,
     backtracking: true,
     pruning: true,
     optimal: true,
-    exponential: true
+    exponential: true,
   },
   useCases: [
     'Route optimization for delivery services',
@@ -37,7 +38,7 @@ const tspInfo = {
     'Tour planning and logistics',
     'DNA sequencing',
     'Job scheduling',
-    'Network optimization'
+    'Network optimization',
   ],
   relatedAlgorithms: [
     'Nearest Neighbor Heuristic',
@@ -45,8 +46,8 @@ const tspInfo = {
     'Genetic Algorithm',
     'Ant Colony Optimization',
     'Dynamic Programming (Held-Karp)',
-    'Branch and Bound'
-  ]
-};
+    'Branch and Bound',
+  ],
+}
 
-export default tspInfo;
+export default tspInfo

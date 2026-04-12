@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { BookOpen, Code2, Video, FileText, Users, HelpCircle } from 'lucide-react';
-import TutorialsSection from './Tutorials/TutorialsSection';
-import CodeExamplesSection from './CodeExamples/CodeExamplesSection';
-import QASection from './QA/QASection';
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { BookOpen, Code2, Video, FileText, Users, HelpCircle } from 'lucide-react'
+import TutorialsSection from './Tutorials/TutorialsSection'
+import CodeExamplesSection from './CodeExamples/CodeExamplesSection'
+import QASection from './QA/QASection'
 
 // Placeholder components (will build others next)
-const CodeExamplesPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Code Examples</div>;
-const VideosPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Video Courses</div>;
-const DocsPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Documentation</div>;
-const CommunityPlaceholder = () => <div className="p-8 text-center text-gray-500">Coming Soon: Community</div>;
+const CodeExamplesPlaceholder = () => (
+  <div className="p-8 text-center text-gray-500">Coming Soon: Code Examples</div>
+)
+const VideosPlaceholder = () => (
+  <div className="p-8 text-center text-gray-500">Coming Soon: Video Courses</div>
+)
+const DocsPlaceholder = () => (
+  <div className="p-8 text-center text-gray-500">Coming Soon: Documentation</div>
+)
+const CommunityPlaceholder = () => (
+  <div className="p-8 text-center text-gray-500">Coming Soon: Community</div>
+)
 
 export default function DevelopmentPage() {
-  const [activeSection, setActiveSection] = useState('tutorials');
+  const [activeSection, setActiveSection] = useState('tutorials')
 
   const sections = [
     { id: 'tutorials', label: 'Tutorials', icon: <BookOpen size={16} /> },
@@ -20,27 +28,27 @@ export default function DevelopmentPage() {
     { id: 'videos', label: 'Videos', icon: <Video size={16} /> },
     { id: 'docs', label: 'Documentation', icon: <FileText size={16} /> },
     { id: 'community', label: 'Community', icon: <Users size={16} /> },
-    { id: 'qa', label: 'Q&A', icon: <HelpCircle size={16} /> }
-  ];
+    { id: 'qa', label: 'Q&A', icon: <HelpCircle size={16} /> },
+  ]
 
   const renderSection = () => {
     switch (activeSection) {
       case 'tutorials':
-        return <TutorialsSection />;
+        return <TutorialsSection />
       case 'codes':
-        return <CodeExamplesSection />;
+        return <CodeExamplesSection />
       case 'videos':
-        return <VideosPlaceholder />;
+        return <VideosPlaceholder />
       case 'docs':
-        return <DocsPlaceholder />;
+        return <DocsPlaceholder />
       case 'community':
-        return <CommunityPlaceholder />;
+        return <CommunityPlaceholder />
       case 'qa':
-        return <QASection />;
+        return <QASection />
       default:
-        return <TutorialsSection />;
+        return <TutorialsSection />
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -53,7 +61,8 @@ export default function DevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Development Hub</h1>
           <p className="text-lg text-gray-600">
-            Master DSA, Web Development, and more with tutorials, code examples, and community resources.
+            Master DSA, Web Development, and more with tutorials, code examples, and community
+            resources.
           </p>
         </div>
       </motion.div>
@@ -62,7 +71,7 @@ export default function DevelopmentPage() {
       <div className="sticky top-0 bg-white border-b border-gray-200 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex overflow-x-auto scrollbar-hide">
-            {sections.map((section) => (
+            {sections.map(section => (
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
@@ -91,5 +100,5 @@ export default function DevelopmentPage() {
         {renderSection()}
       </motion.div>
     </div>
-  );
+  )
 }

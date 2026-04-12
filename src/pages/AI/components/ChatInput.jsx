@@ -2,8 +2,8 @@
  * Chat input — ChatGPT-style dark auto-resizing textarea with send button
  */
 
-import { useEffect, useRef } from 'react';
-import { Copy, Send, RefreshCw } from 'lucide-react';
+import { useEffect, useRef } from 'react'
+import { Copy, Send, RefreshCw } from 'lucide-react'
 
 export function ChatInput({
   value = '',
@@ -12,33 +12,33 @@ export function ChatInput({
   onCopy,
   isLoading = false,
   disabled = false,
-  placeholder = 'Message AlgoView AI...'
+  placeholder = 'Message AlgoView AI...',
 }) {
-  const textareaRef = useRef(null);
+  const textareaRef = useRef(null)
 
   // Auto-resize textarea based on content
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`
     }
-  }, [value]);
+  }, [value])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault()
     if (!disabled && !isLoading && value.trim() && onSubmit) {
-      onSubmit(value.trim());
+      onSubmit(value.trim())
     }
-  };
+  }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
+      e.preventDefault()
+      handleSubmit(e)
     }
-  };
+  }
 
-  const canSubmit = !disabled && !isLoading && value.trim();
+  const canSubmit = !disabled && !isLoading && value.trim()
 
   return (
     <div className="flex items-end gap-2 sm:gap-3">
@@ -47,7 +47,7 @@ export function ChatInput({
         <textarea
           ref={textareaRef}
           value={value}
-          onChange={(e) => onChange?.(e.target.value)}
+          onChange={e => onChange?.(e.target.value)}
           placeholder={placeholder}
           rows={1}
           disabled={disabled || isLoading}
@@ -61,10 +61,7 @@ export function ChatInput({
             text-sm sm:text-base
             resize-none
             focus:outline-none focus:ring-2 focus:ring-[var(--accent,#10a37f)] focus:border-transparent
-            ${disabled || isLoading
-              ? 'opacity-60 cursor-not-allowed'
-              : 'hover:border-[#565869]'
-            }
+            ${disabled || isLoading ? 'opacity-60 cursor-not-allowed' : 'hover:border-[#565869]'}
           `}
           style={{ minHeight: '44px', maxHeight: '200px', overflow: 'hidden' }}
         />
@@ -92,17 +89,21 @@ export function ChatInput({
           disabled={!canSubmit}
           className={`
             p-2.5 sm:p-3 rounded-lg flex items-center justify-center transition-colors
-            ${canSubmit
-              ? 'bg-[var(--accent,#10a37f)] hover:brightness-110 text-white'
-              : 'bg-[var(--bg-user-msg,#2b2f36)] text-[var(--text-secondary,#8e8ea0)] cursor-not-allowed'
+            ${
+              canSubmit
+                ? 'bg-[var(--accent,#10a37f)] hover:brightness-110 text-white'
+                : 'bg-[var(--bg-user-msg,#2b2f36)] text-[var(--text-secondary,#8e8ea0)] cursor-not-allowed'
             }
           `}
           aria-label={isLoading ? 'Sending message' : 'Send message'}
         >
-          {isLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+          {isLoading ? (
+            <RefreshCw className="w-4 h-4 animate-spin" />
+          ) : (
+            <Send className="w-4 h-4" />
+          )}
         </button>
       </div>
     </div>
-  );
+  )
 }
-

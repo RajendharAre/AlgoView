@@ -1,5 +1,5 @@
-import React from 'react';
-import { Activity } from 'lucide-react';
+import React from 'react'
+import { Activity } from 'lucide-react'
 
 const DistanceTable = ({ nodes, distances, previous, activeNode, showPathTo }) => {
   return (
@@ -18,14 +18,14 @@ const DistanceTable = ({ nodes, distances, previous, activeNode, showPathTo }) =
           </thead>
           <tbody>
             {nodes.map(n => (
-              <tr 
-                key={n.id} 
-                onClick={() => showPathTo(n.id)} 
+              <tr
+                key={n.id}
+                onClick={() => showPathTo(n.id)}
                 className={`border-b border-[#f1f3f5] cursor-pointer hover:bg-slate-50 ${activeNode === n.id ? 'bg-slate-100 font-bold' : ''}`}
               >
                 <td className="px-3 py-2">{n.label}</td>
                 <td className="px-3 py-2 font-mono">
-                  {distances[n.id] === Infinity ? '∞' : distances[n.id] ?? '-'}
+                  {distances[n.id] === Infinity ? '∞' : (distances[n.id] ?? '-')}
                 </td>
                 <td className="px-3 py-2">
                   {previous[n.id] ? nodes.find(prev => prev.id === previous[n.id])?.label : '-'}
@@ -35,9 +35,11 @@ const DistanceTable = ({ nodes, distances, previous, activeNode, showPathTo }) =
           </tbody>
         </table>
       </div>
-      <p className="text-[8px] text-[#adb5bd] italic">* Click a row after traversal to highlight shortest path.</p>
+      <p className="text-[8px] text-[#adb5bd] italic">
+        * Click a row after traversal to highlight shortest path.
+      </p>
     </div>
-  );
-};
+  )
+}
 
-export default DistanceTable;
+export default DistanceTable

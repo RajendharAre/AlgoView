@@ -9,7 +9,7 @@ const DSAContributeNew = () => {
   const [tags, setTags] = useState('')
   const [difficulty, setDifficulty] = useState('easy')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     // Handle submission logic here
     console.log({ title, category, content, tags, difficulty })
@@ -30,13 +30,11 @@ const DSAContributeNew = () => {
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Title
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
               <input
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={e => setTitle(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter a descriptive title"
                 required
@@ -45,12 +43,10 @@ const DSAContributeNew = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
                 <select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={e => setCategory(e.target.value)}
                   className="w-full"
                 >
                   <option value="algorithm">Algorithm Explanation</option>
@@ -62,12 +58,10 @@ const DSAContributeNew = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Difficulty
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Difficulty</label>
                 <select
                   value={difficulty}
-                  onChange={(e) => setDifficulty(e.target.value)}
+                  onChange={e => setDifficulty(e.target.value)}
                   className="w-full"
                 >
                   <option value="beginner">Beginner</option>
@@ -80,15 +74,13 @@ const DSAContributeNew = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tags
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
               <div className="flex items-center gap-2">
                 <Tag size={16} className="text-gray-400" />
                 <input
                   type="text"
                   value={tags}
-                  onChange={(e) => setTags(e.target.value)}
+                  onChange={e => setTags(e.target.value)}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Add tags separated by commas (e.g., sorting, graph, dynamic-programming)"
                 />
@@ -96,12 +88,10 @@ const DSAContributeNew = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Content
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
               <textarea
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={e => setContent(e.target.value)}
                 rows={12}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Write your content here. You can use Markdown for formatting..."

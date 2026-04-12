@@ -4,16 +4,17 @@
  */
 
 const climbingStairsInfo = {
-  description: 'Dynamic programming algorithm that counts the number of distinct ways to climb n stairs when you can take 1 or 2 steps at a time',
+  description:
+    'Dynamic programming algorithm that counts the number of distinct ways to climb n stairs when you can take 1 or 2 steps at a time',
   timeComplexity: {
     best: 'O(n)',
     average: 'O(n)',
     worst: 'O(n)',
-    explanation: 'Linear time: must compute each step once'
+    explanation: 'Linear time: must compute each step once',
   },
   spaceComplexity: {
     value: 'O(n)',
-    explanation: 'Stores dp array with n+1 elements'
+    explanation: 'Stores dp array with n+1 elements',
   },
   algorithmSteps: [
     'Initialize dp array where dp[i] = ways to reach step i',
@@ -22,27 +23,27 @@ const climbingStairsInfo = {
     'For each step i from 2 to n:',
     '  - Calculate dp[i] = dp[i-1] + dp[i-2]',
     '  - This means ways to reach i = ways from i-1 + ways from i-2',
-    'Return dp[n] as total number of ways'
+    'Return dp[n] as total number of ways',
   ],
   properties: {
     recursive: false,
     iterative: true,
     tabulation: true,
-    optimal: true
+    optimal: true,
   },
   useCases: [
     'Number of ways to reach nth step',
     'Fibonacci sequence computation',
     'Combinatorial counting problems',
     'Path finding with limited moves',
-    'Staircase problem variations'
+    'Staircase problem variations',
   ],
   relatedAlgorithms: [
     'Fibonacci Sequence',
     'Coin Change Problem',
     'Minimum Path Sum',
-    'House Robber'
-  ]
-};
+    'House Robber',
+  ],
+}
 
-export default climbingStairsInfo;
+export default climbingStairsInfo

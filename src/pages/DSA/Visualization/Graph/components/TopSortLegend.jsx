@@ -25,7 +25,9 @@ const TopSortLegend = () => {
                 border: item.border ? `2px solid ${item.border}` : 'none',
               }}
             />
-            <span className="text-[9px] font-black uppercase text-[#6c757d] tracking-wide">{item.label}</span>
+            <span className="text-[9px] font-black uppercase text-[#6c757d] tracking-wide">
+              {item.label}
+            </span>
           </div>
         ))}
         <div className="flex items-center gap-2">

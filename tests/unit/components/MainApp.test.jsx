@@ -6,15 +6,15 @@ import MainApp from '../../../src/components/MainApp'
 // Mock the Navbar component
 vi.mock('../../../src/components/Layout/Navbar', () => ({
   __esModule: true,
-  default: () => <div data-testid="navbar">Navbar Component</div>
+  default: () => <div data-testid="navbar">Navbar Component</div>,
 }))
 
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }) => <div {...props}>{children}</div>
+    div: ({ children, ...props }) => <div {...props}>{children}</div>,
   },
-  AnimatePresence: ({ children }) => <div>{children}</div>
+  AnimatePresence: ({ children }) => <div>{children}</div>,
 }))
 
 describe('MainApp Component', () => {
