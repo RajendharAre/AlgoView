@@ -18,6 +18,9 @@ const NotificationBell = () => {
   const [unreadCount, setUnreadCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const [userId, setUserId] = useState(null)
+  const [dismissedGlobalNotifications, setDismissedGlobalNotifications] = useState(
+    () => JSON.parse(localStorage.getItem('dismissedGlobalNotifications') || '[]')
+  )
   const unsubscribesRef = useRef([])
 
   // Get current user
@@ -122,8 +125,22 @@ const NotificationBell = () => {
       unsubscribesRef.current.push(unsubUser)
 
       function updateNotifications(notifications) {
+        // Filter out placeholder/test notifications
+        const filtered = notifications.filter(n => {
+          const placeholders = [
+            'Wait for more updates',
+            'Coming soon',
+            'Test notification',
+            'Sample notification',
+          ]
+          return !placeholders.some(
+            p => n.title?.toLowerCase().includes(p.toLowerCase()) || 
+                 n.message?.toLowerCase().includes(p.toLowerCase())
+          )
+        })
+
         // Sort: global first, then by date
-        const sorted = notifications.sort((a, b) => {
+        const sorted = filtered.sort((a, b) => {
           if (a.source !== b.source) return a.source === 'global' ? -1 : 1
           const dateA = a.createdAt?.toMillis?.() || 0
           const dateB = b.createdAt?.toMillis?.() || 0
@@ -148,16 +165,24 @@ const NotificationBell = () => {
     }
   }, [userId])
 
-  // Dismiss user-specific notification (soft delete)
+  // Dismiss notification (soft delete for user, localStorage for global)
   const handleDismiss = async notificationId => {
     if (!userId) return
 
     try {
       const notification = allNotifications.find(n => n.id === notificationId)
-      if (!notification || notification.source === 'global') return // Can't dismiss global
+      if (!notification) return
 
-      const notifRef = doc(db, 'users', userId, 'notifications', notification.originalId)
-      await updateDoc(notifRef, { status: 'deleted' })
+      if (notification.source === 'global') {
+        // Track global notification dismissal in localStorage
+        const dismissed = [...dismissedGlobalNotifications, notification.originalId]
+        setDismissedGlobalNotifications(dismissed)
+        localStorage.setItem('dismissedGlobalNotifications', JSON.stringify(dismissed))
+      } else {
+        // User-specific notification - update Firestore
+        const notifRef = doc(db, 'users', userId, 'notifications', notification.originalId)
+        await updateDoc(notifRef, { status: 'deleted' })
+      }
     } catch (error) {
       console.error('Error dismissing notification:', error)
     }
@@ -204,7 +229,9 @@ const NotificationBell = () => {
   }
 
   const visibleNotifications = allNotifications.filter(n => {
-    if (n.source === 'global') return n.active === true
+    if (n.source === 'global') {
+      return n.active === true && !dismissedGlobalNotifications.includes(n.originalId)
+    }
     if (n.source === 'user') return n.status !== 'deleted'
     return true
   })
@@ -280,7 +307,7 @@ const NotificationBell = () => {
                       key={notification.id}
                       className={`p-3 hover:bg-gray-50 transition border-l-4 ${config.border}`}
                     >
-                      {/* Title with Close Button (only for user notifications) */}
+                      {/* Title with Close Button */}
                       <div className="flex items-start justify-between gap-2 mb-1">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
                           <IconComponent size={16} className="flex-shrink-0" />
@@ -288,20 +315,18 @@ const NotificationBell = () => {
                             {notification.title}
                           </h4>
                         </div>
-                        {!isGlobal && (
-                          <button
-                            onClick={() => handleDismiss(notification.id)}
-                            className="text-gray-400 hover:text-gray-700 hover:bg-gray-200 p-1 rounded transition-all duration-150 flex-shrink-0 hover:scale-110 group"
-                            title="Close notification"
-                            aria-label={`Close ${notification.title}`}
-                          >
-                            <FaTimes
-                              size={14}
-                              className="group-hover:scale-125 transition-transform"
-                            />
-                            <span className="sr-only">Close</span>
-                          </button>
-                        )}
+                        <button
+                          onClick={() => handleDismiss(notification.id)}
+                          className="text-gray-400 hover:text-gray-700 hover:bg-gray-200 p-1 rounded transition-all duration-150 flex-shrink-0 hover:scale-110 group"
+                          title="Close notification"
+                          aria-label={`Close ${notification.title}`}
+                        >
+                          <FaTimes
+                            size={14}
+                            className="group-hover:scale-125 transition-transform"
+                          />
+                          <span className="sr-only">Close</span>
+                        </button>
                       </div>
 
                       {/* Message */}

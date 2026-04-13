@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore'
 import { db, auth } from '../../lib/firebase'
-import { FaTimes, FaWrench, FaBullhorn, FaStar } from 'react-icons/fa'
+import { FaTimes, FaWrench, FaBullhorn, FaStar, FaBell } from 'react-icons/fa'
 
 const NotificationBanner = () => {
   const [allNotifications, setAllNotifications] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [userId, setUserId] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [dismissedGlobalNotifications, setDismissedGlobalNotifications] = useState(
+    () => JSON.parse(localStorage.getItem('dismissedGlobalNotifications') || '[]')
+  )
   const unsubscribesRef = useRef([])
 
   // Get current user
@@ -108,8 +111,22 @@ const NotificationBanner = () => {
       unsubscribesRef.current.push(unsubUser)
 
       function updateNotifications(notifications) {
+        // Filter out placeholder/test notifications
+        const filtered = notifications.filter(n => {
+          const placeholders = [
+            'Wait for more updates',
+            'Coming soon',
+            'Test notification',
+            'Sample notification',
+          ]
+          return !placeholders.some(
+            p => n.title?.toLowerCase().includes(p.toLowerCase()) || 
+                 n.message?.toLowerCase().includes(p.toLowerCase())
+          )
+        })
+
         // Sort: maintenance > announcement > others, then by date
-        const sorted = notifications.sort((a, b) => {
+        const sorted = filtered.sort((a, b) => {
           const typeOrder = { maintenance: 0, announcement: 1 }
           const aOrder = typeOrder[a.type] || 2
           const bOrder = typeOrder[b.type] || 2
@@ -148,8 +165,13 @@ const NotificationBanner = () => {
         const notifRef = doc(db, 'users', userId, 'notifications', notification.originalId)
         await updateDoc(notifRef, { status: 'deleted' })
       } else if (notification.source === 'global') {
-        // For global notifications, we'd need to track per-user dismissal
-        // For now, just move to next
+        // Track global notification dismissal in localStorage
+        const dismissed = [...dismissedGlobalNotifications, notification.originalId]
+        setDismissedGlobalNotifications(dismissed)
+        localStorage.setItem('dismissedGlobalNotifications', JSON.stringify(dismissed))
+        
+        // Move to next notification
+        setCurrentIndex(0)
       }
     } catch (error) {
       console.error('Error closing notification:', error)
@@ -162,7 +184,9 @@ const NotificationBanner = () => {
   }
 
   const visibleNotifications = allNotifications.filter(n => {
-    if (n.source === 'global') return n.active === true
+    if (n.source === 'global') {
+      return n.active === true && !dismissedGlobalNotifications.includes(n.originalId)
+    }
     if (n.source === 'user') return n.status !== 'deleted'
     return true
   })
